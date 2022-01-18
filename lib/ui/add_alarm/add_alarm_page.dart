@@ -14,58 +14,53 @@ import 'package:new_alarm_clock/utils/values/my_font_family.dart';
 //이 페이지로 올때 메인페이지에서 get.to 할때 인자들 넘겨주기(이름, id, 설정한 음악 이름, 등등)
 //id만 넘기고 데이터베이스에서 가져오는 것도 괜찮을 듯
 class AddAlarmPage extends StatelessWidget {
-  AlarmDetailListTileFactory _alarmDetailListTileFactory
+  final AlarmDetailListTileFactory _alarmDetailListTileFactory
     = AlarmDetailListTileFactory();
 
   @override
   Widget build(BuildContext context) {
+    int? id  = Get.arguments;
+
+    //editAlarm이면
+    if(id != null){
+
+    }
+
     var dayController = Get.put(DayOfWeekController());
     Get.put(AlarmTitleTextFieldController());
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      bottomNavigationBar: BottomAppBar(
-        color: ColorValue.appbar,
-        child: Container(
-          padding: EdgeInsets.all(Get.height / 80),
-          height: Get.height / 14,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Padding(
-                padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
-                child: FittedBox(
-                  fit: BoxFit.scaleDown,
-                  child: ConstrainedBox(
-                    constraints: BoxConstraints(minWidth: 1, minHeight: 1),
-                    child: IconButton(
-                      iconSize: 1000,
-                      onPressed: () => {Navigator.pop(context)},
-                      icon: Icon(
-                        Icons.arrow_back_ios_rounded,
-                        color: Colors.black,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(0, 0, 5, 0),
-                child: FittedBox(
-                    child: IconButton(
-                      iconSize: 1000,
-                      onPressed: () {
-
-                        Navigator.pop(context);
-                      },
-                      icon: Icon(
-                        Icons.done_rounded,
-                        color: Colors.black,
-                      ),
-                    )),
-              )
-            ],
-          ),
+      appBar: AppBar(
+        backgroundColor: ColorValue.appbar,
+        foregroundColor: ColorValue.appbarText,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back_ios_rounded),
+          onPressed: () {
+            Get.back();
+          },
         ),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: FittedBox(
+              fit: BoxFit.scaleDown,
+              child: TextButton(
+                  onPressed: (){
+                    Get.back();
+                  },
+                  child: Text(
+                    '저장',
+                    style: TextStyle(
+                        fontSize: 1000,
+                        color: ColorValue.appbarText,
+                        fontWeight: FontWeight.bold,
+                      fontFamily: MyFontFamily.mainFontFamily
+                    ),
+                  )
+              ),
+            ),
+          )
+        ],
       ),
       body: SafeArea(
         child: Container(

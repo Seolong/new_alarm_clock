@@ -27,7 +27,7 @@ class AlarmItem extends StatelessWidget {
         _alarmPoint = alarmPoint,
         _alarmTime = alarmTime,
         _skipButtonColor = Colors.grey,
-        _alarmColor = ColorValue.alarm; //임시! 나중에 진짜 id 넣을것
+        _alarmColor = ColorValue.alarm;
 
 //color들 싹 조정하기
   @override
@@ -37,9 +37,8 @@ class AlarmItem extends StatelessWidget {
     final switchCont = Get.put(AlarmSwitchController());
     final skipCont = Get.put(AlarmSkipButtonController());
     final alarmListController = Get.put(AlarmListController());
-    Get.find<AlarmSwitchController>().switchBoolMap[_id] = false;
-    Get.find<AlarmSkipButtonController>().powerMap[_id] = false;
-    Get.find<SelectedAlarmController>().selectedMap[_id] = false;
+
+    //나중에 LongPress했을 때 회색도 추가
     Get.find<SelectedAlarmController>().colorMap[_id] = ColorValue.alarm;
 
     return Container(
@@ -138,9 +137,8 @@ class AlarmItem extends StatelessWidget {
                                                 value: _.switchBoolMap[_id]!,
                                                 onChanged: (value) {
                                                   _.setSwitchBool(_id);
-                                                  print('$_id ${_.switchBoolMap[_id]}');
                                                 },
-                                                activeColor: Color(0xffBF8F46),
+                                                activeColor: ColorValue.alarmActiveSwitch,
                                                 trackColor: Color(0xffC8C2BC),
                                               );}
                                             )),

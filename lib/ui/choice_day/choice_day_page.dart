@@ -39,7 +39,8 @@ class ChoiceDayPage extends StatelessWidget {
                       style: TextStyle(
                           fontSize: 1000,
                         color: ColorValue.appbarText,
-                        fontWeight: FontWeight.bold
+                        fontWeight: FontWeight.bold,
+                        fontFamily: MyFontFamily.mainFontFamily
                       ),
                     )
                 ),

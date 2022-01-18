@@ -51,9 +51,6 @@ class InnerHomePage extends StatelessWidget {
               ),
             ),
           ),
-        ElevatedButton(onPressed: (){
-          alarmListController.inputAlarm(alarmListController.generateAlarmData(5, title: '5'));
-        }, child: null),
 
         Expanded(
           child: FutureBuilder<List<AlarmData>>(

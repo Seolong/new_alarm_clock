@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:new_alarm_clock/routes/app_pages.dart';
 import 'package:new_alarm_clock/routes/app_routes.dart';
 import 'package:new_alarm_clock/ui/home/home_page.dart';
@@ -42,6 +41,7 @@ class MyApp extends StatelessWidget{
       localizationsDelegates: [
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,//안하면 timepicker에서 에러
       ],
       supportedLocales: [
         const Locale('en'),

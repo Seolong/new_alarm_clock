@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:new_alarm_clock/ui/add_alarm/add_alarm_page.dart';
+import 'package:new_alarm_clock/routes/app_routes.dart';
 import 'package:new_alarm_clock/ui/home/controller/tab_page_controller.dart';
 import 'package:new_alarm_clock/ui/home/page/folder_page/folder_page.dart';
 import 'package:new_alarm_clock/ui/home/page/inner_home_page/inner_home_page.dart';
@@ -47,11 +47,7 @@ class HomePage extends StatelessWidget {
               ),
             ),
             onPressed: () {
-              //Get.toNamed() error 생김
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => AddAlarmPage()),
-              );
+              Get.toNamed(AppRoutes.addAlarmPage);
             },
           ),
         ),

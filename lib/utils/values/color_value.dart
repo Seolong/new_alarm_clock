@@ -11,6 +11,7 @@ class ColorValue{
   static final Color alarm = Color(0xffFFE6BC);
   static final Color alarmText = Color(0xff333333);
   static final Color alarmItemDivider = Colors.black12;
+  static final Color alarmActiveSwitch = Color(0xffBF8F46);
 
   static final Color defaultBackground = Get.theme.scaffoldBackgroundColor;
   static final Color mainBackground = Color(0xffE4CDA7);
@@ -19,13 +20,15 @@ class ColorValue{
 
   static final Color addAlarmPageBackground = Colors.white70;
   static final Color listTileTitleText = Color.fromARGB(255, 75, 75, 75);
-  static final Color listTileText = Colors.blue;
+  static final Color listTileText = Color(0xffBF8F46);
   static final Color timeSpinnerText = Color.fromARGB(255, 75, 75, 75);
   static final Color dayButtonActive = Color(0xffC3B091);
 
-  static final Color tabBarIndicator = Color.fromARGB(255, 98, 210, 162);
+  static final Color tabBarIndicator = Color(0xffBF8F46);
 
-  static final Color calendarTitleBar = Color(0xFF7fcd91);
+  static final Color calendarTitleBar = Color(0xffE4CDA7);
   static final Color calendarIcon = Color(0xffF9B143);
-  static final Color selectMonthDayButton = Color.fromARGB(255, 17, 153, 158);
+  static final Color todayColor = Color(0xffBF8F46);
+  static final Color calendarSelection = Color(0xffBF8F46);
+  static final Color selectMonthDayButton = Color(0xffBF8F46);
 }

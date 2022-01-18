@@ -11,7 +11,7 @@ class DayOfWeekController extends GetxController{
   @override
   void onInit() {
     for(var value in DayWeek.values){
-      dayButtonStateMap[value] = false; //수정이면 다 false, 추가면 DB에서
+      dayButtonStateMap[value] = false; //추가면 다 false, 수정이면 DB에서
     }
 
     super.onInit();
