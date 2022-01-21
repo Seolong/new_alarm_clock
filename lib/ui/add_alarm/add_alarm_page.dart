@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:new_alarm_clock/data/shared_preferences/id_shared_preferences.dart';
 import 'package:new_alarm_clock/routes/app_routes.dart';
 import 'package:new_alarm_clock/ui/add_alarm/controller/alarm_title_text_field_controller.dart';
 import 'package:new_alarm_clock/ui/add_alarm/controller/day_of_week_controller.dart';
@@ -10,21 +11,23 @@ import 'package:new_alarm_clock/utils/enum.dart';
 import 'package:new_alarm_clock/utils/values/color_value.dart';
 import 'package:get/get.dart';
 import 'package:new_alarm_clock/utils/values/my_font_family.dart';
+import 'package:new_alarm_clock/utils/values/string_value.dart';
+
+final String toBeAddedIdName = 'toBeAddedId';
 
 //이 페이지로 올때 메인페이지에서 get.to 할때 인자들 넘겨주기(이름, id, 설정한 음악 이름, 등등)
 //id만 넘기고 데이터베이스에서 가져오는 것도 괜찮을 듯
 class AddAlarmPage extends StatelessWidget {
+  int alarmId = -1;
   final AlarmDetailListTileFactory _alarmDetailListTileFactory
     = AlarmDetailListTileFactory();
+  final IdSharedPreferences idSharedPreferences = IdSharedPreferences();
 
   @override
   Widget build(BuildContext context) {
-    int? id  = Get.arguments;
+    Map<String, dynamic> argFromPreviousPage  = Get.arguments;
 
-    //editAlarm이면
-    if(id != null){
-
-    }
+    alarmId = argFromPreviousPage[StringValue.alarmId];
 
     var dayController = Get.put(DayOfWeekController());
     Get.put(AlarmTitleTextFieldController());

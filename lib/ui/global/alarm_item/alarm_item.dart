@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:new_alarm_clock/data/database/alarm_provider.dart';
 import 'package:new_alarm_clock/data/model/alarm_data.dart';
+import 'package:new_alarm_clock/routes/app_routes.dart';
 import 'package:new_alarm_clock/ui/global/alarm_item/controller/alarm_skip_button_controller.dart';
 import 'package:new_alarm_clock/ui/global/alarm_item/controller/alarm_switch_controller.dart';
 import 'package:new_alarm_clock/ui/global/alarm_item/controller/selected_alarm_controller.dart';
@@ -9,25 +10,20 @@ import 'package:new_alarm_clock/ui/home/controller/alarm_list_controller.dart';
 import 'package:new_alarm_clock/utils/values/color_value.dart';
 import 'package:new_alarm_clock/utils/values/size_value.dart';
 import 'package:get/get.dart';
+import 'package:new_alarm_clock/utils/values/string_value.dart';
 import 'widgets/alarm_item_text.dart';
+import 'package:intl/intl.dart';
 
 class AlarmItem extends StatelessWidget {
-  late String _title;
-  late String _alarmPoint;
-  late String _alarmTime;
   bool _switchBool = true;
   Color _skipButtonColor;
-  Color _alarmColor;
   late int _id;
   AlarmProvider alarmProvider = AlarmProvider();
 
   AlarmItem(
-      {required int id, required String alarmPoint, required String alarmTime})
+      {required int id})
       : _id = id,
-        _alarmPoint = alarmPoint,
-        _alarmTime = alarmTime,
-        _skipButtonColor = Colors.grey,
-        _alarmColor = ColorValue.alarm;
+        _skipButtonColor = Colors.grey;
 
 //color들 싹 조정하기
   @override
@@ -68,8 +64,9 @@ class AlarmItem extends StatelessWidget {
               borderRadius: _alarmBorder,
               splashColor: Colors.grey,
               onTap: () {
-                Scaffold.of(context)
-                    .showSnackBar(SnackBar(content: Text('Tap')));
+                Map<String, dynamic> argToNextPage = {StringValue.mode : StringValue.addMode,
+                  StringValue.alarmId : _id};
+                Get.toNamed(AppRoutes.addAlarmPage, arguments: argToNextPage);
               },
               onLongPress: () {
                 alarmListController.deleteAlarm(_id);
@@ -104,10 +101,13 @@ class AlarmItem extends StatelessWidget {
 
                                     //알람 시간 텍스트
                                     AlarmItemText(
-                                        flex: 5, itemText: _alarmTime),
-                                    //알람 주기 텍스트
-                                    AlarmItemText(
-                                        flex: 3, itemText: _alarmPoint),
+                                        flex: 5,
+                                        itemText: DateFormat('hh:mm a').format((snapshot.data)!
+                                            .alarmDateTime).toLowerCase()),
+                                    //alarmPoint 텍스트
+                                    AlarmItemText(//수정하세요~
+                                        flex: 3,
+                                        itemText: (snapshot.data)!.alarmInterval.toString()),
                                     //Spacer(),
                                   ],
                                 ),

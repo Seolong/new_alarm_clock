@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:new_alarm_clock/data/shared_preferences/id_shared_preferences.dart';
 import 'package:new_alarm_clock/routes/app_routes.dart';
 import 'package:new_alarm_clock/ui/home/controller/tab_page_controller.dart';
 import 'package:new_alarm_clock/ui/home/page/folder_page/folder_page.dart';
@@ -9,8 +10,10 @@ import 'package:new_alarm_clock/ui/home/widgets/home_drawer.dart';
 import 'package:new_alarm_clock/utils/values/color_value.dart';
 import 'package:new_alarm_clock/utils/values/size_value.dart';
 import 'package:get/get.dart';
+import 'package:new_alarm_clock/utils/values/string_value.dart';
 
-class Home extends StatelessWidget {
+class Home extends StatelessWidget{
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -26,6 +29,8 @@ class Home extends StatelessWidget {
 }
 
 class HomePage extends StatelessWidget {
+  final IdSharedPreferences idSharedPreferences = IdSharedPreferences();
+
   @override
   Widget build(BuildContext context) {
     Get.put(TabPageController());
@@ -46,8 +51,12 @@ class HomePage extends StatelessWidget {
                 size: 1000,
               ),
             ),
-            onPressed: () {
-              Get.toNamed(AppRoutes.addAlarmPage);
+            onPressed: () async{
+              int newId = await idSharedPreferences.getId();
+              Map<String, dynamic> argToNextPage = {StringValue.mode : StringValue.addMode,
+                StringValue.alarmId : newId};
+              idSharedPreferences.setId(++newId);
+              Get.toNamed(AppRoutes.addAlarmPage, arguments: argToNextPage);
             },
           ),
         ),

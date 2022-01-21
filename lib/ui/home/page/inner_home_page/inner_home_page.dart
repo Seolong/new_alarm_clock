@@ -65,8 +65,7 @@ class InnerHomePage extends StatelessWidget {
                         itemBuilder: (BuildContext context, int index) {
                           return AlarmItem(
                               id: _.alarmList[index].id,
-                              alarmPoint: '',
-                              alarmTime: 'alarmTime');
+                          );
                         },
                         separatorBuilder: (BuildContext context, int index) =>
                             Container(height: 15,),

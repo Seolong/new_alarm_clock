@@ -73,7 +73,7 @@ class CalendarDialog extends StatelessWidget {
                     color:
                     Colors.black))),
         showActionButtons: true,
-        onSubmit: (Object value) {
+        onSubmit: (Object? value) {
           Get.back(result: value);
         },
         onCancel: () {
