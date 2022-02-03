@@ -51,7 +51,7 @@ class _OneAlarmContainerState extends State<OneAlarmContainer> {
                 }
               });
             },
-            selectionMode: DateRangePickerSelectionMode.multiple,
+            selectionMode: DateRangePickerSelectionMode.single,
             monthCellStyle: DateRangePickerMonthCellStyle(
               textStyle: TextStyle(
                   color: Colors.black,

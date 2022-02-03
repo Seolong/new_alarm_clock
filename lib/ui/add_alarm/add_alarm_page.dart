@@ -1,12 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:new_alarm_clock/data/database/alarm_provider.dart';
+import 'package:new_alarm_clock/data/model/alarm_data.dart';
 import 'package:new_alarm_clock/data/shared_preferences/id_shared_preferences.dart';
 import 'package:new_alarm_clock/routes/app_routes.dart';
 import 'package:new_alarm_clock/ui/add_alarm/controller/alarm_title_text_field_controller.dart';
 import 'package:new_alarm_clock/ui/add_alarm/controller/day_of_week_controller.dart';
+import 'package:new_alarm_clock/ui/add_alarm/controller/time_spinner_controller.dart';
 import 'package:new_alarm_clock/ui/add_alarm/widgets/day_button.dart';
 import 'package:new_alarm_clock/ui/add_alarm/widgets/list_tile/alarm_detail_list_tile_factory.dart';
 import 'package:new_alarm_clock/ui/add_alarm/widgets/time_spinner.dart';
+import 'package:new_alarm_clock/ui/home/controller/alarm_list_controller.dart';
 import 'package:new_alarm_clock/utils/enum.dart';
 import 'package:new_alarm_clock/utils/values/color_value.dart';
 import 'package:get/get.dart';
@@ -18,7 +22,9 @@ final String toBeAddedIdName = 'toBeAddedId';
 //이 페이지로 올때 메인페이지에서 get.to 할때 인자들 넘겨주기(이름, id, 설정한 음악 이름, 등등)
 //id만 넘기고 데이터베이스에서 가져오는 것도 괜찮을 듯
 class AddAlarmPage extends StatelessWidget {
+  String mode = '';
   int alarmId = -1;
+  AlarmProvider _alarmProvider = AlarmProvider();
   final AlarmDetailListTileFactory _alarmDetailListTileFactory
     = AlarmDetailListTileFactory();
   final IdSharedPreferences idSharedPreferences = IdSharedPreferences();
@@ -26,11 +32,12 @@ class AddAlarmPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Map<String, dynamic> argFromPreviousPage  = Get.arguments;
-
+    mode = argFromPreviousPage[StringValue.mode];
     alarmId = argFromPreviousPage[StringValue.alarmId];
 
     var dayController = Get.put(DayOfWeekController());
     Get.put(AlarmTitleTextFieldController());
+    Get.put(TimeSpinnerController());
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
@@ -48,7 +55,53 @@ class AddAlarmPage extends StatelessWidget {
             child: FittedBox(
               fit: BoxFit.scaleDown,
               child: TextButton(
-                  onPressed: (){
+                  onPressed: ()async{
+                    //이건 addAlarm일 때
+                    if(mode == StringValue.addMode) {
+                      Get.find<AlarmListController>().inputAlarm(AlarmData(
+                        id: alarmId,
+                        alarmType: 'single',
+                        title: 'title',
+                        alarmDateTime: DateTime.parse(
+                            Get.find<TimeSpinnerController>().
+                            alarmDateTime.value),
+                        endDay: DateTime(2045),
+                        alarmState: true,
+                        folderName: '전체 알람',
+                        alarmInterval: 0,
+                        dayOff: DateTime(2045),
+                        musicBool: false,
+                        musicPath: 'path',
+                        vibrationBool: false,
+                        vibrationName: 'vibName',
+                        repeatBool: false,
+                        repeatInterval: 0,
+                      ));
+                    }
+                    else if(mode == StringValue.editMode){
+                      Get.find<AlarmListController>().updateAlarm(AlarmData(
+                        id: alarmId,
+                        alarmType: 'single',
+                        title: '$alarmId edit이에오',
+                        alarmDateTime: DateTime.parse(
+                            Get.find<TimeSpinnerController>().
+                            alarmDateTime.value),
+                        endDay: DateTime(2045),
+                        alarmState: true,
+                        folderName: '전체 알람',
+                        alarmInterval: 0,
+                        dayOff: DateTime(2045),
+                        musicBool: false,
+                        musicPath: 'path',
+                        vibrationBool: false,
+                        vibrationName: 'vibName',
+                        repeatBool: false,
+                        repeatInterval: 0,
+                      ));
+                    }
+                    else{
+                      print('error in 저장 button in AddAlarmPage');
+                    }
                     Get.back();
                   },
                   child: Text(

@@ -61,8 +61,11 @@ class InnerHomePage extends StatelessWidget {
                       return ListView.separated(
                         shrinkWrap: true,
                         padding: EdgeInsets.fromLTRB(10, 15, 10, 10),
-                        itemCount: _.alarmList.length,
+                        itemCount: _.alarmList.length + 1,
                         itemBuilder: (BuildContext context, int index) {
+                          if(index == _.alarmList.length){
+                            return Container(height: 75,);
+                          }
                           return AlarmItem(
                               id: _.alarmList[index].id,
                           );

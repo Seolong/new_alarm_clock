@@ -5,13 +5,13 @@ import 'package:new_alarm_clock/ui/choice_day/widget/repeat_container/week_repea
 import 'package:new_alarm_clock/utils/enum.dart';
 
 class RepeatContainerFactory{
-  RepeatContainer? getRepeatContainer(RepeatTabName tabName){
+  RepeatContainer? getRepeatContainer(RepeatMode tabName){
     switch(tabName){
-      case RepeatTabName.day:
+      case RepeatMode.day:
         return DayRepeatContainer();
-      case RepeatTabName.week:
+      case RepeatMode.week:
         return WeekRepeatContainer();
-      case RepeatTabName.month:
+      case RepeatMode.month:
         return MonthRepeatContainer();
       default:
         assert(false, 'error in getRepeatContainer in RepeatContainerFactory');

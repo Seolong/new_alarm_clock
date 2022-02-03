@@ -18,8 +18,8 @@ enum DayWeek{
   Sun, Mon, Tue, Wed, Thu, Fri, Sat
 }
 
-enum RepeatTabName{
-  day, week, month
+enum RepeatMode{
+  single, day, week, month, year
 }
 
 enum DetailTileName{

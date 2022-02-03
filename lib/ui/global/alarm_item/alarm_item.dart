@@ -64,7 +64,7 @@ class AlarmItem extends StatelessWidget {
               borderRadius: _alarmBorder,
               splashColor: Colors.grey,
               onTap: () {
-                Map<String, dynamic> argToNextPage = {StringValue.mode : StringValue.addMode,
+                Map<String, dynamic> argToNextPage = {StringValue.mode : StringValue.editMode,
                   StringValue.alarmId : _id};
                 Get.toNamed(AppRoutes.addAlarmPage, arguments: argToNextPage);
               },
