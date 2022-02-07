@@ -62,9 +62,8 @@ class AddAlarmPage extends StatelessWidget {
                         id: alarmId,
                         alarmType: 'single',
                         title: 'title',
-                        alarmDateTime: DateTime.parse(
-                            Get.find<TimeSpinnerController>().
-                            alarmDateTime.value),
+                        alarmDateTime: Get.find<TimeSpinnerController>().
+                            alarmDateTime,
                         endDay: DateTime(2045),
                         alarmState: true,
                         folderName: '전체 알람',
@@ -83,9 +82,8 @@ class AddAlarmPage extends StatelessWidget {
                         id: alarmId,
                         alarmType: 'single',
                         title: '$alarmId edit이에오',
-                        alarmDateTime: DateTime.parse(
-                            Get.find<TimeSpinnerController>().
-                            alarmDateTime.value),
+                        alarmDateTime: Get.find<TimeSpinnerController>().
+                            alarmDateTime,
                         endDay: DateTime(2045),
                         alarmState: true,
                         folderName: '전체 알람',

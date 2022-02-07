@@ -1,24 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:new_alarm_clock/ui/choice_day/controller/start_end_day_controller.dart';
 import 'package:new_alarm_clock/utils/values/color_value.dart';
 import 'package:new_alarm_clock/utils/values/my_font_family.dart';
 import 'package:new_alarm_clock/utils/values/size_value.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 
-class OneAlarmContainer extends StatefulWidget {
-  const OneAlarmContainer({Key? key}) : super(key: key);
-
-  @override
-  _OneAlarmContainerState createState() => _OneAlarmContainerState();
-}
-
-class _OneAlarmContainerState extends State<OneAlarmContainer> {
-  String start = '';
-  String end = '';
-
+class OneAlarmContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    Get.put(StartEndDayController());
     return Column(
       children: [
         //나중에 builder 이용해서 cell들 세부 조작
@@ -30,26 +21,11 @@ class _OneAlarmContainerState extends State<OneAlarmContainer> {
             maxDate: DateTime(2100),
             enablePastDates: false,
             onSelectionChanged: (DateRangePickerSelectionChangedArgs args) {
-              setState(() {
-                if (args.value is PickerDateRange) {
-                  start = args.value.startDate.toString().substring(0, 10);
-
-                  end = args.value.endDate != null
-                      ? args.value.endDate.toString().substring(0, 10)
-                      : start;
-                } else if (args.value is DateTime) {
-                  final DateTime selectedDate = args.value;
-                  //start = selectedDate.day.toString();
-                } else if (args.value is List<DateTime>) {
-                  final List<DateTime> selectedDates = args.value;
-                  List<String> displayedDates = [];
-                  for (var date in selectedDates) {
-                    displayedDates
-                        .add(DateFormat('yyyy년 MM월 dd일').format(date));
-                  }
-                  start = displayedDates.toString(); //좀더 보기좋게 하자
-                }
-              });
+              if (args.value is DateTime) {
+                final DateTime selectedDate = args.value;
+                Get.find<StartEndDayController>().setStart(selectedDate);
+                print(Get.find<StartEndDayController>().start);
+              }
             },
             selectionMode: DateRangePickerSelectionMode.single,
             monthCellStyle: DateRangePickerMonthCellStyle(
@@ -100,11 +76,6 @@ class _OneAlarmContainerState extends State<OneAlarmContainer> {
                         fontSize: SizeValue.oneAlarmCalendarCellTextSize - 4))),
           ),
         ),
-        Divider(
-          color: Colors.grey,
-          thickness: 5,
-        ),
-        Text('$start ~ $end'),
       ],
     );
   }

@@ -11,6 +11,10 @@ class ChoiceDayPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return DefaultTabController(
       length: 2,
+      //뭐 builder로 감싸서 싸바싸바 아이샤바
+      //탭하면 repeatmode가 defualt인지 day, week, month 아무튼 뭔지 기록
+      //일단 지금 생각은 getxcontroller로 제어할까..
+      //DefaultTabController.of(context).addListener(() { })
       child: Scaffold(
         resizeToAvoidBottomInset : false,
         appBar: AppBar(

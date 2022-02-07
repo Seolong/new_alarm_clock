@@ -35,7 +35,7 @@ class TimeSpinner extends StatelessWidget {
                 value = value.add(Duration(days: 1));
               }
               print(value);
-              _.alarmDateTime = value.toIso8601String().obs;
+              _.alarmDateTime = value;
               print(_.alarmDateTime);
               print(value.toIso8601String());
             },
