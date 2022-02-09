@@ -1,11 +1,11 @@
 import 'package:get/get.dart';
 
 class TimeSpinnerController extends GetxController{
-  RxString _alarmDateTime = ''.obs;
+  RxString _alarmDateTime = '2000-01-01T00:00:00.000'.obs;
 
   @override
   void onInit() {
-    //edit이면 초기값을 저장되어있는 값으로
+    _alarmDateTime = DateTime.now().toIso8601String().obs;
 
     super.onInit();
   }

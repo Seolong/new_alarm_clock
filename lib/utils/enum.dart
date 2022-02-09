@@ -19,7 +19,7 @@ enum DayWeek{
 }
 
 enum RepeatMode{
-  single, day, week, month, year
+  off, single, day, week, month, year
 }
 
 enum DetailTileName{

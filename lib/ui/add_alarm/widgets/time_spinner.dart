@@ -27,7 +27,6 @@ class TimeSpinner extends StatelessWidget {
         builder: (_) {
           return CupertinoDatePicker(
             mode: CupertinoDatePickerMode.time,
-            //initialDateTime: ,
             onDateTimeChanged: (DateTime value) {
 
               //repeatmode가 defaultMode일 때
@@ -38,6 +37,7 @@ class TimeSpinner extends StatelessWidget {
               _.alarmDateTime = value;
               print(_.alarmDateTime);
               print(value.toIso8601String());
+
             },
           );
         }

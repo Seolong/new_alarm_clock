@@ -10,12 +10,15 @@ import 'package:new_alarm_clock/ui/add_alarm/controller/time_spinner_controller.
 import 'package:new_alarm_clock/ui/add_alarm/widgets/day_button.dart';
 import 'package:new_alarm_clock/ui/add_alarm/widgets/list_tile/alarm_detail_list_tile_factory.dart';
 import 'package:new_alarm_clock/ui/add_alarm/widgets/time_spinner.dart';
+import 'package:new_alarm_clock/ui/choice_day/controller/repeat_mode_controller.dart';
+import 'package:new_alarm_clock/ui/choice_day/controller/start_end_day_controller.dart';
 import 'package:new_alarm_clock/ui/home/controller/alarm_list_controller.dart';
 import 'package:new_alarm_clock/utils/enum.dart';
 import 'package:new_alarm_clock/utils/values/color_value.dart';
 import 'package:get/get.dart';
 import 'package:new_alarm_clock/utils/values/my_font_family.dart';
 import 'package:new_alarm_clock/utils/values/string_value.dart';
+import 'package:intl/intl.dart';
 
 final String toBeAddedIdName = 'toBeAddedId';
 
@@ -29,15 +32,32 @@ class AddAlarmPage extends StatelessWidget {
     = AlarmDetailListTileFactory();
   final IdSharedPreferences idSharedPreferences = IdSharedPreferences();
 
+  Future<void> initEditAlarm() async{
+    AlarmData alarmData = await _alarmProvider.getAlarmById(alarmId);
+
+    Get.find<RepeatModeController>().getRepeatMode();
+    Get.find<TimeSpinnerController>().alarmDateTime = alarmData.alarmDateTime;
+    //timespinner에는 적용이 안 되는 듯. stateful이어야 initial을 쓸 수 있는 것 같다.
+    print(Get.find<TimeSpinnerController>().alarmDateTime);
+    Get.find<DayOfWeekController>().reverseDayButtonState(DayWeek.Mon);//임시
+  }
+
   @override
   Widget build(BuildContext context) {
     Map<String, dynamic> argFromPreviousPage  = Get.arguments;
     mode = argFromPreviousPage[StringValue.mode];
     alarmId = argFromPreviousPage[StringValue.alarmId];
 
-    var dayController = Get.put(DayOfWeekController());
+    final repeatModeController = Get.put(RepeatModeController());
+    Get.put(DayOfWeekController());
     Get.put(AlarmTitleTextFieldController());
-    Get.put(TimeSpinnerController());
+    final timeSpinnerController = Get.put(TimeSpinnerController());
+    final startEndDayController  = Get.put(StartEndDayController());
+
+    if(mode == StringValue.editMode){
+      initEditAlarm();
+    }
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
@@ -56,6 +76,12 @@ class AddAlarmPage extends StatelessWidget {
               fit: BoxFit.scaleDown,
               child: TextButton(
                   onPressed: ()async{
+                    if(repeatModeController.getRepeatMode() != RepeatMode.off){
+                      String hourMinute = DateFormat.Hms().format(timeSpinnerController.alarmDateTime).toString();
+                      hourMinute += '.000';
+                      print(hourMinute);
+                      timeSpinnerController.alarmDateTime = startEndDayController.start['dateTime'];
+                    }
                     //이건 addAlarm일 때
                     if(mode == StringValue.addMode) {
                       Get.find<AlarmListController>().inputAlarm(AlarmData(
@@ -191,8 +217,8 @@ class AddAlarmPage extends StatelessWidget {
 
               Expanded(
                 flex: 1,
-                child: Text(
-                  '매월 1일 2일',
+                child: Text(//임시
+                  Get.find<TimeSpinnerController>().alarmDateTime.toString(),
                 ),
               ),
 
