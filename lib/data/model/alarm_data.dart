@@ -1,3 +1,4 @@
+import 'package:new_alarm_clock/utils/enum.dart';
 import 'package:new_alarm_clock/utils/type_converter.dart';
 
 final String columnId = 'id';
@@ -19,7 +20,7 @@ final String columnRepeatInterval = 'repeatInterval';
 
 class AlarmData {
   late int id;
-  late String alarmType; //RepeatMode
+  late RepeatMode alarmType; //RepeatMode
   late String? title;
   late DateTime alarmDateTime; //_alarmStartTime
   late DateTime endDay;
@@ -57,7 +58,7 @@ class AlarmData {
   factory AlarmData.fromMap(Map<String, dynamic> json) =>
       AlarmData(
         id: json[columnId],
-        alarmType: json[columnAlarmType],
+        alarmType: RepeatMode.values.firstWhere((e) => e.toString() == json[columnAlarmType]),
         title: json[columnTitle],
         //꺼내면 DateTime으로 변환
         alarmDateTime: DateTime.parse(json[columnAlarmDateTime]),
@@ -78,7 +79,7 @@ class AlarmData {
   Map<String, dynamic> toMap() =>
       {
         columnId: id,
-        columnAlarmType: alarmType,
+        columnAlarmType: alarmType.toString(),
         columnTitle: title,
         //넣을 땐 String으로 변환
         columnAlarmDateTime: alarmDateTime.toIso8601String(),

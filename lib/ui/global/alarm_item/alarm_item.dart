@@ -70,6 +70,7 @@ class AlarmItem extends StatelessWidget {
               },
               onLongPress: () {
                 alarmListController.deleteAlarm(_id);
+                alarmProvider.deleteAlarmWeekData(_id);
                 //스위치랑 스킵버튼은 애니메이션으로 오른쪽으로 보내고 안보이게
                 //verticalDivider도
               },

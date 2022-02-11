@@ -1,6 +1,6 @@
 import 'package:new_alarm_clock/utils/type_converter.dart';
+import 'alarm_data.dart';
 
-final String columnId = 'id';
 final String columnSunday = 'sunday';
 final String columnMonday = 'monday';
 final String columnTuesday = 'tuesday';

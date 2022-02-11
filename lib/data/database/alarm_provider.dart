@@ -1,4 +1,5 @@
 import 'package:new_alarm_clock/data/model/alarm_data.dart';
+import 'package:new_alarm_clock/data/model/alarm_week_repeat_data.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -6,6 +7,7 @@ class AlarmProvider {
   static Database? _database;
   static AlarmProvider? _alarmProvider;
   String tableName = 'alarm';
+  String weekRepeatTableName = 'week_repeat';
 
   AlarmProvider._createInstance();
 
@@ -30,6 +32,7 @@ class AlarmProvider {
   // }
 
   Future _onCreate(Database db, int newVersion) async {
+    //alarm alarm_week_repeat의 id는 같은 것(분리한 것)
     await db.execute('''
           create table $tableName ( 
           $columnId integer primary key autoincrement,
@@ -48,6 +51,18 @@ class AlarmProvider {
           $columnRepeatBool integer not null,
           $columnRepeatInterval integer not null )
         ''');
+
+    await db.execute('''
+        create table $weekRepeatTableName(
+          $columnId integer primary key,
+          $columnSunday integer,
+          $columnMonday integer,
+          $columnTuesday integer,
+          $columnWednesday integer,
+          $columnThursday integer,
+          $columnFriday integer,
+          $columnSaturday integer )
+    ''');
   }
 
   Future<Database> initializeDatabase() async {
@@ -70,6 +85,19 @@ class AlarmProvider {
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
     print('insert $insertId');
+
+    return insertId;
+  }
+
+  Future<int> insertAlarmWeekData(AlarmWeekRepeatData data) async {
+    Database db = await this.database;
+    var insertId = await db.insert(
+      weekRepeatTableName,
+      data.toMap(),
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    );
+    print('insert WeekRepeatData of $insertId');
+
     return insertId;
   }
 
@@ -99,9 +127,30 @@ class AlarmProvider {
     return await alarmData;
   }
 
+  Future<AlarmWeekRepeatData?>? getAlarmWeekDataById(int id) async{
+    AlarmWeekRepeatData? alarmData;
+    Database db = await this.database;
+    var result =  await db.rawQuery(
+        'select * from $weekRepeatTableName where $columnId = ?',
+        [id]
+    );
+    if(result.isNotEmpty)
+      alarmData = AlarmWeekRepeatData.fromMap(result.first);
+
+    print(alarmData);
+    return await alarmData;
+  }
+
   Future<int> deleteAlarm(int id) async {
     Database db = await this.database;
     var countOfdeletedItems = await db.delete(tableName, where: 'id = ?', whereArgs: [id]);
+    print('Count of deleted Items is $countOfdeletedItems');
+    return countOfdeletedItems;
+  }
+
+  Future<int> deleteAlarmWeekData(int id) async {
+    Database db = await this.database;
+    var countOfdeletedItems = await db.delete(weekRepeatTableName, where: 'id = ?', whereArgs: [id]);
     print('Count of deleted Items is $countOfdeletedItems');
     return countOfdeletedItems;
   }
@@ -110,5 +159,11 @@ class AlarmProvider {
     Database db = await this.database;
     await db.update(tableName, alarmData.toMap(),
         where: 'id = ?', whereArgs: [alarmData.id]);
+  }
+
+  void updateAlarmWeekData(AlarmWeekRepeatData data) async {
+    Database db = await this.database;
+    await db.update(weekRepeatTableName, data.toMap(),
+        where: 'id = ?', whereArgs: [data.id]);
   }
 }

@@ -1,12 +1,14 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:new_alarm_clock/data/database/alarm_provider.dart';
+import 'package:new_alarm_clock/data/model/alarm_week_repeat_data.dart';
 import 'package:new_alarm_clock/utils/enum.dart';
 import 'package:new_alarm_clock/utils/values/color_value.dart';
 
 class DayOfWeekController extends GetxController{
   RxMap<DayWeek, bool> dayButtonStateMap = Map<DayWeek, bool>().obs;
-
+  AlarmProvider _alarmProvider = AlarmProvider();
 
   @override
   void onInit() {
@@ -17,12 +19,33 @@ class DayOfWeekController extends GetxController{
     super.onInit();
   }
 
+  Future<void> initWhenEditMode(int alarmId) async{
+    AlarmWeekRepeatData? weekRepeatData = await _alarmProvider.getAlarmWeekDataById(alarmId);
+
+    if(weekRepeatData != null) {
+      dayButtonStateMap[DayWeek.Sun] = weekRepeatData.sunday;
+      dayButtonStateMap[DayWeek.Mon] = weekRepeatData.monday;
+      dayButtonStateMap[DayWeek.Tue] = weekRepeatData.tuesday;
+      dayButtonStateMap[DayWeek.Wed] = weekRepeatData.wednesday;
+      dayButtonStateMap[DayWeek.Thu] = weekRepeatData.thursday;
+      dayButtonStateMap[DayWeek.Fri] = weekRepeatData.friday;
+      dayButtonStateMap[DayWeek.Sat] = weekRepeatData.saturday;
+    }
+
+    update();
+  }
+
   bool getDayButtonState(DayWeek day){
     return dayButtonStateMap[day]!;
   }
 
   void reverseDayButtonState(DayWeek day){
     dayButtonStateMap[day] = !dayButtonStateMap[day]!;
+    update();
+  }
+
+  void resetAllDayButtonStateToFalse(){
+    dayButtonStateMap.forEach((key, value) {dayButtonStateMap[key] = false;});
     update();
   }
 

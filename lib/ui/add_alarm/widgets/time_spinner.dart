@@ -33,10 +33,10 @@ class TimeSpinner extends StatelessWidget {
               if(value.isBefore(DateTime.now())){
                 value = value.add(Duration(days: 1));
               }
-              print(value);
+              //print(value);
               _.alarmDateTime = value;
-              print(_.alarmDateTime);
-              print(value.toIso8601String());
+              //print(_.alarmDateTime);
+              //print(value.toIso8601String());
 
             },
           );

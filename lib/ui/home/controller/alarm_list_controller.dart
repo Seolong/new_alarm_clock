@@ -2,6 +2,7 @@ import 'dart:core';
 import 'package:get/get.dart';
 import 'package:new_alarm_clock/data/database/alarm_provider.dart';
 import 'package:new_alarm_clock/data/model/alarm_data.dart';
+import 'package:new_alarm_clock/utils/enum.dart';
 
 
 class AlarmListController extends GetxController{
@@ -29,7 +30,7 @@ class AlarmListController extends GetxController{
   AlarmData generateAlarmData(int pid, {String? title}){
     return AlarmData(
       id: pid,
-      alarmType: 'single',
+      alarmType: RepeatMode.off,
       title: title,
       alarmDateTime: DateTime(2022),
       endDay: DateTime(2045),
