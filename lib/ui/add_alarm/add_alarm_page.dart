@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:new_alarm_clock/data/database/alarm_provider.dart';
 import 'package:new_alarm_clock/data/model/alarm_data.dart';
-import 'package:new_alarm_clock/data/model/alarm_week_repeat_data.dart';
 import 'package:new_alarm_clock/data/shared_preferences/id_shared_preferences.dart';
 import 'package:new_alarm_clock/routes/app_routes.dart';
 import 'package:new_alarm_clock/ui/add_alarm/controller/alarm_title_text_field_controller.dart';
@@ -10,21 +10,19 @@ import 'package:new_alarm_clock/ui/add_alarm/controller/day_of_week_controller.d
 import 'package:new_alarm_clock/ui/add_alarm/controller/time_spinner_controller.dart';
 import 'package:new_alarm_clock/ui/add_alarm/widgets/day_button.dart';
 import 'package:new_alarm_clock/ui/add_alarm/widgets/list_tile/alarm_detail_list_tile_factory.dart';
+import 'package:new_alarm_clock/ui/add_alarm/widgets/save_button.dart';
 import 'package:new_alarm_clock/ui/add_alarm/widgets/time_spinner.dart';
 import 'package:new_alarm_clock/ui/choice_day/controller/repeat_mode_controller.dart';
 import 'package:new_alarm_clock/ui/choice_day/controller/start_end_day_controller.dart';
-import 'package:new_alarm_clock/ui/home/controller/alarm_list_controller.dart';
+import 'package:new_alarm_clock/ui/choice_day/widget/going_back_dialog.dart';
 import 'package:new_alarm_clock/utils/enum.dart';
 import 'package:new_alarm_clock/utils/values/color_value.dart';
 import 'package:get/get.dart';
 import 'package:new_alarm_clock/utils/values/my_font_family.dart';
 import 'package:new_alarm_clock/utils/values/string_value.dart';
-import 'package:intl/intl.dart';
 
 final String toBeAddedIdName = 'toBeAddedId';
 
-//이 페이지로 올때 메인페이지에서 get.to 할때 인자들 넘겨주기(이름, id, 설정한 음악 이름, 등등)
-//id만 넘기고 데이터베이스에서 가져오는 것도 괜찮을 듯
 class AddAlarmPage extends StatelessWidget {
   String mode = '';
   int alarmId = -1;
@@ -37,14 +35,12 @@ class AddAlarmPage extends StatelessWidget {
     AlarmData alarmData = await _alarmProvider.getAlarmById(alarmId);
 
     Get.find<RepeatModeController>().repeatMode = alarmData.alarmType;
-    RepeatMode? repeatMode = Get.find<RepeatModeController>().getRepeatMode();
-    Get.find<TimeSpinnerController>().alarmDateTime = alarmData.alarmDateTime;
-    //timespinner에는 적용이 안 되는 듯. stateful이어야 initial을 쓸 수 있는 것 같다.
-    print(Get.find<TimeSpinnerController>().alarmDateTime);
+  }
 
-    if (repeatMode == RepeatMode.week) {
-      Get.find<DayOfWeekController>().initWhenEditMode(alarmId);
-    }
+  Future<bool> _onTouchAppBarBackButton() async {
+    return await Get.dialog(
+        GoingBackDialog('AddAlarm', 'appBar')
+    );
   }
 
   @override
@@ -55,9 +51,14 @@ class AddAlarmPage extends StatelessWidget {
 
     final repeatModeController = Get.put(RepeatModeController());
     final dayOfWeekController = Get.put(DayOfWeekController());
-    Get.put(AlarmTitleTextFieldController());
+    final alarmTitleTextFieldController =
+        Get.put(AlarmTitleTextFieldController());
     final timeSpinnerController = Get.put(TimeSpinnerController());
     final startEndDayController = Get.put(StartEndDayController());
+
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+        statusBarColor: ColorValue.appbar
+    ));
 
     if (mode == StringValue.editMode) {
       initEditAlarm();
@@ -70,105 +71,22 @@ class AddAlarmPage extends StatelessWidget {
         foregroundColor: ColorValue.appbarText,
         leading: IconButton(
           icon: Icon(Icons.arrow_back_ios_rounded),
-          onPressed: () {
-            Get.back();
-          },
+          onPressed: _onTouchAppBarBackButton,
         ),
         actions: [
           Padding(
             padding: const EdgeInsets.all(10.0),
             child: FittedBox(
               fit: BoxFit.scaleDown,
-              child: TextButton(
-                  onPressed: () async {
-                    print(repeatModeController.getRepeatMode());
-                    if (repeatModeController.getRepeatMode() !=
-                        RepeatMode.off) {
-                      String hourMinute = DateFormat.Hms()
-                          .format(timeSpinnerController.alarmDateTime)
-                          .toString();
-                      hourMinute += '.000';
-                      print(hourMinute);
-
-                      String yearMonthDay = DateFormat('yyyy-MM-dd')
-                          .format(startEndDayController.start['dateTime']);
-                      String alarmDateTime = yearMonthDay + 'T' + hourMinute;
-                      print(alarmDateTime);
-                      timeSpinnerController.alarmDateTime =
-                          DateTime.parse(alarmDateTime);
-                    }
-
-                    AlarmData alarmData = AlarmData(
-                      id: alarmId,
-                      alarmType: repeatModeController.getRepeatMode(),
-                      title: 'title',
-                      alarmDateTime:
-                          Get.find<TimeSpinnerController>().alarmDateTime,
-                      endDay: DateTime(2045),
-                      alarmState: true,
-                      folderName: '전체 알람',
-                      alarmInterval: 0,
-                      dayOff: DateTime(2045),
-                      musicBool: false,
-                      musicPath: 'path',
-                      vibrationBool: false,
-                      vibrationName: 'vibName',
-                      repeatBool: false,
-                      repeatInterval: 0,
-                    );
-
-                    AlarmWeekRepeatData alarmWeekRepeatData =
-                        AlarmWeekRepeatData(
-                            id: alarmId,
-                            sunday: dayOfWeekController
-                                .dayButtonStateMap[DayWeek.Sun]!,
-                            monday: dayOfWeekController
-                                .dayButtonStateMap[DayWeek.Mon]!,
-                            tuesday: dayOfWeekController
-                                .dayButtonStateMap[DayWeek.Tue]!,
-                            wednesday: dayOfWeekController
-                                .dayButtonStateMap[DayWeek.Wed]!,
-                            thursday: dayOfWeekController
-                                .dayButtonStateMap[DayWeek.Thu]!,
-                            friday: dayOfWeekController
-                                .dayButtonStateMap[DayWeek.Fri]!,
-                            saturday: dayOfWeekController
-                                .dayButtonStateMap[DayWeek.Sat]!);
-
-                    if (mode == StringValue.addMode) {
-                      Get.find<AlarmListController>().inputAlarm(alarmData);
-                      if (repeatModeController.getRepeatMode() ==
-                          RepeatMode.week) {
-                        _alarmProvider.insertAlarmWeekData(alarmWeekRepeatData);
-                      }
-                    } else if (mode == StringValue.editMode) {
-                      Get.find<AlarmListController>().updateAlarm(alarmData);
-                      if (repeatModeController.getRepeatMode() ==
-                          RepeatMode.week) {
-                        AlarmWeekRepeatData? weekDataInDB =
-                          await _alarmProvider.getAlarmWeekDataById(alarmId);
-                        if(weekDataInDB == null){
-                          //print('I am insert!');
-                          _alarmProvider.insertAlarmWeekData(alarmWeekRepeatData);
-                        } else{
-                          //print(_alarmProvider.getAlarmWeekDataById(alarmId));
-                          //print('I am update!');
-                          _alarmProvider.updateAlarmWeekData(alarmWeekRepeatData);
-                        }
-                      }
-                    } else {
-                      print('error in 저장 button in AddAlarmPage');
-                    }
-                    Get.back();
-                  },
-                  child: Text(
-                    '저장',
-                    style: TextStyle(
-                        fontSize: 1000,
-                        color: ColorValue.appbarText,
-                        fontWeight: FontWeight.bold,
-                        fontFamily: MyFontFamily.mainFontFamily),
-                  )),
+              child: SaveButton(
+                alarmId,
+                mode,
+                repeatModeController: repeatModeController,
+                timeSpinnerController: timeSpinnerController,
+                startEndDayController: startEndDayController,
+                alarmTitleTextFieldController: alarmTitleTextFieldController,
+                dayOfWeekController: dayOfWeekController,
+              ),
             ),
           )
         ],
@@ -180,7 +98,8 @@ class AddAlarmPage extends StatelessWidget {
           child: Column(
             children: [
               //spinner
-              Expanded(flex: 5, child: TimeSpinner(fontSize: 27)),
+              Expanded(
+                  flex: 5, child: TimeSpinner(alarmId: alarmId, fontSize: 27, mode: mode)),
 
               Divider(
                 thickness: 2,
@@ -262,6 +181,10 @@ class AddAlarmPage extends StatelessWidget {
                 flex: 2,
                 //TitleTextField
                 child: GetBuilder<AlarmTitleTextFieldController>(
+                  initState: (_) => mode == StringValue.editMode
+                      ? alarmTitleTextFieldController
+                          .initTitleTextField(alarmId)
+                      : null,
                   builder: (_) => TextField(
                     controller: _.textEditingController,
                     onChanged: (value) {

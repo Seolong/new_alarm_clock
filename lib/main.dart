@@ -5,21 +5,22 @@ import 'package:get/get.dart';
 import 'package:new_alarm_clock/routes/app_pages.dart';
 import 'package:new_alarm_clock/routes/app_routes.dart';
 import 'package:new_alarm_clock/ui/home/home_page.dart';
-import 'package:new_alarm_clock/utils/values/color_value.dart';
 import 'package:new_alarm_clock/utils/values/my_font_family.dart';
 
 void main() => runApp(MyApp());
 
-
+void restartApp() {
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-      statusBarColor: ColorValue.appbar,
-    ));
     return GetMaterialApp(
       theme: ThemeData(
+          appBarTheme: AppBarTheme(
+            systemOverlayStyle: SystemUiOverlayStyle.dark,
+          ),
         textTheme: TextTheme(
           headline1: TextStyle(fontFamily: MyFontFamily.mainFontFamily),
           headline2: TextStyle(fontFamily: MyFontFamily.mainFontFamily),

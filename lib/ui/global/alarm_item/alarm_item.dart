@@ -24,6 +24,13 @@ class AlarmItem extends StatelessWidget {
       {required int id})
       : _id = id,
         _skipButtonColor = Colors.grey;
+  
+  String convertAlarmDateTime(AlarmData alarmData){
+    if(alarmData.alarmDateTime.year > DateTime.now().year){
+      return DateFormat('yyyy년 M월 d일').format(alarmData.alarmDateTime);
+    }
+    return DateFormat('M월 d일').format(alarmData.alarmDateTime);
+  }
 
 //color들 싹 조정하기
   @override
@@ -108,7 +115,7 @@ class AlarmItem extends StatelessWidget {
                                     //alarmPoint 텍스트
                                     AlarmItemText(//수정하세요~
                                         flex: 3,
-                                        itemText: (snapshot.data)!.alarmInterval.toString()),
+                                        itemText: convertAlarmDateTime((snapshot.data)!)),
                                     //Spacer(),
                                   ],
                                 ),

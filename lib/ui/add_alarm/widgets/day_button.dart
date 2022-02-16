@@ -27,13 +27,13 @@ class DayButton extends StatelessWidget {
         painter: DayButtonPainter(dayName, controller),
       ),
       onTap: () {
+        controller.reverseDayButtonState(dayName);
         //터치하면 자동으로 repeatMode
         if(dayOfWeekController.dayButtonStateMap.containsValue(true)){
           Get.find<RepeatModeController>().setRepeatModeWeek();
         }
-        controller.reverseDayButtonState(dayName);
         //일월화수목금토 다 off면 repeatMode가 off로 변경
-        if(!dayOfWeekController.dayButtonStateMap.containsValue(true)){
+        else{
           Get.find<RepeatModeController>().setRepeatModeOff();
         }
         print(repeatModeController.getRepeatMode());

@@ -63,7 +63,9 @@ class RingPage extends StatelessWidget {
                               flex: 7,
                               child: Slider(
                                   value: 0.8, //초기값
-                                  onChanged: null),
+                                  onChanged: (value){
+
+                                  }),
                             ),
                           ],
                         )),

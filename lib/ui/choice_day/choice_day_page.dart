@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:new_alarm_clock/routes/app_routes.dart';
-import 'package:new_alarm_clock/ui/add_alarm/controller/time_spinner_controller.dart';
+import 'package:new_alarm_clock/ui/choice_day/widget/going_back_dialog.dart';
 import 'package:new_alarm_clock/ui/choice_day/widget/one_alarm_container.dart';
 import 'package:new_alarm_clock/ui/choice_day/widget/repeat_tab_bar.dart';
 import 'package:new_alarm_clock/utils/values/color_value.dart';
@@ -16,80 +15,13 @@ class ChoiceDayPage extends StatelessWidget {
 
   Future<bool> _onTouchSystemBackButton() async {
     return await Get.dialog(
-        AlertDialog(
-          contentPadding: EdgeInsets.fromLTRB(20, 20, 20, 0),
-            content: Container(
-              height: 100,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Text('저장하지 않고 나가시겠습니까?'),
-                  Container(height: 10,),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      TextButton(
-                        child: Text('아니오'),
-                        onPressed: () {
-                          Get.back(result: false);
-                        },
-                        // ** result: returns this value up the call stack **
-                      ),
-                      Container(width: 1, height: 15, color: Colors.grey,),
-                      TextButton(
-                        child: Text('예'),
-                        onPressed: () {
-                          Get.find<RepeatModeController>().setRepeatModeOff();
-                          print(Get.find<RepeatModeController>().getRepeatMode());
-                          Get.back(result: true);
-                        },
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            )
-        )
+        GoingBackDialog('ChoiceDay','system')
     );
   }
 
   Future<bool> _onTouchAppBarBackButton() async {
     return await Get.dialog(
-        AlertDialog(
-            contentPadding: EdgeInsets.fromLTRB(20, 20, 20, 0),
-            content: Container(
-              height: 100,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Text('저장하지 않고 나가시겠습니까?'),
-                  Container(height: 10,),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      TextButton(
-                        child: Text('아니오'),
-                        onPressed: () {
-                          Get.back();
-                        },
-                        // ** result: returns this value up the call stack **
-                      ),
-                      Container(width: 1, height: 15, color: Colors.grey,),
-                      TextButton(
-                        child: Text('예'),
-                        onPressed: () {
-                          Get.find<RepeatModeController>().setRepeatModeOff();
-                          print(Get.find<RepeatModeController>().getRepeatMode());
-                          Get.back();
-                          Get.back();
-                        },
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            )
-        )
+        GoingBackDialog('ChoiceDay', 'appBar')
     );
   }
 

@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:new_alarm_clock/data/shared_preferences/id_shared_preferences.dart';
 import 'package:new_alarm_clock/routes/app_routes.dart';
 import 'package:new_alarm_clock/ui/home/controller/tab_page_controller.dart';
@@ -33,6 +34,9 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark.copyWith(
+        statusBarColor: ColorValue.mainBackground,
+    ));
     Get.put(TabPageController());
     return Scaffold(
         drawer: HomeDrawer(),
