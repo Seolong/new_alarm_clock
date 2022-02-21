@@ -4,6 +4,7 @@ class IdSharedPreferences {
   static final IdSharedPreferences _instance = IdSharedPreferences._internal();
   late SharedPreferences sharedPreferences;
   final String toBeAddedIdName = 'toBeAddedId';
+  final String alarmedAlarmIdName = 'alarmedAlarmId';
 
   factory IdSharedPreferences() {
     return _instance;
@@ -14,6 +15,11 @@ class IdSharedPreferences {
     int toBeAddedId = sharedPreferences.getInt(toBeAddedIdName) ?? 0;
     if(toBeAddedId == 0){
       sharedPreferences.setInt(toBeAddedIdName, toBeAddedId);
+    }
+
+    int alarmedAlarmId = sharedPreferences.getInt(alarmedAlarmIdName) ?? -1;
+    if(alarmedAlarmId == -1){
+      sharedPreferences.setInt(alarmedAlarmIdName, alarmedAlarmId);
     }
   }
 
@@ -27,5 +33,15 @@ class IdSharedPreferences {
   Future<void> setId(int id)async {
     await init();
     sharedPreferences.setInt(toBeAddedIdName, id);
+  }
+
+  Future<int> getAlarmedId() async{
+    await init();
+    return sharedPreferences.getInt(alarmedAlarmIdName)!;
+  }
+
+  Future<void> setAlarmedId(int id) async{
+    await init();
+    sharedPreferences.setInt(alarmedAlarmIdName, id);
   }
 }

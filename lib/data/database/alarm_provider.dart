@@ -1,5 +1,6 @@
 import 'package:new_alarm_clock/data/model/alarm_data.dart';
 import 'package:new_alarm_clock/data/model/alarm_week_repeat_data.dart';
+import 'package:new_alarm_clock/service/alarm_scheduler.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -85,6 +86,7 @@ class AlarmProvider {
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
     print('insert $insertId');
+    AlarmScheduler().newShot(alarmData.alarmDateTime, alarmData.id);
 
     return insertId;
   }
@@ -145,6 +147,9 @@ class AlarmProvider {
     Database db = await this.database;
     var countOfdeletedItems = await db.delete(tableName, where: 'id = ?', whereArgs: [id]);
     print('Count of deleted Items is $countOfdeletedItems');
+
+    AlarmScheduler.removeAlarm(id);
+
     return countOfdeletedItems;
   }
 
@@ -159,6 +164,9 @@ class AlarmProvider {
     Database db = await this.database;
     await db.update(tableName, alarmData.toMap(),
         where: 'id = ?', whereArgs: [alarmData.id]);
+
+    AlarmScheduler.removeAlarm(alarmData.id);
+    AlarmScheduler().newShot(alarmData.alarmDateTime, alarmData.id);
   }
 
   void updateAlarmWeekData(AlarmWeekRepeatData data) async {
