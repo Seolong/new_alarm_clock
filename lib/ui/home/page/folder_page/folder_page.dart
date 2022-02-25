@@ -6,6 +6,7 @@ class FolderPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    int? folderCrossAxisCount = Get.width ~/ 100;
 
     return Scaffold(
       body: Padding(
@@ -29,7 +30,9 @@ class FolderPage extends StatelessWidget {
                 child: GridView.builder(
                   itemCount: 13, //item 개수
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: Get.width ~/ 100, //1 개의 행에 보여줄 item 개수
+                    crossAxisCount: folderCrossAxisCount != 0
+                        ? folderCrossAxisCount
+                        : 1, //1 개의 행에 보여줄 item 개수
                     mainAxisSpacing: 10, //수평 Padding
                     crossAxisSpacing: 10, //수직 Padding
                   ),

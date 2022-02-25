@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:new_alarm_clock/ui/choice_day/controller/repeat_mode_controller.dart';
 import 'package:new_alarm_clock/ui/choice_day/widget/repeat_tab_bar_view.dart';
+import 'package:new_alarm_clock/utils/values/color_value.dart';
 import 'package:new_alarm_clock/utils/values/my_font_family.dart';
 
 class RepeatTabBar extends StatelessWidget {
@@ -27,8 +28,8 @@ class RepeatTabBar extends StatelessWidget {
                     fontFamily: MyFontFamily.mainFontFamily,
                       fontWeight: FontWeight.bold,
                   ),
-                  indicatorColor: Colors.teal,
-                  labelColor: Colors.teal,
+                  indicatorColor: ColorValue.subTabBarIndicator,
+                  labelColor: ColorValue.subTabBarIndicator,
                   unselectedLabelColor: Colors.black54,
                   isScrollable: true,
                   tabs: <Widget>[

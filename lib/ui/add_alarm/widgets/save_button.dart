@@ -52,6 +52,11 @@ class SaveButton extends StatelessWidget {
             timeSpinnerController.alarmDateTime = DateTime.parse(alarmDateTime);
           }
 
+          if(timeSpinnerController.alarmDateTime.isBefore(DateTime.now())){
+            timeSpinnerController.alarmDateTime =
+                timeSpinnerController.alarmDateTime.add(Duration(days: 1));
+          }
+
           AlarmData alarmData = AlarmData(
             id: alarmId,
             alarmType: repeatModeController.getRepeatMode(),

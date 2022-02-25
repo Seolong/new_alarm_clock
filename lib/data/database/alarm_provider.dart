@@ -139,7 +139,7 @@ class AlarmProvider {
     if(result.isNotEmpty)
       alarmData = AlarmWeekRepeatData.fromMap(result.first);
 
-    print(alarmData);
+    print('$alarmData in getAlarmWeekDataById method of AlarmProvider');
     return await alarmData;
   }
 
@@ -160,7 +160,7 @@ class AlarmProvider {
     return countOfdeletedItems;
   }
 
-  void updateAlarm(AlarmData alarmData) async {
+  Future<void> updateAlarm(AlarmData alarmData) async {
     Database db = await this.database;
     await db.update(tableName, alarmData.toMap(),
         where: 'id = ?', whereArgs: [alarmData.id]);
@@ -169,9 +169,11 @@ class AlarmProvider {
     AlarmScheduler().newShot(alarmData.alarmDateTime, alarmData.id);
   }
 
-  void updateAlarmWeekData(AlarmWeekRepeatData data) async {
+  Future<void> updateAlarmWeekData(AlarmWeekRepeatData data) async {
     Database db = await this.database;
     await db.update(weekRepeatTableName, data.toMap(),
         where: 'id = ?', whereArgs: [data.id]);
+
+    //스케줄러 관련 추가
   }
 }

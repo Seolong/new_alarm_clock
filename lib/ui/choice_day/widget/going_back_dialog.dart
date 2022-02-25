@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:new_alarm_clock/ui/choice_day/controller/repeat_mode_controller.dart';
+import 'package:new_alarm_clock/ui/global/auto_size_text.dart';
 import 'package:new_alarm_clock/utils/values/color_value.dart';
 
 class GoingBackDialog extends StatelessWidget {
@@ -17,13 +18,13 @@ class GoingBackDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-        contentPadding: EdgeInsets.fromLTRB(20, 20, 20, 0),
+        contentPadding: EdgeInsets.fromLTRB(30, 20, 30, 0),
         content: Container(
-          height: 100,
+          height: 120,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              Text('저장하지 않고 나가시겠습니까?'),
+              AutoSizeText('저장하지 않고 나가시겠습니까?'),
               Container(
                 height: 10,
               ),

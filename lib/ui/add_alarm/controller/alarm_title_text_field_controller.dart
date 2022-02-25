@@ -16,6 +16,13 @@ class AlarmTitleTextFieldController extends GetxController {
     super.onInit();
   }
 
+
+  @override
+  void onClose() {
+    textEditingController.dispose();
+    super.onClose();
+  }
+
   Future<void> initTitleTextField(int alarmId) async {
     AlarmData alarmData = await _alarmProvider.getAlarmById(alarmId);
     textEditingController.text =

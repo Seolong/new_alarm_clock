@@ -30,23 +30,37 @@ class TimeSpinner extends StatelessWidget {
       child: GetBuilder<TimeSpinnerController>(
           initState: (_) => mode == StringValue.editMode
               ? timeSpinnerController.initDateTimeInEdit(alarmId)
-              : null,
+              : timeSpinnerController.initDateTimeInAdd(),
           builder: (_) {
-            return CupertinoDatePicker(
-              key: UniqueKey(), //이렇게 해주면 initialDataTime이 정상 작동!
-              initialDateTime: timeSpinnerController.alarmDateTime,
-              mode: CupertinoDatePickerMode.time,
-              onDateTimeChanged: (DateTime value) {
-                //repeatmode가 defaultMode일 때
-                if (value.isBefore(DateTime.now())) {
-                  value = value.add(Duration(days: 1));
-                }
-                //print(value);
-                _.alarmDateTime = value;
-                //print(_.alarmDateTime);
-                //print(value.toIso8601String());
-              },
-            );
+            return FutureBuilder(
+                future: timeSpinnerController.dateTimeFuture,
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    return CupertinoDatePicker(
+                      initialDateTime: timeSpinnerController.alarmDateTime,
+                      mode: CupertinoDatePickerMode.time,
+                      onDateTimeChanged: (DateTime value) {
+                        // //repeatmode가 defaultMode일 때
+                        // if (value.isBefore(DateTime.now())) {
+                        //   value = value.add(Duration(days: 1));
+                        // }
+                        //print(value);
+                        _.alarmDateTime = value;
+                        //print(_.alarmDateTime);
+                        //print(value.toIso8601String());
+                      },
+                    );
+                  }
+                  return Center(
+                    child: Container(
+                      height: 50,
+                      width: 50,
+                      child: CircularProgressIndicator(
+                        valueColor: AlwaysStoppedAnimation<Color>(ColorValue.fab),
+                      ),
+                    ),
+                  );
+                });
           }),
     );
   }

@@ -12,7 +12,6 @@ import 'package:new_alarm_clock/utils/values/color_value.dart';
 import 'package:new_alarm_clock/utils/values/size_value.dart';
 import 'package:get/get.dart';
 import 'package:new_alarm_clock/utils/values/string_value.dart';
-import 'dart:io' show Platform;
 
 class Home extends StatelessWidget{
 
@@ -32,65 +31,9 @@ class Home extends StatelessWidget{
 
 class HomePage extends StatelessWidget {
   final IdSharedPreferences idSharedPreferences = IdSharedPreferences();
-  static const androidChannel = const MethodChannel('intent/permission');
-  //display over other apps 권한 확인 및 획득 method
-  Future<void> _checkAndSetDisplayOverPermission()async {
-    bool displayOverPermission = await androidChannel.invokeMethod('checkDisplayOverPermission');
-    if(displayOverPermission == true){
-
-    }else{
-      bool userPermission = await _askPermissionWithDialog();
-      if(userPermission == true){
-        await androidChannel.invokeMethod('setDisplayOverPermission');
-      }
-    }
-  }
-
-  Future<bool> _askPermissionWithDialog() async {
-    return await Get.dialog(
-        AlertDialog(
-            contentPadding: EdgeInsets.fromLTRB(20, 20, 20, 0),
-            content: Container(
-              height: 150,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Text('다른 앱 사용 중에도 알람이 울리기 위해 다음 권한이 필요합니다.'),
-                  Container(
-                    height: 10,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      TextButton(
-                        child: Text('거절'),
-                        onPressed: () {
-                          Get.back(result: false);
-                        },
-                        // ** result: returns this value up the call stack **
-                      ),
-                      Container(
-                        width: 1,
-                        height: 15,
-                        color: Colors.grey,
-                      ),
-                      TextButton(
-                        child: Text('설정'),
-                        onPressed: () {
-                          Get.back(result: true);
-                        },
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ))
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
-
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark.copyWith(
         statusBarColor: ColorValue.mainBackground,
     ));
@@ -113,9 +56,6 @@ class HomePage extends StatelessWidget {
               ),
             ),
             onPressed: () async{
-              if(Platform.isAndroid){
-                await _checkAndSetDisplayOverPermission();
-              }
               int newId = await idSharedPreferences.getId();
               Map<String, dynamic> argToNextPage = {StringValue.mode : StringValue.addMode,
                 StringValue.alarmId : newId};

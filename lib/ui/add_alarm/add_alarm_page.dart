@@ -38,15 +38,11 @@ class AddAlarmPage extends StatelessWidget {
   }
 
   Future<bool> _onTouchAppBarBackButton() async {
-    return await Get.dialog(
-        GoingBackDialog('AddAlarm', 'appBar')
-    );
+    return await Get.dialog(GoingBackDialog('AddAlarm', 'appBar'));
   }
 
   Future<bool> _onTouchSystemBackButton() async {
-    return await Get.dialog(
-        GoingBackDialog('AddAlarm', 'system')
-    );
+    return await Get.dialog(GoingBackDialog('AddAlarm', 'system'));
   }
 
   @override
@@ -62,9 +58,8 @@ class AddAlarmPage extends StatelessWidget {
     final timeSpinnerController = Get.put(TimeSpinnerController());
     final startEndDayController = Get.put(StartEndDayController());
 
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-        statusBarColor: ColorValue.appbar
-    ));
+    SystemChrome.setSystemUIOverlayStyle(
+        SystemUiOverlayStyle(statusBarColor: ColorValue.appbar));
 
     if (mode == StringValue.editMode) {
       initEditAlarm();
@@ -72,164 +67,186 @@ class AddAlarmPage extends StatelessWidget {
 
     return WillPopScope(
       onWillPop: _onTouchSystemBackButton,
-      child: Scaffold(
-        resizeToAvoidBottomInset: false,
-        appBar: AppBar(
-          backgroundColor: ColorValue.appbar,
-          foregroundColor: ColorValue.appbarText,
-          leading: IconButton(
-            icon: Icon(Icons.arrow_back_ios_rounded),
-            onPressed: _onTouchAppBarBackButton,
+      child: GestureDetector(
+        onTap: () {
+          FocusScopeNode currentFocus = FocusScope.of(context);
+          if (!currentFocus.hasPrimaryFocus &&
+              currentFocus.focusedChild != null) {
+            FocusManager.instance.primaryFocus?.unfocus();
+          }
+        },
+        child: Scaffold(
+          //resizeToAvoidBottomInset: false,
+          backgroundColor: ColorValue.addAlarmPageBackground,
+          appBar: AppBar(
+            backgroundColor: ColorValue.appbar,
+            foregroundColor: ColorValue.appbarText,
+            leading: IconButton(
+              icon: Icon(Icons.arrow_back_ios_rounded),
+              onPressed: _onTouchAppBarBackButton,
+            ),
+            actions: [
+              Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: FittedBox(
+                  fit: BoxFit.scaleDown,
+                  child: SaveButton(
+                    alarmId,
+                    mode,
+                    repeatModeController: repeatModeController,
+                    timeSpinnerController: timeSpinnerController,
+                    startEndDayController: startEndDayController,
+                    alarmTitleTextFieldController: alarmTitleTextFieldController,
+                    dayOfWeekController: dayOfWeekController,
+                  ),
+                ),
+              )
+            ],
           ),
-          actions: [
-            Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: FittedBox(
-                fit: BoxFit.scaleDown,
-                child: SaveButton(
-                  alarmId,
-                  mode,
-                  repeatModeController: repeatModeController,
-                  timeSpinnerController: timeSpinnerController,
-                  startEndDayController: startEndDayController,
-                  alarmTitleTextFieldController: alarmTitleTextFieldController,
-                  dayOfWeekController: dayOfWeekController,
-                ),
-              ),
-            )
-          ],
-        ),
-        body: SafeArea(
-          child: Container(
-            color: ColorValue.addAlarmPageBackground,
-            padding: EdgeInsets.fromLTRB(15, 0, 15, 0),
-            child: Column(
-              children: [
-                //spinner
-                Expanded(
-                    flex: 5, child: TimeSpinner(alarmId: alarmId, fontSize: 27, mode: mode)),
+          body: SafeArea(
+            child: SingleChildScrollView(
+              child: Container(
+                //height: Get.height - Get.statusBarHeight - 10,
+                color: ColorValue.addAlarmPageBackground,
+                padding: EdgeInsets.fromLTRB(25, 0, 25, 10),
+                child: Column(
+                  children: [
+                    //spinner
+                    Container(
+                      height: 250,
+                      child: TimeSpinner(
+                          alarmId: alarmId, fontSize: 27, mode: mode),
+                    ),
 
-                Divider(
-                  thickness: 2,
-                ),
+                    Divider(
+                      thickness: 2,
+                    ),
 
-                //DaysOfAlarm
-                Expanded(
-                  flex: 1,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.all(2.0),
-                          child: GetBuilder<DayOfWeekController>(
-                            //editMode에다가 WeekMode여야 한다
-                            initState: (_) => mode == StringValue.editMode
-                                ? dayOfWeekController.initWhenEditMode(alarmId)
-                                : null,
-                            builder: (_) => LayoutBuilder(
-                              builder: (BuildContext context,
-                                      BoxConstraints constraints) =>
-                                  Row(
-                                children: [
-                                  Expanded(
-                                      child:
-                                          DayButton(constraints, DayWeek.Sun, _)),
-                                  Expanded(
-                                      child:
-                                          DayButton(constraints, DayWeek.Mon, _)),
-                                  Expanded(
-                                      child:
-                                          DayButton(constraints, DayWeek.Tue, _)),
-                                  Expanded(
-                                      child:
-                                          DayButton(constraints, DayWeek.Wed, _)),
-                                  Expanded(
-                                      child:
-                                          DayButton(constraints, DayWeek.Thu, _)),
-                                  Expanded(
-                                      child:
-                                          DayButton(constraints, DayWeek.Fri, _)),
-                                  Expanded(
-                                      child:
-                                          DayButton(constraints, DayWeek.Sat, _)),
-                                ],
+                    //DaysOfAlarm
+                    Container(
+                      height: 50,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(
+                            child: Padding(
+                              padding: const EdgeInsets.all(2.0),
+                              child: GetBuilder<DayOfWeekController>(
+                                //editMode에다가 WeekMode여야 한다
+                                initState: (_) => mode == StringValue.editMode
+                                    ? dayOfWeekController
+                                        .initWhenEditMode(alarmId)
+                                    : null,
+                                builder: (_) => LayoutBuilder(
+                                  builder: (BuildContext context,
+                                          BoxConstraints constraints) =>
+                                      Row(
+                                    children: [
+                                      Expanded(
+                                          child: DayButton(
+                                              constraints, DayWeek.Sun, _)),
+                                      Expanded(
+                                          child: DayButton(
+                                              constraints, DayWeek.Mon, _)),
+                                      Expanded(
+                                          child: DayButton(
+                                              constraints, DayWeek.Tue, _)),
+                                      Expanded(
+                                          child: DayButton(
+                                              constraints, DayWeek.Wed, _)),
+                                      Expanded(
+                                          child: DayButton(
+                                              constraints, DayWeek.Thu, _)),
+                                      Expanded(
+                                          child: DayButton(
+                                              constraints, DayWeek.Fri, _)),
+                                      Expanded(
+                                          child: DayButton(
+                                              constraints, DayWeek.Sat, _)),
+                                    ],
+                                  ),
+                                ),
                               ),
                             ),
                           ),
+
+                          //ChoiceDayButton
+                          FittedBox(
+                              fit: BoxFit.scaleDown,
+                              child: GestureDetector(
+                                child: Icon(
+                                  Icons.today,
+                                  color: ColorValue.calendarIcon,
+                                  size: 1000,
+                                ),
+                                onTap: () {
+                                  Get.toNamed(AppRoutes.choiceDayPage);
+                                },
+                              )),
+                        ],
+                      ),
+                    ),
+
+                    Container(
+                      height: 25,
+                      child: Text(
+                        //임시
+                        Get.find<TimeSpinnerController>()
+                            .alarmDateTime
+                            .toString(),
+                      ),
+                    ),
+
+                    //TitleTextField
+                    Container(
+                      height: 85,
+                      padding: EdgeInsets.fromLTRB(0, 5, 0, 5),
+                      child: GetBuilder<AlarmTitleTextFieldController>(
+                        initState: (_) => mode == StringValue.editMode
+                            ? alarmTitleTextFieldController
+                                .initTitleTextField(alarmId)
+                            : null,
+                        builder: (_) => TextField(
+                          controller: _.textEditingController,
+                          onChanged: (value) {
+                            if (_.textEditingController.text.length != 0) {
+                              print('length not 0');
+                            } else {
+                              print('length 0');
+                            }
+                          },
+                          style: TextStyle(
+                              fontSize: 24,
+                              fontFamily: MyFontFamily.mainFontFamily),
+                          decoration: InputDecoration(
+                              labelText: '알람 이름',
+                              labelStyle: TextStyle(
+                                fontSize: 20,
+                                fontFamily: MyFontFamily.mainFontFamily,
+                              ),
+                              suffixIcon: _.textEditingController.text.length > 0
+                                  ? IconButton(
+                                      icon: Icon(
+                                        Icons.clear,
+                                        color: Colors.black,
+                                      ),
+                                      onPressed: () => _.resetField(),
+                                    )
+                                  : null // Show the clear button if the text field has something
+                              ),
                         ),
                       ),
-
-                      //ChoiceDayButton
-                      FittedBox(
-                          fit: BoxFit.scaleDown,
-                          child: GestureDetector(
-                            child: Icon(
-                              Icons.today,
-                              color: ColorValue.calendarIcon,
-                              size: 1000,
-                            ),
-                            onTap: () {
-                              Get.toNamed(AppRoutes.choiceDayPage);
-                            },
-                          )),
-                    ],
-                  ),
-                ),
-
-                Expanded(
-                  flex: 1,
-                  child: Text(
-                    //임시
-                    Get.find<TimeSpinnerController>().alarmDateTime.toString(),
-                  ),
-                ),
-
-                Expanded(
-                  flex: 2,
-                  //TitleTextField
-                  child: GetBuilder<AlarmTitleTextFieldController>(
-                    initState: (_) => mode == StringValue.editMode
-                        ? alarmTitleTextFieldController
-                            .initTitleTextField(alarmId)
-                        : null,
-                    builder: (_) => TextField(
-                      controller: _.textEditingController,
-                      onChanged: (value) {
-                        if (_.textEditingController.text.length != 0) {
-                          print('length not 0');
-                        } else {
-                          print('length 0');
-                        }
-                      },
-                      style: TextStyle(
-                          fontSize: 24, fontFamily: MyFontFamily.mainFontFamily),
-                      decoration: InputDecoration(
-                          labelText: '알람 이름',
-                          labelStyle: TextStyle(
-                            fontFamily: MyFontFamily.mainFontFamily,
-                          ),
-                          suffixIcon: _.textEditingController.text.length > 0
-                              ? IconButton(
-                                  icon: Icon(
-                                    Icons.clear,
-                                    color: Colors.black,
-                                  ),
-                                  onPressed: () => _.resetField(),
-                                )
-                              : null // Show the clear button if the text field has something
-                          ),
                     ),
-                  ),
-                ),
 
-                _alarmDetailListTileFactory
-                    .getDetailListTile(DetailTileName.ring),
-                _alarmDetailListTileFactory
-                    .getDetailListTile(DetailTileName.vibration),
-                _alarmDetailListTileFactory
-                    .getDetailListTile(DetailTileName.repeat),
-              ],
+                    _alarmDetailListTileFactory
+                        .getDetailListTile(DetailTileName.ring),
+                    _alarmDetailListTileFactory
+                        .getDetailListTile(DetailTileName.vibration),
+                    _alarmDetailListTileFactory
+                        .getDetailListTile(DetailTileName.repeat),
+                  ],
+                ),
+              ),
             ),
           ),
         ),

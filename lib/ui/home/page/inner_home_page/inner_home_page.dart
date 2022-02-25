@@ -76,9 +76,12 @@ class InnerHomePage extends StatelessWidget {
                     });
                   }
               return Center(
-                child: Text(
-                  'x',
-                  style: TextStyle(color: Colors.white),
+                child: Container(
+                  height: 50,
+                  width: 50,
+                  child: CircularProgressIndicator(
+                    valueColor: AlwaysStoppedAnimation<Color>(ColorValue.fab),
+                  ),
                 ),
               );
                 }

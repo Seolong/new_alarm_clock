@@ -23,12 +23,6 @@ class AlarmScheduler {
   */
 
   static void callback(int alarmId) async {
-    final AppStateSharedPreferences _appStateSharedPreferences = AppStateSharedPreferences();
-    await _appStateSharedPreferences.setAppStateToAlarm();
-
-    final IdSharedPreferences _idSharedPreferences = IdSharedPreferences();
-    await _idSharedPreferences.setAlarmedId(alarmId);
-
     print('Creating a new alarm flag for ID $alarmId');
     createAlarmFlag(alarmId);
   }
@@ -36,11 +30,17 @@ class AlarmScheduler {
   /// Creates a flag file that the main isolate can find on life cycle change
   /// For now just abusing the FileProxy class for testing
   static void createAlarmFlag(int id) async {
-    print('Creating a new alarm flag for ID $id');
+    //print('Creating a new alarm flag for ID $id');
     AlarmProvider _alarmProvider = AlarmProvider();
     AlarmData alarm = await _alarmProvider.getAlarmById(id);
 
     if (alarm.alarmState && Platform.isAndroid) {
+      final AppStateSharedPreferences _appStateSharedPreferences = AppStateSharedPreferences();
+      await _appStateSharedPreferences.setAppStateToAlarm();
+
+      final IdSharedPreferences _idSharedPreferences = IdSharedPreferences();
+      await _idSharedPreferences.setAlarmedId(id);
+
       restartApp();
       Bringtoforeground.bringAppToForeground();
       return;

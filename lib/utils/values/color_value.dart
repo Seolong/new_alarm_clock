@@ -18,13 +18,14 @@ class ColorValue{
 
   static final Color appbarText = Colors.black;
 
-  static final Color addAlarmPageBackground = Colors.white70;
+  static final Color addAlarmPageBackground = Colors.white;
   static final Color listTileTitleText = Color.fromARGB(255, 75, 75, 75);
   static final Color listTileText = Color(0xffBF8F46);
   static final Color timeSpinnerText = Color.fromARGB(255, 75, 75, 75);
   static final Color dayButtonActive = Color(0xffC3B091);
 
   static final Color tabBarIndicator = Color(0xffBF8F46);
+  static final Color subTabBarIndicator = Color(0xffAD7D35);
 
   static final Color calendarTitleBar = Color(0xffE4CDA7);
   static final Color calendarIcon = Color(0xffF9B143);
