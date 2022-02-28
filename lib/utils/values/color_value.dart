@@ -32,4 +32,6 @@ class ColorValue{
   static final Color todayColor = Color(0xffBF8F46);
   static final Color calendarSelection = Color(0xffBF8F46);
   static final Color selectMonthDayButton = Color(0xffBF8F46);
+
+  static final Color dismissAlarmButton = Color(0xffC2AB85);
 }

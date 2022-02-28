@@ -63,7 +63,9 @@ class MyApp extends StatelessWidget {
         const Locale('zh'),
       ],
       locale: const Locale('ko'),
-      home: appState == 'alarm' ? AlarmAlarmPage() : Home(),
+      home: appState == 'alarm' ?
+      AlarmAlarmPage()
+          : Home(),
     );
   }
 }

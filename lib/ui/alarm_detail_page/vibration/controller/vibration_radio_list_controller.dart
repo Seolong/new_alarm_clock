@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:new_alarm_clock/data/database/alarm_provider.dart';
 import 'package:new_alarm_clock/utils/enum.dart';
 import 'package:new_alarm_clock/utils/values/vibration_Pack.dart';
 import 'package:vibration/vibration.dart';
@@ -14,6 +15,11 @@ class VibrationRadioListController extends GetxController{
     'inactive': Colors.grey
   };
   RxMap<String, Color> _listTextColor = {'text': Colors.black}.obs;
+  AlarmProvider _alarmProvider = AlarmProvider();
+
+  Future<void> initVibration()async{
+    //_selectedVibration = await _alarmProvider.
+  }
 
   set selectedVibration(VibrationName selectedVibration) {
     _selectedVibration = selectedVibration;

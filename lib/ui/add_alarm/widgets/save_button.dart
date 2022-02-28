@@ -70,7 +70,7 @@ class SaveButton extends StatelessWidget {
             musicBool: false,
             musicPath: 'path',
             vibrationBool: false,
-            vibrationName: 'vibName',
+            vibrationName: 'Long',
             repeatBool: false,
             repeatInterval: 0,
           );

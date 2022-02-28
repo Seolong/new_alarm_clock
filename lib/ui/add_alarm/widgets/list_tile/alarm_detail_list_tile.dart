@@ -3,6 +3,7 @@ import 'package:new_alarm_clock/ui/add_alarm/widgets/list_tile/alarm_detail_page
 import 'package:new_alarm_clock/utils/values/my_font_family.dart';
 
 class AlarmDetailListTile extends StatelessWidget {
+  int alarmId = -1;
   Text tileTitle = Text('', style: TextStyle(fontFamily: MyFontFamily.mainFontFamily));
   Text tileSubTitle = Text('', style: TextStyle(fontFamily: MyFontFamily.mainFontFamily));
   AlarmDetailPageFactory alarmDetailPageFactory = AlarmDetailPageFactory();
