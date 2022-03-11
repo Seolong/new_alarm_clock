@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:new_alarm_clock/data/database/alarm_provider.dart';
 import 'package:new_alarm_clock/data/model/alarm_data.dart';
 import 'package:new_alarm_clock/data/shared_preferences/id_shared_preferences.dart';
+import 'package:new_alarm_clock/service/music_handler.dart';
 import 'package:new_alarm_clock/ui/alarm_alarm/widget/draggable_dismiss_button.dart';
 import 'package:new_alarm_clock/utils/values/color_value.dart';
 import 'package:new_alarm_clock/utils/values/my_font_family.dart';
@@ -20,6 +21,7 @@ class _AlarmAlarmPageState extends State<AlarmAlarmPage> {
   AlarmProvider _alarmProvider = AlarmProvider();
   final IdSharedPreferences _idSharedPreferences = IdSharedPreferences();
   VibrationPack _vibrationPack = VibrationPack();
+  MusicHandler _musicHandler = MusicHandler();
 
   Future<AlarmData> getAlarmData() async {
     alarmId = await _idSharedPreferences.getAlarmedId();
@@ -47,7 +49,12 @@ class _AlarmAlarmPageState extends State<AlarmAlarmPage> {
                 future: alarmData,
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
-                    _vibrationPack.vibrateByName(snapshot.data!.vibrationName);
+                    if(snapshot.data!.musicBool == true){
+                      _musicHandler.playMusic(snapshot.data!.musicVolume, snapshot.data!.musicPath);
+                    }
+                    if(snapshot.data!.vibrationBool == true){
+                      _vibrationPack.vibrateByVibrationName(snapshot.data!.vibrationName);
+                    }
                     return Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [

@@ -1,5 +1,6 @@
 import 'package:new_alarm_clock/data/model/alarm_data.dart';
 import 'package:new_alarm_clock/data/model/alarm_week_repeat_data.dart';
+import 'package:new_alarm_clock/data/model/music_path_data.dart';
 import 'package:new_alarm_clock/service/alarm_scheduler.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
@@ -9,6 +10,7 @@ class AlarmProvider {
   static AlarmProvider? _alarmProvider;
   String tableName = 'alarm';
   String weekRepeatTableName = 'week_repeat';
+  String musicPathTableName = 'music_path';
 
   AlarmProvider._createInstance();
 
@@ -47,6 +49,7 @@ class AlarmProvider {
           $columnDayOff text not null,
           $columnMusicBool integer not null,
           $columnMusicPath text not null,
+          $columnMusicVolume real not null,
           $columnVibrationBool integer not null,
           $columnVibrationName text not null,
           $columnRepeatBool integer not null,
@@ -64,6 +67,11 @@ class AlarmProvider {
           $columnFriday integer,
           $columnSaturday integer )
     ''');
+
+    await db.execute('''
+      create table $musicPathTableName(
+        $columnPath text primary key)
+    ''');
   }
 
   Future<Database> initializeDatabase() async {
@@ -76,6 +84,30 @@ class AlarmProvider {
       onCreate: _onCreate,
     );
     return database;
+  }
+
+
+  Future<List<AlarmData>> getAllAlarms() async {
+    List<AlarmData> alarmList = [];
+    final Database db = await this.database;
+    final List<Map<String, dynamic>> alarmMaps = await db.query(tableName);
+
+    alarmMaps.forEach((element) {
+      var alarmData = AlarmData.fromMap(element);
+      alarmList.add(alarmData);
+    });
+
+    return await alarmList;
+  }
+
+  Future<AlarmData> getAlarmById(int id) async {
+    AlarmData alarmData;
+    Database db = await this.database;
+    var result =
+    await db.rawQuery('select * from $tableName where $columnId = ?', [id]);
+    alarmData = AlarmData.fromMap(result.first);
+
+    return await alarmData;
   }
 
   Future<int> insertAlarm(AlarmData alarmData) async {
@@ -91,72 +123,14 @@ class AlarmProvider {
     return insertId;
   }
 
-  Future<int> insertAlarmWeekData(AlarmWeekRepeatData data) async {
-    Database db = await this.database;
-    var insertId = await db.insert(
-      weekRepeatTableName,
-      data.toMap(),
-      conflictAlgorithm: ConflictAlgorithm.replace,
-    );
-    print('insert WeekRepeatData of $insertId');
-
-    return insertId;
-  }
-
-  Future<List<AlarmData>> getAllAlarms() async {
-    List<AlarmData> alarmList = [];
-    final Database db = await this.database;
-    final List<Map<String, dynamic>> alarmMaps =
-      await db.query(tableName);
-
-    alarmMaps.forEach((element) {
-      var alarmData = AlarmData.fromMap(element);
-      alarmList.add(alarmData);
-    });
-
-    return await alarmList;
-  }
-
-  Future<AlarmData> getAlarmById(int id) async{
-    AlarmData alarmData;
-    Database db = await this.database;
-    var result =  await db.rawQuery(
-      'select * from $tableName where $columnId = ?',
-      [id]
-    );
-    alarmData = AlarmData.fromMap(result.first);
-
-    return await alarmData;
-  }
-
-  Future<AlarmWeekRepeatData?>? getAlarmWeekDataById(int id) async{
-    AlarmWeekRepeatData? alarmData;
-    Database db = await this.database;
-    var result =  await db.rawQuery(
-        'select * from $weekRepeatTableName where $columnId = ?',
-        [id]
-    );
-    if(result.isNotEmpty)
-      alarmData = AlarmWeekRepeatData.fromMap(result.first);
-
-    print('$alarmData in getAlarmWeekDataById method of AlarmProvider');
-    return await alarmData;
-  }
-
   Future<int> deleteAlarm(int id) async {
     Database db = await this.database;
-    var countOfdeletedItems = await db.delete(tableName, where: 'id = ?', whereArgs: [id]);
+    var countOfdeletedItems =
+    await db.delete(tableName, where: 'id = ?', whereArgs: [id]);
     print('Count of deleted Items is $countOfdeletedItems');
 
     AlarmScheduler.removeAlarm(id);
 
-    return countOfdeletedItems;
-  }
-
-  Future<int> deleteAlarmWeekData(int id) async {
-    Database db = await this.database;
-    var countOfdeletedItems = await db.delete(weekRepeatTableName, where: 'id = ?', whereArgs: [id]);
-    print('Count of deleted Items is $countOfdeletedItems');
     return countOfdeletedItems;
   }
 
@@ -169,11 +143,81 @@ class AlarmProvider {
     AlarmScheduler().newShot(alarmData.alarmDateTime, alarmData.id);
   }
 
+
+  Future<int> insertAlarmWeekData(AlarmWeekRepeatData data) async {
+    Database db = await this.database;
+    var insertId = await db.insert(
+      weekRepeatTableName,
+      data.toMap(),
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    );
+    print('insert WeekRepeatData of $insertId');
+
+    return insertId;
+  }
+
+  Future<AlarmWeekRepeatData?>? getAlarmWeekDataById(int id) async {
+    AlarmWeekRepeatData? alarmData;
+    Database db = await this.database;
+    var result = await db.rawQuery(
+        'select * from $weekRepeatTableName where $columnId = ?', [id]);
+    if (result.isNotEmpty)
+      alarmData = AlarmWeekRepeatData.fromMap(result.first);
+
+    print('$alarmData in getAlarmWeekDataById method of AlarmProvider');
+    return await alarmData;
+  }
+
+
+  Future<int> deleteAlarmWeekData(int id) async {
+    Database db = await this.database;
+    var countOfdeletedItems =
+        await db.delete(weekRepeatTableName, where: 'id = ?', whereArgs: [id]);
+    print('Count of deleted Items is $countOfdeletedItems');
+    return countOfdeletedItems;
+  }
+
   Future<void> updateAlarmWeekData(AlarmWeekRepeatData data) async {
     Database db = await this.database;
     await db.update(weekRepeatTableName, data.toMap(),
         where: 'id = ?', whereArgs: [data.id]);
 
     //스케줄러 관련 추가
+  }
+  
+
+  Future<int> insertMusicPath(MusicPathData data) async {
+    Database db = await this.database;
+    var insertId = await db.insert(
+      musicPathTableName,
+      data.toMap(),
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    );
+    print('insert MusicPathData of $insertId');
+
+    return insertId;
+  }
+
+  Future<List<MusicPathData>> getAllMusicPath() async {
+    List<MusicPathData> musicPathList = [];
+    final Database db = await this.database;
+    final List<Map<String, dynamic>> musicPathMaps = await db.query(musicPathTableName);
+
+    musicPathMaps.forEach((element) {
+      var musicPathData = MusicPathData.fromMap(element);
+      musicPathList.add(musicPathData);
+    });
+
+    return await musicPathList;
+  }
+
+  Future<MusicPathData> getMusicPathById(String path) async {
+    MusicPathData musicPathData;
+    Database db = await this.database;
+    var result =
+    await db.rawQuery('select * from $musicPathTableName where $columnMusicPath = ?', [path]);
+    musicPathData = MusicPathData.fromMap(result.first);
+
+    return await musicPathData;
   }
 }

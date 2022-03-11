@@ -6,6 +6,8 @@ import 'package:new_alarm_clock/data/model/alarm_week_repeat_data.dart';
 import 'package:new_alarm_clock/ui/add_alarm/controller/alarm_title_text_field_controller.dart';
 import 'package:new_alarm_clock/ui/add_alarm/controller/day_of_week_controller.dart';
 import 'package:new_alarm_clock/ui/add_alarm/controller/time_spinner_controller.dart';
+import 'package:new_alarm_clock/ui/alarm_detail_page/ring/controller/ring_radio_list_controller.dart';
+import 'package:new_alarm_clock/ui/alarm_detail_page/vibration/controller/vibration_radio_list_controller.dart';
 import 'package:new_alarm_clock/ui/choice_day/controller/repeat_mode_controller.dart';
 import 'package:new_alarm_clock/ui/choice_day/controller/start_end_day_controller.dart';
 import 'package:new_alarm_clock/ui/home/controller/alarm_list_controller.dart';
@@ -67,10 +69,11 @@ class SaveButton extends StatelessWidget {
             folderName: '전체 알람',
             alarmInterval: 0,
             dayOff: DateTime(2045),
-            musicBool: false,
-            musicPath: 'path',
-            vibrationBool: false,
-            vibrationName: 'Long',
+            musicBool: Get.find<RingRadioListController>().power,
+            musicPath: Get.find<RingRadioListController>().selectedMusicPath,
+            musicVolume: Get.find<RingRadioListController>().volume,
+            vibrationBool: Get.find<VibrationRadioListController>().power,
+            vibrationName: Get.find<VibrationRadioListController>().selectedVibration,
             repeatBool: false,
             repeatInterval: 0,
           );

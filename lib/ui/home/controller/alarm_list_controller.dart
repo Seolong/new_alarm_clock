@@ -9,9 +9,6 @@ class AlarmListController extends GetxController{
   late Future<List<AlarmData>> alarmFutureList;
   RxList<AlarmData> alarmList = RxList<AlarmData>();
 
-  AlarmListController(){
-  }
-
   @override
   void onInit() async {
     alarmProvider.initializeDatabase();

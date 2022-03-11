@@ -25,19 +25,19 @@ class VibrationPack{
     }
   }
 
-  void vibrateByName(String name){
-    VibrationName? vibrationName = convertRadioNameToVibrationName(name);
-    switch(vibrationName){
-      case VibrationName.long:
-        longVibrate();
-        break;
-      case VibrationName.heartBeat:
-        heartbeat();
-        break;
-      default:
-        assert(false, 'error in vibrateByName of VibrationPack');
-    }
-  }
+  // void vibrateByName(String name){
+  //   VibrationName? vibrationName = convertRadioNameToVibrationName(name);
+  //   switch(vibrationName){
+  //     case VibrationName.long:
+  //       longVibrate();
+  //       break;
+  //     case VibrationName.heartBeat:
+  //       heartbeat();
+  //       break;
+  //     default:
+  //       assert(false, 'error in vibrateByName of VibrationPack');
+  //   }
+  // }
 
   void vibrateByVibrationName(VibrationName vibrationName){
     switch(vibrationName){

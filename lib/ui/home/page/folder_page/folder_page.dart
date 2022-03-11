@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:new_alarm_clock/ui/global/auto_size_text.dart';
 import 'package:new_alarm_clock/utils/values/my_font_family.dart';
 
 class FolderPage extends StatelessWidget {
@@ -44,14 +45,11 @@ class FolderPage extends StatelessWidget {
                         children: [
                           Icon(
                               Icons.folder,
-                            size: 70,
+                            size: 65,
                           ),
-                          Text(
-                              '$index',
-                            style: TextStyle(
-                              fontSize: 20
-                            ),
-                          ),
+                          Container(
+                            height: 25,
+                              child: AutoSizeText('$index', bold: true,)),
                         ],
                       ),
                     );

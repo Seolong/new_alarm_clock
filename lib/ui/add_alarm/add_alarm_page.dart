@@ -12,6 +12,8 @@ import 'package:new_alarm_clock/ui/add_alarm/widgets/day_button.dart';
 import 'package:new_alarm_clock/ui/add_alarm/widgets/list_tile/alarm_detail_list_tile_factory.dart';
 import 'package:new_alarm_clock/ui/add_alarm/widgets/save_button.dart';
 import 'package:new_alarm_clock/ui/add_alarm/widgets/time_spinner.dart';
+import 'package:new_alarm_clock/ui/alarm_detail_page/ring/controller/ring_radio_list_controller.dart';
+import 'package:new_alarm_clock/ui/alarm_detail_page/vibration/controller/vibration_radio_list_controller.dart';
 import 'package:new_alarm_clock/ui/choice_day/controller/repeat_mode_controller.dart';
 import 'package:new_alarm_clock/ui/choice_day/controller/start_end_day_controller.dart';
 import 'package:new_alarm_clock/ui/choice_day/widget/going_back_dialog.dart';
@@ -35,6 +37,11 @@ class AddAlarmPage extends StatelessWidget {
     AlarmData alarmData = await _alarmProvider.getAlarmById(alarmId);
 
     Get.find<RepeatModeController>().repeatMode = alarmData.alarmType;
+    Get.find<VibrationRadioListController>().power = alarmData.vibrationBool;
+    Get.find<VibrationRadioListController>().initSelectedVibrationInEdit(alarmData.vibrationName);
+    Get.find<RingRadioListController>().power = alarmData.musicBool;
+    Get.find<RingRadioListController>().volume = alarmData.musicVolume;
+    Get.find<RingRadioListController>().initSelectedMusicPathInEdit(alarmData.musicPath);
   }
 
   Future<bool> _onTouchAppBarBackButton() async {
@@ -57,6 +64,8 @@ class AddAlarmPage extends StatelessWidget {
         Get.put(AlarmTitleTextFieldController());
     final timeSpinnerController = Get.put(TimeSpinnerController());
     final startEndDayController = Get.put(StartEndDayController());
+    final ringRadioListController = Get.put(RingRadioListController());
+    final vibrationRadioListController = Get.put(VibrationRadioListController());
 
     SystemChrome.setSystemUIOverlayStyle(
         SystemUiOverlayStyle(statusBarColor: ColorValue.appbar));

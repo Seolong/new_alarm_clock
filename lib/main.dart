@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:new_alarm_clock/data/shared_preferences/app_state_shared_preferences.dart';
 import 'package:new_alarm_clock/routes/app_pages.dart';
 import 'package:new_alarm_clock/routes/app_routes.dart';
+import 'package:new_alarm_clock/service/life_cycle_listener.dart';
 import 'package:new_alarm_clock/ui/alarm_alarm/alarm_alarm_page.dart';
 import 'package:new_alarm_clock/ui/home/home_page.dart';
 import 'package:new_alarm_clock/utils/values/my_font_family.dart';
@@ -16,6 +17,8 @@ String appState = 'main';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  WidgetsBinding.instance!.addObserver(LifeCycleListener());
 
   await AndroidAlarmManager.initialize();
   appState = await _appStateSharedPreferences.getAppState();

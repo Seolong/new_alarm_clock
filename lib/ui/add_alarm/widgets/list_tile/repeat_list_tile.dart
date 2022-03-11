@@ -22,5 +22,10 @@ class RepeatListTile extends AlarmDetailListTile{
           color: ColorValue.listTileText
       ),
     );
+    stateSwitch = Builder(
+      builder: (context) {
+        return Switch(value: true, onChanged: null);
+      }
+    );
   }
 }

@@ -1,13 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:new_alarm_clock/utils/enum.dart';
-import 'package:new_alarm_clock/utils/values/vibration_Pack.dart';
-import 'package:vibration/vibration.dart';
+import 'package:new_alarm_clock/data/database/alarm_provider.dart';
+import 'package:new_alarm_clock/data/model/music_path_data.dart';
+import 'package:new_alarm_clock/service/music_handler.dart';
 
 class RingRadioListController extends GetxController{
-  VibrationPack _vibrationPack = VibrationPack();
-  VibrationName _selectedVibration = VibrationName.long; //알람 수정이면 db에서 가져오고 알람 추가면 default 값으로 VibrationName.long으로
+  MusicHandler musicHandler = MusicHandler();
+  AlarmProvider _alarmProvider = AlarmProvider();
+  String _selectedMusicPath = 'blank'; //절대경로
   RxBool _power = false.obs;//DB에서 가져오기
   Map<String, Color> textColor = {
     'active': Colors.black,
@@ -15,17 +16,42 @@ class RingRadioListController extends GetxController{
   };
   RxMap<String, Color> _listTextColor = {'text': Colors.black}.obs;
 
-  set selectedVibration(VibrationName selectedVibration) {
-    _selectedVibration = selectedVibration;
-    _vibrationPack.vibrateByVibrationName(selectedVibration); //재부팅 후 잘 적용됐나 확인, 진동 잘 울리나 테스트
+  Future<List<MusicPathData>>? pathFutureList = null;
+  RxList<MusicPathData> pathList = RxList<MusicPathData>();
+
+  RxDouble _volume = 0.7.obs; //addalarmpage에서 edit이면 db에서 받아오기
+
+
+  set selectedMusicPath(String musicPath){
+    _selectedMusicPath = musicPath;
+    musicHandler.playMusic(_volume.value, musicPath);
+
     update();
   }
 
-  VibrationName get selectedVibration => _selectedVibration;
+  String get selectedMusicPath => _selectedMusicPath;
+
+  void initSelectedMusicPathInEdit(String path){
+    _selectedMusicPath = path;
+    update();
+  }
+
+
+  @override
+  void onInit() async{
+    pathFutureList = _alarmProvider.getAllMusicPath();
+    List<MusicPathData> varPathList = await pathFutureList ?? [];
+    pathList = varPathList.obs;
+
+    super.onInit();
+  }
 
   set power(bool value){
     _power(value);
     //switch가 안 움직이면 대개 update()를 빼먹어서다.
+    if(_power.value == false){
+      musicHandler.stopMusic();
+    }
     update();
   }
 
@@ -38,10 +64,42 @@ class RingRadioListController extends GetxController{
 
   Color get listTextColor => _listTextColor['text']!;
 
+  void inputMusicPath(MusicPathData musicPathData) async{
+    await _alarmProvider.insertMusicPath(musicPathData);
+    //List에 없을 때만 List에 넣는다
+    if(!pathList.any((e)=>e.path == musicPathData.path)){
+      pathList.add(musicPathData);
+    }
+    pathFutureList = _alarmProvider.getAllMusicPath();
+    update();
+  }
+
+  String getNameOfSong(String fullName){
+    var splitedNameByDirectory = fullName.split('/');
+    var name = splitedNameByDirectory[splitedNameByDirectory.length-1];
+    var splitedFileName = name.split('.');
+    var splitedFileNameWithoutExtension = splitedFileName.getRange(0, splitedFileName.length-1);
+    return splitedFileNameWithoutExtension.join('.');
+  }
+
+  double get volume => _volume.value;
+
+  set volume(double volume){
+    _volume(volume);
+    update();
+  }
+
   @override
   void onClose() {
     // TODO: implement onClose
-    Vibration.cancel();
+    //노래 끄기
+    musicHandler.stopMusic();
+
     super.onClose();
   }
+
+
+
+
+
 }

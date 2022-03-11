@@ -15,15 +15,15 @@ class VibrationRadioListController extends GetxController{
     'inactive': Colors.grey
   };
   RxMap<String, Color> _listTextColor = {'text': Colors.black}.obs;
-  AlarmProvider _alarmProvider = AlarmProvider();
-
-  Future<void> initVibration()async{
-    //_selectedVibration = await _alarmProvider.
-  }
 
   set selectedVibration(VibrationName selectedVibration) {
     _selectedVibration = selectedVibration;
     _vibrationPack.vibrateByVibrationName(selectedVibration); //재부팅 후 잘 적용됐나 확인, 진동 잘 울리나 테스트
+    update();
+  }
+
+  void initSelectedVibrationInEdit(VibrationName selectedVibration){
+    _selectedVibration = selectedVibration;
     update();
   }
 

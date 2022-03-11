@@ -13,6 +13,7 @@ final String columnAlarmInterval = 'alarmInterval';
 final String columnDayOff = 'dayOff';
 final String columnMusicBool = 'musicBool';
 final String columnMusicPath = 'musicPath';
+final String columnMusicVolume = 'musicVolume';
 final String columnVibrationBool = 'vibrationBool';
 final String columnVibrationName = 'vibrationName';
 final String columnRepeatBool = 'repeatBool';
@@ -31,8 +32,9 @@ class AlarmData {
   late DateTime dayOff;
   late bool musicBool;
   late String musicPath;
+  late double musicVolume;
   late bool vibrationBool;
-  late String vibrationName;
+  late VibrationName vibrationName;
   late bool repeatBool;
   late int repeatInterval;
 
@@ -49,6 +51,7 @@ class AlarmData {
     required this.dayOff,
     required this.musicBool,
     required this.musicPath,
+    required this.musicVolume,
     required this.vibrationBool,
     required this.vibrationName,
     required this.repeatBool,
@@ -70,9 +73,10 @@ class AlarmData {
         dayOff: DateTime.parse(json[columnDayOff]),
         musicBool: TypeConverter.convertIntToBool(json[columnMusicBool]),
         musicPath: json[columnMusicPath],
+        musicVolume: json[columnMusicVolume],
         vibrationBool: TypeConverter.convertIntToBool(json[columnVibrationBool]),
-        vibrationName: json[columnVibrationName],
-        repeatBool: TypeConverter.convertIntToBool(json[columnVibrationBool]),
+        vibrationName: VibrationName.values.firstWhere((e) => e.toString() == json[columnVibrationName]),
+        repeatBool: TypeConverter.convertIntToBool(json[columnRepeatBool]),
         repeatInterval: json[columnRepeatInterval],
       );
 
@@ -91,8 +95,9 @@ class AlarmData {
         columnDayOff: dayOff.toIso8601String(),
         columnMusicBool: TypeConverter.convertBoolToInt(musicBool),
         columnMusicPath: musicPath,
+        columnMusicVolume: musicVolume,
         columnVibrationBool: TypeConverter.convertBoolToInt(vibrationBool),
-        columnVibrationName: vibrationName,
+        columnVibrationName: vibrationName.toString(),
         columnRepeatBool: TypeConverter.convertBoolToInt(repeatBool),
         columnRepeatInterval: repeatInterval,
       };
