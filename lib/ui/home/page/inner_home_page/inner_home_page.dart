@@ -13,7 +13,7 @@ class InnerHomePage extends StatelessWidget {
   late Future<List<AlarmData>> _alarmFutureData;
   AlarmProvider alarmProvider = AlarmProvider();
 
-  InnerHomePage(){
+  InnerHomePage() {
     alarmProvider.initializeDatabase();
     _alarmFutureData = AlarmProvider().getAllAlarms();
   }
@@ -33,60 +33,44 @@ class InnerHomePage extends StatelessWidget {
             //색 지정 안 하면 알람 스크롤할 때 알람이 비쳐보이더라
             decoration: BoxDecoration(
                 color: ColorValue.mainBackground,
-              borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(15),
-                bottomRight: Radius.circular(15),
-              )
-            ),
+                borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(15),
+                  bottomRight: Radius.circular(15),
+                )),
             child: FittedBox(
               fit: BoxFit.scaleDown,
               child: Text(
                 currentFolderName,
                 style: TextStyle(
-                  fontSize: 1000,
-                  color: Colors.black54,
-                  fontFamily: MyFontFamily.mainFontFamily,
-                  fontWeight: FontWeight.bold
-                ),
+                    fontSize: 1000,
+                    color: Colors.black54,
+                    fontFamily: MyFontFamily.mainFontFamily,
+                    fontWeight: FontWeight.bold),
               ),
             ),
           ),
-
-        Expanded(
-          child: FutureBuilder<List<AlarmData>>(
-            future: alarmListController.alarmFutureList,
-            builder: (context, AsyncSnapshot<List<AlarmData>> snapshot) {
-              if(snapshot.hasData) {
-                    return GetBuilder<AlarmListController>(builder: (_) {
-                      return ListView.separated(
-                        shrinkWrap: true,
-                        padding: EdgeInsets.fromLTRB(10, 15, 10, 10),
-                        itemCount: _.alarmList.length + 1,
-                        itemBuilder: (BuildContext context, int index) {
-                          if(index == _.alarmList.length){
-                            return Container(height: 75,);
-                          }
-                          return AlarmItem(
-                              id: _.alarmList[index].id,
-                          );
-                        },
-                        separatorBuilder: (BuildContext context, int index) =>
-                            Container(height: 15,),
-                      );
-                    });
-                  }
-              return Center(
-                child: Container(
-                  height: 50,
-                  width: 50,
-                  child: CircularProgressIndicator(
-                    valueColor: AlwaysStoppedAnimation<Color>(ColorValue.fab),
-                  ),
-                ),
-              );
+          Expanded(child: GetBuilder<AlarmListController>(builder: (_) {
+            return ListView.separated(
+              shrinkWrap: true,
+              padding: EdgeInsets.fromLTRB(10, 15, 10, 10),
+              itemCount: _.alarmList.length + 1,
+              itemBuilder: (BuildContext context, int index) {
+                if (index != _.alarmList.length) {
+                  return AlarmItem(
+                    id: _.alarmList[index].id,
+                  );
                 }
-          ),
-        ),
+                else{
+                  return Container(
+                    height: 75,
+                  );
+                }
+              },
+              separatorBuilder: (BuildContext context, int index) => Container(
+                height: 15,
+              ),
+            );
+          })),
         ],
       ),
     );

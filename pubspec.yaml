@@ -43,6 +43,7 @@ dependencies:
   flutter_ringtone_player: ^3.0.0
   perfect_volume_control: ^1.0.4
   file_picker: ^4.2.6
+  jiffy: ^5.0.0
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -58,6 +59,9 @@ dev_dependencies:
 
 # The following section is specific to Flutter.
 flutter:
+  assets:
+    - assets/audio/old_telephone.mp3
+    - assets/audio/alarm_clock.mp3
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in

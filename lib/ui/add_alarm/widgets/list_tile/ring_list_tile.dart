@@ -18,8 +18,7 @@ class RingListTile extends AlarmDetailListTile{
     );
     tileSubTitle = GetBuilder<RingRadioListController>(
         builder: (_) {
-          return Text(
-            _.getNameOfSong(_.selectedMusicPath), //알람음 설정
+          return Text(_.getNameOfSong(_.selectedMusicPath), //알람음 설정
             style: TextStyle(
                 color: ColorValue.listTileText,
                 fontFamily: MyFontFamily.mainFontFamily,
@@ -39,7 +38,8 @@ class RingListTile extends AlarmDetailListTile{
                 }
 
                 _.power = value;
-              }
+              },
+            activeColor: ColorValue.activeSwitch,
           );
         }
     );

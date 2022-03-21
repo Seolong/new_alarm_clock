@@ -14,6 +14,8 @@ import 'package:new_alarm_clock/ui/add_alarm/widgets/save_button.dart';
 import 'package:new_alarm_clock/ui/add_alarm/widgets/time_spinner.dart';
 import 'package:new_alarm_clock/ui/alarm_detail_page/ring/controller/ring_radio_list_controller.dart';
 import 'package:new_alarm_clock/ui/alarm_detail_page/vibration/controller/vibration_radio_list_controller.dart';
+import 'package:new_alarm_clock/ui/choice_day/controller/interval_text_field_controller.dart';
+import 'package:new_alarm_clock/ui/choice_day/controller/month_repaet_day_controller.dart';
 import 'package:new_alarm_clock/ui/choice_day/controller/repeat_mode_controller.dart';
 import 'package:new_alarm_clock/ui/choice_day/controller/start_end_day_controller.dart';
 import 'package:new_alarm_clock/ui/choice_day/widget/going_back_dialog.dart';
@@ -42,6 +44,8 @@ class AddAlarmPage extends StatelessWidget {
     Get.find<RingRadioListController>().power = alarmData.musicBool;
     Get.find<RingRadioListController>().volume = alarmData.musicVolume;
     Get.find<RingRadioListController>().initSelectedMusicPathInEdit(alarmData.musicPath);
+    Get.find<IntervalTextFieldController>().initTextFieldInEditRepeat(alarmData.alarmInterval);
+    Get.find<MonthRepeatDayController>().initInEdit(alarmData.monthRepeatDay);
   }
 
   Future<bool> _onTouchAppBarBackButton() async {
@@ -66,6 +70,8 @@ class AddAlarmPage extends StatelessWidget {
     final startEndDayController = Get.put(StartEndDayController());
     final ringRadioListController = Get.put(RingRadioListController());
     final vibrationRadioListController = Get.put(VibrationRadioListController());
+    final intervalTextFieldController = Get.put(IntervalTextFieldController());
+    Get.put(MonthRepeatDayController());
 
     SystemChrome.setSystemUIOverlayStyle(
         SystemUiOverlayStyle(statusBarColor: ColorValue.appbar));
@@ -189,6 +195,7 @@ class AddAlarmPage extends StatelessWidget {
                                   size: 1000,
                                 ),
                                 onTap: () {
+                                  repeatModeController.previousRepeatMode = repeatModeController.repeatMode;
                                   Get.toNamed(AppRoutes.choiceDayPage);
                                 },
                               )),

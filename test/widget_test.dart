@@ -5,26 +5,37 @@
 // gestures. You can also use WidgetTester to find child widgets in the widget
 // tree, read text, and verify that the values of widget properties are correct.
 
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'dart:async';
+import 'package:new_alarm_clock/service/date_time_calculator.dart';
+import 'package:new_alarm_clock/utils/enum.dart';
 
-import 'package:new_alarm_clock/main.dart';
+var log = [];
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(MyApp());
+  test('DateTimeCalculator test', overridePrint((){
+    DateTimeCalculator _dateTimeCalculator = DateTimeCalculator();
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+    DateTime dateTime = DateTime(2022, 3, 19);
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
+    var result = _dateTimeCalculator.addDateTime(
+        RepeatMode.week,
+        dateTime,
+        2,
+      weekBool: [false, true, false, true, false, false, true]
+    );
 
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
-  });
+    expect(result.day, 28);
+  }));
+
+
 }
+void Function() overridePrint(void testFn()) => () {
+  var spec = new ZoneSpecification(
+      print: (_, __, ___, String msg) {
+        // Add to log instead of printing to stdout
+        log.add(msg);
+      }
+  );
+  return Zone.current.fork(specification: spec).run<void>(testFn);
+};

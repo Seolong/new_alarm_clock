@@ -8,6 +8,8 @@ import 'package:new_alarm_clock/ui/add_alarm/controller/day_of_week_controller.d
 import 'package:new_alarm_clock/ui/add_alarm/controller/time_spinner_controller.dart';
 import 'package:new_alarm_clock/ui/alarm_detail_page/ring/controller/ring_radio_list_controller.dart';
 import 'package:new_alarm_clock/ui/alarm_detail_page/vibration/controller/vibration_radio_list_controller.dart';
+import 'package:new_alarm_clock/ui/choice_day/controller/interval_text_field_controller.dart';
+import 'package:new_alarm_clock/ui/choice_day/controller/month_repaet_day_controller.dart';
 import 'package:new_alarm_clock/ui/choice_day/controller/repeat_mode_controller.dart';
 import 'package:new_alarm_clock/ui/choice_day/controller/start_end_day_controller.dart';
 import 'package:new_alarm_clock/ui/home/controller/alarm_list_controller.dart';
@@ -67,8 +69,11 @@ class SaveButton extends StatelessWidget {
             endDay: DateTime(2045),
             alarmState: true,
             folderName: '전체 알람',
-            alarmInterval: 0,
+            alarmInterval: Get.find<IntervalTextFieldController>().textEditingController.text == ''?
+              0:
+              int.parse(Get.find<IntervalTextFieldController>().textEditingController.text),
             dayOff: DateTime(2045),
+            monthRepeatDay: Get.find<MonthRepeatDayController>().monthRepeatDay,
             musicBool: Get.find<RingRadioListController>().power,
             musicPath: Get.find<RingRadioListController>().selectedMusicPath,
             musicVolume: Get.find<RingRadioListController>().volume,

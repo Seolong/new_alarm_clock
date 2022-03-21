@@ -11,7 +11,7 @@ class ColorValue{
   static final Color alarm = Color(0xffFFE6BC);
   static final Color alarmText = Color(0xff333333);
   static final Color alarmItemDivider = Colors.black12;
-  static final Color alarmActiveSwitch = Color(0xffBF8F46);
+  static final Color activeSwitch = Color(0xffBF8F46);
 
   static final Color defaultBackground = Get.theme.scaffoldBackgroundColor;
   static final Color mainBackground = Color(0xffE4CDA7);

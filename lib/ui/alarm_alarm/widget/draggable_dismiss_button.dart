@@ -3,15 +3,19 @@ import 'package:flutter/physics.dart';
 import 'package:flutter/services.dart';
 import 'package:new_alarm_clock/data/database/alarm_provider.dart';
 import 'package:new_alarm_clock/data/model/alarm_data.dart';
+import 'package:new_alarm_clock/data/model/alarm_week_repeat_data.dart';
 import 'package:new_alarm_clock/data/shared_preferences/app_state_shared_preferences.dart';
 import 'package:new_alarm_clock/data/shared_preferences/id_shared_preferences.dart';
+import 'package:new_alarm_clock/service/date_time_calculator.dart';
 import 'package:new_alarm_clock/service/music_handler.dart';
+import 'package:new_alarm_clock/utils/enum.dart';
 import 'package:new_alarm_clock/utils/values/color_value.dart';
 import 'package:new_alarm_clock/utils/values/my_font_family.dart';
 import 'package:vibration/vibration.dart';
 
 class DraggableDismissButton extends StatefulWidget {
-  const DraggableDismissButton({Key? key, required this.child}) : super(key: key);
+  const DraggableDismissButton({Key? key, required this.child})
+      : super(key: key);
   final Widget child;
 
   @override
@@ -24,13 +28,14 @@ class _DraggableDismissButtonState extends State<DraggableDismissButton>
   late Animation<Alignment> _animation;
   Alignment _dragAlignment = Alignment.center;
   final AppStateSharedPreferences _appStateSharedPreferences =
-  AppStateSharedPreferences();
+      AppStateSharedPreferences();
   final IdSharedPreferences _idSharedPreferences = IdSharedPreferences();
   Color buttonColor = ColorValue.dismissAlarmButton;
   Color buttonOutsideColor = ColorValue.mainBackground;
   int alarmId = -1;
   AlarmProvider _alarmProvider = AlarmProvider();
   MusicHandler _musicHandler = MusicHandler();
+  bool isDismissed = false; // 드래그나 꾹 눌렀으면 true
 
   @override
   void initState() {
@@ -70,15 +75,57 @@ class _DraggableDismissButtonState extends State<DraggableDismissButton>
   }
 
   //삭제가 아닌 state를 off
-  void offAlarm() async{
-    alarmId = await _idSharedPreferences.getAlarmedId();
-    AlarmData alarmData = await _alarmProvider.getAlarmById(alarmId)
-      ..alarmState = false;
-    await _alarmProvider.updateAlarm(alarmData);
-    _appStateSharedPreferences.setAppStateToMain();
-    Vibration.cancel();
-    _musicHandler.stopMusic();
-    SystemNavigator.pop();
+  void offAlarm() async {
+    //드래그하면 자꾸 중복호출돼서 만든 궁여지책
+    if(isDismissed == false){
+      isDismissed = true;
+      alarmId = await _idSharedPreferences.getAlarmedId();
+      AlarmData alarmData = await _alarmProvider.getAlarmById(alarmId)
+        ..alarmState = false;
+
+      //알람 타입이 반복일 때
+      if (alarmData.alarmType != RepeatMode.single &&
+          alarmData.alarmType != RepeatMode.off) {
+        DateTimeCalculator dateTimeCalculator = DateTimeCalculator();
+
+        //말일이면 lastDay 변수 추가해서 처리
+        //week이면 weekBool 변수 추가해서 처리
+        List<bool> weekBool = [];
+        bool lastDay = false;
+        if(alarmData.alarmType == RepeatMode.week){
+          AlarmWeekRepeatData? alarmWeekRepeatData = await _alarmProvider.getAlarmWeekDataById(alarmId);
+          weekBool.add(alarmWeekRepeatData!.sunday);
+          weekBool.add(alarmWeekRepeatData.monday);
+          weekBool.add(alarmWeekRepeatData.tuesday);
+          weekBool.add(alarmWeekRepeatData.wednesday);
+          weekBool.add(alarmWeekRepeatData.thursday);
+          weekBool.add(alarmWeekRepeatData.friday);
+          weekBool.add(alarmWeekRepeatData.saturday);
+        }
+        else if(alarmData.alarmType == RepeatMode.month){
+          if(alarmData.monthRepeatDay == 29){
+            lastDay = true;
+          }
+        }
+
+
+        alarmData.alarmDateTime = dateTimeCalculator.addDateTime(
+            alarmData.alarmType,
+            alarmData.alarmDateTime,
+            alarmData.alarmInterval,
+            weekBool : alarmData.alarmType == RepeatMode.week? weekBool: null,
+            lastDay: lastDay
+        );
+        print('print ${alarmData.alarmInterval}');
+        print(alarmData.alarmDateTime);
+      }
+
+      await _alarmProvider.updateAlarm(alarmData);
+      await _appStateSharedPreferences.setAppStateToMain();
+      await Vibration.cancel();
+      await _musicHandler.stopMusic();
+      SystemChannels.platform.invokeMethod('SystemNavigator.pop'); //SystemNavigator.pop()하니까 안 될 때가 있더라
+    }
   }
 
   @override
@@ -99,19 +146,18 @@ class _DraggableDismissButtonState extends State<DraggableDismissButton>
           _controller.stop();
         },
         onPanUpdate: (details) {
-          setState(() {
-            _dragAlignment += Alignment(
-              details.delta.dx / (size.width / 2),
-              details.delta.dy / (size.height / 2),
-            );
-          });
-          //print('${details.localPosition}');
           if (details.localPosition.dx < 130 ||
               details.localPosition.dx > 270 ||
               details.localPosition.dy < 30 ||
               details.localPosition.dy > 300) {
             offAlarm();
           }
+          setState(() {
+            _dragAlignment += Alignment(
+              details.delta.dx / (size.width / 2),
+              details.delta.dy / (size.height / 2),
+            );
+          });
         },
         onPanEnd: (details) {
           _runAnimation(details.velocity.pixelsPerSecond, size);
@@ -155,12 +201,15 @@ class _DraggableDismissButtonState extends State<DraggableDismissButton>
           ),
         ),
       ),
-      Positioned(bottom: 50,
-          child: Text('버튼을 꾹 누르거나 드래그 해서 알람 끄기',
+      Positioned(
+          bottom: 50,
+          child: Text(
+            '버튼을 꾹 누르거나 드래그 해서 알람 끄기',
             style: TextStyle(
                 color: ColorValue.alarmText,
                 fontWeight: FontWeight.bold,
-                fontFamily: MyFontFamily.mainFontFamily),))
+                fontFamily: MyFontFamily.mainFontFamily),
+          ))
     ]);
   }
 }

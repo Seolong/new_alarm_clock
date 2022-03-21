@@ -1,35 +1,38 @@
 import 'dart:async';
-import 'package:new_alarm_clock/data/model/alarm_data.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
+import 'package:new_alarm_clock/utils/values/string_value.dart';
 import 'package:perfect_volume_control/perfect_volume_control.dart';
 
 class MusicHandler {
   static final MusicHandler _instance = MusicHandler._internal();
   AudioPlayer currentPlayer = AudioPlayer();
+  Map<String, String> defaultRingPath = {
+    StringValue.beepBeep: 'assets/audio/alarm_clock.mp3',
+    StringValue.ringRing: 'assets/audio/old_telephone.mp3'
+  };
   late double _originalVolume;
 
-  factory MusicHandler(){
+  factory MusicHandler() {
+    PerfectVolumeControl.hideUI = true;
     return _instance;
   }
 
   MusicHandler._internal();
 
-  changeVolume(AlarmData alarm) async {
-    _originalVolume = await PerfectVolumeControl.volume;
-    PerfectVolumeControl.setVolume(alarm.musicVolume);
+  // changeVolume(double volume) async {
+  //   _originalVolume = await PerfectVolumeControl.volume;
+  //   print('current volume is $_originalVolume');
+  //   PerfectVolumeControl.setVolume(volume);
+  // }
+
+  initOriginalVolume() async {
+    _originalVolume = await PerfectVolumeControl.getVolume();
+    print('current volume is $_originalVolume');
   }
 
   /// Play device default alarm tone
-  Future<void> playDeviceDefaultTone(AlarmData alarm) async {
-    await FlutterRingtonePlayer.play(
-      android: AndroidSounds.alarm,
-      ios: IosSounds.glass,
-      looping: true,      // Android only - API >= 28
-      volume: alarm.musicVolume,      // Android only - API >= 28
-      asAlarm: true, // Android only - all APIs
-    );
-  }
+  Future<void> playDeviceDefaultTone(double volume) async {}
 
   /// This function initializes the music player with a sound path and
   /// starts playing based on the given alarm configuration.
@@ -39,15 +42,16 @@ class MusicHandler {
     // Prevent duplicate sounds
     if (currentPlayer.playing) await currentPlayer.stop();
     currentPlayer.setLoopMode(LoopMode.one);
-    // Initialize audio source
 
-    //playingSoundPath.value =
-    //    path; // Notifies UI isolate path is ready to play
-    await currentPlayer.setFilePath(absPath);
     PerfectVolumeControl.setVolume(volume);
+    if (absPath == StringValue.beepBeep) {
+      await currentPlayer.setAsset('assets/audio/alarm_clock.mp3');
+    } else if (absPath == StringValue.ringRing) {
+      await currentPlayer.setAsset('assets/audio/old_telephone.mp3');
+    } else {
+      await currentPlayer.setFilePath(absPath);
+    }
     await currentPlayer.play();
-
-    await currentPlayer.setVolume(volume);
 
     return true;
   }
@@ -58,11 +62,12 @@ class MusicHandler {
     //playingSoundPath.value = "";
     // Pause the music instead of stopping... Well i dunno whats up but the
     // developer of the player recommends it.
-    if (currentPlayer.playing) await currentPlayer.pause();
-    await currentPlayer.stop();
-    // Stop default ringtone player if active
-    await FlutterRingtonePlayer.stop();
+    if (currentPlayer.playing) {
+      await currentPlayer.stop();
+      // Stop default ringtone player if active
+      await FlutterRingtonePlayer.stop();
 
-    PerfectVolumeControl.setVolume(_originalVolume);
+      await PerfectVolumeControl.setVolume(_originalVolume);
+    }
   }
 }

@@ -33,7 +33,7 @@ class VibrationPage extends StatelessWidget {
                         style: TextStyle(
                             fontSize: 25,
                             fontWeight: FontWeight.bold,
-                            color: _.power ? ColorValue.alarm : Colors.grey),
+                            color: _.power ? ColorValue.activeSwitch : Colors.grey),
                       ),
                       value: _.power,
                       onChanged: (value) {
@@ -45,7 +45,9 @@ class VibrationPage extends StatelessWidget {
                         }
 
                         _.power = value;
-                      }),
+                      },
+                    activeColor: ColorValue.activeSwitch,
+                  ),
                 ),
               ),
               Padding(

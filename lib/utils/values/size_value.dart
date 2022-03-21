@@ -23,6 +23,8 @@ class SizeValue{
   static final double repeatTextFieldSize = 120;
   static final double repeatTextFieldTextSize = 30;
   static final double intervalTypeTextSize = 24;
+  static final double monthRepeatDayText = 28;
+  static final double yearRepeatDayText = 28;
 
   static final double oneAlarmCalendarTitleHeight = 50;
   static final double oneAlarmCalendarTitleTextSize = 25;

@@ -4,12 +4,13 @@ import 'package:get/get.dart';
 import 'package:new_alarm_clock/data/database/alarm_provider.dart';
 import 'package:new_alarm_clock/data/model/music_path_data.dart';
 import 'package:new_alarm_clock/service/music_handler.dart';
+import 'package:new_alarm_clock/utils/values/string_value.dart';
 
-class RingRadioListController extends GetxController{
+class RingRadioListController extends GetxController {
   MusicHandler musicHandler = MusicHandler();
   AlarmProvider _alarmProvider = AlarmProvider();
-  String _selectedMusicPath = 'blank'; //절대경로
-  RxBool _power = false.obs;//DB에서 가져오기
+  String _selectedMusicPath = StringValue.beepBeep; //절대경로
+  RxBool _power = false.obs; //DB에서 가져오기
   Map<String, Color> textColor = {
     'active': Colors.black,
     'inactive': Colors.grey
@@ -21,8 +22,7 @@ class RingRadioListController extends GetxController{
 
   RxDouble _volume = 0.7.obs; //addalarmpage에서 edit이면 db에서 받아오기
 
-
-  set selectedMusicPath(String musicPath){
+  set selectedMusicPath(String musicPath) {
     _selectedMusicPath = musicPath;
     musicHandler.playMusic(_volume.value, musicPath);
 
@@ -31,14 +31,13 @@ class RingRadioListController extends GetxController{
 
   String get selectedMusicPath => _selectedMusicPath;
 
-  void initSelectedMusicPathInEdit(String path){
+  void initSelectedMusicPathInEdit(String path) {
     _selectedMusicPath = path;
     update();
   }
 
-
   @override
-  void onInit() async{
+  void onInit() async {
     pathFutureList = _alarmProvider.getAllMusicPath();
     List<MusicPathData> varPathList = await pathFutureList ?? [];
     pathList = varPathList.obs;
@@ -46,10 +45,10 @@ class RingRadioListController extends GetxController{
     super.onInit();
   }
 
-  set power(bool value){
+  set power(bool value) {
     _power(value);
     //switch가 안 움직이면 대개 update()를 빼먹어서다.
-    if(_power.value == false){
+    if (_power.value == false) {
       musicHandler.stopMusic();
     }
     update();
@@ -57,34 +56,38 @@ class RingRadioListController extends GetxController{
 
   bool get power => _power.value;
 
-  set listTextColor(Color color){
+  set listTextColor(Color color) {
     _listTextColor['text'] = color;
     update();
   }
 
   Color get listTextColor => _listTextColor['text']!;
 
-  void inputMusicPath(MusicPathData musicPathData) async{
+  void inputMusicPath(MusicPathData musicPathData) async {
     await _alarmProvider.insertMusicPath(musicPathData);
     //List에 없을 때만 List에 넣는다
-    if(!pathList.any((e)=>e.path == musicPathData.path)){
+    if (!pathList.any((e) => e.path == musicPathData.path)) {
       pathList.add(musicPathData);
     }
     pathFutureList = _alarmProvider.getAllMusicPath();
     update();
   }
 
-  String getNameOfSong(String fullName){
+  String getNameOfSong(String fullName) {
+    if (fullName == StringValue.beepBeep || fullName == StringValue.ringRing) {
+      return fullName;
+    }
     var splitedNameByDirectory = fullName.split('/');
-    var name = splitedNameByDirectory[splitedNameByDirectory.length-1];
+    var name = splitedNameByDirectory[splitedNameByDirectory.length - 1];
     var splitedFileName = name.split('.');
-    var splitedFileNameWithoutExtension = splitedFileName.getRange(0, splitedFileName.length-1);
+    var splitedFileNameWithoutExtension =
+        splitedFileName.getRange(0, splitedFileName.length - 1);
     return splitedFileNameWithoutExtension.join('.');
   }
 
   double get volume => _volume.value;
 
-  set volume(double volume){
+  set volume(double volume) {
     _volume(volume);
     update();
   }
@@ -97,9 +100,4 @@ class RingRadioListController extends GetxController{
 
     super.onClose();
   }
-
-
-
-
-
 }

@@ -47,7 +47,10 @@ class GoingBackDialog extends StatelessWidget {
                     child: Text('예'),
                     onPressed: () {
                       if(pageName == choiceDay){
-                        Get.find<RepeatModeController>().setRepeatModeOff();
+                        //choiceDayPage 들어오기 전의 RepeatMode로
+                        //왜? 저장 안 하고 나갔으니까!
+                        Get.find<RepeatModeController>().repeatMode =
+                            Get.find<RepeatModeController>().previousRepeatMode;
                         print(Get.find<RepeatModeController>().getRepeatMode());
                       } else if(pageName == addAlarm){
                         SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark.copyWith(

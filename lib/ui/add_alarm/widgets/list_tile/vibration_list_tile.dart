@@ -39,7 +39,8 @@ class VibrationListTile extends AlarmDetailListTile {
               }
 
               _.power = value;
-            }
+            },
+          activeColor: ColorValue.activeSwitch,
         );
       }
     );

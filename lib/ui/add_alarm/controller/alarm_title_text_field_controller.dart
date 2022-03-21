@@ -8,22 +8,16 @@ class AlarmTitleTextFieldController extends GetxController {
   AlarmProvider _alarmProvider = AlarmProvider();
 
   @override
-  void onInit() {
-    //이걸 해야 입력 시 바로바로 클리어 버튼 생김
-    textEditingController.addListener(() {
-      update();
-    });
-    super.onInit();
-  }
-
-
-  @override
   void onClose() {
     textEditingController.dispose();
     super.onClose();
   }
 
   Future<void> initTitleTextField(int alarmId) async {
+    //이걸 해야 입력 시 바로바로 클리어 버튼 생김
+    textEditingController.addListener(() {
+      update();
+    });
     AlarmData alarmData = await _alarmProvider.getAlarmById(alarmId);
     textEditingController.text =
         alarmData.title != null ? alarmData.title! : '';

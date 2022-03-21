@@ -3,6 +3,7 @@ import 'package:new_alarm_clock/utils/enum.dart';
 
 class RepeatModeController extends GetxController{
   RepeatMode repeatMode = RepeatMode.off;
+  RepeatMode previousRepeatMode = RepeatMode.off;
 
   RepeatMode getRepeatMode(){
    return repeatMode;

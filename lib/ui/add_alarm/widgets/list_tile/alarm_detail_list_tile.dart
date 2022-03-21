@@ -69,12 +69,15 @@ class AlarmDetailListTile extends StatelessWidget {
                             //tileSubTitle
                             Expanded(
                               flex: 1,
-                              child: FittedBox(
-                                fit: BoxFit.scaleDown,
-                                child: ConstrainedBox(
-                                    constraints: BoxConstraints(
-                                        minWidth: 1, minHeight: 1),
-                                    child: tileSubTitle),
+                              child: Padding(
+                                padding: const EdgeInsets.only(left: 2.5),
+                                child: FittedBox(
+                                  fit: BoxFit.scaleDown,
+                                  child: ConstrainedBox(
+                                      constraints: BoxConstraints(
+                                          minWidth: 1, minHeight: 1),
+                                      child: tileSubTitle),
+                                ),
                               ),
                             ),
                           ],

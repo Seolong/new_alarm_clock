@@ -46,6 +46,7 @@ class ChoiceDayPage extends StatelessWidget {
               print(repeatModeController.getRepeatMode());
             });
             return Scaffold(
+              backgroundColor: ColorValue.addAlarmPageBackground,
               resizeToAvoidBottomInset : false,
               appBar: AppBar(
                 foregroundColor: ColorValue.appbarText,

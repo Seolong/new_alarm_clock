@@ -146,7 +146,7 @@ class AlarmItem extends StatelessWidget {
                                                 onChanged: (value) {
                                                   _.setSwitchBool(_id);
                                                 },
-                                                activeColor: ColorValue.alarmActiveSwitch,
+                                                activeColor: ColorValue.activeSwitch,
                                                 trackColor: Color(0xffC8C2BC),
                                               );}
                                             )),

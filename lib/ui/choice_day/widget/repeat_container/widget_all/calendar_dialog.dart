@@ -45,7 +45,7 @@ class CalendarDialog extends StatelessWidget {
             fontFamily:
             MyFontFamily.mainFontFamily),
         todayHighlightColor: Colors.amber,
-        selectionColor: Color(0xFF7fcd91),
+        selectionColor: ColorValue.calendarSelection,
         // backgroundColor: Colors.deepPurple,
         //allowViewNavigation: false,
         // view:  DateRangePickerView.month,

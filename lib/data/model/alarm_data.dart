@@ -11,6 +11,7 @@ final String columnAlarmPoint = 'alarmPoint';
 final String columnFolderName = 'folderName';
 final String columnAlarmInterval = 'alarmInterval';
 final String columnDayOff = 'dayOff';
+final String columnMonthRepeatDay = 'monthRepeatDay';
 final String columnMusicBool = 'musicBool';
 final String columnMusicPath = 'musicPath';
 final String columnMusicVolume = 'musicVolume';
@@ -30,6 +31,7 @@ class AlarmData {
   late String folderName;
   late int alarmInterval;
   late DateTime dayOff;
+  late int? monthRepeatDay; //29일은 말일
   late bool musicBool;
   late String musicPath;
   late double musicVolume;
@@ -49,6 +51,7 @@ class AlarmData {
     required this.folderName,
     required this.alarmInterval,
     required this.dayOff,
+    required this.monthRepeatDay,
     required this.musicBool,
     required this.musicPath,
     required this.musicVolume,
@@ -71,6 +74,7 @@ class AlarmData {
         folderName: json[columnFolderName],
         alarmInterval: json[columnAlarmInterval],
         dayOff: DateTime.parse(json[columnDayOff]),
+        monthRepeatDay: json[columnMonthRepeatDay],
         musicBool: TypeConverter.convertIntToBool(json[columnMusicBool]),
         musicPath: json[columnMusicPath],
         musicVolume: json[columnMusicVolume],
@@ -93,6 +97,7 @@ class AlarmData {
         columnFolderName: folderName,
         columnAlarmInterval: alarmInterval,
         columnDayOff: dayOff.toIso8601String(),
+        columnMonthRepeatDay: monthRepeatDay,
         columnMusicBool: TypeConverter.convertBoolToInt(musicBool),
         columnMusicPath: musicPath,
         columnMusicVolume: musicVolume,

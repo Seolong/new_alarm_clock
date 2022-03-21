@@ -50,6 +50,7 @@ class _AlarmAlarmPageState extends State<AlarmAlarmPage> {
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
                     if(snapshot.data!.musicBool == true){
+                      _musicHandler.initOriginalVolume();
                       _musicHandler.playMusic(snapshot.data!.musicVolume, snapshot.data!.musicPath);
                     }
                     if(snapshot.data!.vibrationBool == true){

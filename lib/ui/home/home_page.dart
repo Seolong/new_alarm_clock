@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:new_alarm_clock/data/shared_preferences/id_shared_preferences.dart';
 import 'package:new_alarm_clock/routes/app_routes.dart';
+import 'package:new_alarm_clock/service/music_handler.dart';
 import 'package:new_alarm_clock/ui/home/controller/tab_page_controller.dart';
 import 'package:new_alarm_clock/ui/home/page/folder_page/folder_page.dart';
 import 'package:new_alarm_clock/ui/home/page/inner_home_page/inner_home_page.dart';
@@ -31,12 +32,14 @@ class Home extends StatelessWidget{
 
 class HomePage extends StatelessWidget {
   final IdSharedPreferences idSharedPreferences = IdSharedPreferences();
+  MusicHandler _musicHandler = MusicHandler();
 
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark.copyWith(
         statusBarColor: ColorValue.mainBackground,
     ));
+    _musicHandler.initOriginalVolume();
     Get.put(TabPageController());
     return Scaffold(
         drawer: HomeDrawer(),

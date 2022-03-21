@@ -16,6 +16,7 @@ class AlarmListController extends GetxController{
     List<AlarmData> varAlarmList = await alarmFutureList;
     alarmList = varAlarmList.obs;
 
+    update();
     super.onInit();
   }
 

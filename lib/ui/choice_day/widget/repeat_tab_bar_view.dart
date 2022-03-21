@@ -12,18 +12,7 @@ class RepeatTabBarView extends StatelessWidget {
         _repeatContainerFactory.getRepeatContainer(RepeatMode.day)!,
         _repeatContainerFactory.getRepeatContainer(RepeatMode.week)!,
         _repeatContainerFactory.getRepeatContainer(RepeatMode.month)!,
-        Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(8.0),
-            color: Colors.indigoAccent,
-          ),
-        ),
-        Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(8.0),
-            color: Colors.redAccent,
-          ),
-        ),
+        _repeatContainerFactory.getRepeatContainer(RepeatMode.year)!,
       ],
     );
   }

@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:new_alarm_clock/ui/alarm_detail_page/ring/controller/ring_radio_list_controller.dart';
+import 'package:new_alarm_clock/service/music_handler.dart';
 import 'package:vibration/vibration.dart';
-import 'package:get/get.dart';
 
 class LifeCycleListener extends WidgetsBindingObserver {
+  MusicHandler _musicHandler = MusicHandler();
+
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) async {
     switch (state) {
@@ -11,7 +12,7 @@ class LifeCycleListener extends WidgetsBindingObserver {
       case AppLifecycleState.inactive:
       case AppLifecycleState.detached:
         Vibration.cancel();
-        Get.find<RingRadioListController>().musicHandler.stopMusic();
+        _musicHandler.stopMusic();
         break;
       case AppLifecycleState.resumed:
         break;

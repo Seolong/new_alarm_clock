@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:new_alarm_clock/ui/choice_day/controller/month_repaet_day_controller.dart';
 import 'package:new_alarm_clock/utils/values/color_value.dart';
 import 'package:new_alarm_clock/utils/values/my_font_family.dart';
 import 'package:new_alarm_clock/utils/values/size_value.dart';
@@ -74,7 +75,7 @@ class ChoiceDayButton extends StatelessWidget {
               child: GridView.builder(
                 shrinkWrap: true,
                 padding: EdgeInsets.all(7.5),
-                itemCount: 32, //item 개수
+                itemCount: 29, //item 개수
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 5, //1 개의 행에 보여줄 item 개수
                   //childAspectRatio: 1 / 2, //item 의 가로 1, 세로 2 의 비율
@@ -99,6 +100,8 @@ class ChoiceDayButton extends StatelessWidget {
                           BorderRadius.all(Radius.circular(5)),
                         onTap: (){
                           print(index+1);
+                          Get.find<MonthRepeatDayController>().monthRepeatDay = index+1;
+                          Get.back();
                         },
                         child: Container(
                           alignment: Alignment.center,
@@ -113,7 +116,7 @@ class ChoiceDayButton extends StatelessWidget {
                               constraints:
                               BoxConstraints(minWidth: 1, minHeight: 1),
                               child: Text(
-                                index != 31 ? '${index + 1}': '말일',
+                                index != 28 ? '${index + 1}': '말일',
                                 style: TextStyle(
                                     color: Colors.black54,
                                     fontSize: 1000,

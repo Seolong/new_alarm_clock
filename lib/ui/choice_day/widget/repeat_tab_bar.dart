@@ -11,7 +11,7 @@ class RepeatTabBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final repeatModeController = Get.put(RepeatModeController());
     return DefaultTabController(
-      length: 5,
+      length: 4,
       child: Builder(
         builder: (context) {
           final tabController = DefaultTabController.of(context)!;
@@ -43,10 +43,7 @@ class RepeatTabBar extends StatelessWidget {
                       text: "월",
                     ),
                     Tab(
-                      text: "Four",
-                    ),
-                    Tab(
-                      text: "Five",
+                      text: "년",
                     ),
                   ],
                 ),

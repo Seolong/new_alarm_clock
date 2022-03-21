@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:new_alarm_clock/ui/choice_day/controller/interval_text_field_controller.dart';
 import 'package:new_alarm_clock/ui/choice_day/controller/start_end_day_controller.dart';
 import 'package:new_alarm_clock/ui/choice_day/widget/repeat_container/widget_all/calendar_dialog.dart';
 import 'package:new_alarm_clock/utils/values/color_value.dart';
-import 'package:new_alarm_clock/utils/values/my_font_family.dart';
 import 'package:new_alarm_clock/utils/values/size_value.dart';
 import 'package:get/get.dart';
-import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 class RepeatContainer extends StatelessWidget {
   late IconButton startDayButton;
@@ -22,6 +21,7 @@ class RepeatContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Get.put(StartEndDayController());
+    Get.put(IntervalTextFieldController());
     return Container(
         child: Column(
       children: [
@@ -157,19 +157,24 @@ class RepeatContainer extends StatelessWidget {
               Container(
                 width: SizeValue.repeatTextFieldSize,
                 padding: EdgeInsets.fromLTRB(0, 0, 10, 0),
-                child: TextField(
-                  keyboardType: TextInputType.number,
-                  inputFormatters: [
-                    //아래에 글자 수 제한도 안보이고 공간도 차지 안하게
-                    LengthLimitingTextInputFormatter(5),
-                    FilteringTextInputFormatter.digitsOnly //숫자만 입력
-                  ],
-                  textAlign: TextAlign.end,
-                  decoration: InputDecoration(
-                    contentPadding: EdgeInsets.symmetric(vertical: 0),
-                    isDense: true,
-                  ),
-                  style: TextStyle(fontSize: SizeValue.repeatTextFieldTextSize),
+                child: GetBuilder<IntervalTextFieldController>(
+                  builder: (_) {
+                    return TextField(
+                      keyboardType: TextInputType.number,
+                      controller: _.textEditingController,
+                      inputFormatters: [
+                        //아래에 글자 수 제한도 안보이고 공간도 차지 안하게
+                        LengthLimitingTextInputFormatter(5),
+                        FilteringTextInputFormatter.digitsOnly //숫자만 입력
+                      ],
+                      textAlign: TextAlign.end,
+                      decoration: InputDecoration(
+                        contentPadding: EdgeInsets.symmetric(vertical: 0),
+                        isDense: true,
+                      ),
+                      style: TextStyle(fontSize: SizeValue.repeatTextFieldTextSize),
+                    );
+                  }
                 ),
               ),
               intervalType,

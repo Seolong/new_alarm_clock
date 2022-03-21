@@ -2,6 +2,7 @@ import 'package:new_alarm_clock/data/model/alarm_data.dart';
 import 'package:new_alarm_clock/data/model/alarm_week_repeat_data.dart';
 import 'package:new_alarm_clock/data/model/music_path_data.dart';
 import 'package:new_alarm_clock/service/alarm_scheduler.dart';
+import 'package:new_alarm_clock/utils/values/string_value.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -47,6 +48,7 @@ class AlarmProvider {
           $columnFolderName text not null,
           $columnAlarmInterval integer not null,
           $columnDayOff text not null,
+          $columnMonthRepeatDay integer,
           $columnMusicBool integer not null,
           $columnMusicPath text not null,
           $columnMusicVolume real not null,
@@ -72,6 +74,9 @@ class AlarmProvider {
       create table $musicPathTableName(
         $columnPath text primary key)
     ''');
+
+    await db.insert(musicPathTableName, {columnPath: StringValue.beepBeep});
+    await db.insert(musicPathTableName, {columnPath: StringValue.ringRing});
   }
 
   Future<Database> initializeDatabase() async {

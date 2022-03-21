@@ -1,8 +1,6 @@
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:new_alarm_clock/data/database/alarm_provider.dart';
 import 'package:new_alarm_clock/data/model/music_path_data.dart';
-import 'package:new_alarm_clock/data/shared_preferences/id_shared_preferences.dart';
 import 'package:new_alarm_clock/ui/alarm_detail_page/ring/controller/ring_radio_list_controller.dart';
 import 'package:new_alarm_clock/ui/alarm_detail_page/ring/widget/ring_radio_list.dart';
 import 'package:new_alarm_clock/ui/alarm_detail_page/ring/widget/volume_slider.dart';
@@ -42,7 +40,7 @@ class RingPage extends StatelessWidget {
                         style: TextStyle(
                             fontSize: 25,
                             fontWeight: FontWeight.bold,
-                            color: _.power ? ColorValue.alarm : Colors.grey),
+                            color: _.power ? ColorValue.activeSwitch : Colors.grey),
                       ),
                       value: _.power,
                       onChanged: (value) {
@@ -53,7 +51,9 @@ class RingPage extends StatelessWidget {
                         }
 
                         _.power = value;
-                      }),
+                      },
+                    activeColor: ColorValue.activeSwitch,
+                  ),
                 ),
               ),
               Padding(
