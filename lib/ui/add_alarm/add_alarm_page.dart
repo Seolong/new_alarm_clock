@@ -203,14 +203,21 @@ class AddAlarmPage extends StatelessWidget {
                       ),
                     ),
 
-                    Container(
-                      height: 25,
-                      child: Text(
-                        //임시
-                        Get.find<TimeSpinnerController>()
-                            .alarmDateTime
-                            .toString(),
-                      ),
+                    GetBuilder<StartEndDayController>(
+                      builder: (_) {
+                        return Container(
+                          padding: EdgeInsets.only(top: 5),
+                          height: 40,
+                          child: Text(
+                            //올해면 월일만 올해가 아니면 년월일
+                            _.start['monthDay'],
+                            style: TextStyle(
+                              fontSize: 24,
+                              fontWeight: FontWeight.bold
+                            ),
+                          ),
+                        );
+                      }
                     ),
 
                     //TitleTextField

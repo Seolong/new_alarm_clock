@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:new_alarm_clock/ui/add_alarm/controller/day_of_week_controller.dart';
+import 'package:new_alarm_clock/ui/choice_day/controller/interval_text_field_controller.dart';
+import 'package:new_alarm_clock/ui/choice_day/controller/start_end_day_controller.dart';
 import 'package:new_alarm_clock/ui/choice_day/widget/going_back_dialog.dart';
 import 'package:new_alarm_clock/ui/choice_day/widget/one_alarm_container.dart';
 import 'package:new_alarm_clock/ui/choice_day/widget/repeat_tab_bar.dart';
+import 'package:new_alarm_clock/utils/enum.dart';
 import 'package:new_alarm_clock/utils/values/color_value.dart';
 import 'package:get/get.dart';
 import 'package:new_alarm_clock/utils/values/my_font_family.dart';
@@ -65,6 +69,16 @@ class ChoiceDayPage extends StatelessWidget {
                       fit: BoxFit.scaleDown,
                       child: TextButton(
                           onPressed: (){
+                            Get.find<StartEndDayController>().setStartDayWithButton(
+                                repeatModeController.repeatMode);
+                            if(repeatModeController.repeatMode != RepeatMode.single){
+                              if(Get.find<IntervalTextFieldController>().textEditingController.text == ''){
+                                Get.find<IntervalTextFieldController>().textEditingController.text = '1';
+                              }
+                            }
+                            else if(repeatModeController.repeatMode != RepeatMode.week){
+                              Get.find<DayOfWeekController>().resetAllDayButtonStateToFalse();
+                            }
                             Get.back();
                           },
                           child: Text(

@@ -12,6 +12,6 @@ class YearRepeatDayController extends GetxController{
   }
 
   String getYearRepeatDay_monthDay(){
-    return DateFormat('MM월 dd일에').format(_yearRepeatDay.value);
+    return DateFormat('M월 d일에').format(_yearRepeatDay.value);
   }
 }

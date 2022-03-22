@@ -1,5 +1,14 @@
 import 'package:jiffy/jiffy.dart';
+import 'package:new_alarm_clock/ui/choice_day/controller/month_repaet_day_controller.dart';
+import 'package:new_alarm_clock/ui/choice_day/controller/year_repeat_day_controller.dart';
 import 'package:new_alarm_clock/utils/enum.dart';
+import 'package:get/get.dart';
+
+// jiffy 쓰는 이유
+//It works but the problem is in momentjs/c#
+// if you substract 6 months from 2000-08-31
+// you get 2000-02-29 and with dart you get 2000-03-02,
+// which not so nice at all.
 
 class DateTimeCalculator {
   DateTime _addDays(DateTime dateTime, int days) {
@@ -81,6 +90,77 @@ class DateTimeCalculator {
         return _addYears(dateTime, interval);
       default:
         assert(false, 'addDateTime error in DateTimeCalculator');
+        return DateTime.now();
+    }
+  }
+
+  DateTime _getStartNearWeekDay(DateTime currentStartDateTime, List<bool> weekBool){
+    int currentWeekDay = currentStartDateTime.weekday;
+    if(currentWeekDay == DateTime.sunday){ //일요일을 0으로
+      currentWeekDay = 0;
+    }
+    if(weekBool[currentWeekDay] == false){
+      for(int i=1; i<=6; i++){
+        if(weekBool[(currentWeekDay+i)%7] == true){
+          return Jiffy(currentStartDateTime).add(days: i).dateTime;
+        }
+      }
+      assert(false, 'error in _getStartNearWeekDay of DateTimeCalculator');
+      return currentStartDateTime;
+    }
+    else{
+      return currentStartDateTime;
+    }
+  }
+
+  DateTime _getStartNearMonthDay(DateTime currentStartDateTime){
+    int monthDay = Get.find<MonthRepeatDayController>().monthRepeatDay!;
+    if(currentStartDateTime.day < monthDay){
+      int difference = monthDay - currentStartDateTime.day;
+      return currentStartDateTime.add(Duration(days: difference));
+    }
+    else if(currentStartDateTime.day > monthDay){
+      int difference = currentStartDateTime.day - monthDay;
+      return currentStartDateTime.subtract(Duration(days: difference));
+    }
+    else{ //currentStartDateTime.day == monthDay
+      return currentStartDateTime;
+    }
+  }
+
+  DateTime _getStartNearYearDay(DateTime currentStartDateTime){
+    DateTime now = DateTime.now();
+    DateTime yearRepeatDay = Get.find<YearRepeatDayController>().yearRepeatDay;
+    DateTime thisYearRepeatDay = DateTime(now.year, yearRepeatDay.month,
+      yearRepeatDay.day);
+    DateTime thisYearStartDay = DateTime(now.year, currentStartDateTime.month,
+      currentStartDateTime.day);
+    //DateTime yearRepeatDay
+    //서로 연도 맞춘 다음에 비교해라
+    if(thisYearStartDay.isBefore(thisYearRepeatDay)){
+      return yearRepeatDay;
+    }
+    else if(thisYearStartDay.isAfter(thisYearRepeatDay)){
+      return Jiffy(yearRepeatDay).add(years: 1).dateTime;
+    }
+    else{ // currentStartDateTime == yearRepeatDay
+      return currentStartDateTime;
+    }
+  }
+
+  DateTime getStartNearDay(RepeatMode repeatMode, DateTime currentStartDateTime,
+  {List<bool>? weekBool}){
+    switch(repeatMode){
+      case RepeatMode.day:
+        return currentStartDateTime;
+      case RepeatMode.week:
+        return _getStartNearWeekDay(currentStartDateTime, weekBool!);
+      case RepeatMode.month:
+        return _getStartNearMonthDay(currentStartDateTime);
+      case RepeatMode.year:
+        return _getStartNearYearDay(currentStartDateTime);
+      default:
+        assert(false, 'error in getStartNearDay of DateTimeCalculator');
         return DateTime.now();
     }
   }
