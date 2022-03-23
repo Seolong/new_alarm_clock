@@ -5,6 +5,8 @@ import 'package:new_alarm_clock/ui/choice_day/controller/repeat_mode_controller.
 import 'package:new_alarm_clock/ui/global/auto_size_text.dart';
 import 'package:new_alarm_clock/utils/values/color_value.dart';
 
+
+// 리팩터링할 때 이거 할 수 있으면 AddAlarmPage의 widget에 넣자
 class GoingBackDialog extends StatelessWidget {
   String buttonName;
   String pageName;

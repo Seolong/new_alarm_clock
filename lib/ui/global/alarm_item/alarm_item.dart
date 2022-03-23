@@ -7,6 +7,7 @@ import 'package:new_alarm_clock/ui/global/alarm_item/controller/alarm_skip_butto
 import 'package:new_alarm_clock/ui/global/alarm_item/controller/alarm_switch_controller.dart';
 import 'package:new_alarm_clock/ui/global/alarm_item/controller/selected_alarm_controller.dart';
 import 'package:new_alarm_clock/ui/home/controller/alarm_list_controller.dart';
+import 'package:new_alarm_clock/utils/enum.dart';
 import 'package:new_alarm_clock/utils/values/color_value.dart';
 import 'package:new_alarm_clock/utils/values/size_value.dart';
 import 'package:get/get.dart';
@@ -30,6 +31,33 @@ class AlarmItem extends StatelessWidget {
       return DateFormat('yyyy년 M월 d일').format(alarmData.alarmDateTime);
     }
     return DateFormat('M월 d일').format(alarmData.alarmDateTime);
+  }
+
+  String getTextOfRepeatMode(RepeatMode repeatMode){
+    switch(repeatMode){
+      case RepeatMode.off:
+      case RepeatMode.single:
+        return '';
+      case RepeatMode.day:
+        return '일마다 반복';
+      case RepeatMode.week:
+        return '주마다 반복';
+      case RepeatMode.month:
+        return '달마다 반복';
+      case RepeatMode.year:
+        return '년마다 반복';
+    }
+  }
+
+  String getTextOfAlarmPoint(AlarmData alarmData){
+    //off거나 single이면 비어있고
+    //그 외에는 '1일마다 반복'
+    if(alarmData.alarmType == RepeatMode.off || alarmData.alarmType == RepeatMode.single){
+      return '';
+    }
+    else{
+      return ' | ${alarmData.alarmInterval}${getTextOfRepeatMode(alarmData.alarmType)}';
+    }
   }
 
 //color들 싹 조정하기
@@ -113,9 +141,18 @@ class AlarmItem extends StatelessWidget {
                                         itemText: DateFormat('hh:mm a').format((snapshot.data)!
                                             .alarmDateTime).toLowerCase()),
                                     //alarmPoint 텍스트
-                                    AlarmItemText(//수정하세요~
-                                        flex: 3,
-                                        itemText: convertAlarmDateTime((snapshot.data)!)),
+                                    Flexible(
+                                      flex: 3,
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          AlarmItemText(//수정하세요~
+                                              flex: 0,
+                                              itemText: convertAlarmDateTime((snapshot.data)!)),
+                                          AlarmItemText(flex: 0, itemText: getTextOfAlarmPoint((snapshot.data)!)),
+                                        ],
+                                      ),
+                                    ),
                                     //Spacer(),
                                   ],
                                 ),

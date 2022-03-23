@@ -15,25 +15,30 @@ import 'controller/repeat_mode_controller.dart';
 class ChoiceDayPage extends StatelessWidget {
   String appBarBackButtonName = 'appBar';
   String systemBackButtonName = 'system';
+  final repeatModeController = Get.put(RepeatModeController());
 
 
-  Future<bool> _onTouchSystemBackButton() async {
-    return await Get.dialog(
-        GoingBackDialog('ChoiceDay','system')
-    );
-  }
-
-  Future<bool> _onTouchAppBarBackButton() async {
-    return await Get.dialog(
-        GoingBackDialog('ChoiceDay', 'appBar')
-    );
+  Future<bool> _onTouchBackButton() async {
+    if(repeatModeController.repeatMode != RepeatMode.week){
+      Get.find<DayOfWeekController>().resetAllDayButtonStateToFalse();
+    }
+    if(repeatModeController.repeatMode == RepeatMode.single){
+      Get.back();
+      return Future.value(false);
+    }
+    Get.find<StartEndDayController>().setStartDayWithButton(
+        repeatModeController.repeatMode);
+    if(Get.find<IntervalTextFieldController>().textEditingController.text == ''){
+      Get.find<IntervalTextFieldController>().textEditingController.text = '1';
+    }
+    Get.back();
+    return Future.value(false);
   }
 
   @override
   Widget build(BuildContext context) {
-    final repeatModeController = Get.put(RepeatModeController());
     return WillPopScope(
-      onWillPop: _onTouchSystemBackButton,
+      onWillPop: _onTouchBackButton,
       child: DefaultTabController(
         length: 2,
         //뭐 builder로 감싸서 싸바싸바 아이샤바
@@ -57,43 +62,11 @@ class ChoiceDayPage extends StatelessWidget {
                 backgroundColor: ColorValue.appbar,
                 leading: IconButton(
                   icon: Icon(Icons.arrow_back_ios_rounded),
-                  onPressed: _onTouchAppBarBackButton,
+                  onPressed: _onTouchBackButton,
                 ),
                 title: Text(
                   '날짜 선택'
                 ),
-                actions: [
-                  Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: FittedBox(
-                      fit: BoxFit.scaleDown,
-                      child: TextButton(
-                          onPressed: (){
-                            Get.find<StartEndDayController>().setStartDayWithButton(
-                                repeatModeController.repeatMode);
-                            if(repeatModeController.repeatMode != RepeatMode.single){
-                              if(Get.find<IntervalTextFieldController>().textEditingController.text == ''){
-                                Get.find<IntervalTextFieldController>().textEditingController.text = '1';
-                              }
-                            }
-                            else if(repeatModeController.repeatMode != RepeatMode.week){
-                              Get.find<DayOfWeekController>().resetAllDayButtonStateToFalse();
-                            }
-                            Get.back();
-                          },
-                          child: Text(
-                              '저장',
-                            style: TextStyle(
-                                fontSize: 1000,
-                              color: ColorValue.appbarText,
-                              fontWeight: FontWeight.bold,
-                              fontFamily: MyFontFamily.mainFontFamily
-                            ),
-                          )
-                      ),
-                    ),
-                  )
-                ],
               ),
               body: SafeArea(
                 child: Column(

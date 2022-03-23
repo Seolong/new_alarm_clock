@@ -32,7 +32,7 @@ class AddAlarmPage extends StatelessWidget {
   int alarmId = -1;
   AlarmProvider _alarmProvider = AlarmProvider();
   final AlarmDetailListTileFactory _alarmDetailListTileFactory =
-      AlarmDetailListTileFactory();
+  AlarmDetailListTileFactory();
   final IdSharedPreferences idSharedPreferences = IdSharedPreferences();
 
   Future<void> initEditAlarm() async {
@@ -46,6 +46,7 @@ class AddAlarmPage extends StatelessWidget {
     Get.find<RingRadioListController>().initSelectedMusicPathInEdit(alarmData.musicPath);
     Get.find<IntervalTextFieldController>().initTextFieldInEditRepeat(alarmData.alarmInterval);
     Get.find<MonthRepeatDayController>().initInEdit(alarmData.monthRepeatDay);
+    Get.find<StartEndDayController>().setStart(alarmData.alarmDateTime);
   }
 
   Future<bool> _onTouchAppBarBackButton() async {
@@ -54,6 +55,16 @@ class AddAlarmPage extends StatelessWidget {
 
   Future<bool> _onTouchSystemBackButton() async {
     return await Get.dialog(GoingBackDialog('AddAlarm', 'system'));
+  }
+
+  bool _isAbsorbPointerOfDayButton(RepeatModeController repeatModeController){
+    if(repeatModeController.repeatMode == RepeatMode.off
+        || repeatModeController.repeatMode == RepeatMode.week){
+      return false;
+    }
+    else{
+      return true;
+    }
   }
 
   @override
@@ -65,7 +76,7 @@ class AddAlarmPage extends StatelessWidget {
     final repeatModeController = Get.put(RepeatModeController());
     final dayOfWeekController = Get.put(DayOfWeekController());
     final alarmTitleTextFieldController =
-        Get.put(AlarmTitleTextFieldController());
+    Get.put(AlarmTitleTextFieldController());
     final timeSpinnerController = Get.put(TimeSpinnerController());
     final startEndDayController = Get.put(StartEndDayController());
     final ringRadioListController = Get.put(RingRadioListController());
@@ -150,36 +161,43 @@ class AddAlarmPage extends StatelessWidget {
                                 //editMode에다가 WeekMode여야 한다
                                 initState: (_) => mode == StringValue.editMode
                                     ? dayOfWeekController
-                                        .initWhenEditMode(alarmId)
+                                    .initWhenEditMode(alarmId)
                                     : null,
                                 builder: (_) => LayoutBuilder(
                                   builder: (BuildContext context,
-                                          BoxConstraints constraints) =>
-                                      Row(
-                                    children: [
-                                      Expanded(
-                                          child: DayButton(
-                                              constraints, DayWeek.Sun, _)),
-                                      Expanded(
-                                          child: DayButton(
-                                              constraints, DayWeek.Mon, _)),
-                                      Expanded(
-                                          child: DayButton(
-                                              constraints, DayWeek.Tue, _)),
-                                      Expanded(
-                                          child: DayButton(
-                                              constraints, DayWeek.Wed, _)),
-                                      Expanded(
-                                          child: DayButton(
-                                              constraints, DayWeek.Thu, _)),
-                                      Expanded(
-                                          child: DayButton(
-                                              constraints, DayWeek.Fri, _)),
-                                      Expanded(
-                                          child: DayButton(
-                                              constraints, DayWeek.Sat, _)),
-                                    ],
-                                  ),
+                                      BoxConstraints constraints) =>
+                                      GetBuilder<RepeatModeController>(
+                                          builder: (repeatCont) {
+                                            return AbsorbPointer( // off나 week이 아니면 터치 막아버림
+                                              absorbing: _isAbsorbPointerOfDayButton(repeatCont),
+                                              child: Row(
+                                                children: [
+                                                  Expanded(
+                                                      child: DayButton(
+                                                          constraints, DayWeek.Sun, _)),
+                                                  Expanded(
+                                                      child: DayButton(
+                                                          constraints, DayWeek.Mon, _)),
+                                                  Expanded(
+                                                      child: DayButton(
+                                                          constraints, DayWeek.Tue, _)),
+                                                  Expanded(
+                                                      child: DayButton(
+                                                          constraints, DayWeek.Wed, _)),
+                                                  Expanded(
+                                                      child: DayButton(
+                                                          constraints, DayWeek.Thu, _)),
+                                                  Expanded(
+                                                      child: DayButton(
+                                                          constraints, DayWeek.Fri, _)),
+                                                  Expanded(
+                                                      child: DayButton(
+                                                          constraints, DayWeek.Sat, _)),
+                                                ],
+                                              ),
+                                            );
+                                          }
+                                      ),
                                 ),
                               ),
                             ),
@@ -204,20 +222,20 @@ class AddAlarmPage extends StatelessWidget {
                     ),
 
                     GetBuilder<StartEndDayController>(
-                      builder: (_) {
-                        return Container(
-                          padding: EdgeInsets.only(top: 5),
-                          height: 40,
-                          child: Text(
-                            //올해면 월일만 올해가 아니면 년월일
-                            _.start['monthDay'],
-                            style: TextStyle(
-                              fontSize: 24,
-                              fontWeight: FontWeight.bold
+                        builder: (_) {
+                          return Container(
+                            padding: EdgeInsets.only(top: 5),
+                            height: 40,
+                            child: Text(
+                              //올해면 월일만. 올해가 아니면 년월일
+                              '${_.start['monthDay']}',
+                              style: TextStyle(
+                                  fontSize: 24,
+                                  fontWeight: FontWeight.bold
+                              ),
                             ),
-                          ),
-                        );
-                      }
+                          );
+                        }
                     ),
 
                     //TitleTextField
@@ -227,7 +245,7 @@ class AddAlarmPage extends StatelessWidget {
                       child: GetBuilder<AlarmTitleTextFieldController>(
                         initState: (_) => mode == StringValue.editMode
                             ? alarmTitleTextFieldController
-                                .initTitleTextField(alarmId)
+                            .initTitleTextField(alarmId)
                             : null,
                         builder: (_) => TextField(
                           controller: _.textEditingController,
@@ -249,14 +267,14 @@ class AddAlarmPage extends StatelessWidget {
                               ),
                               suffixIcon: _.textEditingController.text.length > 0
                                   ? IconButton(
-                                      icon: Icon(
-                                        Icons.clear,
-                                        color: Colors.black,
-                                      ),
-                                      onPressed: () => _.resetField(),
-                                    )
+                                icon: Icon(
+                                  Icons.clear,
+                                  color: Colors.black,
+                                ),
+                                onPressed: () => _.resetField(),
+                              )
                                   : null // Show the clear button if the text field has something
-                              ),
+                          ),
                         ),
                       ),
                     ),
