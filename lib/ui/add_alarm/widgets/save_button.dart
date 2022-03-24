@@ -29,8 +29,9 @@ class SaveButton extends StatelessWidget {
   DayOfWeekController dayOfWeekController;
   String mode;
   int alarmId;
+  String currentFolderName;
 
-  SaveButton(this.alarmId, this.mode,
+  SaveButton(this.alarmId, this.mode, this.currentFolderName,
       {required this.repeatModeController,
       required this.timeSpinnerController,
       required this.startEndDayController,
@@ -68,7 +69,7 @@ class SaveButton extends StatelessWidget {
             alarmDateTime: timeSpinnerController.alarmDateTime,
             endDay: DateTime(2045),
             alarmState: true,
-            folderName: '전체 알람',
+            folderName: currentFolderName,
             alarmInterval: Get.find<IntervalTextFieldController>().textEditingController.text == ''?
               0:
               int.parse(Get.find<IntervalTextFieldController>().textEditingController.text),

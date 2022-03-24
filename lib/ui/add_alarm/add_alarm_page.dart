@@ -30,6 +30,7 @@ final String toBeAddedIdName = 'toBeAddedId';
 class AddAlarmPage extends StatelessWidget {
   String mode = '';
   int alarmId = -1;
+  String currentFolderName = '';
   AlarmProvider _alarmProvider = AlarmProvider();
   final AlarmDetailListTileFactory _alarmDetailListTileFactory =
   AlarmDetailListTileFactory();
@@ -72,6 +73,7 @@ class AddAlarmPage extends StatelessWidget {
     Map<String, dynamic> argFromPreviousPage = Get.arguments;
     mode = argFromPreviousPage[StringValue.mode]; //add or edit
     alarmId = argFromPreviousPage[StringValue.alarmId];
+    currentFolderName = argFromPreviousPage[StringValue.folderName];
 
     final repeatModeController = Get.put(RepeatModeController());
     final dayOfWeekController = Get.put(DayOfWeekController());
@@ -119,6 +121,7 @@ class AddAlarmPage extends StatelessWidget {
                   child: SaveButton(
                     alarmId,
                     mode,
+                    currentFolderName,
                     repeatModeController: repeatModeController,
                     timeSpinnerController: timeSpinnerController,
                     startEndDayController: startEndDayController,

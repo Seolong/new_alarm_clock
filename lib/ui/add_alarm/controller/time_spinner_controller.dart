@@ -14,7 +14,7 @@ class TimeSpinnerController extends GetxController{
 
   @override
   void onInit() {
-    _alarmDateTime = DateTime.now().toIso8601String().obs;
+    _alarmDateTime = DateTime.now().add(Duration(minutes: 5)).toIso8601String().obs;
     dateTimeFuture = null;
     debounce(_alarmDateTime, (_)=>print('$_ changed'), time: Duration(seconds: 1));
 
@@ -39,7 +39,7 @@ class TimeSpinnerController extends GetxController{
   }
 
   void initDateTimeInAdd(){
-    _alarmDateTime = DateTime.now().toIso8601String().obs;
+    _alarmDateTime = DateTime.now().add(Duration(minutes: 5)).toIso8601String().obs;
     dateTimeFuture = Future.value(DateTime.parse(_alarmDateTime.value));
   }
 

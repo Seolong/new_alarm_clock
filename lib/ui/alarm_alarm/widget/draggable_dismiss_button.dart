@@ -80,8 +80,7 @@ class _DraggableDismissButtonState extends State<DraggableDismissButton>
     if(isDismissed == false){
       isDismissed = true;
       alarmId = await _idSharedPreferences.getAlarmedId();
-      AlarmData alarmData = await _alarmProvider.getAlarmById(alarmId)
-        ..alarmState = false;
+      AlarmData alarmData = await _alarmProvider.getAlarmById(alarmId);
 
       //알람 타입이 반복일 때
       if (alarmData.alarmType != RepeatMode.single &&
@@ -118,6 +117,9 @@ class _DraggableDismissButtonState extends State<DraggableDismissButton>
         );
         print('print ${alarmData.alarmInterval}');
         print(alarmData.alarmDateTime);
+      }
+      else{
+        alarmData.alarmState = false;
       }
 
       await _alarmProvider.updateAlarm(alarmData);

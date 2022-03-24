@@ -1,4 +1,5 @@
 import 'package:new_alarm_clock/data/model/alarm_data.dart';
+import 'package:new_alarm_clock/data/model/alarm_folder_data.dart';
 import 'package:new_alarm_clock/data/model/alarm_week_repeat_data.dart';
 import 'package:new_alarm_clock/data/model/music_path_data.dart';
 import 'package:new_alarm_clock/service/alarm_scheduler.dart';
@@ -12,6 +13,7 @@ class AlarmProvider {
   String tableName = 'alarm';
   String weekRepeatTableName = 'week_repeat';
   String musicPathTableName = 'music_path';
+  String alarmFolderTableName = 'alarm_folder';
 
   AlarmProvider._createInstance();
 
@@ -75,8 +77,14 @@ class AlarmProvider {
         $columnPath text primary key)
     ''');
 
+    await db.execute('''
+      create table $alarmFolderTableName(
+        $columnFolderName text primary key)
+    ''');
+
     await db.insert(musicPathTableName, {columnPath: StringValue.beepBeep});
     await db.insert(musicPathTableName, {columnPath: StringValue.ringRing});
+    await db.insert(alarmFolderTableName, {columnFolderName: '전체 알람'});
   }
 
   Future<Database> initializeDatabase() async {
@@ -216,7 +224,7 @@ class AlarmProvider {
     return await musicPathList;
   }
 
-  Future<MusicPathData> getMusicPathById(String path) async {
+  Future<MusicPathData> getMusicPathByName(String path) async {
     MusicPathData musicPathData;
     Database db = await this.database;
     var result =
@@ -224,5 +232,56 @@ class AlarmProvider {
     musicPathData = MusicPathData.fromMap(result.first);
 
     return await musicPathData;
+  }
+
+
+  Future<List<AlarmFolderData>> getAllAlarmFolders() async {
+    List<AlarmFolderData> alarmFolderList = [];
+    final Database db = await this.database;
+    final List<Map<String, dynamic>> alarmFolderMaps = await db.query(alarmFolderTableName);
+
+    alarmFolderMaps.forEach((element) {
+      var alarmFolderData = AlarmFolderData.fromMap(element);
+      alarmFolderList.add(alarmFolderData);
+    });
+
+    return await alarmFolderList;
+  }
+
+  Future<AlarmFolderData> getAlarmFolderByName(String name) async {
+    AlarmFolderData alarmFolderData;
+    Database db = await this.database;
+    var result =
+    await db.rawQuery('select * from $alarmFolderTableName where $columnFolderName = ?', [name]);
+    alarmFolderData = AlarmFolderData.fromMap(result.first);
+
+    return await alarmFolderData;
+  }
+
+  Future<int> insertAlarmFolder(AlarmFolderData alarmFolderDataData) async {
+    Database db = await this.database;
+    var insertId = await db.insert(
+      alarmFolderTableName,
+      alarmFolderDataData.toMap(),
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    );
+    print('insert $insertId');
+
+    return insertId;
+  }
+
+  Future<int> deleteAlarmFolder(String name) async {
+    Database db = await this.database;
+    var countOfDeletedItems =
+    await db.delete(alarmFolderTableName, where: '$columnFolderName = ?', whereArgs: [name]);
+    print('Count of deleted Items is $countOfDeletedItems');
+
+    return countOfDeletedItems;
+  }
+
+  Future<void> updateAlarmFolder(AlarmFolderData alarmFolderData) async {
+    Database db = await this.database;
+    await db.update(tableName, alarmFolderData.toMap(),
+        where: '$columnFolderName = ?', whereArgs: [alarmFolderData.name]);
   }
 }

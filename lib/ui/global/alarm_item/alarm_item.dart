@@ -6,6 +6,7 @@ import 'package:new_alarm_clock/routes/app_routes.dart';
 import 'package:new_alarm_clock/ui/global/alarm_item/controller/alarm_skip_button_controller.dart';
 import 'package:new_alarm_clock/ui/global/alarm_item/controller/alarm_switch_controller.dart';
 import 'package:new_alarm_clock/ui/global/alarm_item/controller/selected_alarm_controller.dart';
+import 'package:new_alarm_clock/ui/global/convenience_method.dart';
 import 'package:new_alarm_clock/ui/home/controller/alarm_list_controller.dart';
 import 'package:new_alarm_clock/utils/enum.dart';
 import 'package:new_alarm_clock/utils/values/color_value.dart';
@@ -21,20 +22,19 @@ class AlarmItem extends StatelessWidget {
   late int _id;
   AlarmProvider alarmProvider = AlarmProvider();
 
-  AlarmItem(
-      {required int id})
+  AlarmItem({required int id})
       : _id = id,
         _skipButtonColor = Colors.grey;
-  
-  String convertAlarmDateTime(AlarmData alarmData){
-    if(alarmData.alarmDateTime.year > DateTime.now().year){
+
+  String convertAlarmDateTime(AlarmData alarmData) {
+    if (alarmData.alarmDateTime.year > DateTime.now().year) {
       return DateFormat('yyyy년 M월 d일').format(alarmData.alarmDateTime);
     }
     return DateFormat('M월 d일').format(alarmData.alarmDateTime);
   }
 
-  String getTextOfRepeatMode(RepeatMode repeatMode){
-    switch(repeatMode){
+  String getTextOfRepeatMode(RepeatMode repeatMode) {
+    switch (repeatMode) {
       case RepeatMode.off:
       case RepeatMode.single:
         return '';
@@ -49,14 +49,28 @@ class AlarmItem extends StatelessWidget {
     }
   }
 
-  String getTextOfAlarmPoint(AlarmData alarmData){
+  String getTextOfAlarmPoint(AlarmData alarmData) {
     //off거나 single이면 비어있고
     //그 외에는 '1일마다 반복'
-    if(alarmData.alarmType == RepeatMode.off || alarmData.alarmType == RepeatMode.single){
+    if (alarmData.alarmType == RepeatMode.off ||
+        alarmData.alarmType == RepeatMode.single) {
       return '';
+    } else {
+      return '${alarmData.alarmInterval}${getTextOfRepeatMode(alarmData.alarmType)}';
     }
-    else{
-      return ' | ${alarmData.alarmInterval}${getTextOfRepeatMode(alarmData.alarmType)}';
+  }
+
+  BoxDecoration? getLeftBorder(AlarmData alarmData){
+    if (alarmData.alarmType == RepeatMode.off ||
+        alarmData.alarmType == RepeatMode.single) {
+      return null;
+    } else {
+      return BoxDecoration(
+          border: Border(
+            left: BorderSide(
+                color: ColorValue
+                    .alarmItemDivider),
+          ));
     }
   }
 
@@ -98,9 +112,12 @@ class AlarmItem extends StatelessWidget {
             child: InkWell(
               borderRadius: _alarmBorder,
               splashColor: Colors.grey,
-              onTap: () {
-                Map<String, dynamic> argToNextPage = {StringValue.mode : StringValue.editMode,
-                  StringValue.alarmId : _id};
+              onTap: () async {
+                Map<String, dynamic> argToNextPage = ConvenienceMethod().getArgToNextPage(
+                    StringValue.editMode,
+                    _id,
+                    (await alarmProvider.getAlarmById(_id)).folderName
+                );
                 Get.toNamed(AppRoutes.addAlarmPage, arguments: argToNextPage);
               },
               onLongPress: () {
@@ -116,45 +133,63 @@ class AlarmItem extends StatelessWidget {
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
                         //함부로 옮기다간 스위치 정상작동 안 한다.
-                        switchCont.switchBoolMap[_id] = snapshot.data!.alarmState;
+                        switchCont.switchBoolMap[_id] =
+                            snapshot.data!.alarmState;
                         return Container(
                           padding: EdgeInsets.all(10),
                           child: Row(
                             children: [
                               Expanded(
                                 flex: 8,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    //알람 제목 텍스트
-                                    AlarmItemText(
+                                child: Padding(
+                                  padding: const EdgeInsets.fromLTRB(3, 3, 0, 3),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      //알람 제목 텍스트
+                                      Flexible(
                                         flex: 4,
-                                        itemText: (snapshot.data)!.title!),
-                                    Divider(
-                                      thickness: 1,
-                                      color: ColorValue.alarmItemDivider,
-                                    ),
-
-                                    //알람 시간 텍스트
-                                    AlarmItemText(
-                                        flex: 5,
-                                        itemText: DateFormat('hh:mm a').format((snapshot.data)!
-                                            .alarmDateTime).toLowerCase()),
-                                    //alarmPoint 텍스트
-                                    Flexible(
-                                      flex: 3,
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          AlarmItemText(//수정하세요~
-                                              flex: 0,
-                                              itemText: convertAlarmDateTime((snapshot.data)!)),
-                                          AlarmItemText(flex: 0, itemText: getTextOfAlarmPoint((snapshot.data)!)),
-                                        ],
+                                        child: AlarmItemText(
+                                            itemText: (snapshot.data)!.title!),
                                       ),
-                                    ),
-                                    //Spacer(),
-                                  ],
+                                      Divider(
+                                        thickness: 1,
+                                        color: ColorValue.alarmItemDivider,
+                                      ),
+
+                                      //알람 시간 텍스트
+                                      Flexible(
+                                        flex: 6,
+                                        child: AlarmItemText(
+                                            itemText: DateFormat('hh:mm a')
+                                                .format((snapshot.data)!
+                                                    .alarmDateTime)
+                                                .toLowerCase()),
+                                      ),
+                                      //alarmPoint 텍스트
+                                      Flexible(
+                                        flex: 3,
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            AlarmItemText(
+                                                itemText: convertAlarmDateTime(
+                                                    (snapshot.data)!)),
+                                            Container(
+                                                decoration: getLeftBorder((snapshot.data)!),
+                                                child: AlarmItemText(
+                                                    itemText: getTextOfAlarmPoint(
+                                                        (snapshot.data)!),
+                                                  textColor: Colors.black45,
+                                                ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      //Spacer(),
+                                    ],
+                                  ),
                                 ),
                               ),
                               VerticalDivider(
@@ -176,17 +211,19 @@ class AlarmItem extends StatelessWidget {
                                       children: [
                                         Transform.scale(
                                             scale: 0.8,
-                                            child: GetBuilder<AlarmSwitchController>(
-                                              builder: (_) {
-                                                return CupertinoSwitch(
+                                            child: GetBuilder<
+                                                    AlarmSwitchController>(
+                                                builder: (_) {
+                                              return CupertinoSwitch(
                                                 value: _.switchBoolMap[_id]!,
                                                 onChanged: (value) {
                                                   _.setSwitchBool(_id);
                                                 },
-                                                activeColor: ColorValue.activeSwitch,
+                                                activeColor:
+                                                    ColorValue.activeSwitch,
                                                 trackColor: Color(0xffC8C2BC),
-                                              );}
-                                            )),
+                                              );
+                                            })),
 
                                         Spacer(),
 

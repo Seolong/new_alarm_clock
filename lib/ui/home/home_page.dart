@@ -4,6 +4,8 @@ import 'package:flutter/services.dart';
 import 'package:new_alarm_clock/data/shared_preferences/id_shared_preferences.dart';
 import 'package:new_alarm_clock/routes/app_routes.dart';
 import 'package:new_alarm_clock/service/music_handler.dart';
+import 'package:new_alarm_clock/ui/global/convenience_method.dart';
+import 'package:new_alarm_clock/ui/home/controller/folder_list_controller.dart';
 import 'package:new_alarm_clock/ui/home/controller/tab_page_controller.dart';
 import 'package:new_alarm_clock/ui/home/page/folder_page/folder_page.dart';
 import 'package:new_alarm_clock/ui/home/page/inner_home_page/inner_home_page.dart';
@@ -41,6 +43,7 @@ class HomePage extends StatelessWidget {
     ));
     _musicHandler.initOriginalVolume();
     Get.put(TabPageController());
+    var folderListController = Get.put(FolderListController());
     return Scaffold(
         drawer: HomeDrawer(),
         extendBody: true, //FAB 배경이 투명해지기 위함
@@ -60,8 +63,11 @@ class HomePage extends StatelessWidget {
             ),
             onPressed: () async{
               int newId = await idSharedPreferences.getId();
-              Map<String, dynamic> argToNextPage = {StringValue.mode : StringValue.addMode,
-                StringValue.alarmId : newId};
+              Map<String, dynamic> argToNextPage = ConvenienceMethod().getArgToNextPage(
+                  StringValue.addMode,
+                  newId,
+                  folderListController.currentFolderName
+              );
               idSharedPreferences.setId(++newId);
               Get.toNamed(AppRoutes.addAlarmPage, arguments: argToNextPage);
             },
@@ -89,18 +95,18 @@ class HomePage extends StatelessWidget {
                     iconSize: ButtonSize.medium,
                     onTap: controller.setPageIndex,
                     type: BottomNavigationBarType.fixed,
+                    selectedItemColor: Color(0xff753422),
+                    unselectedItemColor: ColorValue.tabBarIcon,
                     items: [
                       BottomNavigationBarItem(
                           icon: Icon(
                             Icons.home_rounded,
-                            color: ColorValue.tabBarIcon,
                           ),
                           title: Text("홈")
                       ),
                       BottomNavigationBarItem(
                           icon: Icon(
                             Icons.folder,
-                            color: ColorValue.tabBarIcon,
                           ),
                           title: Text("폴더")
                       ),
@@ -111,14 +117,12 @@ class HomePage extends StatelessWidget {
                       BottomNavigationBarItem(
                           icon: Icon(
                             Icons.volunteer_activism_rounded,
-                            color: ColorValue.tabBarIcon,
                           ),
                           title: Text("후원")
                       ),
                       BottomNavigationBarItem(
                           icon: Icon(
                               Icons.more_horiz,
-                              color: ColorValue.tabBarIcon
                           ),
                           title: Text("더보기")
                       ),

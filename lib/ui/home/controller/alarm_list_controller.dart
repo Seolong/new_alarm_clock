@@ -8,6 +8,7 @@ class AlarmListController extends GetxController{
   AlarmProvider alarmProvider = AlarmProvider();
   late Future<List<AlarmData>> alarmFutureList;
   RxList<AlarmData> alarmList = RxList<AlarmData>();
+  RxList<AlarmData> currentFolderAlarmList = RxList<AlarmData>();
 
   @override
   void onInit() async {
@@ -16,7 +17,7 @@ class AlarmListController extends GetxController{
     List<AlarmData> varAlarmList = await alarmFutureList;
     alarmList = varAlarmList.obs;
 
-    update();
+    update(); //이걸 안 해서 futurebuilder로 승부봤었다.
     super.onInit();
   }
 

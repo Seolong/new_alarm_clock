@@ -1,18 +1,14 @@
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
-import 'package:new_alarm_clock/data/database/alarm_provider.dart';
-import 'package:new_alarm_clock/data/model/alarm_data.dart';
 
-class AlarmTitleTextFieldController extends GetxController {
+class FolderNameTextFieldController extends GetxController{
   TextEditingController textEditingController = TextEditingController();
-  AlarmProvider _alarmProvider = AlarmProvider();
 
   @override
   void onClose() {
     textEditingController.dispose();
     super.onClose();
   }
-
 
   @override
   void onInit() {
@@ -22,12 +18,6 @@ class AlarmTitleTextFieldController extends GetxController {
     });
 
     super.onInit();
-  }
-
-  Future<void> initTitleTextField(int alarmId) async {
-    AlarmData alarmData = await _alarmProvider.getAlarmById(alarmId);
-    textEditingController.text =
-        alarmData.title != null ? alarmData.title! : '';
   }
 
   void resetField() {

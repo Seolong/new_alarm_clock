@@ -1,26 +1,24 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:new_alarm_clock/data/database/alarm_provider.dart';
-import 'package:new_alarm_clock/data/model/alarm_data.dart';
 import 'package:new_alarm_clock/ui/global/alarm_item/alarm_item.dart';
 import 'package:new_alarm_clock/ui/home/controller/alarm_list_controller.dart';
+import 'package:new_alarm_clock/ui/home/controller/folder_list_controller.dart';
 import 'package:new_alarm_clock/utils/values/color_value.dart';
 import 'package:new_alarm_clock/utils/values/my_font_family.dart';
 import 'package:get/get.dart';
 
 class InnerHomePage extends StatelessWidget {
-  String currentFolderName = '전체 알람';
-  late Future<List<AlarmData>> _alarmFutureData;
   AlarmProvider alarmProvider = AlarmProvider();
 
   InnerHomePage() {
     alarmProvider.initializeDatabase();
-    _alarmFutureData = AlarmProvider().getAllAlarms();
   }
 
   @override
   Widget build(BuildContext context) {
     var alarmListController = Get.put(AlarmListController());
+    var folderListController = Get.put(FolderListController());
     return Scaffold(
       backgroundColor: ColorValue.mainBackground,
       extendBody: true,
@@ -39,13 +37,17 @@ class InnerHomePage extends StatelessWidget {
                 )),
             child: FittedBox(
               fit: BoxFit.scaleDown,
-              child: Text(
-                currentFolderName,
-                style: TextStyle(
-                    fontSize: 1000,
-                    color: Colors.black54,
-                    fontFamily: MyFontFamily.mainFontFamily,
-                    fontWeight: FontWeight.bold),
+              child: GetBuilder<FolderListController>(
+                builder: (_) {
+                  return Text(
+                    _.currentFolderName,
+                    style: TextStyle(
+                        fontSize: 1000,
+                        color: Colors.black54,
+                        fontFamily: MyFontFamily.mainFontFamily,
+                        fontWeight: FontWeight.bold),
+                  );
+                }
               ),
             ),
           ),
@@ -56,9 +58,17 @@ class InnerHomePage extends StatelessWidget {
               itemCount: _.alarmList.length + 1,
               itemBuilder: (BuildContext context, int index) {
                 if (index != _.alarmList.length) {
-                  return AlarmItem(
-                    id: _.alarmList[index].id,
-                  );
+                  if(folderListController.currentFolderName == '전체 알람'){
+                    return AlarmItem(
+                      id: _.alarmList[index].id,
+                    );
+                  }
+                  if (_.alarmList[index].folderName == folderListController.currentFolderName) {
+                    return AlarmItem(
+                      id: _.alarmList[index].id,
+                    );
+                  }
+                  return Container();
                 }
                 else{
                   return Container(

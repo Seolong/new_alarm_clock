@@ -5,4 +5,5 @@ class StringValue{
   static final String alarmId = 'id';
   static final String beepBeep = '삐빅';
   static final String ringRing = '따르릉';
+  static final String folderName = 'folderName';
 }
