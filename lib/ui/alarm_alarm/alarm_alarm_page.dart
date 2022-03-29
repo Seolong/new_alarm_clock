@@ -9,6 +9,7 @@ import 'package:new_alarm_clock/utils/values/my_font_family.dart';
 import 'package:new_alarm_clock/utils/values/size_value.dart';
 import 'package:intl/intl.dart';
 import 'package:new_alarm_clock/utils/values/vibration_pack.dart';
+import 'package:wakelock/wakelock.dart';
 
 class AlarmAlarmPage extends StatefulWidget {
   @override
@@ -35,11 +36,13 @@ class _AlarmAlarmPageState extends State<AlarmAlarmPage> {
     // TODO: implement initState
     super.initState();
 
+    Wakelock.enable();
     alarmData = getAlarmData();
   }
 
   @override
   Widget build(BuildContext context) {
+    Wakelock.enable();
     return Scaffold(
       backgroundColor: ColorValue.mainBackground,
       body: Column(

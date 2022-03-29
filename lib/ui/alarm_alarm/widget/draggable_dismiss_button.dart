@@ -12,6 +12,7 @@ import 'package:new_alarm_clock/utils/enum.dart';
 import 'package:new_alarm_clock/utils/values/color_value.dart';
 import 'package:new_alarm_clock/utils/values/my_font_family.dart';
 import 'package:vibration/vibration.dart';
+import 'package:wakelock/wakelock.dart';
 
 class DraggableDismissButton extends StatefulWidget {
   const DraggableDismissButton({Key? key, required this.child})
@@ -126,6 +127,7 @@ class _DraggableDismissButtonState extends State<DraggableDismissButton>
       await _appStateSharedPreferences.setAppStateToMain();
       await Vibration.cancel();
       await _musicHandler.stopMusic();
+      await Wakelock.disable();
       SystemChannels.platform.invokeMethod('SystemNavigator.pop'); //SystemNavigator.pop()하니까 안 될 때가 있더라
     }
   }

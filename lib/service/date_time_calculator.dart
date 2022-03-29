@@ -151,6 +151,8 @@ class DateTimeCalculator {
   DateTime getStartNearDay(RepeatMode repeatMode, DateTime currentStartDateTime,
   {List<bool>? weekBool}){
     switch(repeatMode){
+      case RepeatMode.off:
+        return DateTime.now();
       case RepeatMode.day:
         return currentStartDateTime;
       case RepeatMode.week:

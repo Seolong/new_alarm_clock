@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:new_alarm_clock/ui/choice_day/controller/month_repaet_day_controller.dart';
+import 'package:new_alarm_clock/ui/global/auto_size_text.dart';
 import 'package:new_alarm_clock/utils/values/color_value.dart';
 import 'package:new_alarm_clock/utils/values/my_font_family.dart';
 import 'package:new_alarm_clock/utils/values/size_value.dart';
@@ -24,18 +25,16 @@ class ChoiceDayButton extends StatelessWidget {
             title: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text(
-                    "날짜 선택",
-                    style: TextStyle(
-                      fontFamily: MyFontFamily.mainFontFamily,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black54
-                    ),
-                ),
-                Divider(thickness: 2,)
+                Container(
+                  padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
+                  height: 55,
+                    width: Get.width,
+                    color: ColorValue.mainBackground,
+                    child: AutoSizeText('날짜 선택', bold: true)),
+                //Divider(thickness: 2,)
               ],
             ),
-            titlePadding: EdgeInsets.fromLTRB(0, 10, 0, 10),
+            titlePadding: EdgeInsets.fromLTRB(0, 0, 0, 0),
             titleTextStyle: TextStyle(
                 color: Colors.black87,
                 fontSize: 25,
@@ -43,35 +42,29 @@ class ChoiceDayButton extends StatelessWidget {
             ),
             backgroundColor: Colors.white,
 
-            actions: [
-              Padding(
-                padding: const EdgeInsets.fromLTRB(7.5, 0, 7.5, 7.5),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    TextButton(
-                        onPressed: () {
-                          Get.back();
-                        },
-                        child: Text(
-                          '취소',
-                          style: TextStyle(fontSize: 20, color: Colors.grey),
-                        )),
-                    TextButton(
-                        onPressed: () {},
-                        child: Text(
-                          '확인',
-                          style: TextStyle(fontSize: 20),
-                        )),
-                  ],
-                ),
-              ),
-            ],
+            // actions: [
+            //   Padding(
+            //     padding: const EdgeInsets.fromLTRB(7.5, 0, 7.5, 7.5),
+            //     child: Row(
+            //       mainAxisAlignment: MainAxisAlignment.end,
+            //       children: [
+            //         TextButton(
+            //             onPressed: () {
+            //               Get.back();
+            //             },
+            //             child: Container(
+            //               height: 25,
+            //                 child: AutoSizeText('취소', color: Colors.grey,)),
+            //             ),
+            //       ],
+            //     ),
+            //   ),
+            // ],
             //radius: 10,
             content: Container(
               //height: Get.height / 5 * 3,
-              width: Get.width / 5 * 4,
-              padding: EdgeInsets.fromLTRB(10, 5, 10, 0),
+              width: Get.width / 5 * 3, //width 필요없는 것 같은데?
+              padding: EdgeInsets.fromLTRB(10, 5, 10, 15),
               child: GridView.builder(
                 shrinkWrap: true,
                 padding: EdgeInsets.all(7.5),
@@ -91,6 +84,7 @@ class ChoiceDayButton extends StatelessWidget {
                     child: Ink(
                       decoration: BoxDecoration(
                         color: Colors.white,
+                        border: Border.all(width: 0.5),
                         borderRadius:
                           BorderRadius.all(Radius.circular(5)),
                       ),
@@ -107,6 +101,10 @@ class ChoiceDayButton extends StatelessWidget {
                           alignment: Alignment.center,
                           padding: EdgeInsets.all(7.5),
                           decoration: BoxDecoration(
+                            //color: Colors.white,
+                            // border: Border.all(
+                            //     width: 1.0
+                            // ),
                             borderRadius:
                             BorderRadius.all(Radius.circular(10)),
                           ),
@@ -133,7 +131,7 @@ class ChoiceDayButton extends StatelessWidget {
             ),
           ),
           //밖 터치하면 dialog가 꺼지는 거
-          barrierDismissible: false,
+          //barrierDismissible: false,
         );
 
       },

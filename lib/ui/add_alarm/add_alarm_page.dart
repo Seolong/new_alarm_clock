@@ -19,6 +19,7 @@ import 'package:new_alarm_clock/ui/choice_day/controller/month_repaet_day_contro
 import 'package:new_alarm_clock/ui/choice_day/controller/repeat_mode_controller.dart';
 import 'package:new_alarm_clock/ui/choice_day/controller/start_end_day_controller.dart';
 import 'package:new_alarm_clock/ui/choice_day/widget/going_back_dialog.dart';
+import 'package:new_alarm_clock/ui/global/auto_size_text.dart';
 import 'package:new_alarm_clock/utils/enum.dart';
 import 'package:new_alarm_clock/utils/values/color_value.dart';
 import 'package:get/get.dart';
@@ -229,13 +230,9 @@ class AddAlarmPage extends StatelessWidget {
                           return Container(
                             padding: EdgeInsets.only(top: 5),
                             height: 40,
-                            child: Text(
-                              //올해면 월일만. 올해가 아니면 년월일
+                            child: AutoSizeText(
                               '${_.start['monthDay']}',
-                              style: TextStyle(
-                                  fontSize: 24,
-                                  fontWeight: FontWeight.bold
-                              ),
+                              bold: true,
                             ),
                           );
                         }
@@ -243,40 +240,47 @@ class AddAlarmPage extends StatelessWidget {
 
                     //TitleTextField
                     Container(
-                      height: 85,
-                      padding: EdgeInsets.fromLTRB(0, 5, 0, 5),
+                      height: 100,
+                      //padding: EdgeInsets.fromLTRB(0, 5, 0, 5),
                       child: GetBuilder<AlarmTitleTextFieldController>(
                         initState: (_) => mode == StringValue.editMode
                             ? alarmTitleTextFieldController
                             .initTitleTextField(alarmId)
                             : null,
-                        builder: (_) => TextField(
-                          controller: _.textEditingController,
-                          onChanged: (value) {
-                            if (_.textEditingController.text.length != 0) {
-                              print('length not 0');
-                            } else {
-                              print('length 0');
-                            }
-                          },
-                          style: TextStyle(
-                              fontSize: 24,
-                              fontFamily: MyFontFamily.mainFontFamily),
-                          decoration: InputDecoration(
-                              labelText: '알람 이름',
-                              labelStyle: TextStyle(
-                                fontSize: 20,
-                                fontFamily: MyFontFamily.mainFontFamily,
+                        builder: (_) => FittedBox(
+                          fit: BoxFit.scaleDown,
+                          child: ConstrainedBox(
+                            constraints: BoxConstraints(minWidth: 1, minHeight: 1, maxWidth: Get.width),
+                            child: TextField(
+                              controller: _.textEditingController,
+                              onChanged: (value) {
+                                if (_.textEditingController.text.length != 0) {
+                                  print('length not 0');
+                                } else {
+                                  print('length 0');
+                                }
+                              },
+                              style: TextStyle(
+                                  fontFamily: MyFontFamily.mainFontFamily,
+                                fontSize: 25
                               ),
-                              suffixIcon: _.textEditingController.text.length > 0
-                                  ? IconButton(
-                                icon: Icon(
-                                  Icons.clear,
-                                  color: Colors.black,
-                                ),
-                                onPressed: () => _.resetField(),
-                              )
-                                  : null // Show the clear button if the text field has something
+                              decoration: InputDecoration(
+                                  labelText: '알람 이름',
+                                  labelStyle: TextStyle(
+                                    fontFamily: MyFontFamily.mainFontFamily,
+                                    fontSize: 20
+                                  ),
+                                  suffixIcon: _.textEditingController.text.length > 0
+                                      ? IconButton(
+                                    icon: Icon(
+                                      Icons.clear,
+                                      color: Colors.black,
+                                    ),
+                                    onPressed: () => _.resetField(),
+                                  )
+                                      : null // Show the clear button if the text field has something
+                              ),
+                            ),
                           ),
                         ),
                       ),

@@ -9,8 +9,8 @@ class CalendarDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: Get.width / 5 * 4,
-      height: Get.height * 3 / 5,
+      width: 400,
+      height: 450,
       child: SfDateRangePicker(
         headerHeight: 40,
         minDate: DateTime(2000),
@@ -44,7 +44,7 @@ class CalendarDialog extends StatelessWidget {
             color: Colors.white,
             fontFamily:
             MyFontFamily.mainFontFamily),
-        todayHighlightColor: Colors.amber,
+        todayHighlightColor: ColorValue.todayColor,
         selectionColor: ColorValue.calendarSelection,
         // backgroundColor: Colors.deepPurple,
         //allowViewNavigation: false,
@@ -73,6 +73,8 @@ class CalendarDialog extends StatelessWidget {
                     color:
                     Colors.black))),
         showActionButtons: true,
+        confirmText: '확인',
+        cancelText: '취소',
         onSubmit: (Object? value) {
           Get.back(result: value);
         },

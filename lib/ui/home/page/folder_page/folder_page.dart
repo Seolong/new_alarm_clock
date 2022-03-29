@@ -1,60 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:new_alarm_clock/data/model/alarm_folder_data.dart';
 import 'package:new_alarm_clock/ui/global/auto_size_text.dart';
 import 'package:new_alarm_clock/ui/home/controller/folder_list_controller.dart';
 import 'package:new_alarm_clock/ui/home/controller/folder_name_text_field_controller.dart';
 import 'package:new_alarm_clock/ui/home/controller/tab_page_controller.dart';
+import 'package:new_alarm_clock/ui/home/widgets/set_folder_title_dialog.dart';
 import 'package:new_alarm_clock/utils/values/my_font_family.dart';
 
 class FolderPage extends StatelessWidget {
   var folderNameTextFieldController = Get.put(FolderNameTextFieldController());
   var folderListController = Get.put(FolderListController());
 
-  void _displayTextInputDialog() {
-    Get.dialog(
-        AlertDialog(
-          title: Text('폴더 이름'),
-          content: GetBuilder<FolderNameTextFieldController>(
-              builder: (_) {
-                return TextField(
-                  onChanged: (value) {},
-                  controller: _.textEditingController,
-                  decoration: InputDecoration(hintText: "폴더 이름을 입력하세요.",
-                      suffixIcon: _.textEditingController.text.length > 0
-                          ? IconButton(
-                        icon: Icon(
-                          Icons.clear,
-                          color: Colors.black,
-                        ),
-                        onPressed: () => _.resetField(),
-                      )
-                          : null),
-                );
-              }
-          ),
-          actions: <Widget>[
-            TextButton(
-              style: TextButton.styleFrom( primary: Colors.grey,),
-              child: Text('취소'),
-              onPressed: () {
-                folderNameTextFieldController.textEditingController.text = '';
-                Get.back();
-              },
-            ),
-            TextButton(
-              style: TextButton.styleFrom( primary: Colors.blue,),
-              child: Text('확인'),
-              onPressed: () {
-                folderListController.inputFolder(AlarmFolderData(
-                    name: folderNameTextFieldController.textEditingController.text));
-                folderNameTextFieldController.textEditingController.text = '';
-                Get.back();
-              },
-            ),
-
-          ],
-        ));
+  void _displaySetFolderTitleDialog() {
+    Get.dialog(SetFolderTitleDialog());
   }
 
   @override
@@ -121,7 +79,7 @@ class FolderPage extends StatelessWidget {
                       return GestureDetector(
                         onTap: () {
                           print('$index');
-                          _displayTextInputDialog();
+                          _displaySetFolderTitleDialog();
                         },
                         child: Column(
                           children: [

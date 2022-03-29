@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:just_audio/just_audio.dart';
-import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
 import 'package:new_alarm_clock/utils/values/string_value.dart';
 import 'package:perfect_volume_control/perfect_volume_control.dart';
 
@@ -64,8 +63,6 @@ class MusicHandler {
     // developer of the player recommends it.
     if (currentPlayer.playing) {
       await currentPlayer.stop();
-      // Stop default ringtone player if active
-      await FlutterRingtonePlayer.stop();
 
       await PerfectVolumeControl.setVolume(_originalVolume);
     }

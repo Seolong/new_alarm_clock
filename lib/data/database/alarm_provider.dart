@@ -99,7 +99,6 @@ class AlarmProvider {
     return database;
   }
 
-
   Future<List<AlarmData>> getAllAlarms() async {
     List<AlarmData> alarmList = [];
     final Database db = await this.database;
@@ -117,7 +116,7 @@ class AlarmProvider {
     AlarmData alarmData;
     Database db = await this.database;
     var result =
-    await db.rawQuery('select * from $tableName where $columnId = ?', [id]);
+        await db.rawQuery('select * from $tableName where $columnId = ?', [id]);
     alarmData = AlarmData.fromMap(result.first);
 
     return await alarmData;
@@ -139,7 +138,7 @@ class AlarmProvider {
   Future<int> deleteAlarm(int id) async {
     Database db = await this.database;
     var countOfdeletedItems =
-    await db.delete(tableName, where: 'id = ?', whereArgs: [id]);
+        await db.delete(tableName, where: 'id = ?', whereArgs: [id]);
     print('Count of deleted Items is $countOfdeletedItems');
 
     AlarmScheduler.removeAlarm(id);
@@ -155,7 +154,6 @@ class AlarmProvider {
     AlarmScheduler.removeAlarm(alarmData.id);
     AlarmScheduler().newShot(alarmData.alarmDateTime, alarmData.id);
   }
-
 
   Future<int> insertAlarmWeekData(AlarmWeekRepeatData data) async {
     Database db = await this.database;
@@ -181,7 +179,6 @@ class AlarmProvider {
     return await alarmData;
   }
 
-
   Future<int> deleteAlarmWeekData(int id) async {
     Database db = await this.database;
     var countOfdeletedItems =
@@ -197,7 +194,6 @@ class AlarmProvider {
 
     //스케줄러 관련 추가
   }
-  
 
   Future<int> insertMusicPath(MusicPathData data) async {
     Database db = await this.database;
@@ -214,7 +210,8 @@ class AlarmProvider {
   Future<List<MusicPathData>> getAllMusicPath() async {
     List<MusicPathData> musicPathList = [];
     final Database db = await this.database;
-    final List<Map<String, dynamic>> musicPathMaps = await db.query(musicPathTableName);
+    final List<Map<String, dynamic>> musicPathMaps =
+        await db.query(musicPathTableName);
 
     musicPathMaps.forEach((element) {
       var musicPathData = MusicPathData.fromMap(element);
@@ -227,18 +224,18 @@ class AlarmProvider {
   Future<MusicPathData> getMusicPathByName(String path) async {
     MusicPathData musicPathData;
     Database db = await this.database;
-    var result =
-    await db.rawQuery('select * from $musicPathTableName where $columnMusicPath = ?', [path]);
+    var result = await db.rawQuery(
+        'select * from $musicPathTableName where $columnMusicPath = ?', [path]);
     musicPathData = MusicPathData.fromMap(result.first);
 
     return await musicPathData;
   }
 
-
   Future<List<AlarmFolderData>> getAllAlarmFolders() async {
     List<AlarmFolderData> alarmFolderList = [];
     final Database db = await this.database;
-    final List<Map<String, dynamic>> alarmFolderMaps = await db.query(alarmFolderTableName);
+    final List<Map<String, dynamic>> alarmFolderMaps =
+        await db.query(alarmFolderTableName);
 
     alarmFolderMaps.forEach((element) {
       var alarmFolderData = AlarmFolderData.fromMap(element);
@@ -251,8 +248,9 @@ class AlarmProvider {
   Future<AlarmFolderData> getAlarmFolderByName(String name) async {
     AlarmFolderData alarmFolderData;
     Database db = await this.database;
-    var result =
-    await db.rawQuery('select * from $alarmFolderTableName where $columnFolderName = ?', [name]);
+    var result = await db.rawQuery(
+        'select * from $alarmFolderTableName where $columnFolderName = ?',
+        [name]);
     alarmFolderData = AlarmFolderData.fromMap(result.first);
 
     return await alarmFolderData;
@@ -270,13 +268,23 @@ class AlarmProvider {
     return insertId;
   }
 
+  //folder 내부 알람까지 삭제
   Future<int> deleteAlarmFolder(String name) async {
     Database db = await this.database;
-    var countOfDeletedItems =
-    await db.delete(alarmFolderTableName, where: '$columnFolderName = ?', whereArgs: [name]);
-    print('Count of deleted Items is $countOfDeletedItems');
+    var countOfDeletedAlarmItems = await db.delete(
+        tableName,
+        where: '$columnFolderName = ?',
+        whereArgs: [name]
+    );
+    var countOfDeletedFolderItems = await db.delete(
+        alarmFolderTableName,
+        where: '$columnFolderName = ?',
+        whereArgs: [name]
+    );
+    print('Count of deleted Folder Items is $countOfDeletedFolderItems'
+        '\nCount of deleted Alarm Items is $countOfDeletedAlarmItems');
 
-    return countOfDeletedItems;
+    return countOfDeletedFolderItems;
   }
 
   Future<void> updateAlarmFolder(AlarmFolderData alarmFolderData) async {

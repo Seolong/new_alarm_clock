@@ -31,7 +31,7 @@ class AlarmDetailListTile extends StatelessWidget {
     }
 
     return Container(
-      height: 80,
+      height: 77.5,
       child: InkWell(
         onTap: () {
           ////////리스트타일 터치해서 해당 페이지로 넘어가는 메소드.
@@ -39,67 +39,65 @@ class AlarmDetailListTile extends StatelessWidget {
 
           alarmDetailPageFactory.getAlarmDetailPage(tileTitle.data!);
         },
-        child: Padding(
-            padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
-            child: Column(
-              children: [
-                Expanded(
-                  child: Row(
-                    children: [
-                      Expanded(
-                        flex: 8,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            //tileTitle
-                            Expanded(
-                              flex: 2,
-                              child: Padding(
-                                padding: const EdgeInsets.fromLTRB(0, 0, 0, 3),
-                                child: FittedBox(
-                                  fit: BoxFit.scaleDown,
-                                  child: ConstrainedBox(
-                                      constraints: BoxConstraints(
-                                          minWidth: 1, minHeight: 1),
-                                      child: tileTitle),
-                                ),
+        child: Column(
+          children: [
+            Expanded(
+              child: Row(
+                children: [
+                  Expanded(
+                    flex: 8,
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(0, 7.5, 0, 7.5),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          //tileTitle
+                          Expanded(
+                            flex: 5,
+                            child: FittedBox(
+                              fit: BoxFit.scaleDown,
+                              child: ConstrainedBox(
+                                  constraints: BoxConstraints(
+                                      minWidth: 1, minHeight: 1),
+                                  child: tileTitle),
+                            ),
+                          ),
+
+                          //tileSubTitle
+                          Expanded(
+                            flex: 3,
+                            child: Padding(
+                              padding: const EdgeInsets.fromLTRB(2.5, 0, 0, 0),
+                              child: FittedBox(
+                                fit: BoxFit.scaleDown,
+                                child: ConstrainedBox(
+                                    constraints: BoxConstraints(
+                                        minWidth: 1, minHeight: 1),
+                                    child: tileSubTitle),
                               ),
                             ),
-
-                            //tileSubTitle
-                            Expanded(
-                              flex: 1,
-                              child: Padding(
-                                padding: const EdgeInsets.only(left: 2.5),
-                                child: FittedBox(
-                                  fit: BoxFit.scaleDown,
-                                  child: ConstrainedBox(
-                                      constraints: BoxConstraints(
-                                          minWidth: 1, minHeight: 1),
-                                      child: tileSubTitle),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
-
-                      //스위치
-                      Expanded(
-                        flex: 2,
-                        child: Padding(
-                          padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
-                          child: stateSwitch,
-                        ),
-                      ),
-                    ],
+                    ),
                   ),
-                ),
-                Divider(
-                  thickness: 1,
-                )
-              ],
-            )),
+
+                  //스위치
+                  Expanded(
+                    flex: 2,
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
+                      child: stateSwitch,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Divider(
+              thickness: 1,
+            )
+          ],
+        ),
       ),
     );
   }

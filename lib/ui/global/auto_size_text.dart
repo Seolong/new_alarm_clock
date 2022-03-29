@@ -5,8 +5,9 @@ class AutoSizeText extends StatelessWidget {
   String text;
   bool bold;
   String? fontFamily;
+  Color? color;
 
-  AutoSizeText(this.text, {this.bold = false, this.fontFamily});
+  AutoSizeText(this.text, {this.bold = false, this.fontFamily, this.color = Colors.black});
 
   @override
   Widget build(BuildContext context) {
@@ -20,6 +21,7 @@ class AutoSizeText extends StatelessWidget {
               fontSize: 1000,
             fontWeight: bold ? FontWeight.bold: FontWeight.normal,
             fontFamily: fontFamily == null ? MyFontFamily.mainFontFamily : fontFamily,
+            color: color
           ),
         ),
       ),

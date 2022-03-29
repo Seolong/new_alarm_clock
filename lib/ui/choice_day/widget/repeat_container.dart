@@ -55,7 +55,7 @@ class RepeatContainer extends StatelessWidget {
                                   color: ColorValue.calendarIcon,
                                 ))),
                         Container(
-                          height: ButtonSize.small,
+                          height: ButtonSize.small - 4,
                           child: FittedBox(
                             fit: BoxFit.scaleDown,
                             child: ConstrainedBox(
@@ -69,7 +69,7 @@ class RepeatContainer extends StatelessWidget {
                           ),
                         ),
                         Container(
-                          height: ButtonSize.small - 4,
+                          height: ButtonSize.small - 8,
                           child: FittedBox(
                             fit: BoxFit.scaleDown,
                             child: ConstrainedBox(
@@ -110,7 +110,7 @@ class RepeatContainer extends StatelessWidget {
                                   color: ColorValue.calendarIcon,
                                 ))),
                         Container(
-                          height: ButtonSize.small,
+                          height: ButtonSize.small - 4,
                           child: FittedBox(
                             fit: BoxFit.scaleDown,
                             child: ConstrainedBox(
@@ -125,7 +125,7 @@ class RepeatContainer extends StatelessWidget {
                           ),
                         ),
                         Container(
-                          height: ButtonSize.small - 4,
+                          height: ButtonSize.small - 8,
                           child: FittedBox(
                             fit: BoxFit.scaleDown,
                             child: ConstrainedBox(
@@ -170,6 +170,10 @@ class RepeatContainer extends StatelessWidget {
                       textAlign: TextAlign.end,
                       decoration: InputDecoration(
                         contentPadding: EdgeInsets.symmetric(vertical: 0),
+                        hintText: '1',
+                        hintStyle: TextStyle(
+                          color: Colors.grey
+                        ),
                         isDense: true,
                       ),
                       style: TextStyle(fontSize: SizeValue.repeatTextFieldTextSize),

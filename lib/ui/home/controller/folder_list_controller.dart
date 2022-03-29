@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:new_alarm_clock/data/database/alarm_provider.dart';
 import 'package:new_alarm_clock/data/model/alarm_folder_data.dart';
+import 'package:new_alarm_clock/ui/home/controller/alarm_list_controller.dart';
 
 class FolderListController extends GetxController{
   AlarmProvider _alarmProvider = AlarmProvider();
@@ -34,6 +35,8 @@ class FolderListController extends GetxController{
   void deleteFolder(String name){
     _alarmProvider.deleteAlarmFolder(name);
     folderList.removeWhere((element) => element.name == name);
+    Get.find<AlarmListController>().alarmList.removeWhere((element)
+      => element.folderName == name);
     update();
   }
 
