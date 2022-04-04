@@ -7,6 +7,13 @@ import 'package:new_alarm_clock/utils/values/color_value.dart';
 class SelectedAlarmController extends GetxController{
   RxMap<int, bool> selectedMap = Map<int, bool>().obs;
   RxMap<int, Color> colorMap = Map<int, Color>().obs;
+  RxBool _isSelectedMode = false.obs;
+
+  set isSelectedMode(bool value){
+    _isSelectedMode.value = value;
+    update();
+  }
+  bool get isSelectedMode => _isSelectedMode.value;
 
   void changeAlarmColor(int id){
     if(selectedMap[id] == false){

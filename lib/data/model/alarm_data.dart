@@ -8,6 +8,7 @@ final String columnAlarmDateTime = 'alarmDateTime';
 final String columnEndDay = 'endDay';
 final String columnAlarmState = 'alarmState';
 final String columnAlarmPoint = 'alarmPoint';
+final String columnAlarmOrder = 'alarmOrder';
 final String columnFolderName = 'folderName';
 final String columnAlarmInterval = 'alarmInterval';
 final String columnDayOff = 'dayOff';
@@ -28,6 +29,7 @@ class AlarmData {
   late DateTime endDay;
   late bool alarmState;
   //late ?? alarmPoint;
+  late int alarmOrder;
   late String folderName;
   late int alarmInterval;
   late DateTime dayOff;
@@ -48,6 +50,7 @@ class AlarmData {
     required this.endDay,
     required this.alarmState,
     //required ?? alarmPoint,
+    required this.alarmOrder,
     required this.folderName,
     required this.alarmInterval,
     required this.dayOff,
@@ -71,6 +74,7 @@ class AlarmData {
         endDay: DateTime.parse(json[columnEndDay]),
         alarmState: TypeConverter.convertIntToBool(json[columnAlarmState]),
         //alarmPoint: ~~,
+        alarmOrder: json[columnAlarmOrder],
         folderName: json[columnFolderName],
         alarmInterval: json[columnAlarmInterval],
         dayOff: DateTime.parse(json[columnDayOff]),
@@ -94,6 +98,7 @@ class AlarmData {
         columnEndDay: endDay.toIso8601String(),
         columnAlarmState: TypeConverter.convertBoolToInt(alarmState),
         //columnAlarmPoint: alarmPoint,
+        columnAlarmOrder: alarmOrder,
         columnFolderName: folderName,
         columnAlarmInterval: alarmInterval,
         columnDayOff: dayOff.toIso8601String(),

@@ -47,6 +47,7 @@ class AlarmProvider {
           $columnAlarmDateTime text not null,
           $columnEndDay text not null,
           $columnAlarmState integer not null,
+          $columnAlarmOrder integer not null,
           $columnFolderName text not null,
           $columnAlarmInterval integer not null,
           $columnDayOff text not null,
@@ -102,7 +103,10 @@ class AlarmProvider {
   Future<List<AlarmData>> getAllAlarms() async {
     List<AlarmData> alarmList = [];
     final Database db = await this.database;
-    final List<Map<String, dynamic>> alarmMaps = await db.query(tableName);
+    //final List<Map<String, dynamic>> alarmMaps = await db.query(tableName);
+    final List<Map<String, dynamic>> alarmMaps = await db.rawQuery(
+      'select * from $tableName order by $columnAlarmOrder asc'
+    );
 
     alarmMaps.forEach((element) {
       var alarmData = AlarmData.fromMap(element);
@@ -137,13 +141,19 @@ class AlarmProvider {
 
   Future<int> deleteAlarm(int id) async {
     Database db = await this.database;
-    var countOfdeletedItems =
+    var countOfDeletedItems =
         await db.delete(tableName, where: 'id = ?', whereArgs: [id]);
-    print('Count of deleted Items is $countOfdeletedItems');
+    print('Count of deleted Items is $countOfDeletedItems');
+
+    AlarmWeekRepeatData? currentAlarmWeekData = await getAlarmWeekDataById(id);
+    if(currentAlarmWeekData != null){
+      deleteAlarmWeekData(id);
+      print('id: $id WeekData is deleted.');
+    }
 
     AlarmScheduler.removeAlarm(id);
 
-    return countOfdeletedItems;
+    return countOfDeletedItems;
   }
 
   Future<void> updateAlarm(AlarmData alarmData) async {

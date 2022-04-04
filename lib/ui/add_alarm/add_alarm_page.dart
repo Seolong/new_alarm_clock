@@ -116,7 +116,7 @@ class AddAlarmPage extends StatelessWidget {
             ),
             actions: [
               Padding(
-                padding: const EdgeInsets.all(10.0),
+                padding: const EdgeInsets.all(12.5),
                 child: FittedBox(
                   fit: BoxFit.scaleDown,
                   child: SaveButton(
@@ -145,7 +145,7 @@ class AddAlarmPage extends StatelessWidget {
                     Container(
                       height: 250,
                       child: TimeSpinner(
-                          alarmId: alarmId, fontSize: 27, mode: mode),
+                          alarmId: alarmId, fontSize: 24, mode: mode),
                     ),
 
                     Divider(

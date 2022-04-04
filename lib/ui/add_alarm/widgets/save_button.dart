@@ -12,10 +12,10 @@ import 'package:new_alarm_clock/ui/choice_day/controller/interval_text_field_con
 import 'package:new_alarm_clock/ui/choice_day/controller/month_repaet_day_controller.dart';
 import 'package:new_alarm_clock/ui/choice_day/controller/repeat_mode_controller.dart';
 import 'package:new_alarm_clock/ui/choice_day/controller/start_end_day_controller.dart';
+import 'package:new_alarm_clock/ui/global/auto_size_text.dart';
 import 'package:new_alarm_clock/ui/home/controller/alarm_list_controller.dart';
 import 'package:new_alarm_clock/utils/enum.dart';
 import 'package:new_alarm_clock/utils/values/color_value.dart';
-import 'package:new_alarm_clock/utils/values/my_font_family.dart';
 import 'package:intl/intl.dart';
 import 'package:new_alarm_clock/utils/values/string_value.dart';
 import 'package:get/get.dart';
@@ -69,6 +69,7 @@ class SaveButton extends StatelessWidget {
             alarmDateTime: timeSpinnerController.alarmDateTime,
             endDay: DateTime(2045),
             alarmState: true,
+            alarmOrder: alarmId,
             folderName: currentFolderName,
             alarmInterval: Get.find<IntervalTextFieldController>().textEditingController.text == ''?
               0:
@@ -100,6 +101,9 @@ class SaveButton extends StatelessWidget {
               _alarmProvider.insertAlarmWeekData(alarmWeekRepeatData);
             }
           } else if (mode == StringValue.editMode) {
+            AlarmData alarmDataInDB = await _alarmProvider.getAlarmById(alarmId);
+            int alarmOrder = alarmDataInDB.alarmOrder;
+            alarmData.alarmOrder = alarmOrder;
             Get.find<AlarmListController>().updateAlarm(alarmData);
             if (repeatModeController.getRepeatMode() == RepeatMode.off) {
               AlarmWeekRepeatData? weekDataInDB =
@@ -129,13 +133,10 @@ class SaveButton extends StatelessWidget {
           ));
           Get.back();
         },
-        child: Text(
+        child: AutoSizeText(
           '저장',
-          style: TextStyle(
-              fontSize: 1000,
-              color: ColorValue.appbarText,
-              fontWeight: FontWeight.bold,
-              fontFamily: MyFontFamily.mainFontFamily),
-        ));
+          bold: true,
+        )
+    );
   }
 }

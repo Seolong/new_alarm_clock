@@ -52,33 +52,39 @@ class InnerHomePage extends StatelessWidget {
             ),
           ),
           Expanded(child: GetBuilder<AlarmListController>(builder: (_) {
-            return ListView.separated(
+            return ReorderableListView.builder(
+              buildDefaultDragHandles: false,
               shrinkWrap: true,
               padding: EdgeInsets.fromLTRB(10, 15, 10, 10),
               itemCount: _.alarmList.length + 1,
+              onReorder: (int oldIndex, int newIndex) { _.reorderItem(oldIndex, newIndex); },
               itemBuilder: (BuildContext context, int index) {
                 if (index != _.alarmList.length) {
                   if(folderListController.currentFolderName == '전체 알람'){
                     return AlarmItem(
                       id: _.alarmList[index].id,
+                      key: ValueKey(_.alarmList[index].id),
+                      index: index,
                     );
                   }
                   if (_.alarmList[index].folderName == folderListController.currentFolderName) {
                     return AlarmItem(
                       id: _.alarmList[index].id,
+                      key: ValueKey(_.alarmList[index].id),
+                      index: index,
                     );
                   }
-                  return Container();
+                  //return Container(key: ValueKey(-index),);
+                  //이게 빈 컨테이너보다 아주 근소하게 빠르대
+                  return SizedBox.shrink(key: GlobalKey());
                 }
                 else{
                   return Container(
+                    key: GlobalKey(),
                     height: 75,
                   );
                 }
               },
-              separatorBuilder: (BuildContext context, int index) => Container(
-                height: 15,
-              ),
             );
           })),
         ],
