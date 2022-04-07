@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:new_alarm_clock/data/database/alarm_provider.dart';
 import 'package:new_alarm_clock/data/model/alarm_data.dart';
 import 'package:new_alarm_clock/data/model/alarm_week_repeat_data.dart';
+import 'package:new_alarm_clock/service/date_time_calculator.dart';
 import 'package:new_alarm_clock/ui/add_alarm/controller/alarm_title_text_field_controller.dart';
 import 'package:new_alarm_clock/ui/add_alarm/controller/day_of_week_controller.dart';
 import 'package:new_alarm_clock/ui/add_alarm/controller/time_spinner_controller.dart';
@@ -96,10 +97,19 @@ class SaveButton extends StatelessWidget {
               saturday: dayOfWeekController.dayButtonStateMap[DayWeek.Sat]!);
 
           if (mode == StringValue.addMode) {
-            Get.find<AlarmListController>().inputAlarm(alarmData);
             if (repeatModeController.getRepeatMode() == RepeatMode.week) {
+              List<bool> weekBool = [];
+              for(var weekDayBool in DayWeek.values){
+                weekBool.add(dayOfWeekController.dayButtonStateMap[weekDayBool]!);
+              }
+              alarmData.alarmDateTime = DateTimeCalculator().getStartNearDay(
+                  alarmData.alarmType,
+                  alarmData.alarmDateTime,
+                weekBool: weekBool
+              );
               _alarmProvider.insertAlarmWeekData(alarmWeekRepeatData);
             }
+            Get.find<AlarmListController>().inputAlarm(alarmData);
           } else if (mode == StringValue.editMode) {
             AlarmData alarmDataInDB = await _alarmProvider.getAlarmById(alarmId);
             int alarmOrder = alarmDataInDB.alarmOrder;

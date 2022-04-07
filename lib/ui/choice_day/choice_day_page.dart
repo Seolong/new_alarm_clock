@@ -23,11 +23,15 @@ class ChoiceDayPage extends StatelessWidget {
     }
     else{ // RepeatMode.week
       if(Get.find<DayOfWeekController>().dayButtonStateMap.containsValue(true) == false){
-        repeatModeController.repeatMode = RepeatMode.off;
-        print(repeatModeController.repeatMode);
+        repeatModeController.repeatMode = RepeatMode.single; //off로 하면 시작일도 초기화해야 하고 귀찮아져
+        Get.find<IntervalTextFieldController>().textEditingController.text = '';
+        Get.back();
+        return Future.value(false);
       }
     }
-    if(repeatModeController.repeatMode == RepeatMode.single){
+    if(repeatModeController.repeatMode == RepeatMode.single ||
+        repeatModeController.repeatMode == RepeatMode.off){
+      Get.find<IntervalTextFieldController>().textEditingController.text = '';
       Get.back();
       return Future.value(false);
     }

@@ -10,6 +10,7 @@ class TabPageController extends GetxController{
   }
 
   setPageIndex(int index){
+    Get.closeAllSnackbars();
     Get.find<SelectedAlarmController>().isSelectedMode = false;
     _pageIndex = index.obs;
     update();

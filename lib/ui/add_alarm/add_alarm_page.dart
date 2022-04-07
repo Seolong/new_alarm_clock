@@ -12,6 +12,7 @@ import 'package:new_alarm_clock/ui/add_alarm/widgets/day_button.dart';
 import 'package:new_alarm_clock/ui/add_alarm/widgets/list_tile/alarm_detail_list_tile_factory.dart';
 import 'package:new_alarm_clock/ui/add_alarm/widgets/save_button.dart';
 import 'package:new_alarm_clock/ui/add_alarm/widgets/time_spinner.dart';
+import 'package:new_alarm_clock/ui/add_alarm/widgets/title_text_field.dart';
 import 'package:new_alarm_clock/ui/alarm_detail_page/ring/controller/ring_radio_list_controller.dart';
 import 'package:new_alarm_clock/ui/alarm_detail_page/vibration/controller/vibration_radio_list_controller.dart';
 import 'package:new_alarm_clock/ui/choice_day/controller/interval_text_field_controller.dart';
@@ -23,7 +24,6 @@ import 'package:new_alarm_clock/ui/global/auto_size_text.dart';
 import 'package:new_alarm_clock/utils/enum.dart';
 import 'package:new_alarm_clock/utils/values/color_value.dart';
 import 'package:get/get.dart';
-import 'package:new_alarm_clock/utils/values/my_font_family.dart';
 import 'package:new_alarm_clock/utils/values/string_value.dart';
 
 final String toBeAddedIdName = 'toBeAddedId';
@@ -68,6 +68,20 @@ class AddAlarmPage extends StatelessWidget {
       return true;
     }
   }
+
+  String convertAlarmDateTime() {
+    if(Get.find<StartEndDayController>().start['dateTime'].year > DateTime.now().year){
+      return '${Get.find<StartEndDayController>().start['year']} '
+          '${Get.find<StartEndDayController>().start['monthDay']}';
+    }
+    else if(Get.find<StartEndDayController>().start['dateTime'].year == DateTime.now().year){
+      return Get.find<StartEndDayController>().start['monthDay'];
+    }
+    else{
+      return '';
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -225,66 +239,54 @@ class AddAlarmPage extends StatelessWidget {
                       ),
                     ),
 
-                    GetBuilder<StartEndDayController>(
-                        builder: (_) {
-                          return Container(
-                            padding: EdgeInsets.only(top: 5),
-                            height: 40,
-                            child: AutoSizeText(
-                              '${_.start['monthDay']}',
-                              bold: true,
-                            ),
-                          );
-                        }
-                    ),
-
-                    //TitleTextField
-                    Container(
-                      height: 100,
-                      //padding: EdgeInsets.fromLTRB(0, 5, 0, 5),
-                      child: GetBuilder<AlarmTitleTextFieldController>(
-                        initState: (_) => mode == StringValue.editMode
-                            ? alarmTitleTextFieldController
-                            .initTitleTextField(alarmId)
-                            : null,
-                        builder: (_) => FittedBox(
-                          fit: BoxFit.scaleDown,
-                          child: ConstrainedBox(
-                            constraints: BoxConstraints(minWidth: 1, minHeight: 1, maxWidth: Get.width),
-                            child: TextField(
-                              controller: _.textEditingController,
-                              onChanged: (value) {
-                                if (_.textEditingController.text.length != 0) {
-                                  print('length not 0');
-                                } else {
-                                  print('length 0');
-                                }
-                              },
-                              style: TextStyle(
-                                  fontFamily: MyFontFamily.mainFontFamily,
-                                fontSize: 25
+                    //NextYearMonthDayText
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
+                      child: GetBuilder<StartEndDayController>(
+                          builder: (_) {
+                            return Container(
+                              padding: EdgeInsets.only(top: 5),
+                              height: 40,
+                              child: AutoSizeText(
+                                convertAlarmDateTime(),
+                                bold: true,
                               ),
-                              decoration: InputDecoration(
-                                  labelText: '알람 이름',
-                                  labelStyle: TextStyle(
-                                    fontFamily: MyFontFamily.mainFontFamily,
-                                    fontSize: 20
-                                  ),
-                                  suffixIcon: _.textEditingController.text.length > 0
-                                      ? IconButton(
-                                    icon: Icon(
-                                      Icons.clear,
-                                      color: Colors.black,
-                                    ),
-                                    onPressed: () => _.resetField(),
-                                  )
-                                      : null // Show the clear button if the text field has something
-                              ),
-                            ),
-                          ),
-                        ),
+                            );
+                          }
                       ),
                     ),
+
+                    //IntervalInfoText
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
+                      child: GetBuilder<IntervalTextFieldController>(
+                          builder: (_){
+                            return GetBuilder<RepeatModeController>(
+                              builder: (repeatCont) {
+                                return GetBuilder<MonthRepeatDayController>(
+                                  builder: (monthCont) {
+                                    return Container(
+                                      padding: EdgeInsets.all(5),
+                                      height: 35,
+                                      child: AutoSizeText(
+                                        '${_.textEditingController.text == '1'
+                                            ? '매'
+                                            : _.textEditingController.text}'
+                                            '${repeatCont.getRepeatModeText(_.textEditingController.text,
+                                            monthCont.monthRepeatDay)
+                                        }',
+                                        color: Colors.black54,
+                                      ),
+                                    );
+                                  }
+                                );
+                              }
+                            );
+                          }
+                      ),
+                    ),
+
+                    TitleTextField(mode, alarmId),
 
                     _alarmDetailListTileFactory
                         .getDetailListTile(DetailTileName.ring),

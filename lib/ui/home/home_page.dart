@@ -77,6 +77,7 @@ class HomePage extends StatelessWidget {
                 ),
               ),
               onPressed: () async{
+                Get.closeAllSnackbars();
                 Get.find<SelectedAlarmController>().isSelectedMode = false;
                 int newId = await idSharedPreferences.getId();
                 Map<String, dynamic> argToNextPage = ConvenienceMethod().getArgToNextPage(

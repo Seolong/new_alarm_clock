@@ -1,7 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:new_alarm_clock/ui/add_alarm/controller/time_spinner_controller.dart';
-import 'package:new_alarm_clock/ui/choice_day/controller/start_end_day_controller.dart';
+import 'package:new_alarm_clock/ui/choice_day/controller/repeat_mode_controller.dart';
+import 'package:new_alarm_clock/utils/enum.dart';
 import 'package:new_alarm_clock/utils/values/color_value.dart';
 import 'package:new_alarm_clock/utils/values/my_font_family.dart';
 import 'package:get/get.dart';
@@ -41,8 +42,11 @@ class TimeSpinner extends StatelessWidget {
                       initialDateTime: timeSpinnerController.alarmDateTime,
                       mode: CupertinoDatePickerMode.time,
                       onDateTimeChanged: (DateTime value) {
-                        _.setDayInRepeatOff(value);
+                        if (Get.find<RepeatModeController>().repeatMode == RepeatMode.off) {
+                          _.setDayInRepeatOff(value);
+                        }
                         _.alarmDateTime = value;
+                        //print(Get.find<RepeatModeController>().repeatMode);
                       },
                     );
                   }

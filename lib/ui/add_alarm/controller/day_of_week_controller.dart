@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:new_alarm_clock/data/database/alarm_provider.dart';
 import 'package:new_alarm_clock/data/model/alarm_week_repeat_data.dart';
+import 'package:new_alarm_clock/ui/choice_day/controller/repeat_mode_controller.dart';
 import 'package:new_alarm_clock/utils/enum.dart';
 import 'package:new_alarm_clock/utils/values/color_value.dart';
 
@@ -54,6 +55,12 @@ class DayOfWeekController extends GetxController{
   }
 
   Color getButtonTextColor(bool state){
+    if(Get.find<RepeatModeController>().repeatMode == RepeatMode.single ||
+    Get.find<RepeatModeController>().repeatMode == RepeatMode.day ||
+        Get.find<RepeatModeController>().repeatMode == RepeatMode.month ||
+        Get.find<RepeatModeController>().repeatMode == RepeatMode.year){
+      return Colors.black12;
+    }
     return state ? ColorValue.dayButtonActive : Colors.black;
   }
 

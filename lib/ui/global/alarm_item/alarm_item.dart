@@ -19,7 +19,6 @@ import 'widgets/alarm_item_text.dart';
 import 'package:intl/intl.dart';
 
 class AlarmItem extends StatelessWidget {
-  bool _switchBool = true;
   Color _skipButtonColor;
   late int _id;
   int index;
@@ -37,30 +36,33 @@ class AlarmItem extends StatelessWidget {
     return DateFormat('M월 d일').format(alarmData.alarmDateTime);
   }
 
-  String getTextOfRepeatMode(RepeatMode repeatMode) {
-    switch (repeatMode) {
-      case RepeatMode.off:
-      case RepeatMode.single:
-        return '';
-      case RepeatMode.day:
-        return '일마다 반복';
-      case RepeatMode.week:
-        return '주마다 반복';
-      case RepeatMode.month:
-        return '달마다 반복';
-      case RepeatMode.year:
-        return '년마다 반복';
-    }
-  }
-
   String getTextOfAlarmPoint(AlarmData alarmData) {
     //off거나 single이면 비어있고
-    //그 외에는 '1일마다 반복'
+    //그 외에는 '2일마다 반복'
     if (alarmData.alarmType == RepeatMode.off ||
         alarmData.alarmType == RepeatMode.single) {
       return '';
     } else {
-      return '${alarmData.alarmInterval}${getTextOfRepeatMode(alarmData.alarmType)}';
+      String alarmPoint;
+      int interval = alarmData.alarmInterval;
+      switch (alarmData.alarmType) {
+        case RepeatMode.day:
+          alarmPoint =  interval == 1?'매일 반복':'${interval}일마다 반복';
+          break;
+        case RepeatMode.week:
+          alarmPoint =  interval == 1?'매주 반복':'${interval}주마다 반복';
+          break;
+        case RepeatMode.month:
+          alarmPoint =  interval == 1?'매달 반복':'${interval}달마다 반복';
+          break;
+        case RepeatMode.year:
+          alarmPoint =  interval == 1?'매년 반복':'${interval}년마다 반복';
+          break;
+        default:
+          alarmPoint = '';
+          assert(false, 'getTextOfAlarmPoint error in AlarmItem');
+      }
+      return alarmPoint;
     }
   }
 
@@ -167,10 +169,17 @@ class AlarmItem extends StatelessWidget {
                                       selectedCont.isSelectedMode = false;
                                       Get.back();
                                     },
-                                    child: Container(height: 30,
-                                      child: AutoSizeText(
-                                        '삭제 모드 해제',
-                                        color: Colors.blueGrey,
+                                    child: Container(height: 40,
+                                      decoration: BoxDecoration(
+                                        color: ColorValue.activeSwitch,
+                                        borderRadius: BorderRadius.circular(7.5)
+                                      ),
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(7.5),
+                                        child: AutoSizeText(
+                                          '삭제 모드 해제',
+                                          color: Colors.white,
+                                        ),
                                       ),
                                     )
                                 )

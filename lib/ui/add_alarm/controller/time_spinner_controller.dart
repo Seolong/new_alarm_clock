@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:new_alarm_clock/data/database/alarm_provider.dart';
 import 'package:new_alarm_clock/data/model/alarm_data.dart';
+import 'package:new_alarm_clock/ui/choice_day/controller/repeat_mode_controller.dart';
 import 'package:new_alarm_clock/ui/choice_day/controller/start_end_day_controller.dart';
 import 'dart:async';
 
@@ -10,7 +11,7 @@ class TimeSpinnerController extends GetxController{
   RxString _alarmDateTime = '2000-01-01T00:00:00.000'.obs;
   AlarmProvider _alarmProvider = AlarmProvider();
   Future<DateTime>? dateTimeFuture;
-  RepeatMode repeatMode = RepeatMode.off;
+  RepeatMode repeatMode = Get.find<RepeatModeController>().repeatMode;
 
   @override
   void onInit() {
@@ -44,7 +45,7 @@ class TimeSpinnerController extends GetxController{
   }
 
   void setDayInRepeatOff(DateTime value){
-    if (repeatMode == RepeatMode.off) {
+
       //DateTimePicker의 onDateTimeChanged의 value는 당일에서만 변경할 수 있다.
       //오늘이 21일이라면 21일 00시~23시 59분 59초...가 범위라는 뜻
       //saveButton 누를 때 필연적으로 년월일과 시분초를
@@ -56,6 +57,6 @@ class TimeSpinnerController extends GetxController{
       else if(value.isAfter(DateTime.now())){
         Get.find<StartEndDayController>().setStart(value);
       }
-    }
+
   }
 }

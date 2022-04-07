@@ -20,5 +20,6 @@ class MonthRepeatDayController extends GetxController{
 
   void initInEdit(int? value){
     _monthRepeatDay = value.obs;
+    update();
   }
 }
