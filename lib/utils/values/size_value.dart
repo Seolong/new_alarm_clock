@@ -29,6 +29,8 @@ class SizeValue{
   static final double oneAlarmCalendarTitleHeight = 50;
   static final double oneAlarmCalendarTitleTextSize = 25;
   static final double oneAlarmCalendarCellTextSize = 15;
+
+  static final double detailPowerTextHeight = 30;
 }
 
 class ButtonSize{

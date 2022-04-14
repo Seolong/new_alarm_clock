@@ -4,10 +4,14 @@ import 'package:new_alarm_clock/data/model/music_path_data.dart';
 import 'package:new_alarm_clock/ui/alarm_detail_page/ring/controller/ring_radio_list_controller.dart';
 import 'package:new_alarm_clock/ui/alarm_detail_page/ring/widget/ring_radio_list.dart';
 import 'package:new_alarm_clock/ui/alarm_detail_page/ring/widget/volume_slider.dart';
+import 'package:new_alarm_clock/ui/alarm_detail_page/widget_all/app_bar_title.dart';
+import 'package:new_alarm_clock/ui/global/auto_size_text.dart';
 import 'package:new_alarm_clock/ui/global/divider/rounded_divider.dart';
 import 'package:new_alarm_clock/utils/values/color_value.dart';
 import 'package:get/get.dart';
 import 'dart:io';
+
+import 'package:new_alarm_clock/utils/values/size_value.dart';
 
 
 class RingPage extends StatelessWidget {
@@ -25,7 +29,7 @@ class RingPage extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           foregroundColor: ColorValue.appbarText,
-          title: Text('알람음'),
+          title: AppBarTitle('알람음'),
           backgroundColor: ColorValue.appbar,
         ),
         body: SafeArea(
@@ -35,12 +39,14 @@ class RingPage extends StatelessWidget {
                 padding: const EdgeInsets.fromLTRB(5, 3, 5, 0),
                 child: GetBuilder<RingRadioListController>(
                   builder: (_) => SwitchListTile(
-                      title: Text(
-                        _.power ? '사용' : '사용 안 함',
-                        style: TextStyle(
-                            fontSize: 25,
-                            fontWeight: FontWeight.bold,
-                            color: _.power ? ColorValue.activeSwitch : Colors.grey),
+                      title: Container(
+                        alignment: Alignment.bottomLeft,
+                        height: SizeValue.detailPowerTextHeight,
+                        child: AutoSizeText(
+                            _.power ? '사용' : '사용 안 함',
+                            bold: true,
+                            color: _.power ? ColorValue.activeSwitch : Colors.grey
+                        ),
                       ),
                       value: _.power,
                       onChanged: (value) {
@@ -128,8 +134,10 @@ class RingPage extends StatelessWidget {
                                 child: Padding(
                                   padding:
                                       const EdgeInsets.fromLTRB(0, 10, 0, 10),
-                                  child: Align(
-                                    alignment: Alignment(-0.8, 0),
+                                  child: Container(
+                                    height: 30,
+                                    padding: EdgeInsets.only(left: 10),
+                                    alignment: Alignment.bottomLeft,
                                     child: FittedBox(
                                       fit: BoxFit.scaleDown,
                                       child: ConstrainedBox(

@@ -5,7 +5,6 @@ import 'package:new_alarm_clock/utils/enum.dart';
 import 'package:vibration/vibration.dart';
 
 class RepeatRadioListController extends GetxController{
-  //알람 수정이면 db에서 가져오고 알람 추가면 default 값으로 VibrationName.long으로
   AlarmInterval _alarmInterval = AlarmInterval.five;
   RepeatNum _repeatNum = RepeatNum.three;
   RxBool _power = false.obs;//DB에서 가져오기
@@ -21,6 +20,12 @@ class RepeatRadioListController extends GetxController{
     update();
   }
   AlarmInterval get alarmInterval => _alarmInterval;
+
+  void setAlarmIntervalWithInt(int value){
+    switch(value){
+
+    }
+  }
 
   set repeatNum(RepeatNum repeatNum){
     _repeatNum = repeatNum;
@@ -50,8 +55,8 @@ class RepeatRadioListController extends GetxController{
     super.onClose();
   }
 
-  String convertInterval(AlarmInterval alarmInterval){
-    switch(alarmInterval){
+  String getIntervalAsString(AlarmInterval interval){//radio에 text 표시용
+    switch(interval){
       case AlarmInterval.five:
         return '5분';
       case AlarmInterval.ten:
@@ -61,14 +66,36 @@ class RepeatRadioListController extends GetxController{
     }
   }
 
-  String convertRepeatNum(RepeatNum repeatNum){
-    switch(repeatNum){
+  int getIntervalAsInt(){//DB 저장용
+    switch(_alarmInterval){
+      case AlarmInterval.five:
+        return 5;
+      case AlarmInterval.ten:
+        return 10;
+      case AlarmInterval.fifteen:
+        return 15;
+    }
+  }
+
+  String getRepeatNumAsString(RepeatNum num){
+    switch(num){
       case RepeatNum.two:
         return '2회';
       case RepeatNum.three:
         return '3회';
       case RepeatNum.infinite:
         return '계속 반복';
+    }
+  }
+
+  int getRepeatNumAsInt(){
+    switch(_repeatNum){
+      case RepeatNum.two:
+        return 2;
+      case RepeatNum.three:
+        return 3;
+      case RepeatNum.infinite:
+        return 12;
     }
   }
 }

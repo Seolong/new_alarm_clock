@@ -58,7 +58,8 @@ class AlarmProvider {
           $columnVibrationBool integer not null,
           $columnVibrationName text not null,
           $columnRepeatBool integer not null,
-          $columnRepeatInterval integer not null )
+          $columnRepeatInterval integer not null, 
+          $columnRepeatNum integer not null)
         ''');
 
     await db.execute('''

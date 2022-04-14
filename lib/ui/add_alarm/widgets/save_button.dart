@@ -7,6 +7,7 @@ import 'package:new_alarm_clock/service/date_time_calculator.dart';
 import 'package:new_alarm_clock/ui/add_alarm/controller/alarm_title_text_field_controller.dart';
 import 'package:new_alarm_clock/ui/add_alarm/controller/day_of_week_controller.dart';
 import 'package:new_alarm_clock/ui/add_alarm/controller/time_spinner_controller.dart';
+import 'package:new_alarm_clock/ui/alarm_detail_page/repeat/controller/repeat_radio_list_controller.dart';
 import 'package:new_alarm_clock/ui/alarm_detail_page/ring/controller/ring_radio_list_controller.dart';
 import 'package:new_alarm_clock/ui/alarm_detail_page/vibration/controller/vibration_radio_list_controller.dart';
 import 'package:new_alarm_clock/ui/choice_day/controller/interval_text_field_controller.dart';
@@ -82,8 +83,9 @@ class SaveButton extends StatelessWidget {
             musicVolume: Get.find<RingRadioListController>().volume,
             vibrationBool: Get.find<VibrationRadioListController>().power,
             vibrationName: Get.find<VibrationRadioListController>().selectedVibration,
-            repeatBool: false,
-            repeatInterval: 0,
+            repeatBool: Get.find<RepeatRadioListController>().power,
+            repeatInterval: Get.find<RepeatRadioListController>().getIntervalAsInt(),
+            repeatNum: Get.find<RepeatRadioListController>().getRepeatNumAsInt(),
           );
 
           AlarmWeekRepeatData alarmWeekRepeatData = AlarmWeekRepeatData(

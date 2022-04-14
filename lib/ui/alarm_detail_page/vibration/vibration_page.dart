@@ -1,24 +1,29 @@
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:new_alarm_clock/ui/alarm_detail_page/vibration/controller/vibration_radio_list_controller.dart';
+import 'package:new_alarm_clock/ui/alarm_detail_page/widget_all/app_bar_title.dart';
+import 'package:new_alarm_clock/ui/global/auto_size_text.dart';
 import 'package:new_alarm_clock/ui/global/divider/rounded_divider.dart';
 import 'package:new_alarm_clock/utils/enum.dart';
 import 'package:new_alarm_clock/utils/values/color_value.dart';
+import 'package:new_alarm_clock/utils/values/size_value.dart';
 import 'package:new_alarm_clock/utils/values/vibration_pack.dart';
 import 'package:vibration/vibration.dart';
 
 class VibrationPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    VibrationRadioListController vibrationRadioListController =
-        Get.put(VibrationRadioListController());
+    Get.put(VibrationRadioListController());
     return WillPopScope(
-      onWillPop: () {Vibration.cancel();
-        Get.back(); return Future.value(false);},
+      onWillPop: () {
+        Vibration.cancel();
+        Get.back();
+        return Future.value(false);
+      },
       child: Scaffold(
         appBar: AppBar(
           foregroundColor: ColorValue.appbarText,
-          title: Text('진동'),
+          title: AppBarTitle('진동'),
           backgroundColor: ColorValue.appbar,
         ),
         body: SafeArea(
@@ -28,24 +33,25 @@ class VibrationPage extends StatelessWidget {
                 padding: const EdgeInsets.fromLTRB(5, 3, 5, 0),
                 child: GetBuilder<VibrationRadioListController>(
                   builder: (_) => SwitchListTile(
-                      title: Text(
-                        _.power ? '사용' : '사용 안 함',
-                        style: TextStyle(
-                            fontSize: 25,
-                            fontWeight: FontWeight.bold,
-                            color: _.power ? ColorValue.activeSwitch : Colors.grey),
-                      ),
-                      value: _.power,
-                      onChanged: (value) {
-                        if (_.power) {
-                          _.listTextColor = _.textColor['inactive']!;
-                          Vibration.cancel();
-                        } else {
-                          _.listTextColor = _.textColor['active']!;
-                        }
+                    title: Container(
+                      alignment: Alignment.bottomLeft,
+                      height: SizeValue.detailPowerTextHeight,
+                      child: AutoSizeText(_.power ? '사용' : '사용 안 함',
+                          bold: true,
+                          color:
+                              _.power ? ColorValue.activeSwitch : Colors.grey),
+                    ),
+                    value: _.power,
+                    onChanged: (value) {
+                      if (_.power) {
+                        _.listTextColor = _.textColor['inactive']!;
+                        Vibration.cancel();
+                      } else {
+                        _.listTextColor = _.textColor['active']!;
+                      }
 
-                        _.power = value;
-                      },
+                      _.power = value;
+                    },
                     activeColor: ColorValue.activeSwitch,
                   ),
                 ),
@@ -65,23 +71,27 @@ class VibrationPage extends StatelessWidget {
                   itemBuilder: (BuildContext context, int index) {
                     return GetBuilder<VibrationRadioListController>(
                       builder: (_) => RadioListTile(
-                          title: Text(
-                            VibrationPack().convertVibrationNameToRadioName(
-                                VibrationName.values[index])!,
-                            style: TextStyle(
-                                fontSize: 25,
-                                color: _.power
-                                    ? _.textColor['active']
-                                    : _.textColor['inactive']),
-                          ),
-                          value: VibrationName.values[index],
-                          groupValue: _.selectedVibration, //초기값
-                          onChanged: (VibrationName? value) {
-                            if (_.power == false) {
-                            } else {
-                              _.selectedVibration = value!;
-                            }
-                          }),
+                        title: Container(
+                          alignment: Alignment.bottomLeft,
+                          height: 30,
+                          child: AutoSizeText(
+                              VibrationPack().convertVibrationNameToRadioName(
+                                  VibrationName.values[index])!,
+                              color: _.power
+                                  ? _.textColor['active']
+                                  : _.textColor['inactive']),
+                        ),
+                        value: VibrationName.values[index],
+                        groupValue: _.selectedVibration,
+                        //초기값
+                        onChanged: (VibrationName? value) {
+                          if (_.power == false) {
+                          } else {
+                            _.selectedVibration = value!;
+                          }
+                        },
+                        activeColor: ColorValue.activeSwitch,
+                      ),
                     );
                   },
                 ),

@@ -4,6 +4,7 @@ import 'package:new_alarm_clock/ui/global/auto_size_text.dart';
 import 'package:new_alarm_clock/ui/home/controller/folder_list_controller.dart';
 import 'package:new_alarm_clock/ui/home/controller/folder_name_text_field_controller.dart';
 import 'package:new_alarm_clock/ui/home/controller/tab_page_controller.dart';
+import 'package:new_alarm_clock/ui/home/widgets/delete_folder_dialog.dart';
 import 'package:new_alarm_clock/ui/home/widgets/set_folder_title_dialog.dart';
 import 'package:new_alarm_clock/utils/values/my_font_family.dart';
 
@@ -50,9 +51,12 @@ class FolderPage extends StatelessWidget {
                     //item 의 반목문 항목 형성
                     if (_.folderList.length != index) {
                       return InkWell(
-                        onLongPress: (){
+                        onLongPress: () async{
                           if(index != 0){ // 전체 알람 폴더는 삭제 불가
-                            _.deleteFolder(_.folderList[index].name);
+                            bool isDelete = await Get.dialog(DeleteFolderDialog());
+                            if(isDelete == true){
+                              _.deleteFolder(_.folderList[index].name);
+                            }
                           }
                         },
                         onTap: () {

@@ -20,6 +20,7 @@ final String columnVibrationBool = 'vibrationBool';
 final String columnVibrationName = 'vibrationName';
 final String columnRepeatBool = 'repeatBool';
 final String columnRepeatInterval = 'repeatInterval';
+final String columnRepeatNum = 'repeatNum';
 
 class AlarmData {
   late int id;
@@ -41,6 +42,7 @@ class AlarmData {
   late VibrationName vibrationName;
   late bool repeatBool;
   late int repeatInterval;
+  late int repeatNum; //무한 반복은 12로 저장한다. 근데 repeatNum이 3보다 크면 무한 반복인 걸로 판단하는 if문 만들 것
 
   AlarmData({
     required this.id,
@@ -62,6 +64,7 @@ class AlarmData {
     required this.vibrationName,
     required this.repeatBool,
     required this.repeatInterval,
+    required this.repeatNum,
   });
 
   factory AlarmData.fromMap(Map<String, dynamic> json) =>
@@ -86,6 +89,7 @@ class AlarmData {
         vibrationName: VibrationName.values.firstWhere((e) => e.toString() == json[columnVibrationName]),
         repeatBool: TypeConverter.convertIntToBool(json[columnRepeatBool]),
         repeatInterval: json[columnRepeatInterval],
+        repeatNum: json[columnRepeatNum],
       );
 
   Map<String, dynamic> toMap() =>
@@ -110,5 +114,6 @@ class AlarmData {
         columnVibrationName: vibrationName.toString(),
         columnRepeatBool: TypeConverter.convertBoolToInt(repeatBool),
         columnRepeatInterval: repeatInterval,
+        columnRepeatNum: repeatNum
       };
 }

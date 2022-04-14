@@ -37,6 +37,7 @@ class FolderListController extends GetxController{
     folderList.removeWhere((element) => element.name == name);
     Get.find<AlarmListController>().alarmList.removeWhere((element)
       => element.folderName == name);
+    currentFolderName = '전체 알람';
     update();
   }
 

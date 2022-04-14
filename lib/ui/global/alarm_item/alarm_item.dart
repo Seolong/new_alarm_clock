@@ -47,16 +47,16 @@ class AlarmItem extends StatelessWidget {
       int interval = alarmData.alarmInterval;
       switch (alarmData.alarmType) {
         case RepeatMode.day:
-          alarmPoint =  interval == 1?'매일 반복':'${interval}일마다 반복';
+          alarmPoint = interval == 1 ? '매일 반복' : '${interval}일마다 반복';
           break;
         case RepeatMode.week:
-          alarmPoint =  interval == 1?'매주 반복':'${interval}주마다 반복';
+          alarmPoint = interval == 1 ? '매주 반복' : '${interval}주마다 반복';
           break;
         case RepeatMode.month:
-          alarmPoint =  interval == 1?'매달 반복':'${interval}달마다 반복';
+          alarmPoint = interval == 1 ? '매달 반복' : '${interval}달마다 반복';
           break;
         case RepeatMode.year:
-          alarmPoint =  interval == 1?'매년 반복':'${interval}년마다 반복';
+          alarmPoint = interval == 1 ? '매년 반복' : '${interval}년마다 반복';
           break;
         default:
           alarmPoint = '';
@@ -82,10 +82,10 @@ class AlarmItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     BorderRadius _alarmBorder = BorderRadius.all(Radius.circular(10));
-    final selectedCont = Get.put(SelectedAlarmController());
     final switchCont = Get.put(AlarmSwitchController());
-    final skipCont = Get.put(AlarmSkipButtonController());
-    final alarmListController = Get.put(AlarmListController());
+    Get.put(SelectedAlarmController());
+    Get.put(AlarmSkipButtonController());
+    Get.put(AlarmListController());
 
     //나중에 LongPress했을 때 회색도 추가
     Get.find<SelectedAlarmController>().colorMap[_id] = ColorValue.alarm;
@@ -95,16 +95,18 @@ class AlarmItem extends StatelessWidget {
         alignment: AlignmentDirectional.centerStart,
         children: [
           AnimatedContainer(
-              padding: EdgeInsets.only(left: 3.5),
-              duration: Duration(milliseconds: 250),
-              child: GestureDetector(
-              onTap: () { Get.find<AlarmListController>().deleteAlarm(_id); },
-                child: Icon(
-                    Icons.delete,
-                    size: ButtonSize.medium+6,
-                    color: Colors.redAccent,
-                  ),
+            padding: EdgeInsets.only(left: 3.5),
+            duration: Duration(milliseconds: 250),
+            child: GestureDetector(
+              onTap: () {
+                Get.find<AlarmListController>().deleteAlarm(_id);
+              },
+              child: Icon(
+                Icons.delete,
+                size: ButtonSize.medium + 6,
+                color: Colors.redAccent,
               ),
+            ),
           ),
           AnimatedContainer(
             padding: EdgeInsets.fromLTRB(0, 7.5, 0, 7.5),
@@ -148,7 +150,8 @@ class AlarmItem extends StatelessWidget {
                                   (await alarmProvider.getAlarmById(_id))
                                       .folderName);
                           Get.closeAllSnackbars();
-                          Get.find<SelectedAlarmController>().isSelectedMode = false;
+                          Get.find<SelectedAlarmController>().isSelectedMode =
+                              false;
                           Get.toNamed(AppRoutes.addAlarmPage,
                               arguments: argToNextPage);
                         },
@@ -158,32 +161,37 @@ class AlarmItem extends StatelessWidget {
                                 !(selectedCont.isSelectedMode);
                             if (Get.isSnackbarOpen == false) {
                               Get.snackbar('', '',
-                                isDismissible: false,
-                                margin: EdgeInsets.zero,
-                                snackStyle: SnackStyle.GROUNDED,
-                                backgroundColor: ColorValue.mainBackground,
-                                duration: Duration(minutes: 15),
-                                animationDuration: Duration(milliseconds: 250),
-                                mainButton: TextButton(
-                                    onPressed: (){
-                                      selectedCont.isSelectedMode = false;
-                                      Get.back();
-                                    },
-                                    child: Container(height: 40,
-                                      decoration: BoxDecoration(
-                                        color: ColorValue.activeSwitch,
-                                        borderRadius: BorderRadius.circular(7.5)
+                                  isDismissible: false,
+                                  margin: EdgeInsets.zero,
+                                  snackStyle: SnackStyle.GROUNDED,
+                                  backgroundColor: ColorValue.mainBackground,
+                                  duration: Duration(minutes: 15),
+                                  animationDuration:
+                                      Duration(milliseconds: 250),
+                                  mainButton: TextButton(
+                                      onPressed: () {
+                                        selectedCont.isSelectedMode = false;
+                                        Get.back();
+                                      },
+                                      style: ButtonStyle(
+                                        backgroundColor:
+                                          MaterialStateProperty.resolveWith<
+                                                  Color>(
+                                              (Set<MaterialState> states) {
+                                        if (states
+                                            .contains(MaterialState.pressed)) {
+                                          return Colors.black26;
+                                        }
+                                        return ColorValue.activeSwitch;
+                                      }),
+                                        overlayColor: MaterialStateProperty.all(Colors.transparent),//splash 효과 없애는 코드
+                                        minimumSize: MaterialStateProperty.all(Size(40, 40)),
+                                        maximumSize: MaterialStateProperty.all(Size(150, 40))
                                       ),
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(7.5),
-                                        child: AutoSizeText(
-                                          '삭제 모드 해제',
-                                          color: Colors.white,
-                                        ),
-                                      ),
-                                    )
-                                )
-                              );
+                                      child: AutoSizeText(
+                                        '삭제 모드 해제',
+                                        color: Colors.white,
+                                      )));
                             }
                           }
                         },

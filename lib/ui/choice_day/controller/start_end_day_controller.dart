@@ -2,7 +2,9 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:new_alarm_clock/service/date_time_calculator.dart';
 import 'package:new_alarm_clock/ui/add_alarm/controller/day_of_week_controller.dart';
+import 'package:new_alarm_clock/ui/choice_day/controller/year_repeat_day_controller.dart';
 import 'package:new_alarm_clock/utils/enum.dart';
+import 'package:new_alarm_clock/ui/choice_day/controller/month_repaet_day_controller.dart';
 
 class StartEndDayController extends GetxController{
   RxMap<String, dynamic> _start = {
@@ -55,7 +57,16 @@ class StartEndDayController extends GetxController{
       setStart(dateTimeCalculator.getStartNearDay(repeatMode, _start['dateTime'],
         weekBool: weekBool));
     }
-    else {
+    else if(repeatMode == RepeatMode.month){
+      setStart(
+          dateTimeCalculator.getStartNearDay(repeatMode, _start['dateTime'],
+              monthDay: Get.find<MonthRepeatDayController>().monthRepeatDay!));
+    }else if(repeatMode == RepeatMode.year){
+      setStart(
+          dateTimeCalculator.getStartNearDay(repeatMode, _start['dateTime'],
+            yearRepeatDay: Get.find<YearRepeatDayController>().yearRepeatDay));
+    }
+    else{
       setStart(
           dateTimeCalculator.getStartNearDay(repeatMode, _start['dateTime']));
     }

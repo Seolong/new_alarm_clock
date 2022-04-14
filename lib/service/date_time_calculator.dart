@@ -1,8 +1,5 @@
 import 'package:jiffy/jiffy.dart';
-import 'package:new_alarm_clock/ui/choice_day/controller/month_repaet_day_controller.dart';
-import 'package:new_alarm_clock/ui/choice_day/controller/year_repeat_day_controller.dart';
 import 'package:new_alarm_clock/utils/enum.dart';
-import 'package:get/get.dart';
 
 // jiffy 쓰는 이유
 //It works but the problem is in momentjs/c#
@@ -113,8 +110,7 @@ class DateTimeCalculator {
     }
   }
 
-  DateTime _getStartNearMonthDay(DateTime currentStartDateTime){
-    int monthDay = Get.find<MonthRepeatDayController>().monthRepeatDay!;
+  DateTime _getStartNearMonthDay(DateTime currentStartDateTime, int monthDay){
     if(currentStartDateTime.day < monthDay){
       int difference = monthDay - currentStartDateTime.day;
       return currentStartDateTime.add(Duration(days: difference));
@@ -128,9 +124,8 @@ class DateTimeCalculator {
     }
   }
 
-  DateTime _getStartNearYearDay(DateTime currentStartDateTime){
+  DateTime _getStartNearYearDay(DateTime currentStartDateTime, DateTime yearRepeatDay){
     DateTime now = DateTime.now();
-    DateTime yearRepeatDay = Get.find<YearRepeatDayController>().yearRepeatDay;
     DateTime thisYearRepeatDay = DateTime(now.year, yearRepeatDay.month,
       yearRepeatDay.day);
     DateTime thisYearStartDay = DateTime(now.year, currentStartDateTime.month,
@@ -149,7 +144,7 @@ class DateTimeCalculator {
   }
 
   DateTime getStartNearDay(RepeatMode repeatMode, DateTime currentStartDateTime,
-  {List<bool>? weekBool}){
+  {List<bool>? weekBool, int? monthDay, DateTime? yearRepeatDay}){
     switch(repeatMode){
       case RepeatMode.off:
         return DateTime.now();
@@ -158,9 +153,9 @@ class DateTimeCalculator {
       case RepeatMode.week:
         return _getStartNearWeekDay(currentStartDateTime, weekBool!);
       case RepeatMode.month:
-        return _getStartNearMonthDay(currentStartDateTime);
+        return _getStartNearMonthDay(currentStartDateTime, monthDay!);
       case RepeatMode.year:
-        return _getStartNearYearDay(currentStartDateTime);
+        return _getStartNearYearDay(currentStartDateTime, yearRepeatDay!);
       default:
         assert(false, 'error in getStartNearDay of DateTimeCalculator');
         return DateTime.now();

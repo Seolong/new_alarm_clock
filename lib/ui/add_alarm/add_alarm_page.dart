@@ -13,6 +13,7 @@ import 'package:new_alarm_clock/ui/add_alarm/widgets/list_tile/alarm_detail_list
 import 'package:new_alarm_clock/ui/add_alarm/widgets/save_button.dart';
 import 'package:new_alarm_clock/ui/add_alarm/widgets/time_spinner.dart';
 import 'package:new_alarm_clock/ui/add_alarm/widgets/title_text_field.dart';
+import 'package:new_alarm_clock/ui/alarm_detail_page/repeat/controller/repeat_radio_list_controller.dart';
 import 'package:new_alarm_clock/ui/alarm_detail_page/ring/controller/ring_radio_list_controller.dart';
 import 'package:new_alarm_clock/ui/alarm_detail_page/vibration/controller/vibration_radio_list_controller.dart';
 import 'package:new_alarm_clock/ui/choice_day/controller/interval_text_field_controller.dart';
@@ -46,6 +47,8 @@ class AddAlarmPage extends StatelessWidget {
     Get.find<RingRadioListController>().power = alarmData.musicBool;
     Get.find<RingRadioListController>().volume = alarmData.musicVolume;
     Get.find<RingRadioListController>().initSelectedMusicPathInEdit(alarmData.musicPath);
+    Get.find<RepeatRadioListController>().power = alarmData.repeatBool;
+    //Get.find<RepeatRadioListController>().repeatInterval = alarmData.repeatInterval;
     Get.find<IntervalTextFieldController>().initTextFieldInEditRepeat(alarmData.alarmInterval);
     Get.find<MonthRepeatDayController>().initInEdit(alarmData.monthRepeatDay);
     Get.find<StartEndDayController>().setStart(alarmData.alarmDateTime);
@@ -96,9 +99,10 @@ class AddAlarmPage extends StatelessWidget {
     Get.put(AlarmTitleTextFieldController());
     final timeSpinnerController = Get.put(TimeSpinnerController());
     final startEndDayController = Get.put(StartEndDayController());
-    final ringRadioListController = Get.put(RingRadioListController());
-    final vibrationRadioListController = Get.put(VibrationRadioListController());
-    final intervalTextFieldController = Get.put(IntervalTextFieldController());
+    Get.put(RingRadioListController());
+    Get.put(VibrationRadioListController());
+    Get.put(RepeatRadioListController());
+    Get.put(IntervalTextFieldController());
     Get.put(MonthRepeatDayController());
 
     SystemChrome.setSystemUIOverlayStyle(
@@ -186,7 +190,8 @@ class AddAlarmPage extends StatelessWidget {
                                       BoxConstraints constraints) =>
                                       GetBuilder<RepeatModeController>(
                                           builder: (repeatCont) {
-                                            return AbsorbPointer( // off나 week이 아니면 터치 막아버림
+                                            // off나 week이 아니면 터치 막아버림
+                                            return AbsorbPointer(
                                               absorbing: _isAbsorbPointerOfDayButton(repeatCont),
                                               child: Row(
                                                 children: [

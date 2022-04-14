@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:new_alarm_clock/data/model/music_path_data.dart';
 import 'package:new_alarm_clock/ui/alarm_detail_page/ring/controller/ring_radio_list_controller.dart';
 import 'package:get/get.dart';
+import 'package:new_alarm_clock/ui/global/auto_size_text.dart';
 import 'package:new_alarm_clock/utils/values/color_value.dart';
 
 class RingRadioList extends StatelessWidget {
@@ -21,13 +22,15 @@ class RingRadioList extends StatelessWidget {
                 itemBuilder: (BuildContext context, int index) {
                   if (index != _.pathList.length) {
                     return RadioListTile(
-                        title: Text(
-                          _.getNameOfSong(_.pathList[index].path),
-                          style: TextStyle(
-                              fontSize: 25,
+                        title: Container(
+                          alignment: Alignment.bottomLeft,
+                          height: 30,
+                          child: AutoSizeText(
+                              _.getNameOfSong(_.pathList[index].path),
                               color: _.power
                                   ? _.textColor['active']
-                                  : _.textColor['inactive']),
+                                  : _.textColor['inactive']
+                          ),
                         ),
                         value: _.pathList[index].path,
                         groupValue: _.selectedMusicPath, //초기값
