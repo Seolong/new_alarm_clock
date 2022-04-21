@@ -2,6 +2,10 @@ import 'dart:core';
 import 'package:get/get.dart';
 import 'package:new_alarm_clock/data/database/alarm_provider.dart';
 import 'package:new_alarm_clock/data/model/alarm_data.dart';
+import 'package:new_alarm_clock/data/model/alarm_week_repeat_data.dart';
+import 'package:new_alarm_clock/main.dart';
+import 'package:new_alarm_clock/service/date_time_calculator.dart';
+import 'package:new_alarm_clock/utils/enum.dart';
 
 
 class AlarmListController extends GetxController{
@@ -9,6 +13,7 @@ class AlarmListController extends GetxController{
   late Future<List<AlarmData>> alarmFutureList;
   RxList<AlarmData> alarmList = RxList<AlarmData>();
   RxList<AlarmData> currentFolderAlarmList = RxList<AlarmData>();
+  AlarmProvider _alarmProvider = AlarmProvider();
 
   @override
   void onInit() async {
@@ -16,6 +21,35 @@ class AlarmListController extends GetxController{
     alarmFutureList = alarmProvider.getAllAlarms();
     List<AlarmData> varAlarmList = await alarmFutureList;
     alarmList = varAlarmList.obs;
+    if (appState == 'main') {//자꾸 alarmalarm에서 초기화해서 날짜 한번 더 밀어버려서 만듦
+      for(AlarmData alarmData in alarmList){
+        if(alarmData.alarmState == true && alarmData.alarmDateTime.isBefore(DateTime.now())){
+          int id = alarmData.id;
+          AlarmWeekRepeatData? thisAlarmWeekData =
+            await _alarmProvider.getAlarmWeekDataById(id);
+          List<bool> weekBool = [];
+          if (alarmData.alarmType == RepeatMode.week) {
+            weekBool.add(thisAlarmWeekData!.sunday);
+            weekBool.add(thisAlarmWeekData.monday);
+            weekBool.add(thisAlarmWeekData.tuesday);
+            weekBool.add(thisAlarmWeekData.wednesday);
+            weekBool.add(thisAlarmWeekData.thursday);
+            weekBool.add(thisAlarmWeekData.friday);
+            weekBool.add(thisAlarmWeekData.saturday);
+          }
+          while (alarmData.alarmDateTime.isBefore(DateTime.now())) {
+            alarmData.alarmDateTime =
+                alarmData.alarmDateTime.add(Duration(days: 1));
+            alarmData.alarmDateTime = DateTimeCalculator().getStartNearDay(
+                alarmData.alarmType, alarmData.alarmDateTime,
+                weekBool: weekBool,
+                monthDay: alarmData.monthRepeatDay,
+                yearRepeatDay: alarmData.alarmDateTime);
+          }
+          updateAlarm(alarmData);
+        }
+      }
+    }
 
     update(); //이걸 안 해서 futurebuilder로 승부봤었다.
     super.onInit();
@@ -43,6 +77,7 @@ class AlarmListController extends GetxController{
     alarmList[alarmList.indexWhere((element) =>
     alarmData.id == element.id)] = alarmData;
     alarmFutureList = alarmProvider.getAllAlarms();
+    print('really? in AlarmListController');
     update();
   }
 

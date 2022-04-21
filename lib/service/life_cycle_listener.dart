@@ -1,3 +1,4 @@
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:new_alarm_clock/service/music_handler.dart';
 import 'package:vibration/vibration.dart';
@@ -13,6 +14,7 @@ class LifeCycleListener extends WidgetsBindingObserver {
       case AppLifecycleState.detached:
         Vibration.cancel();
         _musicHandler.stopMusic();
+        await AwesomeNotifications().resetGlobalBadge();
         break;
       case AppLifecycleState.resumed:
         break;
