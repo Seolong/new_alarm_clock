@@ -69,7 +69,7 @@ class SaveButton extends StatelessWidget {
             alarmType: repeatModeController.getRepeatMode(),
             title: alarmTitleTextFieldController.textEditingController.text,
             alarmDateTime: timeSpinnerController.alarmDateTime,
-            endDay: DateTime(2045),
+            endDay: startEndDayController.end['dateTime'],
             alarmState: true,
             alarmOrder: alarmId,
             folderName: currentFolderName,

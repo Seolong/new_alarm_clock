@@ -153,33 +153,50 @@ class RepeatContainer extends StatelessWidget {
           padding: const EdgeInsets.fromLTRB(25, 25, 25, 15),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Container(
-                width: SizeValue.repeatTextFieldSize,
-                padding: EdgeInsets.fromLTRB(0, 0, 10, 0),
-                child: GetBuilder<IntervalTextFieldController>(
-                  builder: (_) {
-                    return TextField(
-                      keyboardType: TextInputType.number,
-                      controller: _.textEditingController,
-                      inputFormatters: [
-                        //아래에 글자 수 제한도 안보이고 공간도 차지 안하게
-                        LengthLimitingTextInputFormatter(5),
-                        FilteringTextInputFormatter.digitsOnly //숫자만 입력
-                      ],
+              Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Container(
+                    width: SizeValue.repeatTextFieldSize,
+                    padding: EdgeInsets.fromLTRB(0, 0, 10, 0),
+                    child: GetBuilder<IntervalTextFieldController>(
+                      builder: (_) {
+                        return TextField(
+                          keyboardType: TextInputType.number,
+                          controller: _.textEditingController,
+                          inputFormatters: [
+                            //아래에 글자 수 제한도 안보이고 공간도 차지 안하게
+                            LengthLimitingTextInputFormatter(5),
+                            FilteringTextInputFormatter.digitsOnly //숫자만 입력
+                          ],
+                          textAlign: TextAlign.end,
+                          decoration: InputDecoration(
+                            contentPadding: EdgeInsets.all(0),
+                            hintText: '1',
+                            hintStyle: TextStyle(
+                              color: Colors.grey
+                            ),
+                            isDense: true,
+                          ),
+                          style: TextStyle(fontSize: SizeValue.repeatTextFieldTextSize),
+                        );
+                      }
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(0, 5, 15, 0),
+                    child: Text('주기',
                       textAlign: TextAlign.end,
-                      decoration: InputDecoration(
-                        contentPadding: EdgeInsets.symmetric(vertical: 0),
-                        hintText: '1',
-                        hintStyle: TextStyle(
-                          color: Colors.grey
-                        ),
-                        isDense: true,
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: Colors.grey
                       ),
-                      style: TextStyle(fontSize: SizeValue.repeatTextFieldTextSize),
-                    );
-                  }
-                ),
+                    ),
+                  ),
+                ],
               ),
               intervalType,
             ],

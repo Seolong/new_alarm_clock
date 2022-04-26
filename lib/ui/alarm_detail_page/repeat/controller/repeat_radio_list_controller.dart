@@ -23,9 +23,39 @@ class RepeatRadioListController extends GetxController{
 
   void setAlarmIntervalWithInt(int value){
     switch(value){
-
+      case 5:
+        _alarmInterval = AlarmInterval.five;
+        break;
+      case 10:
+        _alarmInterval = AlarmInterval.ten;
+        break;
+      case 15:
+        _alarmInterval = AlarmInterval.fifteen;
+        break;
+      default:
+        assert(false, 'setAlarmIntervalWithInt error in RepeatRadioListController');
     }
+    update();
   }
+
+  void setRepeatNumWithInt(int value){
+    switch(value){
+      case 2:
+        _repeatNum = RepeatNum.two;
+        break;
+      case 3:
+        _repeatNum = RepeatNum.three;
+        break;
+      case 12:
+        _repeatNum = RepeatNum.infinite;
+        break;
+      default:
+        assert(false, 'setRepeatNumWithInt error in RepeatRadioListController');
+    }
+    update();
+  }
+
+
 
   set repeatNum(RepeatNum repeatNum){
     _repeatNum = repeatNum;

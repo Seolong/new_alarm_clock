@@ -132,16 +132,19 @@ class AlarmScheduler {
         }
       }
 
-
       alarmData.alarmDateTime = dateTimeCalculator.addDateTime(
           alarmData.alarmType,
           alarmData.alarmDateTime,
           alarmData.alarmInterval,
-          weekBool : alarmData.alarmType == RepeatMode.week? weekBool: null,
+          weekBool : weekBool,
           lastDay: lastDay
       );
-      print('print ${alarmData.alarmInterval}');
+      print('print ${alarmData.alarmInterval} in alarm scheduler');
       print(alarmData.alarmDateTime);
+
+      if(alarmData.alarmDateTime.isAfter(alarmData.endDay)){
+        alarmData.alarmState = false;
+      }
     }
     else{
       alarmData.alarmState = false;

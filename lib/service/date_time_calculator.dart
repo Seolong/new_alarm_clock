@@ -34,9 +34,10 @@ class DateTimeCalculator {
     }
     if(lastWeekday != weekday){
       int nextWeekDay = weekday+1;
-      for(int i=weekday+2; i<=lastWeekday; i++){// 다음 요일은?
+      for(int i=weekday+1; i<=lastWeekday; i++){// 다음 요일은?
         if(weekBool[i] == true){
           nextWeekDay = i;
+          break;
         }
       }
       int difference = nextWeekDay - weekday;
@@ -161,4 +162,31 @@ class DateTimeCalculator {
         return DateTime.now();
     }
   }
+
+  // DateTime getEndNearDay(RepeatMode repeatMode, DateTime currentStartDateTime,
+  //     DateTime currentEndDateTime, int interval,
+  //     {List<bool>? weekBool, bool lastDay = false}){
+  //   String month = currentStartDateTime.month < 10? '0${currentStartDateTime.month}':'${currentStartDateTime.month}';
+  //   String day = currentStartDateTime.day < 10? '0${currentStartDateTime.day}':'${currentStartDateTime.day}';
+  //   //int interval = intervalParameter == 0? 1:intervalParameter;
+  //
+  //   DateTime endNearDayBefore = DateTime.parse('${currentStartDateTime.year}-$month-'
+  //       '$day 00:00:00.000000');
+  //   DateTime endNearDayAfter = addDateTime(repeatMode, endNearDayBefore, interval, weekBool: weekBool, lastDay: lastDay);
+  //   while(endNearDayAfter.isBefore(currentEndDateTime)){
+  //     endNearDayBefore = addDateTime(repeatMode, endNearDayBefore, interval, weekBool: weekBool, lastDay: lastDay);
+  //     endNearDayAfter = addDateTime(repeatMode, endNearDayAfter, interval, weekBool: weekBool, lastDay: lastDay);
+  //     print('Interval! $interval');
+  //     print('Before! $endNearDayBefore');
+  //     print('After! $endNearDayAfter');
+  //   }
+  //   if(endNearDayAfter.isAfter(currentEndDateTime)){
+  //     return endNearDayBefore;
+  //   }else if(endNearDayAfter.isAtSameMomentAs(currentEndDateTime)){
+  //     return endNearDayAfter;
+  //   }else{
+  //     assert(false, 'getEndNearDay Error in DateTimeCalculator');
+  //     return endNearDayBefore;
+  //   }
+  // }
 }

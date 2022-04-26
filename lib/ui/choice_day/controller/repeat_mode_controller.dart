@@ -17,6 +17,39 @@ class RepeatModeController extends GetxController {
     });
   }
 
+  int getMainIndex(){
+    switch(_repeatMode.value){
+      case RepeatMode.off:
+      case RepeatMode.single:
+        return 0;
+      case RepeatMode.day:
+      case RepeatMode.week:
+      case RepeatMode.month:
+      case RepeatMode.year:
+        return 1;
+      default:
+        assert(false, 'getMainIndex error in RepeatModeController');
+        return -1;
+    }
+  }
+
+  int getSubIndex(){
+    switch(_repeatMode.value){
+      case RepeatMode.day:
+        return 0;
+      case RepeatMode.week:
+        return 1;
+      case RepeatMode.month:
+        return 2;
+      case RepeatMode.year:
+        return 3;
+      default:
+        print(_repeatMode.value);
+        assert(false, 'getSubIndex error in RepeatModeController');
+        return -1;
+    }
+  }
+
   RepeatMode get repeatMode => _repeatMode.value;
 
   RepeatMode getRepeatMode() {

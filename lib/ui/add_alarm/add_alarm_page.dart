@@ -48,10 +48,12 @@ class AddAlarmPage extends StatelessWidget {
     Get.find<RingRadioListController>().volume = alarmData.musicVolume;
     Get.find<RingRadioListController>().initSelectedMusicPathInEdit(alarmData.musicPath);
     Get.find<RepeatRadioListController>().power = alarmData.repeatBool;
-    //Get.find<RepeatRadioListController>().repeatInterval = alarmData.repeatInterval;
+    Get.find<RepeatRadioListController>().setAlarmIntervalWithInt(alarmData.repeatInterval);
+    Get.find<RepeatRadioListController>().setRepeatNumWithInt(alarmData.repeatNum);
     Get.find<IntervalTextFieldController>().initTextFieldInEditRepeat(alarmData.alarmInterval);
     Get.find<MonthRepeatDayController>().initInEdit(alarmData.monthRepeatDay);
     Get.find<StartEndDayController>().setStart(alarmData.alarmDateTime);
+    Get.find<StartEndDayController>().setEnd(alarmData.endDay);
   }
 
   Future<bool> _onTouchAppBarBackButton() async {
@@ -62,7 +64,7 @@ class AddAlarmPage extends StatelessWidget {
     return await Get.dialog(GoingBackDialog('AddAlarm', 'system'));
   }
 
-  bool _isAbsorbPointerOfDayButton(RepeatModeController repeatModeController){
+  bool _isAbsorb(RepeatModeController repeatModeController){
     if(repeatModeController.repeatMode == RepeatMode.off
         || repeatModeController.repeatMode == RepeatMode.week){
       return false;
@@ -191,32 +193,48 @@ class AddAlarmPage extends StatelessWidget {
                                       GetBuilder<RepeatModeController>(
                                           builder: (repeatCont) {
                                             // off나 week이 아니면 터치 막아버림
-                                            return AbsorbPointer(
-                                              absorbing: _isAbsorbPointerOfDayButton(repeatCont),
-                                              child: Row(
-                                                children: [
-                                                  Expanded(
-                                                      child: DayButton(
-                                                          constraints, DayWeek.Sun, _)),
-                                                  Expanded(
-                                                      child: DayButton(
-                                                          constraints, DayWeek.Mon, _)),
-                                                  Expanded(
-                                                      child: DayButton(
-                                                          constraints, DayWeek.Tue, _)),
-                                                  Expanded(
-                                                      child: DayButton(
-                                                          constraints, DayWeek.Wed, _)),
-                                                  Expanded(
-                                                      child: DayButton(
-                                                          constraints, DayWeek.Thu, _)),
-                                                  Expanded(
-                                                      child: DayButton(
-                                                          constraints, DayWeek.Fri, _)),
-                                                  Expanded(
-                                                      child: DayButton(
-                                                          constraints, DayWeek.Sat, _)),
-                                                ],
+                                            return GestureDetector(
+                                              onTap: (){
+                                                if(_isAbsorb(repeatCont)){
+                                                  Get.rawSnackbar(
+                                                      snackPosition: SnackPosition.BOTTOM,
+                                                      messageText: Text(
+                                                        '현재 주마다 반복 모드가 아닙니다.',
+                                                        style: TextStyle(fontSize: 16),
+                                                        textAlign: TextAlign.center,
+                                                      ),
+                                                      backgroundColor: ColorValue.mainBackground,
+                                                      snackStyle: SnackStyle.GROUNDED
+                                                  );
+                                                }
+                                              },
+                                              child: AbsorbPointer(
+                                                absorbing: _isAbsorb(repeatCont),
+                                                child: Row(
+                                                  children: [
+                                                    Expanded(
+                                                        child: DayButton(
+                                                            constraints, DayWeek.Sun, _)),
+                                                    Expanded(
+                                                        child: DayButton(
+                                                            constraints, DayWeek.Mon, _)),
+                                                    Expanded(
+                                                        child: DayButton(
+                                                            constraints, DayWeek.Tue, _)),
+                                                    Expanded(
+                                                        child: DayButton(
+                                                            constraints, DayWeek.Wed, _)),
+                                                    Expanded(
+                                                        child: DayButton(
+                                                            constraints, DayWeek.Thu, _)),
+                                                    Expanded(
+                                                        child: DayButton(
+                                                            constraints, DayWeek.Fri, _)),
+                                                    Expanded(
+                                                        child: DayButton(
+                                                            constraints, DayWeek.Sat, _)),
+                                                  ],
+                                                ),
                                               ),
                                             );
                                           }

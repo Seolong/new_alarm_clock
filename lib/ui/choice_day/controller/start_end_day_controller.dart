@@ -14,7 +14,7 @@ class StartEndDayController extends GetxController{
   }.obs;
 
   RxMap<String, dynamic> _end = {
-    'dateTime' : DateTime(1),
+    'dateTime' : DateTime(2045),
     'monthDay' : '',
     'year' : ''
   }.obs;
@@ -44,7 +44,7 @@ class StartEndDayController extends GetxController{
     update();
   }
 
-  void setStartDayWithButton(RepeatMode repeatMode){
+  void setStartDayWithBackButton(RepeatMode repeatMode){
     if(repeatMode == RepeatMode.week){
       List<bool> weekBool = [];
       weekBool.add(Get.find<DayOfWeekController>().dayButtonStateMap[DayWeek.Sun]!);
@@ -71,4 +71,34 @@ class StartEndDayController extends GetxController{
           dateTimeCalculator.getStartNearDay(repeatMode, _start['dateTime']));
     }
   }
+
+  // void setEndDayWithBackButton(RepeatMode repeatMode){
+  //   int interval = Get.find<IntervalTextFieldController>().textEditingController.text == ''?
+  //     1:int.parse(Get.find<IntervalTextFieldController>().textEditingController.text);
+  //   if(repeatMode == RepeatMode.week){
+  //     List<bool> weekBool = [];
+  //     weekBool.add(Get.find<DayOfWeekController>().dayButtonStateMap[DayWeek.Sun]!);
+  //     weekBool.add(Get.find<DayOfWeekController>().dayButtonStateMap[DayWeek.Mon]!);
+  //     weekBool.add(Get.find<DayOfWeekController>().dayButtonStateMap[DayWeek.Tue]!);
+  //     weekBool.add(Get.find<DayOfWeekController>().dayButtonStateMap[DayWeek.Wed]!);
+  //     weekBool.add(Get.find<DayOfWeekController>().dayButtonStateMap[DayWeek.Thu]!);
+  //     weekBool.add(Get.find<DayOfWeekController>().dayButtonStateMap[DayWeek.Fri]!);
+  //     weekBool.add(Get.find<DayOfWeekController>().dayButtonStateMap[DayWeek.Sat]!);
+  //     setEnd(dateTimeCalculator.getEndNearDay(repeatMode, _start['dateTime'], _end['dateTime'],
+  //         interval, weekBool: weekBool));
+  //   }
+  //   else if(repeatMode == RepeatMode.month){
+  //     int monthDay = Get.find<MonthRepeatDayController>().monthRepeatDay!;
+  //     bool lastDay = (monthDay == 32) ? true:false;
+  //     setEnd(dateTimeCalculator.getEndNearDay(repeatMode, _start['dateTime'], _end['dateTime'],
+  //         interval, lastDay: lastDay));
+  //   }else if(repeatMode == RepeatMode.year){
+  //     setEnd(dateTimeCalculator.getEndNearDay(repeatMode, _start['dateTime'], _end['dateTime'],
+  //         interval));
+  //   }
+  //   else{
+  //     setEnd(dateTimeCalculator.getEndNearDay(repeatMode, _start['dateTime'], _end['dateTime'],
+  //         interval));
+  //   }
+  // }
 }

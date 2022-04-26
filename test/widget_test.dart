@@ -6,26 +6,22 @@
 // tree, read text, and verify that the values of widget properties are correct.
 
 import 'package:flutter_test/flutter_test.dart';
+import 'package:jiffy/jiffy.dart';
 import 'dart:async';
-import 'package:new_alarm_clock/service/date_time_calculator.dart';
-import 'package:new_alarm_clock/utils/enum.dart';
 
 var log = [];
 
 void main() {
   test('DateTimeCalculator test', overridePrint((){
-    DateTimeCalculator _dateTimeCalculator = DateTimeCalculator();
 
-    DateTime dateTime = DateTime(2022, 3, 19);
+    DateTime dateTime = DateTime.now().add(Duration(days: 5));
+    DateTime dateTime2 = DateTime.now().add(Duration(days: 5));
+    dateTime = Jiffy(dateTime).subtract(months: 1).dateTime;
+    dateTime = Jiffy(dateTime).subtract(months: 1).dateTime;
+    dateTime = Jiffy(dateTime).subtract(months: 1).dateTime;
+    dateTime2 = Jiffy(dateTime2).subtract(months: 3).dateTime;
 
-    var result = _dateTimeCalculator.addDateTime(
-        RepeatMode.week,
-        dateTime,
-        2,
-      weekBool: [false, true, false, true, false, false, true]
-    );
-
-    expect(result.day, 28);
+    expect(dateTime.day, dateTime2.day);
   }));
 
 

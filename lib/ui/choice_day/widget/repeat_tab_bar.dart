@@ -12,10 +12,11 @@ class RepeatTabBar extends StatelessWidget {
     final repeatModeController = Get.put(RepeatModeController());
     return DefaultTabController(
       length: 4,
+      initialIndex: repeatModeController.getSubIndex(),
       child: Builder(
         builder: (context) {
           final tabController = DefaultTabController.of(context)!;
-          repeatModeController.setRepeatMode(1, 0);
+          //repeatModeController.setRepeatMode(1, 0);
           print(repeatModeController.getRepeatMode());
           tabController.addListener(() {
             repeatModeController.setRepeatMode(1, tabController.index);

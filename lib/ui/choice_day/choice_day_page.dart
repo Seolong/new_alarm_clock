@@ -18,6 +18,22 @@ class ChoiceDayPage extends StatelessWidget {
 
 
   Future<bool> _onTouchBackButton() async {
+    if(repeatModeController.repeatMode != RepeatMode.single &&
+        repeatModeController.repeatMode != RepeatMode.off &&
+        Get.find<IntervalTextFieldController>().textEditingController.text != '' &&
+        int.parse(Get.find<IntervalTextFieldController>().textEditingController.text) <= 0){
+      Get.rawSnackbar(
+          snackPosition: SnackPosition.BOTTOM,
+          messageText: Text(
+            '주기는 1 이상이어야 합니다.',
+            style: TextStyle(fontSize: 16),
+            textAlign: TextAlign.center,
+          ),
+          backgroundColor: Colors.black12,
+          snackStyle: SnackStyle.GROUNDED
+      );
+        return Future.value(false);
+    }
     if(repeatModeController.repeatMode != RepeatMode.week){
       Get.find<DayOfWeekController>().resetAllDayButtonStateToFalse();
     }
@@ -35,8 +51,9 @@ class ChoiceDayPage extends StatelessWidget {
       Get.back();
       return Future.value(false);
     }
-    Get.find<StartEndDayController>().setStartDayWithButton(
+    Get.find<StartEndDayController>().setStartDayWithBackButton(
         repeatModeController.repeatMode);
+    //Get.find<StartEndDayController>().setEndDayWithBackButton(repeatModeController.repeatMode);
     if(Get.find<IntervalTextFieldController>().textEditingController.text == ''){
       Get.find<IntervalTextFieldController>().textEditingController.text = '1';
     }
@@ -50,6 +67,7 @@ class ChoiceDayPage extends StatelessWidget {
       onWillPop: _onTouchBackButton,
       child: DefaultTabController(
         length: 2,
+        initialIndex: repeatModeController.getMainIndex(),
         //뭐 builder로 감싸서 싸바싸바 아이샤바
         //탭하면 repeatmode가 defualt인지 day, week, month 아무튼 뭔지 기록
         //일단 지금 생각은 getxcontroller로 제어할까..
@@ -57,7 +75,7 @@ class ChoiceDayPage extends StatelessWidget {
         child: Builder(
             builder: (context) {
               final tabController = DefaultTabController.of(context)!;
-              repeatModeController.setRepeatMode(0, 0);
+              //repeatModeController.setRepeatMode(0, 0);
               print(repeatModeController.getRepeatMode());
               tabController.addListener(() {
                 repeatModeController.setRepeatMode(tabController.index, 0);
