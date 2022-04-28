@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:new_alarm_clock/ui/choice_day/controller/interval_text_field_controller.dart';
 import 'package:new_alarm_clock/ui/choice_day/controller/start_end_day_controller.dart';
 import 'package:new_alarm_clock/ui/choice_day/widget/repeat_container/widget_all/calendar_dialog.dart';
+import 'package:new_alarm_clock/ui/global/convenience_method.dart';
 import 'package:new_alarm_clock/utils/values/color_value.dart';
 import 'package:new_alarm_clock/utils/values/size_value.dart';
 import 'package:get/get.dart';
@@ -44,7 +45,9 @@ class RepeatContainer extends StatelessWidget {
                             onTap: () async {
                               var dateTime = await Get.dialog(AlertDialog(
                                   contentPadding: EdgeInsets.zero,
-                                  content: CalendarDialog()));
+                                  content: CalendarDialog(
+                                    Get.find<StartEndDayController>().start['dateTime']
+                                  )));
                               _.setStart(dateTime!);
                             },
                             child: Padding(
@@ -97,10 +100,18 @@ class RepeatContainer extends StatelessWidget {
                         InkWell(
                             borderRadius: BorderRadius.all(Radius.circular(20)),
                             onTap: () async {
-                              var dateTime = await Get.dialog(AlertDialog(
+                              DateTime dateTime = await Get.dialog(AlertDialog(
                                   contentPadding: EdgeInsets.zero,
-                                  content: CalendarDialog()));
-                              _.setEnd(dateTime!);
+                                  content: CalendarDialog(
+                                    _.end['dateTime'] == null ? // end를 아직 설정 안했을 때
+                                        _.start['dateTime']:
+                                      _.end['dateTime']
+                                  )));
+                              if(dateTime.isBefore(_.start['dateTime'])){
+                                ConvenienceMethod.showSimpleSnackBar('종료일을 시작일보다 전에 설정할 수 없습니다.');
+                              }else{
+                                _.setEnd(dateTime);
+                              }
                             },
                             child: Padding(
                                 padding: EdgeInsets.all(2.0),
@@ -117,7 +128,7 @@ class RepeatContainer extends StatelessWidget {
                                 constraints:
                                     BoxConstraints(minHeight: 1, minWidth: 1),
                                 child: Text(
-                                  _.end['year'] == ''
+                                  _.end['dateTime'] == null
                                       ? '종료일'
                                       : _.end['monthDay'],
                                   style: TextStyle(fontSize: 1000),
@@ -132,7 +143,7 @@ class RepeatContainer extends StatelessWidget {
                                 constraints:
                                     BoxConstraints(minHeight: 1, minWidth: 1),
                                 child: Text(
-                                  _.end['year'] == '' ? '설정 안함' : _.end['year'],
+                                  _.end['dateTime'] == null ? '설정 안함' : _.end['year'],
                                   style: TextStyle(fontSize: 1000),
                                 )),
                           ),

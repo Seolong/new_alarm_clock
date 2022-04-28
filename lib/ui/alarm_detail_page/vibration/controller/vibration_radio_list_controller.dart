@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:new_alarm_clock/data/database/alarm_provider.dart';
 import 'package:new_alarm_clock/utils/enum.dart';
 import 'package:new_alarm_clock/utils/values/vibration_Pack.dart';
 import 'package:vibration/vibration.dart';
@@ -9,7 +8,7 @@ import 'package:vibration/vibration.dart';
 class VibrationRadioListController extends GetxController{
   VibrationPack _vibrationPack = VibrationPack();
   VibrationName _selectedVibration = VibrationName.long; //알람 수정이면 db에서 가져오고 알람 추가면 default 값으로 VibrationName.long으로
-  RxBool _power = false.obs;//DB에서 가져오기
+  RxBool _power = true.obs;//DB에서 가져오기
   Map<String, Color> textColor = {
     'active': Colors.black,
     'inactive': Colors.grey

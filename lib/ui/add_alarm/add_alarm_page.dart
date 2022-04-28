@@ -5,6 +5,7 @@ import 'package:new_alarm_clock/data/database/alarm_provider.dart';
 import 'package:new_alarm_clock/data/model/alarm_data.dart';
 import 'package:new_alarm_clock/data/shared_preferences/id_shared_preferences.dart';
 import 'package:new_alarm_clock/routes/app_routes.dart';
+import 'package:new_alarm_clock/service/date_time_calculator.dart';
 import 'package:new_alarm_clock/ui/add_alarm/controller/alarm_title_text_field_controller.dart';
 import 'package:new_alarm_clock/ui/add_alarm/controller/day_of_week_controller.dart';
 import 'package:new_alarm_clock/ui/add_alarm/controller/time_spinner_controller.dart';
@@ -20,8 +21,10 @@ import 'package:new_alarm_clock/ui/choice_day/controller/interval_text_field_con
 import 'package:new_alarm_clock/ui/choice_day/controller/month_repaet_day_controller.dart';
 import 'package:new_alarm_clock/ui/choice_day/controller/repeat_mode_controller.dart';
 import 'package:new_alarm_clock/ui/choice_day/controller/start_end_day_controller.dart';
+import 'package:new_alarm_clock/ui/choice_day/controller/year_repeat_day_controller.dart';
 import 'package:new_alarm_clock/ui/choice_day/widget/going_back_dialog.dart';
 import 'package:new_alarm_clock/ui/global/auto_size_text.dart';
+import 'package:new_alarm_clock/ui/global/convenience_method.dart';
 import 'package:new_alarm_clock/utils/enum.dart';
 import 'package:new_alarm_clock/utils/values/color_value.dart';
 import 'package:get/get.dart';
@@ -34,26 +37,33 @@ class AddAlarmPage extends StatelessWidget {
   int alarmId = -1;
   String currentFolderName = '';
   AlarmProvider _alarmProvider = AlarmProvider();
+  late AlarmData alarmData;
   final AlarmDetailListTileFactory _alarmDetailListTileFactory =
-  AlarmDetailListTileFactory();
+      AlarmDetailListTileFactory();
   final IdSharedPreferences idSharedPreferences = IdSharedPreferences();
 
   Future<void> initEditAlarm() async {
-    AlarmData alarmData = await _alarmProvider.getAlarmById(alarmId);
+    alarmData = await _alarmProvider.getAlarmById(alarmId);
 
     Get.find<RepeatModeController>().repeatMode = alarmData.alarmType;
     Get.find<VibrationRadioListController>().power = alarmData.vibrationBool;
-    Get.find<VibrationRadioListController>().initSelectedVibrationInEdit(alarmData.vibrationName);
+    Get.find<VibrationRadioListController>()
+        .initSelectedVibrationInEdit(alarmData.vibrationName);
     Get.find<RingRadioListController>().power = alarmData.musicBool;
     Get.find<RingRadioListController>().volume = alarmData.musicVolume;
-    Get.find<RingRadioListController>().initSelectedMusicPathInEdit(alarmData.musicPath);
+    Get.find<RingRadioListController>()
+        .initSelectedMusicPathInEdit(alarmData.musicPath);
     Get.find<RepeatRadioListController>().power = alarmData.repeatBool;
-    Get.find<RepeatRadioListController>().setAlarmIntervalWithInt(alarmData.repeatInterval);
-    Get.find<RepeatRadioListController>().setRepeatNumWithInt(alarmData.repeatNum);
-    Get.find<IntervalTextFieldController>().initTextFieldInEditRepeat(alarmData.alarmInterval);
+    Get.find<RepeatRadioListController>()
+        .setAlarmIntervalWithInt(alarmData.repeatInterval);
+    Get.find<RepeatRadioListController>()
+        .setRepeatNumWithInt(alarmData.repeatNum);
+    Get.find<IntervalTextFieldController>()
+        .initTextFieldInEditRepeat(alarmData.alarmInterval);
     Get.find<MonthRepeatDayController>().initInEdit(alarmData.monthRepeatDay);
     Get.find<StartEndDayController>().setStart(alarmData.alarmDateTime);
     Get.find<StartEndDayController>().setEnd(alarmData.endDay);
+    Get.find<YearRepeatDayController>().yearRepeatDay = alarmData.alarmDateTime;
   }
 
   Future<bool> _onTouchAppBarBackButton() async {
@@ -64,29 +74,27 @@ class AddAlarmPage extends StatelessWidget {
     return await Get.dialog(GoingBackDialog('AddAlarm', 'system'));
   }
 
-  bool _isAbsorb(RepeatModeController repeatModeController){
-    if(repeatModeController.repeatMode == RepeatMode.off
-        || repeatModeController.repeatMode == RepeatMode.week){
+  bool _isAbsorb(RepeatModeController repeatModeController) {
+    if (repeatModeController.repeatMode == RepeatMode.off ||
+        repeatModeController.repeatMode == RepeatMode.week) {
       return false;
-    }
-    else{
+    } else {
       return true;
     }
   }
 
   String convertAlarmDateTime() {
-    if(Get.find<StartEndDayController>().start['dateTime'].year > DateTime.now().year){
+    if (Get.find<StartEndDayController>().start['dateTime'].year >
+        DateTime.now().year) {
       return '${Get.find<StartEndDayController>().start['year']} '
           '${Get.find<StartEndDayController>().start['monthDay']}';
-    }
-    else if(Get.find<StartEndDayController>().start['dateTime'].year == DateTime.now().year){
+    } else if (Get.find<StartEndDayController>().start['dateTime'].year ==
+        DateTime.now().year) {
       return Get.find<StartEndDayController>().start['monthDay'];
-    }
-    else{
+    } else {
       return '';
     }
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -98,7 +106,7 @@ class AddAlarmPage extends StatelessWidget {
     final repeatModeController = Get.put(RepeatModeController());
     final dayOfWeekController = Get.put(DayOfWeekController());
     final alarmTitleTextFieldController =
-    Get.put(AlarmTitleTextFieldController());
+        Get.put(AlarmTitleTextFieldController());
     final timeSpinnerController = Get.put(TimeSpinnerController());
     final startEndDayController = Get.put(StartEndDayController());
     Get.put(RingRadioListController());
@@ -106,6 +114,7 @@ class AddAlarmPage extends StatelessWidget {
     Get.put(RepeatRadioListController());
     Get.put(IntervalTextFieldController());
     Get.put(MonthRepeatDayController());
+    Get.put(YearRepeatDayController());
 
     SystemChrome.setSystemUIOverlayStyle(
         SystemUiOverlayStyle(statusBarColor: ColorValue.appbar));
@@ -146,7 +155,8 @@ class AddAlarmPage extends StatelessWidget {
                     repeatModeController: repeatModeController,
                     timeSpinnerController: timeSpinnerController,
                     startEndDayController: startEndDayController,
-                    alarmTitleTextFieldController: alarmTitleTextFieldController,
+                    alarmTitleTextFieldController:
+                        alarmTitleTextFieldController,
                     dayOfWeekController: dayOfWeekController,
                   ),
                 ),
@@ -185,60 +195,51 @@ class AddAlarmPage extends StatelessWidget {
                                 //editMode에다가 WeekMode여야 한다
                                 initState: (_) => mode == StringValue.editMode
                                     ? dayOfWeekController
-                                    .initWhenEditMode(alarmId)
+                                        .initWhenEditMode(alarmId)
                                     : null,
                                 builder: (_) => LayoutBuilder(
                                   builder: (BuildContext context,
-                                      BoxConstraints constraints) =>
+                                          BoxConstraints constraints) =>
                                       GetBuilder<RepeatModeController>(
                                           builder: (repeatCont) {
-                                            // off나 week이 아니면 터치 막아버림
-                                            return GestureDetector(
-                                              onTap: (){
-                                                if(_isAbsorb(repeatCont)){
-                                                  Get.rawSnackbar(
-                                                      snackPosition: SnackPosition.BOTTOM,
-                                                      messageText: Text(
-                                                        '현재 주마다 반복 모드가 아닙니다.',
-                                                        style: TextStyle(fontSize: 16),
-                                                        textAlign: TextAlign.center,
-                                                      ),
-                                                      backgroundColor: ColorValue.mainBackground,
-                                                      snackStyle: SnackStyle.GROUNDED
-                                                  );
-                                                }
-                                              },
-                                              child: AbsorbPointer(
-                                                absorbing: _isAbsorb(repeatCont),
-                                                child: Row(
-                                                  children: [
-                                                    Expanded(
-                                                        child: DayButton(
-                                                            constraints, DayWeek.Sun, _)),
-                                                    Expanded(
-                                                        child: DayButton(
-                                                            constraints, DayWeek.Mon, _)),
-                                                    Expanded(
-                                                        child: DayButton(
-                                                            constraints, DayWeek.Tue, _)),
-                                                    Expanded(
-                                                        child: DayButton(
-                                                            constraints, DayWeek.Wed, _)),
-                                                    Expanded(
-                                                        child: DayButton(
-                                                            constraints, DayWeek.Thu, _)),
-                                                    Expanded(
-                                                        child: DayButton(
-                                                            constraints, DayWeek.Fri, _)),
-                                                    Expanded(
-                                                        child: DayButton(
-                                                            constraints, DayWeek.Sat, _)),
-                                                  ],
-                                                ),
-                                              ),
-                                            );
-                                          }
+                                    // off나 week이 아니면 터치 막아버림
+                                    return GestureDetector(
+                                      onTap: () {
+                                        if (_isAbsorb(repeatCont)) {
+                                          ConvenienceMethod.showSimpleSnackBar(
+                                              '현재 \'주마다 반복 모드\'가 아닙니다.');
+                                        }
+                                      },
+                                      child: AbsorbPointer(
+                                        absorbing: _isAbsorb(repeatCont),
+                                        child: Row(
+                                          children: [
+                                            Expanded(
+                                                child: DayButton(constraints,
+                                                    DayWeek.Sun, _)),
+                                            Expanded(
+                                                child: DayButton(constraints,
+                                                    DayWeek.Mon, _)),
+                                            Expanded(
+                                                child: DayButton(constraints,
+                                                    DayWeek.Tue, _)),
+                                            Expanded(
+                                                child: DayButton(constraints,
+                                                    DayWeek.Wed, _)),
+                                            Expanded(
+                                                child: DayButton(constraints,
+                                                    DayWeek.Thu, _)),
+                                            Expanded(
+                                                child: DayButton(constraints,
+                                                    DayWeek.Fri, _)),
+                                            Expanded(
+                                                child: DayButton(constraints,
+                                                    DayWeek.Sat, _)),
+                                          ],
+                                        ),
                                       ),
+                                    );
+                                  }),
                                 ),
                               ),
                             ),
@@ -254,7 +255,8 @@ class AddAlarmPage extends StatelessWidget {
                                   size: 1000,
                                 ),
                                 onTap: () {
-                                  repeatModeController.previousRepeatMode = repeatModeController.repeatMode;
+                                  repeatModeController.previousRepeatMode =
+                                      repeatModeController.repeatMode;
                                   Get.toNamed(AppRoutes.choiceDayPage);
                                 },
                               )),
@@ -262,11 +264,32 @@ class AddAlarmPage extends StatelessWidget {
                       ),
                     ),
 
-                    //NextYearMonthDayText
                     Padding(
                       padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
-                      child: GetBuilder<StartEndDayController>(
-                          builder: (_) {
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          GetBuilder<RepeatModeController>(builder: (_) {
+                            return IconButton(
+                              onPressed: () {
+                                if (mode == StringValue.editMode &&
+                                    _.repeatMode != RepeatMode.off &&
+                                    _.repeatMode != RepeatMode.single) {
+                                  startEndDayController
+                                      .setStart(alarmData.alarmDateTime);
+                                }
+                              },
+                              icon: Icon(Icons.refresh_rounded),
+                              tooltip: '초기화',
+                              color: (mode == StringValue.editMode &&
+                                      _.repeatMode != RepeatMode.off &&
+                                      _.repeatMode != RepeatMode.single)
+                                  ? Colors.black45
+                                  : Colors.transparent,
+                            );
+                          }),
+                          //NextYearMonthDayText
+                          GetBuilder<StartEndDayController>(builder: (_) {
                             return Container(
                               padding: EdgeInsets.only(top: 5),
                               height: 40,
@@ -275,38 +298,71 @@ class AddAlarmPage extends StatelessWidget {
                                 bold: true,
                               ),
                             );
-                          }
+                          }),
+                          GetBuilder<RepeatModeController>(builder: (_) {
+                            return IconButton(
+                              onPressed: () {
+                                if (mode == StringValue.editMode &&
+                                    _.repeatMode != RepeatMode.off &&
+                                    _.repeatMode != RepeatMode.single) {
+                                  List<bool> weekBool = [];
+                                  for (var weekDayBool in DayWeek.values) {
+                                    weekBool.add(dayOfWeekController
+                                        .dayButtonStateMap[weekDayBool]!);
+                                  }
+                                  DateTimeCalculator dateTimeCalculator =
+                                      DateTimeCalculator();
+                                  DateTime nextDate =
+                                      dateTimeCalculator.addDateTime(
+                                          repeatModeController.repeatMode,
+                                          startEndDayController
+                                              .start['dateTime'],
+                                          int.parse(Get.find<
+                                                  IntervalTextFieldController>()
+                                              .textEditingController
+                                              .text),
+                                          weekBool: weekBool,
+                                          lastDay: Get.find<
+                                                      MonthRepeatDayController>()
+                                                  .monthRepeatDay ==
+                                              29);
+                                  startEndDayController.setStart(nextDate);
+                                }
+                              },
+                              icon: Icon(Icons.arrow_forward_ios),
+                              tooltip: '이번 알람 건너뛰기',
+                              color: (mode == StringValue.editMode &&
+                                      _.repeatMode != RepeatMode.off &&
+                                      _.repeatMode != RepeatMode.single)
+                                  ? Colors.black45
+                                  : Colors.transparent,
+                            );
+                          }),
+                        ],
                       ),
                     ),
 
                     //IntervalInfoText
                     Padding(
                       padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
-                      child: GetBuilder<IntervalTextFieldController>(
-                          builder: (_){
-                            return GetBuilder<RepeatModeController>(
-                              builder: (repeatCont) {
-                                return GetBuilder<MonthRepeatDayController>(
-                                  builder: (monthCont) {
-                                    return Container(
-                                      padding: EdgeInsets.all(5),
-                                      height: 35,
-                                      child: AutoSizeText(
-                                        '${_.textEditingController.text == '1'
-                                            ? '매'
-                                            : _.textEditingController.text}'
-                                            '${repeatCont.getRepeatModeText(_.textEditingController.text,
-                                            monthCont.monthRepeatDay)
-                                        }',
-                                        color: Colors.black54,
-                                      ),
-                                    );
-                                  }
-                                );
-                              }
+                      child:
+                          GetBuilder<IntervalTextFieldController>(builder: (_) {
+                        return GetBuilder<RepeatModeController>(
+                            builder: (repeatCont) {
+                          return GetBuilder<MonthRepeatDayController>(
+                              builder: (monthCont) {
+                            return Container(
+                              padding: EdgeInsets.all(5),
+                              height: 35,
+                              child: AutoSizeText(
+                                '${_.textEditingController.text == '1' ? '매' : _.textEditingController.text}'
+                                '${repeatCont.getRepeatModeText(_.textEditingController.text, monthCont.monthRepeatDay)}',
+                                color: Colors.black54,
+                              ),
                             );
-                          }
-                      ),
+                          });
+                        });
+                      }),
                     ),
 
                     TitleTextField(mode, alarmId),

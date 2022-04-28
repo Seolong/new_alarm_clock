@@ -27,7 +27,7 @@ class AlarmData {
   late RepeatMode alarmType; //RepeatMode
   late String? title;
   late DateTime alarmDateTime; //_alarmStartTime
-  late DateTime endDay;
+  late DateTime? endDay;
   late bool alarmState;
   //late ?? alarmPoint;
   late int alarmOrder;
@@ -74,7 +74,7 @@ class AlarmData {
         title: json[columnTitle],
         //꺼내면 DateTime으로 변환
         alarmDateTime: DateTime.parse(json[columnAlarmDateTime]),
-        endDay: DateTime.parse(json[columnEndDay]),
+        endDay: json[columnEndDay] == null? null: DateTime.parse(json[columnEndDay]),
         alarmState: TypeConverter.convertIntToBool(json[columnAlarmState]),
         //alarmPoint: ~~,
         alarmOrder: json[columnAlarmOrder],
@@ -99,7 +99,7 @@ class AlarmData {
         columnTitle: title,
         //넣을 땐 String으로 변환
         columnAlarmDateTime: alarmDateTime.toIso8601String(),
-        columnEndDay: endDay.toIso8601String(),
+        columnEndDay: endDay?.toIso8601String(), //null이면 null null이 아니면 endDay.toIso8601String()
         columnAlarmState: TypeConverter.convertBoolToInt(alarmState),
         //columnAlarmPoint: alarmPoint,
         columnAlarmOrder: alarmOrder,

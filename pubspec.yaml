@@ -98,32 +98,6 @@ flutter:
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
   fonts:
-    - family: Jua
-      fonts:
-        - asset: fonts/Jua-Regular.ttf
-          weight: 400
-    - family: Noto_Sans_KR
-      fonts:
-        - asset: fonts/Noto_Sans_KR/NotoSansKR-Thin.otf
-          weight: 100
-        - asset: fonts/Noto_Sans_KR/NotoSansKR-Light.otf
-          weight: 300
-        - asset: fonts/Noto_Sans_KR/NotoSansKR-Regular.otf
-          weight: 400
-        - asset: fonts/Noto_Sans_KR/NotoSansKR-Medium.otf
-          weight: 500
-        - asset: fonts/Noto_Sans_KR/NotoSansKR-Bold.otf
-          weight: 700
-        - asset: fonts/Noto_Sans_KR/NotoSansKR-Black.otf
-          weight: 900
-    - family: Nanum_Gothic
-      fonts:
-        - asset: fonts/Nanum_Gothic/NanumGothic-Regular.ttf
-          weight: 400
-        - asset: fonts/Nanum_Gothic/NanumGothic-Bold.ttf
-          weight: 700
-        - asset: fonts/Nanum_Gothic/NanumGothic-ExtraBold.ttf
-          weight: 800
     - family: TmoneyRoundWind
       fonts:
         - asset: fonts/TmoneyRoundWind/TmoneyRoundWindRegular.ttf

@@ -45,7 +45,7 @@ class AlarmProvider {
           $columnAlarmType text not null,
           $columnTitle text,
           $columnAlarmDateTime text not null,
-          $columnEndDay text not null,
+          $columnEndDay text,
           $columnAlarmState integer not null,
           $columnAlarmOrder integer not null,
           $columnFolderName text not null,

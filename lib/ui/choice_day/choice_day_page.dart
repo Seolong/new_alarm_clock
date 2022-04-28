@@ -5,6 +5,7 @@ import 'package:new_alarm_clock/ui/choice_day/controller/start_end_day_controlle
 import 'package:new_alarm_clock/ui/choice_day/widget/one_alarm_container.dart';
 import 'package:new_alarm_clock/ui/choice_day/widget/repeat_tab_bar.dart';
 import 'package:new_alarm_clock/ui/global/auto_size_text.dart';
+import 'package:new_alarm_clock/ui/global/convenience_method.dart';
 import 'package:new_alarm_clock/utils/enum.dart';
 import 'package:new_alarm_clock/utils/values/color_value.dart';
 import 'package:get/get.dart';
@@ -22,17 +23,8 @@ class ChoiceDayPage extends StatelessWidget {
         repeatModeController.repeatMode != RepeatMode.off &&
         Get.find<IntervalTextFieldController>().textEditingController.text != '' &&
         int.parse(Get.find<IntervalTextFieldController>().textEditingController.text) <= 0){
-      Get.rawSnackbar(
-          snackPosition: SnackPosition.BOTTOM,
-          messageText: Text(
-            '주기는 1 이상이어야 합니다.',
-            style: TextStyle(fontSize: 16),
-            textAlign: TextAlign.center,
-          ),
-          backgroundColor: Colors.black12,
-          snackStyle: SnackStyle.GROUNDED
-      );
-        return Future.value(false);
+      ConvenienceMethod.showSimpleSnackBar('주기는 1 이상이어야 합니다.');
+      return Future.value(false);
     }
     if(repeatModeController.repeatMode != RepeatMode.week){
       Get.find<DayOfWeekController>().resetAllDayButtonStateToFalse();
@@ -75,7 +67,7 @@ class ChoiceDayPage extends StatelessWidget {
         child: Builder(
             builder: (context) {
               final tabController = DefaultTabController.of(context)!;
-              //repeatModeController.setRepeatMode(0, 0);
+              repeatModeController.setRepeatMode(tabController.index, 0);
               print(repeatModeController.getRepeatMode());
               tabController.addListener(() {
                 repeatModeController.setRepeatMode(tabController.index, 0);

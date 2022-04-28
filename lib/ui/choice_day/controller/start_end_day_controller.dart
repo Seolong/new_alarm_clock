@@ -7,6 +7,8 @@ import 'package:new_alarm_clock/utils/enum.dart';
 import 'package:new_alarm_clock/ui/choice_day/controller/month_repaet_day_controller.dart';
 
 class StartEndDayController extends GetxController{
+  DateTime? endDateTime;
+
   RxMap<String, dynamic> _start = {
     'dateTime' : DateTime.now(),
     'monthDay' : '',
@@ -14,7 +16,7 @@ class StartEndDayController extends GetxController{
   }.obs;
 
   RxMap<String, dynamic> _end = {
-    'dateTime' : DateTime(2045),
+    'dateTime' : true? null: DateTime(1), //이게 DateTime이란 걸 알려주는 얄팍한 속임수
     'monthDay' : '',
     'year' : ''
   }.obs;
@@ -37,10 +39,10 @@ class StartEndDayController extends GetxController{
     update();
   }
 
-  void setEnd(DateTime dateTime){
+  void setEnd(DateTime? dateTime){
     _end['dateTime'] = dateTime;
-    _end['monthDay'] = DateFormat('M월 d일').format(_end['dateTime']);
-    _end['year'] = DateFormat('yyyy년').format(_end['dateTime']);
+    _end['monthDay'] = dateTime == null ? '': DateFormat('M월 d일').format(_end['dateTime']);
+    _end['year'] = dateTime == null ? '': DateFormat('yyyy년').format(_end['dateTime']);
     update();
   }
 

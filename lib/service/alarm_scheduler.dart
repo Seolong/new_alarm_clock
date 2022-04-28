@@ -142,8 +142,11 @@ class AlarmScheduler {
       print('print ${alarmData.alarmInterval} in alarm scheduler');
       print(alarmData.alarmDateTime);
 
-      if(alarmData.alarmDateTime.isAfter(alarmData.endDay)){
-        alarmData.alarmState = false;
+      if (alarmData.endDay != null) {
+        if(alarmData.alarmDateTime.isAfter(alarmData.endDay!)){
+          alarmData.alarmState = false;
+          alarmData.endDay = null;
+        }
       }
     }
     else{

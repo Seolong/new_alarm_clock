@@ -5,6 +5,9 @@ import 'package:new_alarm_clock/utils/values/my_font_family.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 class CalendarDialog extends StatelessWidget {
+  DateTime initialDate;
+
+  CalendarDialog(this.initialDate);
 
   @override
   Widget build(BuildContext context) {
@@ -13,37 +16,33 @@ class CalendarDialog extends StatelessWidget {
       height: 450,
       child: SfDateRangePicker(
         headerHeight: 40,
+        initialSelectedDate: initialDate,
+        initialDisplayDate: initialDate,
         minDate: DateTime(2000),
         maxDate: DateTime(2100),
         enablePastDates: false,
-        selectionMode:
-        DateRangePickerSelectionMode.single,
+        selectionMode: DateRangePickerSelectionMode.single,
         yearCellStyle: DateRangePickerYearCellStyle(
           textStyle: TextStyle(
             color: Colors.black,
-            fontFamily:
-            MyFontFamily.mainFontFamily,
+            fontFamily: MyFontFamily.mainFontFamily,
           ),
         ),
-        monthCellStyle:
-        const DateRangePickerMonthCellStyle(
+        monthCellStyle: const DateRangePickerMonthCellStyle(
           textStyle: TextStyle(
             color: Colors.black,
-            fontFamily:
-            MyFontFamily.mainFontFamily,
+            fontFamily: MyFontFamily.mainFontFamily,
           ),
           todayTextStyle: TextStyle(
-              color: Colors.black,
-              fontFamily:
-              MyFontFamily.mainFontFamily,),
+            color: Colors.black,
+            fontFamily: MyFontFamily.mainFontFamily,
+          ),
         ),
         startRangeSelectionColor: Colors.white,
         endRangeSelectionColor: Colors.white,
         rangeSelectionColor: Colors.white,
         selectionTextStyle: const TextStyle(
-            color: Colors.white,
-            fontFamily:
-            MyFontFamily.mainFontFamily),
+            color: Colors.white, fontFamily: MyFontFamily.mainFontFamily),
         todayHighlightColor: ColorValue.todayColor,
         selectionColor: ColorValue.calendarSelection,
         // backgroundColor: Colors.deepPurple,
@@ -54,24 +53,18 @@ class CalendarDialog extends StatelessWidget {
             backgroundColor: ColorValue.calendarTitleBar,
             textAlign: TextAlign.center,
             textStyle: TextStyle(
-              fontStyle: FontStyle.normal,
-              fontSize: 25,
-              letterSpacing: 5,
-              fontFamily:
-              MyFontFamily.mainFontFamily,
-              fontWeight: FontWeight.bold
-            )),
-        monthViewSettings:
-        DateRangePickerMonthViewSettings(
+                fontStyle: FontStyle.normal,
+                fontSize: 25,
+                letterSpacing: 5,
+                fontFamily: MyFontFamily.mainFontFamily,
+                fontWeight: FontWeight.bold)),
+        monthViewSettings: DateRangePickerMonthViewSettings(
             enableSwipeSelection: false,
             //일 월 화 수 목 금 토  이 부분
-            viewHeaderStyle:
-            DateRangePickerViewHeaderStyle(
+            viewHeaderStyle: DateRangePickerViewHeaderStyle(
                 textStyle: TextStyle(
-                    fontFamily: MyFontFamily
-                        .mainFontFamily,
-                    color:
-                    Colors.black))),
+                    fontFamily: MyFontFamily.mainFontFamily,
+                    color: Colors.black))),
         showActionButtons: true,
         confirmText: '확인',
         cancelText: '취소',

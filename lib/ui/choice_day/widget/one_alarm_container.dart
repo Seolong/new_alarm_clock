@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:new_alarm_clock/ui/add_alarm/controller/time_spinner_controller.dart';
 import 'package:new_alarm_clock/ui/choice_day/controller/start_end_day_controller.dart';
 import 'package:new_alarm_clock/utils/values/color_value.dart';
 import 'package:new_alarm_clock/utils/values/my_font_family.dart';
@@ -10,7 +9,7 @@ import 'package:get/get.dart';
 class OneAlarmContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    Get.put(StartEndDayController());
+    var startEndDayController = Get.put(StartEndDayController());
     return Column(
       children: [
         //나중에 builder 이용해서 cell들 세부 조작
@@ -20,12 +19,14 @@ class OneAlarmContainer extends StatelessWidget {
             headerHeight: SizeValue.oneAlarmCalendarTitleHeight,
             minDate: DateTime(2000),
             maxDate: DateTime(2100),
+            initialSelectedDate: startEndDayController.start['dateTime'],
+            initialDisplayDate: startEndDayController.start['dateTime'],
             enablePastDates: false,
             onSelectionChanged: (DateRangePickerSelectionChangedArgs args) {
               if (args.value is DateTime) {
                 final DateTime selectedDate = args.value;
-                Get.find<StartEndDayController>().setStart(selectedDate);
-                print(Get.find<StartEndDayController>().start);
+                startEndDayController.setStart(selectedDate);
+                print(startEndDayController.start);
               }
             },
             selectionMode: DateRangePickerSelectionMode.single,
