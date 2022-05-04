@@ -1,6 +1,7 @@
 import 'package:new_alarm_clock/data/model/alarm_data.dart';
 import 'package:new_alarm_clock/data/model/alarm_folder_data.dart';
 import 'package:new_alarm_clock/data/model/alarm_week_repeat_data.dart';
+import 'package:new_alarm_clock/data/model/day_off_data.dart';
 import 'package:new_alarm_clock/data/model/music_path_data.dart';
 import 'package:new_alarm_clock/service/alarm_scheduler.dart';
 import 'package:new_alarm_clock/utils/values/string_value.dart';
@@ -14,6 +15,7 @@ class AlarmProvider {
   String weekRepeatTableName = 'week_repeat';
   String musicPathTableName = 'music_path';
   String alarmFolderTableName = 'alarm_folder';
+  String dayOffTableName = 'day_off';
 
   AlarmProvider._createInstance();
 
@@ -50,7 +52,6 @@ class AlarmProvider {
           $columnAlarmOrder integer not null,
           $columnFolderName text not null,
           $columnAlarmInterval integer not null,
-          $columnDayOff text not null,
           $columnMonthRepeatDay integer,
           $columnMusicBool integer not null,
           $columnMusicPath text not null,
@@ -84,9 +85,26 @@ class AlarmProvider {
         $columnFolderName text primary key)
     ''');
 
+    await db.execute('''
+      create table $dayOffTableName(
+        $columnId int not null,
+        $columnDayOffDate text not null,
+        primary key ($columnId, $columnDayOffDate))
+    ''');
+
     await db.insert(musicPathTableName, {columnPath: StringValue.beepBeep});
     await db.insert(musicPathTableName, {columnPath: StringValue.ringRing});
     await db.insert(alarmFolderTableName, {columnFolderName: '전체 알람'});
+  }
+
+  Future<void> resetDatabase()async {
+    Database db = await this.database;
+    await db.execute("DROP TABLE IF EXISTS $tableName");
+    await db.execute("DROP TABLE IF EXISTS $alarmFolderTableName");
+    await db.execute("DROP TABLE IF EXISTS $weekRepeatTableName");
+    await db.execute("DROP TABLE IF EXISTS $musicPathTableName");
+    await db.execute("DROP TABLE IF EXISTS $dayOffTableName");
+    await _onCreate(db, 1);
   }
 
   Future<Database> initializeDatabase() async {
@@ -150,6 +168,13 @@ class AlarmProvider {
     if(currentAlarmWeekData != null){
       deleteAlarmWeekData(id);
       print('id: $id WeekData is deleted.');
+    }
+
+    List<DayOffData> dayOffList = await getDayOffsById(id);
+    if (dayOffList.isNotEmpty) {
+      for(int i=0; i<dayOffList.length; i++){
+        deleteDayOff(dayOffList[i].id, dayOffList[i].dayOffDate);
+      }
     }
 
     AlarmScheduler.removeAlarm(id);
@@ -302,5 +327,58 @@ class AlarmProvider {
     Database db = await this.database;
     await db.update(tableName, alarmFolderData.toMap(),
         where: '$columnFolderName = ?', whereArgs: [alarmFolderData.name]);
+  }
+
+  Future<List<DayOffData>> getAllDayOff() async {
+    List<DayOffData> dayOffDataList = [];
+    final Database db = await this.database;
+    final List<Map<String, dynamic>> dayOffDataMaps =
+    await db.query(dayOffTableName);
+
+    dayOffDataMaps.forEach((element) {
+      var dayOffData = DayOffData.fromMap(element);
+      dayOffDataList.add(dayOffData);
+    });
+
+    return await dayOffDataList;
+  }
+
+  Future<List<DayOffData>> getDayOffsById(int id) async {
+    List<DayOffData> dayOffDataList = [];
+    final Database db = await this.database;
+    final List<Map<String, dynamic>> dayOffDataMaps =
+    await db.query(dayOffTableName);
+
+    dayOffDataMaps.forEach((element) {
+      var dayOffData = DayOffData.fromMap(element);
+      if (dayOffData.id == id) {
+        dayOffDataList.add(dayOffData);
+      }
+    });
+
+    return await dayOffDataList;
+  }
+
+  Future<int> insertDayOff(DayOffData dayOffData) async {
+    Database db = await this.database;
+    var insertId = await db.insert(
+      dayOffTableName,
+      dayOffData.toMap(),
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    );
+    print('insert $insertId');
+
+    return insertId;
+  }
+
+  Future<int> deleteDayOff(int id, DateTime dayOff) async {
+    Database db = await this.database;
+    String dayOffString = dayOff.toIso8601String();
+    var countOfDeletedItems =
+      await db.rawDelete('delete from $dayOffTableName where $columnId = ? and $columnDayOffDate = ?',
+        [id, dayOffString]);
+    //rawDelete('DELETE FROM Test WHERE name = ?', ['another name']);
+    print('Count of deleted Items is $countOfDeletedItems');
+    return countOfDeletedItems;
   }
 }

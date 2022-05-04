@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:new_alarm_clock/ui/add_alarm/controller/day_of_week_controller.dart';
 import 'package:new_alarm_clock/ui/choice_day/controller/interval_text_field_controller.dart';
+import 'package:new_alarm_clock/ui/choice_day/controller/month_repaet_day_controller.dart';
 import 'package:new_alarm_clock/ui/choice_day/controller/start_end_day_controller.dart';
 import 'package:new_alarm_clock/ui/choice_day/widget/one_alarm_container.dart';
 import 'package:new_alarm_clock/ui/choice_day/widget/repeat_tab_bar.dart';
@@ -19,6 +20,12 @@ class ChoiceDayPage extends StatelessWidget {
 
 
   Future<bool> _onTouchBackButton() async {
+    if(repeatModeController.repeatMode == RepeatMode.month &&
+    Get.find<MonthRepeatDayController>().monthRepeatDay == null
+    ){
+      ConvenienceMethod.showSimpleSnackBar('반복 날짜를 선택해주세요.');
+      return Future.value(false);
+    }
     if(repeatModeController.repeatMode != RepeatMode.single &&
         repeatModeController.repeatMode != RepeatMode.off &&
         Get.find<IntervalTextFieldController>().textEditingController.text != '' &&

@@ -18,7 +18,7 @@ class CalendarDialog extends StatelessWidget {
         headerHeight: 40,
         initialSelectedDate: initialDate,
         initialDisplayDate: initialDate,
-        minDate: DateTime(2000),
+        minDate: DateTime(2022),
         maxDate: DateTime(2100),
         enablePastDates: false,
         selectionMode: DateRangePickerSelectionMode.single,

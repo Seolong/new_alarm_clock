@@ -7,6 +7,7 @@ import 'package:new_alarm_clock/ui/alarm_detail_page/repeat/repeat_page.dart';
 import 'package:new_alarm_clock/ui/alarm_detail_page/ring/ring_page.dart';
 import 'package:new_alarm_clock/ui/alarm_detail_page/vibration/vibration_page.dart';
 import 'package:new_alarm_clock/ui/choice_day/choice_day_page.dart';
+import 'package:new_alarm_clock/ui/day_off/day_off_page.dart';
 import 'package:new_alarm_clock/ui/home/home_page.dart';
 
 class AppPages{
@@ -18,6 +19,7 @@ class AppPages{
     GetPage(name: AppRoutes.ringPage, page: () => RingPage()),
     GetPage(name: AppRoutes.vibrationPage, page: () => VibrationPage()),
     GetPage(name: AppRoutes.repeatPage, page: () => RepeatPage()),
-    GetPage(name: AppRoutes.choiceDayPage, page: () => ChoiceDayPage())
+    GetPage(name: AppRoutes.choiceDayPage, page: () => ChoiceDayPage()),
+    GetPage(name: AppRoutes.dayOffPage, page: () => DayOffPage())
   ];
 }

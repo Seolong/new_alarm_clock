@@ -4,15 +4,22 @@ import 'package:new_alarm_clock/utils/enum.dart';
 
 class RepeatModeController extends GetxController {
   Rx<RepeatMode> _repeatMode = RepeatMode.off.obs;
+  RxInt subIndex = 0.obs;
 
   //RepeatMode repeatMode = RepeatMode.off;
   RepeatMode previousRepeatMode = RepeatMode.off;
 
   set repeatMode(RepeatMode repeatMode) {
     _repeatMode.value = repeatMode;
+
+
     //ChoiceDayPage에 Builder 써서 이거 써야한다.
     WidgetsBinding.instance!.addPostFrameCallback((_) {
       // executes after build
+
+      //chioceDay의 초기 subTabBarIndex 설정을 위해
+      subIndex.value = getSubIndex();
+
       update();
     });
   }

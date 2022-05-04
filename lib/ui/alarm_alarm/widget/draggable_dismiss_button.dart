@@ -91,7 +91,7 @@ class _DraggableDismissButtonState extends State<DraggableDismissButton>
       if(isLongPressOrDrag == false){//1분 지나서 꺼졌을 경우
         if(alarmData.repeatBool == false){
           await _repeatCountSharedPreferences.resetRepeatCount();
-          await alarmScheduler.updateAlarmWhenAlarmed(alarmData);
+          await alarmScheduler.updateAlarm(alarmData);
         }else{
           await _repeatCountSharedPreferences.setRepeatCount();
           int repeatCount = await _repeatCountSharedPreferences.getRepeatCount();
@@ -106,13 +106,13 @@ class _DraggableDismissButtonState extends State<DraggableDismissButton>
           }
           else{
             await _repeatCountSharedPreferences.resetRepeatCount();
-            await alarmScheduler.updateAlarmWhenAlarmed(alarmData);
+            await alarmScheduler.updateAlarm(alarmData);
           }
         }
       }
       else{//버튼 드래그, 롱프레스로 알람을 껐을 경우
         await _repeatCountSharedPreferences.resetRepeatCount();
-        await alarmScheduler.updateAlarmWhenAlarmed(alarmData);
+        await alarmScheduler.updateAlarm(alarmData);
         print('afsdfawefewa In DraggableDismissButton');
       }
 

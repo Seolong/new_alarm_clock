@@ -8,6 +8,7 @@ import 'package:new_alarm_clock/data/model/alarm_data.dart';
 import 'package:new_alarm_clock/data/model/alarm_week_repeat_data.dart';
 import 'package:new_alarm_clock/data/shared_preferences/app_state_shared_preferences.dart';
 import 'package:new_alarm_clock/data/shared_preferences/id_shared_preferences.dart';
+import 'package:new_alarm_clock/service/life_cycle_listener.dart';
 import 'package:new_alarm_clock/utils/enum.dart';
 
 import '../main.dart';
@@ -25,8 +26,8 @@ class AlarmScheduler {
     AlarmProvider alarmProvider = AlarmProvider();
     AlarmData alarmData = await alarmProvider.getAlarmById(alarmId);
 
-    bool isallowed = await AwesomeNotifications().isNotificationAllowed();
-    if (!isallowed) {
+    bool isAllowed = await AwesomeNotifications().isNotificationAllowed();
+    if (!isAllowed) {
       //no permission of local notification
       AwesomeNotifications().requestPermissionToSendNotifications();
     }else{
@@ -81,6 +82,7 @@ class AlarmScheduler {
 
     if (alarm.alarmState && Platform.isAndroid) {
       final AppStateSharedPreferences _appStateSharedPreferences = AppStateSharedPreferences();
+      print('aaaaaaaaaa ${await _appStateSharedPreferences.getAppState()}');
       await _appStateSharedPreferences.setAppStateToAlarm();
 
       //딱 이거 넣으니까 wakelock에서 예외 메시지 뜨는데
@@ -152,7 +154,68 @@ class AlarmScheduler {
     else{
       alarmData.alarmState = false;
     }
-    await alarmProvider.updateAlarm(alarmData);
+
     return alarmData;
+  }
+
+  Future<AlarmData> skipDayOff(AlarmData alarmData) async{
+    AlarmProvider alarmProvider = AlarmProvider();
+    var dayOffList = await alarmProvider.getDayOffsById(alarmData.id);
+    if(dayOffList.isNotEmpty){
+      int hours = alarmData.alarmDateTime.hour;
+      int minutes = alarmData.alarmDateTime.minute;
+      for(int i=0; i<dayOffList.length; i++){
+        dayOffList[i].dayOffDate = dayOffList[i].dayOffDate.add(Duration(
+          hours: hours, minutes: minutes
+        ));
+      }
+      dayOffList.sort((a, b) => a.dayOffDate.compareTo(b.dayOffDate));
+      // 알람 울렸을 때 제일 작은 dayoff가 알람일보다 전이면 삭제
+      // else로 다음꺼 받고
+      // dayOff랑 다음 알람이랑 같으면 그 dayOff 삭제하고 다다음 알람으로 설정하고
+      // 다다음 알람이 다음 dayOff랑 같으면 또 그 다음으로
+      // dayOff가 더 없으면 null
+      while(dayOffList.isNotEmpty && dayOffList[0].dayOffDate.isBefore(alarmData.alarmDateTime)){
+        var deletedDayOff = dayOffList.removeAt(0);
+        deletedDayOff.dayOffDate = deletedDayOff.dayOffDate.subtract(Duration(
+            hours: hours, minutes: minutes
+        ));
+        alarmProvider.deleteDayOff(deletedDayOff.id, deletedDayOff.dayOffDate);
+      }
+
+      // 반복 알람으로 얻어지는 알람일인지 확인해야함.
+      // 금지일 설정해도 진짜 알람일이 아니라 잘못 설정한 금지일에도
+      // 얘들이 건너뛰게해줌.
+
+      while(dayOffList.isNotEmpty && alarmData.alarmDateTime.isAtSameMomentAs(dayOffList[0].dayOffDate)) {
+        var deletedDayOff = dayOffList.removeAt(0);
+        deletedDayOff.dayOffDate = deletedDayOff.dayOffDate.subtract(Duration(
+            hours: hours, minutes: minutes
+        ));
+        alarmProvider.deleteDayOff(deletedDayOff.id, deletedDayOff.dayOffDate);
+        alarmData = await updateAlarmWhenAlarmed(alarmData);
+        if (dayOffList.isNotEmpty) {
+          while(dayOffList[0].dayOffDate.isBefore(alarmData.alarmDateTime)){
+            var deletedDayOff2 = dayOffList.removeAt(0);
+            deletedDayOff2.dayOffDate = deletedDayOff2.dayOffDate.subtract(Duration(
+                hours: hours, minutes: minutes
+            ));
+            alarmProvider.deleteDayOff(deletedDayOff2.id, deletedDayOff2.dayOffDate);
+            if(dayOffList.isEmpty){
+              break;
+            }
+          }
+        }
+      }
+    }
+    return alarmData;
+  }
+
+  Future<void> updateAlarm(AlarmData alarmData)async {
+    AlarmProvider alarmProvider = AlarmProvider();
+
+    alarmData = await updateAlarmWhenAlarmed(alarmData);
+    alarmData = await skipDayOff(alarmData);
+    await alarmProvider.updateAlarm(alarmData);
   }
 }

@@ -10,75 +10,70 @@ class OneAlarmContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var startEndDayController = Get.put(StartEndDayController());
-    return Column(
-      children: [
-        //나중에 builder 이용해서 cell들 세부 조작
-        Container(
-          height: Get.height * 3 / 4,
-          child: SfDateRangePicker(
-            headerHeight: SizeValue.oneAlarmCalendarTitleHeight,
-            minDate: DateTime(2000),
-            maxDate: DateTime(2100),
-            initialSelectedDate: startEndDayController.start['dateTime'],
-            initialDisplayDate: startEndDayController.start['dateTime'],
-            enablePastDates: false,
-            onSelectionChanged: (DateRangePickerSelectionChangedArgs args) {
-              if (args.value is DateTime) {
-                final DateTime selectedDate = args.value;
-                startEndDayController.setStart(selectedDate);
-                print(startEndDayController.start);
-              }
-            },
-            selectionMode: DateRangePickerSelectionMode.single,
-            monthCellStyle: DateRangePickerMonthCellStyle(
-              textStyle: TextStyle(
-                  color: Colors.black,
-                  fontFamily: MyFontFamily.mainFontFamily,
-                  fontSize: SizeValue.oneAlarmCalendarCellTextSize,
-                  //fontWeight: FontWeight.bold
-              ),
-              todayTextStyle: TextStyle(
-                  color: Colors.black,
-                  fontFamily: MyFontFamily.mainFontFamily,
-                  fontSize: SizeValue.oneAlarmCalendarCellTextSize,
-                  //fontWeight: FontWeight.bold
-              ),
-            ),
-            startRangeSelectionColor: Colors.white,
-            endRangeSelectionColor: Colors.white,
-            rangeSelectionColor: Colors.white,
-            selectionTextStyle: TextStyle(
-                color: Colors.white,
-                fontFamily: MyFontFamily.mainFontFamily,
-                fontSize: SizeValue.oneAlarmCalendarCellTextSize,
-                fontWeight: FontWeight.bold),
-            todayHighlightColor: ColorValue.todayColor,
-            selectionColor: ColorValue.calendarSelection,
-            // backgroundColor: Colors.deepPurple,
-            //allowViewNavigation: false,
-            // view:  DateRangePickerView.month,
-            //11월 2021  이 부분
-            headerStyle: DateRangePickerHeaderStyle(
-                backgroundColor: ColorValue.calendarTitleBar,
-                textAlign: TextAlign.center,
-                textStyle: TextStyle(
-                  fontStyle: FontStyle.normal,
-                  fontSize: SizeValue.oneAlarmCalendarTitleTextSize,
-                  letterSpacing: 2,
-                  fontFamily: MyFontFamily.mainFontFamily,
-                  fontWeight: FontWeight.bold
-                )),
-            monthViewSettings: DateRangePickerMonthViewSettings(
-                enableSwipeSelection: false,
-                //일 월 화 수 목 금 토  이 부분
-                viewHeaderStyle: DateRangePickerViewHeaderStyle(
-                    textStyle: TextStyle(
-                        fontFamily: MyFontFamily.mainFontFamily,
-                        color: Colors.black,
-                        fontSize: SizeValue.oneAlarmCalendarCellTextSize - 4))),
+    return Container(
+      height: Get.height * 3 / 4,
+      child: SfDateRangePicker(
+        headerHeight: SizeValue.oneAlarmCalendarTitleHeight,
+        minDate: DateTime(2000),
+        maxDate: DateTime(2100),
+        initialSelectedDate: startEndDayController.start['dateTime'],
+        initialDisplayDate: startEndDayController.start['dateTime'],
+        enablePastDates: false,
+        onSelectionChanged: (DateRangePickerSelectionChangedArgs args) {
+          if (args.value is DateTime) {
+            final DateTime selectedDate = args.value;
+            startEndDayController.setStart(selectedDate);
+            print(startEndDayController.start);
+          }
+        },
+        selectionMode: DateRangePickerSelectionMode.single,
+        monthCellStyle: DateRangePickerMonthCellStyle(
+          textStyle: TextStyle(
+              color: Colors.black,
+              fontFamily: MyFontFamily.mainFontFamily,
+              fontSize: SizeValue.oneAlarmCalendarCellTextSize,
+              //fontWeight: FontWeight.bold
+          ),
+          todayTextStyle: TextStyle(
+              color: Colors.black,
+              fontFamily: MyFontFamily.mainFontFamily,
+              fontSize: SizeValue.oneAlarmCalendarCellTextSize,
+              //fontWeight: FontWeight.bold
           ),
         ),
-      ],
+        startRangeSelectionColor: Colors.white,
+        endRangeSelectionColor: Colors.white,
+        rangeSelectionColor: Colors.white,
+        selectionTextStyle: TextStyle(
+            color: Colors.white,
+            fontFamily: MyFontFamily.mainFontFamily,
+            fontSize: SizeValue.oneAlarmCalendarCellTextSize,
+            fontWeight: FontWeight.bold),
+        todayHighlightColor: ColorValue.todayColor,
+        selectionColor: ColorValue.calendarSelection,
+        // backgroundColor: Colors.deepPurple,
+        //allowViewNavigation: false,
+        // view:  DateRangePickerView.month,
+        //11월 2021  이 부분
+        headerStyle: DateRangePickerHeaderStyle(
+            backgroundColor: ColorValue.calendarTitleBar,
+            textAlign: TextAlign.center,
+            textStyle: TextStyle(
+              fontStyle: FontStyle.normal,
+              fontSize: SizeValue.oneAlarmCalendarTitleTextSize,
+              letterSpacing: 2,
+              fontFamily: MyFontFamily.mainFontFamily,
+              fontWeight: FontWeight.bold
+            )),
+        monthViewSettings: DateRangePickerMonthViewSettings(
+            enableSwipeSelection: false,
+            //일 월 화 수 목 금 토  이 부분
+            viewHeaderStyle: DateRangePickerViewHeaderStyle(
+                textStyle: TextStyle(
+                    fontFamily: MyFontFamily.mainFontFamily,
+                    color: Colors.black,
+                    fontSize: SizeValue.oneAlarmCalendarCellTextSize - 4))),
+      ),
     );
   }
 }

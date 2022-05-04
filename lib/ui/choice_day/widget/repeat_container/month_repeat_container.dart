@@ -18,7 +18,7 @@ class MonthRepeatContainer extends RepeatContainer {
     bottomColumn = Column(
       children: [
         Padding(
-          padding: const EdgeInsets.only(top: 20),
+          padding: const EdgeInsets.only(top: 15),
           child: GetBuilder<MonthRepeatDayController>(
             builder: (_) {
               return Text( _.monthRepeatDayText.value,
@@ -29,11 +29,11 @@ class MonthRepeatContainer extends RepeatContainer {
             }
           ),
         ),
-        Container(height: 75,),
+        Container(height: 50,),
         ChoiceDayButton(),
         Container(
-          padding: EdgeInsets.fromLTRB(0, 7.5, 0, 7.5),
-          height: ButtonSize.medium + 4,
+          padding: EdgeInsets.fromLTRB(0, 0, 0, 7.5),
+          height: ButtonSize.medium - 4,
           child: FittedBox(
             fit: BoxFit.scaleDown,
             child: ConstrainedBox(
@@ -42,7 +42,7 @@ class MonthRepeatContainer extends RepeatContainer {
               child: Text(
                 '반복 날짜 선택',
                 style: TextStyle(
-                    color: Colors.black87, fontSize: 1000),
+                    color: Colors.grey, fontSize: 1000),
               ),
             ),
           ),

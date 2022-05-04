@@ -14,14 +14,10 @@ var log = [];
 void main() {
   test('DateTimeCalculator test', overridePrint((){
 
-    DateTime dateTime = DateTime.now().add(Duration(days: 5));
-    DateTime dateTime2 = DateTime.now().add(Duration(days: 5));
-    dateTime = Jiffy(dateTime).subtract(months: 1).dateTime;
-    dateTime = Jiffy(dateTime).subtract(months: 1).dateTime;
-    dateTime = Jiffy(dateTime).subtract(months: 1).dateTime;
-    dateTime2 = Jiffy(dateTime2).subtract(months: 3).dateTime;
+    DateTime dateTime = DateTime.now();
+    dateTime.add(Duration(days: 1));
 
-    expect(dateTime.day, dateTime2.day);
+    expect(dateTime.day, 3);
   }));
 
 

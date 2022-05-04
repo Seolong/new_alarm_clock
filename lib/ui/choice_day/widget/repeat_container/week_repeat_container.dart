@@ -22,7 +22,8 @@ class WeekRepeatContainer extends RepeatContainer {
     bottomColumn = Column(
       children: [
         Container(
-          height: 100,
+          height: 50,
+          padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
           //슬라이드해서 week컨테이너로 가면 일~월이 회색이길래..
           child: GetBuilder<RepeatModeController>(
             builder: (context) {

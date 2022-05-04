@@ -30,7 +30,7 @@ class YearRepeatContainer extends RepeatContainer {
               }
           ),
         ),
-        Container(height: 75,),
+        Container(height: 50,),
         GetBuilder<YearRepeatDayController>(
           builder: (_) {
             return InkWell(
@@ -53,17 +53,18 @@ class YearRepeatContainer extends RepeatContainer {
           }
         ),
         Container(
-          padding: EdgeInsets.fromLTRB(0, 7.5, 0, 7.5),
-          height: ButtonSize.medium + 4,
+          padding: EdgeInsets.fromLTRB(0, 0, 0, 7.5),
+          height: ButtonSize.medium * 2 - 15,
           child: FittedBox(
             fit: BoxFit.scaleDown,
             child: ConstrainedBox(
               constraints:
               BoxConstraints(minWidth: 1, minHeight: 1),
               child: Text(
-                '반복 날짜(월, 일) 선택',
+                '반복 날짜 선택\n(월, 일)',
                 style: TextStyle(
-                    color: Colors.black87, fontSize: 1000),
+                    color: Colors.grey, fontSize: 1000),
+                textAlign: TextAlign.center,
               ),
             ),
           ),

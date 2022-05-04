@@ -33,10 +33,14 @@ class StartEndDayController extends GetxController{
   RxMap<String, dynamic> get end => _end;
 
   void setStart(DateTime dateTime){
-    _start['dateTime'] = dateTime;
-    _start['monthDay'] = DateFormat('M월 d일').format(_start['dateTime']);
-    _start['year'] = DateFormat('yyyy년').format(_start['dateTime']);
-    update();
+    DateTime? endTime = _end['dateTime'];
+    if (endTime != null && dateTime.year <= endTime.year && dateTime.month <= endTime.month
+    && dateTime.day <= endTime.day) {
+      _start['dateTime'] = dateTime;
+      _start['monthDay'] = DateFormat('M월 d일').format(_start['dateTime']);
+      _start['year'] = DateFormat('yyyy년').format(_start['dateTime']);
+      update();
+    }
   }
 
   void setEnd(DateTime? dateTime){

@@ -20,13 +20,8 @@ class DayButton extends StatelessWidget {
     var repeatModeController = Get.put(RepeatModeController());
     DayOfWeekController dayOfWeekController = Get.put(DayOfWeekController());
     return GestureDetector(
-      child: CustomPaint(
-        // CustomPaint를 그리고 이 안에 차트를 그려줍니다..
-        size:
-        Size(min(constraints.maxWidth, constraints.maxHeight),
-            min(constraints.maxWidth, constraints.maxHeight)),//??????????
-        painter: DayButtonPainter(dayName, controller),
-      ),
+      child: DayButtonPainter(dayName, controller),
+
       onTap: () {
         controller.reverseDayButtonState(dayName);
         //터치하면 자동으로 repeatMode Week

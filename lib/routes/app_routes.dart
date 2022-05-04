@@ -5,4 +5,5 @@ abstract class AppRoutes{
   static const vibrationPage = '/vibrationPage';
   static const repeatPage = '/repeatPage';
   static const choiceDayPage = '/choiceDayPage';
+  static const dayOffPage = '/dayOffPage';
 }

@@ -45,11 +45,11 @@ class SaveButton extends StatelessWidget {
     return TextButton(
         onPressed: () async {
           //선택, 반복 날짜와 timespinner의 시간을 합치기 위함
-          if (repeatModeController.getRepeatMode() != RepeatMode.off) {
-            String hourMinute = DateFormat.Hms()
+
+            String hourMinute = DateFormat.Hm()
                 .format(timeSpinnerController.alarmDateTime)
                 .toString();
-            hourMinute += '.000';
+            hourMinute += ':00.000';
             print(hourMinute);
 
             String yearMonthDay = DateFormat('yyyy-MM-dd')
@@ -57,11 +57,19 @@ class SaveButton extends StatelessWidget {
             String alarmDateTime = yearMonthDay + 'T' + hourMinute;
             print(alarmDateTime);
             timeSpinnerController.alarmDateTime = DateTime.parse(alarmDateTime);
-          }
+
 
           if(timeSpinnerController.alarmDateTime.isBefore(DateTime.now())){
             timeSpinnerController.alarmDateTime =
                 timeSpinnerController.alarmDateTime.add(Duration(days: 1));
+          }
+
+          DateTime? endDay;
+          if(startEndDayController.end['dateTime'] != null){
+            String yearMonthDay_end = DateFormat('yyyy-MM-dd')
+                .format(startEndDayController.end['dateTime']);
+            String endDateTime = yearMonthDay_end + 'T' + hourMinute;
+            endDay = DateTime.parse(endDateTime);
           }
 
           AlarmData alarmData = AlarmData(
@@ -69,14 +77,13 @@ class SaveButton extends StatelessWidget {
             alarmType: repeatModeController.getRepeatMode(),
             title: alarmTitleTextFieldController.textEditingController.text,
             alarmDateTime: timeSpinnerController.alarmDateTime,
-            endDay: startEndDayController.end['dateTime'],
+            endDay: endDay,
             alarmState: true,
             alarmOrder: alarmId,
             folderName: currentFolderName,
             alarmInterval: Get.find<IntervalTextFieldController>().textEditingController.text == ''?
               0:
               int.parse(Get.find<IntervalTextFieldController>().textEditingController.text),
-            dayOff: DateTime(2045),
             monthRepeatDay: Get.find<MonthRepeatDayController>().monthRepeatDay,
             musicBool: Get.find<RingRadioListController>().power,
             musicPath: Get.find<RingRadioListController>().selectedMusicPath,

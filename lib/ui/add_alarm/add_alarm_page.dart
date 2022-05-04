@@ -23,6 +23,7 @@ import 'package:new_alarm_clock/ui/choice_day/controller/repeat_mode_controller.
 import 'package:new_alarm_clock/ui/choice_day/controller/start_end_day_controller.dart';
 import 'package:new_alarm_clock/ui/choice_day/controller/year_repeat_day_controller.dart';
 import 'package:new_alarm_clock/ui/choice_day/widget/going_back_dialog.dart';
+import 'package:new_alarm_clock/ui/day_off/controller/day_off_list_controller.dart';
 import 'package:new_alarm_clock/ui/global/auto_size_text.dart';
 import 'package:new_alarm_clock/ui/global/convenience_method.dart';
 import 'package:new_alarm_clock/utils/enum.dart';
@@ -115,6 +116,7 @@ class AddAlarmPage extends StatelessWidget {
     Get.put(IntervalTextFieldController());
     Get.put(MonthRepeatDayController());
     Get.put(YearRepeatDayController());
+    Get.put(DayOffListController());
 
     SystemChrome.setSystemUIOverlayStyle(
         SystemUiOverlayStyle(statusBarColor: ColorValue.appbar));
@@ -122,6 +124,8 @@ class AddAlarmPage extends StatelessWidget {
     if (mode == StringValue.editMode) {
       initEditAlarm();
     }
+
+    Get.find<DayOffListController>().id = alarmId;
 
     return WillPopScope(
       onWillPop: _onTouchSystemBackButton,

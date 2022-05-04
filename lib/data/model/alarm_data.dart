@@ -7,11 +7,9 @@ final String columnTitle = 'title';
 final String columnAlarmDateTime = 'alarmDateTime';
 final String columnEndDay = 'endDay';
 final String columnAlarmState = 'alarmState';
-final String columnAlarmPoint = 'alarmPoint';
 final String columnAlarmOrder = 'alarmOrder';
 final String columnFolderName = 'folderName';
 final String columnAlarmInterval = 'alarmInterval';
-final String columnDayOff = 'dayOff';
 final String columnMonthRepeatDay = 'monthRepeatDay';
 final String columnMusicBool = 'musicBool';
 final String columnMusicPath = 'musicPath';
@@ -51,11 +49,9 @@ class AlarmData {
     required this.alarmDateTime,
     required this.endDay,
     required this.alarmState,
-    //required ?? alarmPoint,
     required this.alarmOrder,
     required this.folderName,
     required this.alarmInterval,
-    required this.dayOff,
     required this.monthRepeatDay,
     required this.musicBool,
     required this.musicPath,
@@ -80,7 +76,6 @@ class AlarmData {
         alarmOrder: json[columnAlarmOrder],
         folderName: json[columnFolderName],
         alarmInterval: json[columnAlarmInterval],
-        dayOff: DateTime.parse(json[columnDayOff]),
         monthRepeatDay: json[columnMonthRepeatDay],
         musicBool: TypeConverter.convertIntToBool(json[columnMusicBool]),
         musicPath: json[columnMusicPath],
@@ -105,7 +100,6 @@ class AlarmData {
         columnAlarmOrder: alarmOrder,
         columnFolderName: folderName,
         columnAlarmInterval: alarmInterval,
-        columnDayOff: dayOff.toIso8601String(),
         columnMonthRepeatDay: monthRepeatDay,
         columnMusicBool: TypeConverter.convertBoolToInt(musicBool),
         columnMusicPath: musicPath,

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:new_alarm_clock/routes/app_routes.dart';
 import 'package:new_alarm_clock/ui/choice_day/controller/interval_text_field_controller.dart';
 import 'package:new_alarm_clock/ui/choice_day/controller/start_end_day_controller.dart';
 import 'package:new_alarm_clock/ui/choice_day/widget/repeat_container/widget_all/calendar_dialog.dart';
+import 'package:new_alarm_clock/ui/global/auto_size_text.dart';
 import 'package:new_alarm_clock/ui/global/convenience_method.dart';
 import 'package:new_alarm_clock/utils/values/color_value.dart';
 import 'package:new_alarm_clock/utils/values/size_value.dart';
@@ -23,8 +25,7 @@ class RepeatContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     Get.put(StartEndDayController());
     Get.put(IntervalTextFieldController());
-    return Container(
-        child: Column(
+    return ListView(
       children: [
         Divider(
           height: 0.5,
@@ -46,8 +47,8 @@ class RepeatContainer extends StatelessWidget {
                               var dateTime = await Get.dialog(AlertDialog(
                                   contentPadding: EdgeInsets.zero,
                                   content: CalendarDialog(
-                                    Get.find<StartEndDayController>().start['dateTime']
-                                  )));
+                                      Get.find<StartEndDayController>()
+                                          .start['dateTime'])));
                               _.setStart(dateTime!);
                             },
                             child: Padding(
@@ -67,7 +68,9 @@ class RepeatContainer extends StatelessWidget {
                                 child: Text(
                                   _.start['monthDay'],
                                   textAlign: TextAlign.center,
-                                  style: TextStyle(fontSize: 1000,),
+                                  style: TextStyle(
+                                    fontSize: 1000,
+                                  ),
                                 )),
                           ),
                         ),
@@ -102,14 +105,15 @@ class RepeatContainer extends StatelessWidget {
                             onTap: () async {
                               DateTime dateTime = await Get.dialog(AlertDialog(
                                   contentPadding: EdgeInsets.zero,
-                                  content: CalendarDialog(
-                                    _.end['dateTime'] == null ? // end를 아직 설정 안했을 때
-                                        _.start['dateTime']:
-                                      _.end['dateTime']
-                                  )));
-                              if(dateTime.isBefore(_.start['dateTime'])){
-                                ConvenienceMethod.showSimpleSnackBar('종료일을 시작일보다 전에 설정할 수 없습니다.');
-                              }else{
+                                  content:
+                                      CalendarDialog(_.end['dateTime'] == null
+                                          ? // end를 아직 설정 안했을 때
+                                          _.start['dateTime']
+                                          : _.end['dateTime'])));
+                              if (dateTime.isBefore(_.start['dateTime'])) {
+                                ConvenienceMethod.showSimpleSnackBar(
+                                    '종료일을 시작일보다 전에 설정할 수 없습니다.');
+                              } else {
                                 _.setEnd(dateTime);
                               }
                             },
@@ -143,7 +147,9 @@ class RepeatContainer extends StatelessWidget {
                                 constraints:
                                     BoxConstraints(minHeight: 1, minWidth: 1),
                                 child: Text(
-                                  _.end['dateTime'] == null ? '설정 안함' : _.end['year'],
+                                  _.end['dateTime'] == null
+                                      ? '설정 안함'
+                                      : _.end['year'],
                                   style: TextStyle(fontSize: 1000),
                                 )),
                           ),
@@ -173,38 +179,34 @@ class RepeatContainer extends StatelessWidget {
                   Container(
                     width: SizeValue.repeatTextFieldSize,
                     padding: EdgeInsets.fromLTRB(0, 0, 10, 0),
-                    child: GetBuilder<IntervalTextFieldController>(
-                      builder: (_) {
-                        return TextField(
-                          keyboardType: TextInputType.number,
-                          controller: _.textEditingController,
-                          inputFormatters: [
-                            //아래에 글자 수 제한도 안보이고 공간도 차지 안하게
-                            LengthLimitingTextInputFormatter(5),
-                            FilteringTextInputFormatter.digitsOnly //숫자만 입력
-                          ],
-                          textAlign: TextAlign.end,
-                          decoration: InputDecoration(
-                            contentPadding: EdgeInsets.all(0),
-                            hintText: '1',
-                            hintStyle: TextStyle(
-                              color: Colors.grey
-                            ),
-                            isDense: true,
-                          ),
-                          style: TextStyle(fontSize: SizeValue.repeatTextFieldTextSize),
-                        );
-                      }
-                    ),
+                    child:
+                        GetBuilder<IntervalTextFieldController>(builder: (_) {
+                      return TextField(
+                        keyboardType: TextInputType.number,
+                        controller: _.textEditingController,
+                        inputFormatters: [
+                          //아래에 글자 수 제한도 안보이고 공간도 차지 안하게
+                          LengthLimitingTextInputFormatter(5),
+                          FilteringTextInputFormatter.digitsOnly //숫자만 입력
+                        ],
+                        textAlign: TextAlign.end,
+                        decoration: InputDecoration(
+                          contentPadding: EdgeInsets.all(0),
+                          hintText: '1',
+                          hintStyle: TextStyle(color: Colors.grey),
+                          isDense: true,
+                        ),
+                        style: TextStyle(
+                            fontSize: SizeValue.repeatTextFieldTextSize),
+                      );
+                    }),
                   ),
                   Padding(
                     padding: const EdgeInsets.fromLTRB(0, 5, 15, 0),
-                    child: Text('주기',
+                    child: Text(
+                      '주기',
                       textAlign: TextAlign.end,
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: Colors.grey
-                      ),
+                      style: TextStyle(fontSize: 14, color: Colors.grey),
                     ),
                   ),
                 ],
@@ -213,8 +215,26 @@ class RepeatContainer extends StatelessWidget {
             ],
           ),
         ),
-        bottomColumn
+        bottomColumn,
+        Padding(
+            padding: EdgeInsets.only(top: 25),
+            child: GestureDetector(
+              onTap: (){
+                Get.toNamed(AppRoutes.dayOffPage);
+              },
+              child: Icon(
+                Icons.event_busy_rounded,
+                size: ButtonSize.large,
+                color: Colors.grey,
+              ),
+            )),
+        Container(
+          height: 22.5,
+            child: AutoSizeText(
+                '금지일 설정',
+              color: Colors.grey
+            )),
       ],
-    ));
+    );
   }
 }

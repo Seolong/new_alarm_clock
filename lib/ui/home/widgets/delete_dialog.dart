@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class DeleteFolderDialog extends StatelessWidget {
+class DeleteDialog extends StatelessWidget {
+  String message;
+
+  DeleteDialog(this.message);
 
   @override
   Widget build(BuildContext context) {
@@ -12,7 +15,7 @@ class DeleteFolderDialog extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              Text('폴더를 삭제하면 내부의 알람도 같이 삭제됩니다. 정말 삭제하시겠습니까?'),
+              Text(message),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
