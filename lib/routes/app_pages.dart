@@ -20,6 +20,7 @@ class AppPages{
     GetPage(name: AppRoutes.vibrationPage, page: () => VibrationPage()),
     GetPage(name: AppRoutes.repeatPage, page: () => RepeatPage()),
     GetPage(name: AppRoutes.choiceDayPage, page: () => ChoiceDayPage()),
-    GetPage(name: AppRoutes.dayOffPage, page: () => DayOffPage())
+    GetPage(name: AppRoutes.dayOffPage, page: () => DayOffPage()),
+    GetPage(name: AppRoutes.alarmAlarmPage, page: () => AlarmAlarmPage()),
   ];
 }

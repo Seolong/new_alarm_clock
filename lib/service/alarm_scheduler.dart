@@ -8,8 +8,8 @@ import 'package:new_alarm_clock/data/model/alarm_data.dart';
 import 'package:new_alarm_clock/data/model/alarm_week_repeat_data.dart';
 import 'package:new_alarm_clock/data/shared_preferences/app_state_shared_preferences.dart';
 import 'package:new_alarm_clock/data/shared_preferences/id_shared_preferences.dart';
-import 'package:new_alarm_clock/service/life_cycle_listener.dart';
 import 'package:new_alarm_clock/utils/enum.dart';
+import 'package:restart_app/restart_app.dart';
 
 import '../main.dart';
 import 'date_time_calculator.dart';
@@ -81,20 +81,21 @@ class AlarmScheduler {
     AlarmData alarm = await _alarmProvider.getAlarmById(id);
 
     if (alarm.alarmState && Platform.isAndroid) {
-      final AppStateSharedPreferences _appStateSharedPreferences = AppStateSharedPreferences();
-      print('aaaaaaaaaa ${await _appStateSharedPreferences.getAppState()}');
-      await _appStateSharedPreferences.setAppStateToAlarm();
 
-      //딱 이거 넣으니까 wakelock에서 예외 메시지 뜨는데
-      //작동은 잘만 함
-      appState = await _appStateSharedPreferences.getAppState();
+        final AppStateSharedPreferences _appStateSharedPreferences = AppStateSharedPreferences();
+        await _appStateSharedPreferences.setAppStateToAlarm();
 
-      final IdSharedPreferences _idSharedPreferences = IdSharedPreferences();
-      await _idSharedPreferences.setAlarmedId(id);
+        //딱 이거 넣으니까 wakelock에서 예외 메시지 뜨는데
+        //작동은 잘만 함
+        appState = await _appStateSharedPreferences.getAppState();
 
-      restartApp();
-      Bringtoforeground.bringAppToForeground();
-      return;
+        final IdSharedPreferences _idSharedPreferences = IdSharedPreferences();
+        await _idSharedPreferences.setAlarmedId(id);
+
+
+        Restart.restartApp();
+        Bringtoforeground.bringAppToForeground();
+
     }
   }
 
@@ -216,6 +217,25 @@ class AlarmScheduler {
 
     alarmData = await updateAlarmWhenAlarmed(alarmData);
     alarmData = await skipDayOff(alarmData);
+    await alarmProvider.updateAlarm(alarmData);
+  }
+}
+
+
+class SubAlarmScheduler{
+  String getTimeWithTwoLetter(int time){
+    if(time < 10)
+      return '0$time';
+    else
+      return '$time';
+  }
+
+  Future<void> updateAlarm(AlarmData alarmData)async {
+    AlarmProvider alarmProvider = AlarmProvider();
+    AlarmScheduler alarmScheduler = AlarmScheduler();
+
+    alarmData = await alarmScheduler.updateAlarmWhenAlarmed(alarmData);
+    alarmData = await alarmScheduler.skipDayOff(alarmData);
     await alarmProvider.updateAlarm(alarmData);
   }
 }

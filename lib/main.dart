@@ -49,10 +49,6 @@ void main() async {
   runApp(MyApp());
 }
 
-void restartApp() {
-  runApp(MyApp());
-}
-
 void _updateAlarm(int id)async{
   AlarmProvider _alarmProvider = AlarmProvider();
   AlarmData alarmData = await _alarmProvider.getAlarmById(id);

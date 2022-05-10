@@ -11,12 +11,8 @@ import 'package:intl/intl.dart';
 import 'package:new_alarm_clock/utils/values/vibration_pack.dart';
 import 'package:wakelock/wakelock.dart';
 
-class AlarmAlarmPage extends StatefulWidget {
-  @override
-  State<AlarmAlarmPage> createState() => _AlarmAlarmPageState();
-}
 
-class _AlarmAlarmPageState extends State<AlarmAlarmPage> {
+class AlarmAlarmPage extends StatelessWidget {
   int alarmId = -1;
   Future<AlarmData>? alarmData = null;
   AlarmProvider _alarmProvider = AlarmProvider();
@@ -32,17 +28,9 @@ class _AlarmAlarmPageState extends State<AlarmAlarmPage> {
   }
 
   @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-
-    Wakelock.enable();
-    alarmData = getAlarmData();
-  }
-
-  @override
   Widget build(BuildContext context) {
     Wakelock.enable();
+    alarmData = getAlarmData();
     return Scaffold(
       backgroundColor: ColorValue.mainBackground,
       body: Column(

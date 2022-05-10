@@ -6,4 +6,5 @@ abstract class AppRoutes{
   static const repeatPage = '/repeatPage';
   static const choiceDayPage = '/choiceDayPage';
   static const dayOffPage = '/dayOffPage';
+  static const alarmAlarmPage = '/alarmAlarmPage';
 }

@@ -42,6 +42,8 @@ class RepeatModeController extends GetxController {
 
   int getSubIndex(){
     switch(_repeatMode.value){
+      case RepeatMode.off:
+      case RepeatMode.single:
       case RepeatMode.day:
         return 0;
       case RepeatMode.week:
