@@ -188,7 +188,7 @@ class AlarmProvider {
         where: 'id = ?', whereArgs: [alarmData.id]);
 
     AlarmScheduler.removeAlarm(alarmData.id);
-    AlarmScheduler().newShot(alarmData.alarmDateTime, alarmData.id);
+    await AlarmScheduler().newShot(alarmData.alarmDateTime, alarmData.id);
   }
 
   Future<int> insertAlarmWeekData(AlarmWeekRepeatData data) async {

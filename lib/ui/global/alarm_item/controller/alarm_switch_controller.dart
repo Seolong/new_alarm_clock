@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 import 'package:new_alarm_clock/data/database/alarm_provider.dart';
 import 'package:new_alarm_clock/data/model/alarm_data.dart';
 import 'package:new_alarm_clock/data/model/alarm_week_repeat_data.dart';
+import 'package:new_alarm_clock/service/alarm_scheduler.dart';
 import 'package:new_alarm_clock/service/date_time_calculator.dart';
 import 'package:new_alarm_clock/ui/home/controller/alarm_list_controller.dart';
 import 'package:new_alarm_clock/utils/enum.dart';
@@ -17,6 +18,11 @@ class AlarmSwitchController extends GetxController {
     if (switchBoolMap[id] == true) {
       switchBoolMap[id] = false;
       thisAlarmData.alarmState = false;
+      await Get.find<AlarmListController>().updateAlarm(thisAlarmData);
+      //noti 삭제
+      AlarmScheduler.removeAlarm(id);
+      update();
+      return;
     } else {
       if (thisAlarmData.alarmDateTime.isBefore(DateTime.now())) {
         //끝난 알람 다시 true로 할 때
@@ -42,6 +48,8 @@ class AlarmSwitchController extends GetxController {
       }
       switchBoolMap[id] = true;
       thisAlarmData.alarmState = true;
+      //noti 복귀
+      AlarmScheduler().notifyBeforeAlarm(id);
     }
     Get.find<AlarmListController>().updateAlarm(thisAlarmData);
     update();

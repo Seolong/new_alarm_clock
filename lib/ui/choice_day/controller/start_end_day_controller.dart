@@ -34,8 +34,8 @@ class StartEndDayController extends GetxController{
 
   void setStart(DateTime dateTime){
     DateTime? endTime = _end['dateTime'];
-    if (endTime != null && dateTime.year <= endTime.year && dateTime.month <= endTime.month
-    && dateTime.day <= endTime.day) {
+    if (endTime == null || (dateTime.year <= endTime.year && dateTime.month <= endTime.month
+        && dateTime.day <= endTime.day)) {
       _start['dateTime'] = dateTime;
       _start['monthDay'] = DateFormat('M월 d일').format(_start['dateTime']);
       _start['year'] = DateFormat('yyyy년').format(_start['dateTime']);
@@ -61,7 +61,7 @@ class StartEndDayController extends GetxController{
       weekBool.add(Get.find<DayOfWeekController>().dayButtonStateMap[DayWeek.Fri]!);
       weekBool.add(Get.find<DayOfWeekController>().dayButtonStateMap[DayWeek.Sat]!);
       setStart(dateTimeCalculator.getStartNearDay(repeatMode, _start['dateTime'],
-        weekBool: weekBool));
+          weekBool: weekBool));
     }
     else if(repeatMode == RepeatMode.month){
       setStart(
@@ -70,7 +70,7 @@ class StartEndDayController extends GetxController{
     }else if(repeatMode == RepeatMode.year){
       setStart(
           dateTimeCalculator.getStartNearDay(repeatMode, _start['dateTime'],
-            yearRepeatDay: Get.find<YearRepeatDayController>().yearRepeatDay));
+              yearRepeatDay: Get.find<YearRepeatDayController>().yearRepeatDay));
     }
     else{
       setStart(
@@ -78,33 +78,33 @@ class StartEndDayController extends GetxController{
     }
   }
 
-  // void setEndDayWithBackButton(RepeatMode repeatMode){
-  //   int interval = Get.find<IntervalTextFieldController>().textEditingController.text == ''?
-  //     1:int.parse(Get.find<IntervalTextFieldController>().textEditingController.text);
-  //   if(repeatMode == RepeatMode.week){
-  //     List<bool> weekBool = [];
-  //     weekBool.add(Get.find<DayOfWeekController>().dayButtonStateMap[DayWeek.Sun]!);
-  //     weekBool.add(Get.find<DayOfWeekController>().dayButtonStateMap[DayWeek.Mon]!);
-  //     weekBool.add(Get.find<DayOfWeekController>().dayButtonStateMap[DayWeek.Tue]!);
-  //     weekBool.add(Get.find<DayOfWeekController>().dayButtonStateMap[DayWeek.Wed]!);
-  //     weekBool.add(Get.find<DayOfWeekController>().dayButtonStateMap[DayWeek.Thu]!);
-  //     weekBool.add(Get.find<DayOfWeekController>().dayButtonStateMap[DayWeek.Fri]!);
-  //     weekBool.add(Get.find<DayOfWeekController>().dayButtonStateMap[DayWeek.Sat]!);
-  //     setEnd(dateTimeCalculator.getEndNearDay(repeatMode, _start['dateTime'], _end['dateTime'],
-  //         interval, weekBool: weekBool));
-  //   }
-  //   else if(repeatMode == RepeatMode.month){
-  //     int monthDay = Get.find<MonthRepeatDayController>().monthRepeatDay!;
-  //     bool lastDay = (monthDay == 32) ? true:false;
-  //     setEnd(dateTimeCalculator.getEndNearDay(repeatMode, _start['dateTime'], _end['dateTime'],
-  //         interval, lastDay: lastDay));
-  //   }else if(repeatMode == RepeatMode.year){
-  //     setEnd(dateTimeCalculator.getEndNearDay(repeatMode, _start['dateTime'], _end['dateTime'],
-  //         interval));
-  //   }
-  //   else{
-  //     setEnd(dateTimeCalculator.getEndNearDay(repeatMode, _start['dateTime'], _end['dateTime'],
-  //         interval));
-  //   }
-  // }
+// void setEndDayWithBackButton(RepeatMode repeatMode){
+//   int interval = Get.find<IntervalTextFieldController>().textEditingController.text == ''?
+//     1:int.parse(Get.find<IntervalTextFieldController>().textEditingController.text);
+//   if(repeatMode == RepeatMode.week){
+//     List<bool> weekBool = [];
+//     weekBool.add(Get.find<DayOfWeekController>().dayButtonStateMap[DayWeek.Sun]!);
+//     weekBool.add(Get.find<DayOfWeekController>().dayButtonStateMap[DayWeek.Mon]!);
+//     weekBool.add(Get.find<DayOfWeekController>().dayButtonStateMap[DayWeek.Tue]!);
+//     weekBool.add(Get.find<DayOfWeekController>().dayButtonStateMap[DayWeek.Wed]!);
+//     weekBool.add(Get.find<DayOfWeekController>().dayButtonStateMap[DayWeek.Thu]!);
+//     weekBool.add(Get.find<DayOfWeekController>().dayButtonStateMap[DayWeek.Fri]!);
+//     weekBool.add(Get.find<DayOfWeekController>().dayButtonStateMap[DayWeek.Sat]!);
+//     setEnd(dateTimeCalculator.getEndNearDay(repeatMode, _start['dateTime'], _end['dateTime'],
+//         interval, weekBool: weekBool));
+//   }
+//   else if(repeatMode == RepeatMode.month){
+//     int monthDay = Get.find<MonthRepeatDayController>().monthRepeatDay!;
+//     bool lastDay = (monthDay == 32) ? true:false;
+//     setEnd(dateTimeCalculator.getEndNearDay(repeatMode, _start['dateTime'], _end['dateTime'],
+//         interval, lastDay: lastDay));
+//   }else if(repeatMode == RepeatMode.year){
+//     setEnd(dateTimeCalculator.getEndNearDay(repeatMode, _start['dateTime'], _end['dateTime'],
+//         interval));
+//   }
+//   else{
+//     setEnd(dateTimeCalculator.getEndNearDay(repeatMode, _start['dateTime'], _end['dateTime'],
+//         interval));
+//   }
+// }
 }

@@ -72,12 +72,12 @@ class AlarmListController extends GetxController{
     update();
   }
 
-  void updateAlarm(AlarmData alarmData){
-    alarmProvider.updateAlarm(alarmData);
+  Future<void> updateAlarm(AlarmData alarmData)async {
+    await alarmProvider.updateAlarm(alarmData);
     alarmList[alarmList.indexWhere((element) =>
     alarmData.id == element.id)] = alarmData;
     alarmFutureList = alarmProvider.getAllAlarms();
-    print('really? in AlarmListController');
+    print('AlarmListController: updateAlarm');
     update();
   }
 
