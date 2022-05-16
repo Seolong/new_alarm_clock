@@ -15,14 +15,14 @@ import '../main.dart';
 import 'date_time_calculator.dart';
 
 class AlarmScheduler {
-  String getTimeWithTwoLetter(int time){
-    if(time < 10)
+  String getTimeWithTwoLetter(int time) {
+    if (time < 10)
       return '0$time';
     else
       return '$time';
   }
 
-  void notifyBeforeAlarm(int alarmId)async{
+  void notifyBeforeAlarm(int alarmId) async {
     AlarmProvider alarmProvider = AlarmProvider();
     AlarmData alarmData = await alarmProvider.getAlarmById(alarmId);
 
@@ -30,36 +30,85 @@ class AlarmScheduler {
     if (!isAllowed) {
       //no permission of local notification
       AwesomeNotifications().requestPermissionToSendNotifications();
-    }else{
+    } else {
       //show notification
       AwesomeNotifications().createNotification(
-          content: NotificationContent( //simgple notification
-            id: alarmId,
-            channelKey: 'basic', //set configuration with key "basic"
-            title: '곧 알람이 울립니다.',
-            body: '${alarmData.title} '
-                '${getTimeWithTwoLetter(alarmData.alarmDateTime.hour)}:'
-                '${getTimeWithTwoLetter(alarmData.alarmDateTime.minute)}',
-            payload: {'id':'$alarmId'},
-            autoDismissible: false,
+          content: NotificationContent(
+              //simgple notification
+              id: alarmId,
+              channelKey: 'basic',
+              //set configuration with key "basic"
+              title: '곧 알람이 울립니다.',
+              body: '${alarmData.title} '
+                  '${getTimeWithTwoLetter(alarmData.alarmDateTime.hour)}:'
+                  '${getTimeWithTwoLetter(alarmData.alarmDateTime.minute)}',
+              payload: {'id': '$alarmId'},
+              autoDismissible: false,
+              //actionType: ActionType.SilentBackgroundAction,
+              //category: NotificationCategory.Alarm
           ),
-        schedule: NotificationCalendar.fromDate(
-            date: alarmData.alarmDateTime.subtract(Duration(minutes: 30))),
-
+          schedule: NotificationCalendar.fromDate(
+              date: alarmData.alarmDateTime.subtract(Duration(minutes: 30))),
           actionButtons: [
             NotificationActionButton(
               key: 'skip_once',
               label: '한 번 건너뛰기',
+              actionType: ActionType.SilentBackgroundAction,
             )
-          ]
-      );
+          ]);
     }
   }
 
-  static void removeAlarm(int alarmId){
+  void pushNotifyToEnd(int alarmId) async {
+    AlarmProvider alarmProvider = AlarmProvider();
+    AlarmData alarmData = await alarmProvider.getAlarmById(alarmId);
+
+    bool isAllowed = await AwesomeNotifications().isNotificationAllowed();
+    if (!isAllowed) {
+      //no permission of local notification
+      AwesomeNotifications().requestPermissionToSendNotifications();
+    } else {
+      //show notification
+      AwesomeNotifications().createNotification(
+          content: NotificationContent(
+              //simgple notification
+              id: alarmId,
+              channelKey: 'basic',
+              //set configuration with key "basic"
+              title: '곧 알람이 울립니다.',
+              body: '${alarmData.title} '
+                  '${getTimeWithTwoLetter(alarmData.alarmDateTime.hour)}:'
+                  '${getTimeWithTwoLetter(alarmData.alarmDateTime.minute)}',
+              payload: {'id': '$alarmId'},
+              autoDismissible: false,
+              actionType: ActionType.SilentBackgroundAction,
+              category: NotificationCategory.Alarm),
+          schedule: NotificationCalendar.fromDate(
+            allowWhileIdle: true,
+              date: alarmData.alarmDateTime.add(Duration(days: 100000))),
+          actionButtons: [
+            NotificationActionButton(
+                key: 'skip_once',
+                label: '한 번 건너뛰기',
+                actionType: ActionType.KeepOnTop)
+          ]);
+    }
+  }
+
+  static void removeAlarm(int alarmId) {
     print('removed Alarm id in AlarmManager: $alarmId');
     AwesomeNotifications().cancel(alarmId);
     AndroidAlarmManager.cancel(alarmId);
+  }
+
+  static Future<void> removeAllAlarm() async{
+    AlarmProvider alarmProvider = AlarmProvider();
+    List<AlarmData> alarmList = await alarmProvider.getAllAlarms();
+    alarmList.forEach((element) {
+      AndroidAlarmManager.cancel(element.id);
+      alarmProvider.deleteAlarm(element.id);
+    });
+    AwesomeNotifications().cancelAll();
   }
 
   /*
@@ -81,21 +130,19 @@ class AlarmScheduler {
     AlarmData alarm = await _alarmProvider.getAlarmById(id);
 
     if (alarm.alarmState && Platform.isAndroid) {
+      final AppStateSharedPreferences _appStateSharedPreferences =
+          AppStateSharedPreferences();
+      await _appStateSharedPreferences.setAppStateToAlarm();
 
-        final AppStateSharedPreferences _appStateSharedPreferences = AppStateSharedPreferences();
-        await _appStateSharedPreferences.setAppStateToAlarm();
+      //딱 이거 넣으니까 wakelock에서 예외 메시지 뜨는데
+      //작동은 잘만 함
+      appState = await _appStateSharedPreferences.getAppState();
 
-        //딱 이거 넣으니까 wakelock에서 예외 메시지 뜨는데
-        //작동은 잘만 함
-        appState = await _appStateSharedPreferences.getAppState();
+      final IdSharedPreferences _idSharedPreferences = IdSharedPreferences();
+      await _idSharedPreferences.setAlarmedId(id);
 
-        final IdSharedPreferences _idSharedPreferences = IdSharedPreferences();
-        await _idSharedPreferences.setAlarmedId(id);
-
-
-        Restart.restartApp();
-        Bringtoforeground.bringAppToForeground();
-
+      Restart.restartApp();
+      Bringtoforeground.bringAppToForeground();
     }
   }
 
@@ -104,11 +151,13 @@ class AlarmScheduler {
     print(targetDateTime);
     notifyBeforeAlarm(id);
     await AndroidAlarmManager.oneShotAt(targetDateTime, id, callback,
-        alarmClock: true, rescheduleOnReboot: true,
-        allowWhileIdle: true, wakeup: true);
+        alarmClock: true,
+        rescheduleOnReboot: true,
+        allowWhileIdle: true,
+        wakeup: true);
   }
 
-  Future<AlarmData> updateAlarmWhenAlarmed(AlarmData alarmData) async{
+  Future<AlarmData> updateAlarmWhenAlarmed(AlarmData alarmData) async {
     AlarmProvider alarmProvider = AlarmProvider();
     //알람 타입이 반복일 때
     if (alarmData.alarmType != RepeatMode.single &&
@@ -119,8 +168,9 @@ class AlarmScheduler {
       //week이면 weekBool 변수 추가해서 처리
       List<bool> weekBool = [];
       bool lastDay = false;
-      if(alarmData.alarmType == RepeatMode.week){
-        AlarmWeekRepeatData? alarmWeekRepeatData = await alarmProvider.getAlarmWeekDataById(alarmData.id);
+      if (alarmData.alarmType == RepeatMode.week) {
+        AlarmWeekRepeatData? alarmWeekRepeatData =
+            await alarmProvider.getAlarmWeekDataById(alarmData.id);
         weekBool.add(alarmWeekRepeatData!.sunday);
         weekBool.add(alarmWeekRepeatData.monday);
         weekBool.add(alarmWeekRepeatData.tuesday);
@@ -128,47 +178,41 @@ class AlarmScheduler {
         weekBool.add(alarmWeekRepeatData.thursday);
         weekBool.add(alarmWeekRepeatData.friday);
         weekBool.add(alarmWeekRepeatData.saturday);
-      }
-      else if(alarmData.alarmType == RepeatMode.month){
-        if(alarmData.monthRepeatDay == 29){
+      } else if (alarmData.alarmType == RepeatMode.month) {
+        if (alarmData.monthRepeatDay == 29) {
           lastDay = true;
         }
       }
 
       alarmData.alarmDateTime = dateTimeCalculator.addDateTime(
-          alarmData.alarmType,
-          alarmData.alarmDateTime,
-          alarmData.alarmInterval,
-          weekBool : weekBool,
-          lastDay: lastDay
-      );
+          alarmData.alarmType, alarmData.alarmDateTime, alarmData.alarmInterval,
+          weekBool: weekBool, lastDay: lastDay);
       print('print ${alarmData.alarmInterval} in alarm scheduler');
       print(alarmData.alarmDateTime);
 
       if (alarmData.endDay != null) {
-        if(alarmData.alarmDateTime.isAfter(alarmData.endDay!)){
+        if (alarmData.alarmDateTime.isAfter(alarmData.endDay!)) {
           alarmData.alarmState = false;
           alarmData.endDay = null;
         }
       }
-    }
-    else{
+    } else {
       alarmData.alarmState = false;
     }
 
     return alarmData;
   }
 
-  Future<AlarmData> skipDayOff(AlarmData alarmData) async{
+  Future<AlarmData> skipDayOff(AlarmData alarmData) async {
     AlarmProvider alarmProvider = AlarmProvider();
     var dayOffList = await alarmProvider.getDayOffsById(alarmData.id);
-    if(dayOffList.isNotEmpty){
+    if (dayOffList.isNotEmpty) {
       int hours = alarmData.alarmDateTime.hour;
       int minutes = alarmData.alarmDateTime.minute;
-      for(int i=0; i<dayOffList.length; i++){
-        dayOffList[i].dayOffDate = dayOffList[i].dayOffDate.add(Duration(
-          hours: hours, minutes: minutes
-        ));
+      for (int i = 0; i < dayOffList.length; i++) {
+        dayOffList[i].dayOffDate = dayOffList[i]
+            .dayOffDate
+            .add(Duration(hours: hours, minutes: minutes));
       }
       dayOffList.sort((a, b) => a.dayOffDate.compareTo(b.dayOffDate));
       // 알람 울렸을 때 제일 작은 dayoff가 알람일보다 전이면 삭제
@@ -176,11 +220,11 @@ class AlarmScheduler {
       // dayOff랑 다음 알람이랑 같으면 그 dayOff 삭제하고 다다음 알람으로 설정하고
       // 다다음 알람이 다음 dayOff랑 같으면 또 그 다음으로
       // dayOff가 더 없으면 null
-      while(dayOffList.isNotEmpty && dayOffList[0].dayOffDate.isBefore(alarmData.alarmDateTime)){
+      while (dayOffList.isNotEmpty &&
+          dayOffList[0].dayOffDate.isBefore(alarmData.alarmDateTime)) {
         var deletedDayOff = dayOffList.removeAt(0);
-        deletedDayOff.dayOffDate = deletedDayOff.dayOffDate.subtract(Duration(
-            hours: hours, minutes: minutes
-        ));
+        deletedDayOff.dayOffDate = deletedDayOff.dayOffDate
+            .subtract(Duration(hours: hours, minutes: minutes));
         alarmProvider.deleteDayOff(deletedDayOff.id, deletedDayOff.dayOffDate);
       }
 
@@ -188,21 +232,21 @@ class AlarmScheduler {
       // 금지일 설정해도 진짜 알람일이 아니라 잘못 설정한 금지일에도
       // 얘들이 건너뛰게해줌.
 
-      while(dayOffList.isNotEmpty && alarmData.alarmDateTime.isAtSameMomentAs(dayOffList[0].dayOffDate)) {
+      while (dayOffList.isNotEmpty &&
+          alarmData.alarmDateTime.isAtSameMomentAs(dayOffList[0].dayOffDate)) {
         var deletedDayOff = dayOffList.removeAt(0);
-        deletedDayOff.dayOffDate = deletedDayOff.dayOffDate.subtract(Duration(
-            hours: hours, minutes: minutes
-        ));
+        deletedDayOff.dayOffDate = deletedDayOff.dayOffDate
+            .subtract(Duration(hours: hours, minutes: minutes));
         alarmProvider.deleteDayOff(deletedDayOff.id, deletedDayOff.dayOffDate);
         alarmData = await updateAlarmWhenAlarmed(alarmData);
         if (dayOffList.isNotEmpty) {
-          while(dayOffList[0].dayOffDate.isBefore(alarmData.alarmDateTime)){
+          while (dayOffList[0].dayOffDate.isBefore(alarmData.alarmDateTime)) {
             var deletedDayOff2 = dayOffList.removeAt(0);
-            deletedDayOff2.dayOffDate = deletedDayOff2.dayOffDate.subtract(Duration(
-                hours: hours, minutes: minutes
-            ));
-            alarmProvider.deleteDayOff(deletedDayOff2.id, deletedDayOff2.dayOffDate);
-            if(dayOffList.isEmpty){
+            deletedDayOff2.dayOffDate = deletedDayOff2.dayOffDate
+                .subtract(Duration(hours: hours, minutes: minutes));
+            alarmProvider.deleteDayOff(
+                deletedDayOff2.id, deletedDayOff2.dayOffDate);
+            if (dayOffList.isEmpty) {
               break;
             }
           }
@@ -212,7 +256,7 @@ class AlarmScheduler {
     return alarmData;
   }
 
-  Future<void> updateAlarm(AlarmData alarmData)async {
+  Future<void> updateAlarm(AlarmData alarmData) async {
     AlarmProvider alarmProvider = AlarmProvider();
 
     alarmData = await updateAlarmWhenAlarmed(alarmData);
@@ -221,16 +265,15 @@ class AlarmScheduler {
   }
 }
 
-
-class SubAlarmScheduler{
-  String getTimeWithTwoLetter(int time){
-    if(time < 10)
+class SubAlarmScheduler {
+  String getTimeWithTwoLetter(int time) {
+    if (time < 10)
       return '0$time';
     else
       return '$time';
   }
 
-  Future<void> updateAlarm(AlarmData alarmData)async {
+  Future<void> updateAlarm(AlarmData alarmData) async {
     AlarmProvider alarmProvider = AlarmProvider();
     AlarmScheduler alarmScheduler = AlarmScheduler();
 

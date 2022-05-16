@@ -19,10 +19,12 @@ class AlarmSwitchController extends GetxController {
       switchBoolMap[id] = false;
       thisAlarmData.alarmState = false;
       await Get.find<AlarmListController>().updateAlarm(thisAlarmData);
-      //noti 삭제
-      AlarmScheduler.removeAlarm(id);
+      //noti 삭제..해야되는데..자꾸 noti 삭제가 안되니까 꼼수쓰기
+      //근데 이렇게 1000000일 뒤 설정하니까 올바른 날짜가 아니라면서 자동 삭제되네
+      //정신 나갈 것 같아요
+      //AlarmScheduler.removeAlarm(id);
+      AlarmScheduler().pushNotifyToEnd(id);
       update();
-      return;
     } else {
       if (thisAlarmData.alarmDateTime.isBefore(DateTime.now())) {
         //끝난 알람 다시 true로 할 때
@@ -50,8 +52,8 @@ class AlarmSwitchController extends GetxController {
       thisAlarmData.alarmState = true;
       //noti 복귀
       AlarmScheduler().notifyBeforeAlarm(id);
+      Get.find<AlarmListController>().updateAlarm(thisAlarmData);
+      update();
     }
-    Get.find<AlarmListController>().updateAlarm(thisAlarmData);
-    update();
   }
 }

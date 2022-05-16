@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:new_alarm_clock/data/database/alarm_provider.dart';
+import 'package:new_alarm_clock/service/alarm_scheduler.dart';
 import 'package:new_alarm_clock/ui/global/auto_size_text.dart';
 import 'package:new_alarm_clock/ui/home/controller/alarm_list_controller.dart';
 import 'package:new_alarm_clock/ui/home/controller/folder_list_controller.dart';
@@ -9,6 +10,7 @@ import 'package:get/get.dart';
 
 class SettingPage extends StatelessWidget {
   AlarmProvider _alarmProvider = AlarmProvider();
+
   @override
   Widget build(BuildContext context) {
     final alarmListController = Get.put(AlarmListController());
@@ -45,7 +47,9 @@ class SettingPage extends StatelessWidget {
                       onTap: () async{
                         bool isDelete = await Get.dialog(DeleteDialog('모든 데이터가 삭제됩니다. 초기화하시겠습니까?'));
                         if(isDelete == true){
+                          await AlarmScheduler.removeAllAlarm();
                           await _alarmProvider.resetDatabase();
+
                           alarmListController.onInit();
                           folderListController.onInit();
                         }

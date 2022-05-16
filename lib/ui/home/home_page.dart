@@ -119,29 +119,29 @@ class HomePage extends StatelessWidget {
                             icon: Icon(
                               Icons.home_rounded,
                             ),
-                            title: Text("홈")
+                            label: "홈"
                         ),
                         BottomNavigationBarItem(
                             icon: Icon(
                               Icons.folder,
                             ),
-                            title: Text("폴더")
+                            label: "폴더"
                         ),
                         BottomNavigationBarItem(//더미
                             icon: Icon(null),
-                            title: Text("홈")
+                            label: "홈"
                         ),
                         BottomNavigationBarItem(
                             icon: Icon(
                               Icons.volunteer_activism_rounded,
                             ),
-                            title: Text("후원")
+                            label: "후원"
                         ),
                         BottomNavigationBarItem(
                             icon: Icon(
                                 Icons.more_horiz,
                             ),
-                            title: Text("더보기")
+                            label: "더보기"
                         ),
                       ],
                     );}
