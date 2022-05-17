@@ -49,6 +49,8 @@ android {
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
 
+        manifestPlaceholders += [applicationName: "io.flutter.app.FlutterApplication"]
+
         vectorDrawables.useSupportLibrary = true
     }
 
