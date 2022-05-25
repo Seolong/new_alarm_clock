@@ -7,6 +7,8 @@ import 'package:new_alarm_clock/main.dart';
 import 'package:new_alarm_clock/service/date_time_calculator.dart';
 import 'package:new_alarm_clock/utils/enum.dart';
 
+import '../../../data/shared_preferences/settings_shared_preferences.dart';
+
 
 class AlarmListController extends GetxController{
   AlarmProvider alarmProvider = AlarmProvider();
@@ -14,6 +16,7 @@ class AlarmListController extends GetxController{
   RxList<AlarmData> alarmList = RxList<AlarmData>();
   RxList<AlarmData> currentFolderAlarmList = RxList<AlarmData>();
   AlarmProvider _alarmProvider = AlarmProvider();
+  SettingsSharedPreferences _settingsSharedPreferences = SettingsSharedPreferences();
 
   @override
   void onInit() async {
@@ -50,9 +53,21 @@ class AlarmListController extends GetxController{
         }
       }
     }
-
+    await sortAlarm();
     update(); //이걸 안 해서 futurebuilder로 승부봤었다.
     super.onInit();
+  }
+
+  Future<void> sortAlarm()async{
+    var settingsSharedPreferences = SettingsSharedPreferences();
+
+    if(await settingsSharedPreferences.getAlignValue() == settingsSharedPreferences.alignByDate){
+      //날짜순 정렬일 때
+      alarmList.sort((a, b) => a.alarmDateTime.compareTo(b.alarmDateTime));
+    }else{
+      alarmList.sort((a, b) => a.alarmOrder.compareTo(b.alarmOrder));
+    }
+    update();
   }
 
   void inputAlarm(AlarmData alarmData) async{
@@ -109,8 +124,18 @@ class AlarmListController extends GetxController{
   }
 
   void reorderItem(int oldIndex, int newIndex)async{
+    if(oldIndex == newIndex - 1){
+      print('AlarmListController: no index change in alarm order');
+      return;
+    }
+
+    String alignValue = await _settingsSharedPreferences.getAlignValue();
+    if(alignValue == _settingsSharedPreferences.alignByDate){
+      _settingsSharedPreferences.setAlignValue(_settingsSharedPreferences.alignBySetting);
+    }
+
     if(newIndex > alarmList.length){
-      print('옮긴 위치가 alarmList 길이보다 클 수 없습니다.');
+      print('AlarmListController: 옮긴 위치가 alarmList 길이보다 클 수 없습니다.');
       newIndex = alarmList.length;
     }
     if (oldIndex < newIndex) {

@@ -215,9 +215,12 @@ class AlarmItem extends StatelessWidget {
                                               //알람 제목 텍스트
                                               Flexible(
                                                 flex: 4,
-                                                child: AlarmItemText(
-                                                    itemText: (snapshot.data)!
-                                                        .title!),
+                                                child: Padding(
+                                                  padding: const EdgeInsets.all(2.0),
+                                                  child: AlarmItemText(
+                                                      itemText: (snapshot.data)!
+                                                          .title!),
+                                                ),
                                               ),
                                               Divider(
                                                 thickness: 1,
@@ -228,40 +231,46 @@ class AlarmItem extends StatelessWidget {
                                               //알람 시간 텍스트
                                               Flexible(
                                                 flex: 6,
-                                                child: AlarmItemText(
-                                                    itemText:
-                                                        DateFormat('hh:mm a')
-                                                            .format((snapshot
-                                                                    .data)!
-                                                                .alarmDateTime)
-                                                            .toLowerCase()),
+                                                child: Padding(
+                                                  padding: const EdgeInsets.all(1.0),
+                                                  child: AlarmItemText(
+                                                      itemText:
+                                                          DateFormat('hh:mm a')
+                                                              .format((snapshot
+                                                                      .data)!
+                                                                  .alarmDateTime)
+                                                              .toLowerCase()),
+                                                ),
                                               ),
                                               //alarmPoint 텍스트
                                               Flexible(
                                                 flex: 3,
-                                                child: Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
-                                                  children: [
-                                                    AlarmItemText(
-                                                        itemText:
-                                                            convertAlarmDateTime(
-                                                                (snapshot
-                                                                    .data)!)),
-                                                    Container(
-                                                      decoration: getLeftBorder(
-                                                          (snapshot.data)!),
-                                                      child: AlarmItemText(
-                                                        itemText:
-                                                            getTextOfAlarmPoint(
-                                                                (snapshot
-                                                                    .data)!),
-                                                        textColor:
-                                                            Colors.black45,
+                                                child: Padding(
+                                                  padding: const EdgeInsets.only(left: 1),
+                                                  child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
+                                                    children: [
+                                                      AlarmItemText(
+                                                          itemText:
+                                                              convertAlarmDateTime(
+                                                                  (snapshot
+                                                                      .data)!)),
+                                                      Container(
+                                                        decoration: getLeftBorder(
+                                                            (snapshot.data)!),
+                                                        child: AlarmItemText(
+                                                          itemText:
+                                                              getTextOfAlarmPoint(
+                                                                  (snapshot
+                                                                      .data)!),
+                                                          textColor:
+                                                              Colors.black45,
+                                                        ),
                                                       ),
-                                                    ),
-                                                  ],
+                                                    ],
+                                                  ),
                                                 ),
                                               ),
                                               //Spacer(),

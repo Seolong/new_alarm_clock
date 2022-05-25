@@ -24,7 +24,7 @@ class AlarmSwitchController extends GetxController {
       //정신 나갈 것 같아요
       //AlarmScheduler.removeAlarm(id);
       AlarmScheduler().pushNotifyToEnd(id);
-      update();
+      //update();
     } else {
       if (thisAlarmData.alarmDateTime.isBefore(DateTime.now())) {
         //끝난 알람 다시 true로 할 때
@@ -38,14 +38,21 @@ class AlarmSwitchController extends GetxController {
           weekBool.add(thisAlarmWeekData.friday);
           weekBool.add(thisAlarmWeekData.saturday);
         }
-        while (thisAlarmData.alarmDateTime.isBefore(DateTime.now())) {
-          thisAlarmData.alarmDateTime =
-              thisAlarmData.alarmDateTime.add(Duration(days: 1));
-          thisAlarmData.alarmDateTime = DateTimeCalculator().getStartNearDay(
-              thisAlarmData.alarmType, thisAlarmData.alarmDateTime,
-              weekBool: weekBool,
-              monthDay: thisAlarmData.monthRepeatDay,
-              yearRepeatDay: thisAlarmData.alarmDateTime);
+        if(thisAlarmData.alarmType != RepeatMode.off && thisAlarmData.alarmType != RepeatMode.single){
+          while (thisAlarmData.alarmDateTime.isBefore(DateTime.now())) {
+            thisAlarmData.alarmDateTime =
+                thisAlarmData.alarmDateTime.add(Duration(days: 1));
+            thisAlarmData.alarmDateTime = DateTimeCalculator().getStartNearDay(
+                thisAlarmData.alarmType, thisAlarmData.alarmDateTime,
+                weekBool: weekBool,
+                monthDay: thisAlarmData.monthRepeatDay,
+                yearRepeatDay: thisAlarmData.alarmDateTime);
+          }
+        } else{
+          while(thisAlarmData.alarmDateTime.isBefore(DateTime.now())){
+            thisAlarmData.alarmDateTime =
+                thisAlarmData.alarmDateTime.add(Duration(days: 1));
+          }
         }
       }
       switchBoolMap[id] = true;
@@ -53,7 +60,7 @@ class AlarmSwitchController extends GetxController {
       //noti 복귀
       AlarmScheduler().notifyBeforeAlarm(id);
       Get.find<AlarmListController>().updateAlarm(thisAlarmData);
-      update();
+      //update();
     }
   }
 }

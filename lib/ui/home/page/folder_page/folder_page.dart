@@ -51,10 +51,12 @@ class FolderPage extends StatelessWidget {
                     //item 의 반목문 항목 형성
                     if (_.folderList.length != index) {
                       return InkWell(
-                        onLongPress: () async{
-                          if(index != 0){ // 전체 알람 폴더는 삭제 불가
-                            bool isDelete = await Get.dialog(DeleteDialog('폴더를 삭제하면 내부의 알람도 같이 삭제됩니다. 정말 삭제하시겠습니까?'));
-                            if(isDelete == true){
+                        onLongPress: () async {
+                          if (index != 0) {
+                            // 전체 알람 폴더는 삭제 불가
+                            bool isDelete = await Get.dialog(DeleteDialog(
+                                '폴더를 삭제하면 내부의 알람도 같이 삭제됩니다. 정말 삭제하시겠습니까?'));
+                            if (isDelete == true) {
                               _.deleteFolder(_.folderList[index].name);
                             }
                           }
@@ -66,7 +68,10 @@ class FolderPage extends StatelessWidget {
                         child: Column(
                           children: [
                             Icon(
-                              Icons.folder,
+                              _.mainFolderName !=
+                                      _.folderList[index].name
+                                  ? Icons.folder
+                                  : Icons.folder_special_rounded,
                               size: 65,
                               color: Color(0xffFFCE45),
                             ),

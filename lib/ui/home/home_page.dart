@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:new_alarm_clock/data/shared_preferences/id_shared_preferences.dart';
+import 'package:new_alarm_clock/data/shared_preferences/settings_shared_preferences.dart';
 import 'package:new_alarm_clock/routes/app_routes.dart';
 import 'package:new_alarm_clock/service/music_handler.dart';
 import 'package:new_alarm_clock/ui/global/alarm_item/controller/selected_alarm_controller.dart';
@@ -35,6 +36,7 @@ class Home extends StatelessWidget{
 
 class HomePage extends StatelessWidget {
   final IdSharedPreferences idSharedPreferences = IdSharedPreferences();
+  final SettingsSharedPreferences _settingsSharedPreferences = SettingsSharedPreferences();
   MusicHandler _musicHandler = MusicHandler();
 
   @override
@@ -46,6 +48,7 @@ class HomePage extends StatelessWidget {
     Get.put(TabPageController());
     Get.put(SelectedAlarmController());
     var folderListController = Get.put(FolderListController());
+    _settingsSharedPreferences.init();
     return WillPopScope(
       onWillPop: () {
         //selectedMode면 selectedMode를 해제하고

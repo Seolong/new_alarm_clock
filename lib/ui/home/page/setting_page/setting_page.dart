@@ -1,26 +1,108 @@
 import 'package:flutter/material.dart';
 import 'package:new_alarm_clock/data/database/alarm_provider.dart';
-import 'package:new_alarm_clock/service/alarm_scheduler.dart';
+import 'package:new_alarm_clock/data/model/alarm_data.dart';
 import 'package:new_alarm_clock/ui/global/auto_size_text.dart';
-import 'package:new_alarm_clock/ui/home/controller/alarm_list_controller.dart';
-import 'package:new_alarm_clock/ui/home/controller/folder_list_controller.dart';
-import 'package:new_alarm_clock/ui/home/widgets/delete_dialog.dart';
+import 'package:new_alarm_clock/ui/home/page/setting_page/widgets/align_button.dart';
+import 'package:new_alarm_clock/ui/home/page/setting_page/widgets/reset_button.dart';
+import 'package:new_alarm_clock/ui/home/page/setting_page/widgets/set_home_folder_button.dart';
 import 'package:new_alarm_clock/utils/values/my_font_family.dart';
 import 'package:get/get.dart';
 
 class SettingPage extends StatelessWidget {
   AlarmProvider _alarmProvider = AlarmProvider();
+  String nextAlarmTimeDifferenceText = '모든 알람이 꺼져있습니다.';
+  String nextAlarmTimeText = '';
+  String? nextAlarmTitle;
+
+  List<Widget> settingButtons = [
+    SetHomeFolderButton(),
+    AlignButton(),
+    ResetButton(),
+  ];
+
+  Future<DateTime?> nextAlarm() async{
+    List<AlarmData> alarmList = await _alarmProvider.getAllAlarms();
+    AlarmData? result;
+    int firstTrueStateIndex = 0;
+
+    for(int i=0; i<alarmList.length; i++){
+      if(alarmList[i].alarmState == true){
+        result = alarmList[i];
+        nextAlarmTitle = result.title;
+        nextAlarmTimeText = result.alarmDateTime.toString();
+        firstTrueStateIndex = i;
+      }
+    }
+
+    for(int i=firstTrueStateIndex+1; i<alarmList.length; i++){
+      if(alarmList[i].alarmState == true && alarmList[i].alarmDateTime.isBefore(result!.alarmDateTime)){
+        result = alarmList[i];
+        nextAlarmTitle = result.title;
+        nextAlarmTimeText = result.alarmDateTime.toString();
+      }
+    }
+
+    return result?.alarmDateTime;
+  }
+
+  void differenceTimeNowAndNextAlarm() async{
+    DateTime? nextAlarmTime = await nextAlarm();
+    String result;
+    if(nextAlarmTime == null){
+      result = '모든 알람이 꺼져있습니다.';
+    } else {
+      Duration difference = nextAlarmTime.difference(DateTime.now());
+      if(difference.inDays < 1){
+        result = '${difference.inHours}시간 ${difference.inMinutes % 60}분 후';
+      }else{
+        result = '${difference.inDays}일 후';
+      }
+    }
+    nextAlarmTimeDifferenceText = result;
+  }
 
   @override
   Widget build(BuildContext context) {
-    final alarmListController = Get.put(AlarmListController());
-    final folderListController = Get.put(FolderListController());
     int? folderCrossAxisCount = Get.width ~/ 100;
+
     return Scaffold(
       body: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(15.0),
         child: Column(
           children: [
+            StreamBuilder(
+              stream: Stream.periodic(const Duration(seconds: 1)),
+              builder: (context, snapshot) {
+                differenceTimeNowAndNextAlarm();
+                return Center(
+                  child: Column(
+                    children: [
+                      Container(
+                        padding: EdgeInsets.all(10),
+                        height: 50,
+                        child: AutoSizeText(
+                            nextAlarmTimeText
+                        ),
+                      ),
+                      Container(
+                        padding: EdgeInsets.all(10),
+                        height: 100,
+                        child: AutoSizeText(
+                          nextAlarmTimeDifferenceText
+                        ),
+                      ),
+                      Container(
+                        padding: EdgeInsets.all(10),
+                        height: 100,
+                        child: AutoSizeText(
+                            nextAlarmTitle ?? ''
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              },
+            ),
             Container(
               height: 150,
               alignment: Alignment.center,
@@ -34,7 +116,7 @@ class SettingPage extends StatelessWidget {
             ),
             Expanded(
               child: GridView.builder(
-                itemCount: 1,
+                itemCount: settingButtons.length,
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: folderCrossAxisCount != 0
                         ? folderCrossAxisCount
@@ -43,33 +125,7 @@ class SettingPage extends StatelessWidget {
                     crossAxisSpacing: 10, //수직 Padding
                   ),
                   itemBuilder: (BuildContext context, int index) {
-                    return InkWell(
-                      onTap: () async{
-                        bool isDelete = await Get.dialog(DeleteDialog('모든 데이터가 삭제됩니다. 초기화하시겠습니까?'));
-                        if(isDelete == true){
-                          await AlarmScheduler.removeAllAlarm();
-                          await _alarmProvider.resetDatabase();
-
-                          alarmListController.onInit();
-                          folderListController.onInit();
-                        }
-                      },
-                      child: Column(
-                        children: [
-                          Icon(
-                            Icons.delete_forever,
-                            size: 50,
-                            color: Colors.red,
-                          ),
-                          Container(
-                              height: 20,
-                              child: AutoSizeText(
-                                '초기화',
-                                bold: true,
-                              )),
-                        ],
-                      ),
-                    );
+                    return settingButtons[index];
                   }),
             )
           ],
