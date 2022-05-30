@@ -209,48 +209,37 @@ class AlarmScheduler {
     if (dayOffList.isNotEmpty) {
       int hours = alarmData.alarmDateTime.hour;
       int minutes = alarmData.alarmDateTime.minute;
+
+      void deleteFirstDayOff(){
+        var deletedDayOff = dayOffList.removeAt(0);
+        //AlarmData.dayOff의 값으로 되돌리는 것
+        deletedDayOff.dayOffDate = deletedDayOff.dayOffDate
+            .subtract(Duration(hours: hours, minutes: minutes));
+        alarmProvider.deleteDayOff(deletedDayOff.id, deletedDayOff.dayOffDate);
+      }
+
+      void deleteDayOffsBeforeCurrentAlarm(){
+        while (dayOffList.isNotEmpty &&
+            dayOffList[0].dayOffDate.isBefore(alarmData.alarmDateTime)) {
+          deleteFirstDayOff();
+        }
+      }
+
+      //AlarmData.dayOff는 ~년 ~월 ~일까지만 나온다. ~시 ~분은 안 쓰여있다.
       for (int i = 0; i < dayOffList.length; i++) {
         dayOffList[i].dayOffDate = dayOffList[i]
             .dayOffDate
             .add(Duration(hours: hours, minutes: minutes));
       }
-      dayOffList.sort((a, b) => a.dayOffDate.compareTo(b.dayOffDate));
-      // 알람 울렸을 때 제일 작은 dayoff가 알람일보다 전이면 삭제
-      // else로 다음꺼 받고
-      // dayOff랑 다음 알람이랑 같으면 그 dayOff 삭제하고 다다음 알람으로 설정하고
-      // 다다음 알람이 다음 dayOff랑 같으면 또 그 다음으로
-      // dayOff가 더 없으면 null
-      while (dayOffList.isNotEmpty &&
-          dayOffList[0].dayOffDate.isBefore(alarmData.alarmDateTime)) {
-        var deletedDayOff = dayOffList.removeAt(0);
-        deletedDayOff.dayOffDate = deletedDayOff.dayOffDate
-            .subtract(Duration(hours: hours, minutes: minutes));
-        alarmProvider.deleteDayOff(deletedDayOff.id, deletedDayOff.dayOffDate);
-      }
 
-      // 반복 알람으로 얻어지는 알람일인지 확인해야함.
-      // 금지일 설정해도 진짜 알람일이 아니라 잘못 설정한 금지일에도
-      // 얘들이 건너뛰게해줌.
+      dayOffList.sort((a, b) => a.dayOffDate.compareTo(b.dayOffDate));
+      deleteDayOffsBeforeCurrentAlarm();
 
       while (dayOffList.isNotEmpty &&
           alarmData.alarmDateTime.isAtSameMomentAs(dayOffList[0].dayOffDate)) {
-        var deletedDayOff = dayOffList.removeAt(0);
-        deletedDayOff.dayOffDate = deletedDayOff.dayOffDate
-            .subtract(Duration(hours: hours, minutes: minutes));
-        alarmProvider.deleteDayOff(deletedDayOff.id, deletedDayOff.dayOffDate);
+        deleteFirstDayOff();
         alarmData = await updateAlarmWhenAlarmed(alarmData);
-        if (dayOffList.isNotEmpty) {
-          while (dayOffList[0].dayOffDate.isBefore(alarmData.alarmDateTime)) {
-            var deletedDayOff2 = dayOffList.removeAt(0);
-            deletedDayOff2.dayOffDate = deletedDayOff2.dayOffDate
-                .subtract(Duration(hours: hours, minutes: minutes));
-            alarmProvider.deleteDayOff(
-                deletedDayOff2.id, deletedDayOff2.dayOffDate);
-            if (dayOffList.isEmpty) {
-              break;
-            }
-          }
-        }
+        deleteDayOffsBeforeCurrentAlarm();
       }
     }
     return alarmData;
