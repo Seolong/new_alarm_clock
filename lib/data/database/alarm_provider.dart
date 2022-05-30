@@ -153,7 +153,6 @@ class AlarmProvider {
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
     print('insert $insertId');
-    AlarmScheduler().newShot(alarmData.alarmDateTime, alarmData.id);
 
     return insertId;
   }

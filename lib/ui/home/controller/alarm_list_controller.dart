@@ -8,6 +8,7 @@ import 'package:new_alarm_clock/service/date_time_calculator.dart';
 import 'package:new_alarm_clock/utils/enum.dart';
 
 import '../../../data/shared_preferences/settings_shared_preferences.dart';
+import '../../../service/alarm_scheduler.dart';
 
 
 class AlarmListController extends GetxController{
@@ -72,6 +73,7 @@ class AlarmListController extends GetxController{
 
   void inputAlarm(AlarmData alarmData) async{
     await alarmProvider.insertAlarm(alarmData);
+    AlarmScheduler().newShot(alarmData.alarmDateTime, alarmData.id);
     //List에 없을 때만 List에 넣는다
     if(!alarmList.any((e)=>e.id == alarmData.id)){
       alarmList.add(alarmData);
