@@ -1,4 +1,6 @@
 import 'dart:core';
+import 'package:android_alarm_manager_plus/android_alarm_manager_plus.dart';
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:get/get.dart';
 import 'package:new_alarm_clock/data/database/alarm_provider.dart';
 import 'package:new_alarm_clock/data/model/alarm_data.dart';
@@ -91,6 +93,9 @@ class AlarmListController extends GetxController{
 
   Future<void> updateAlarm(AlarmData alarmData)async {
     await alarmProvider.updateAlarm(alarmData);
+    AwesomeNotifications().cancel(alarmData.id);
+    AndroidAlarmManager.cancel(alarmData.id);
+    await AlarmScheduler().newShot(alarmData.alarmDateTime, alarmData.id);
     alarmList[alarmList.indexWhere((element) =>
     alarmData.id == element.id)] = alarmData;
     alarmFutureList = alarmProvider.getAllAlarms();
@@ -107,12 +112,16 @@ class AlarmListController extends GetxController{
       for(int i = newIndex; i<oldIndex; i++){
         alarmListInDB[i].alarmOrder =  alarmListInDB[i+1].alarmOrder;
         await alarmProvider.updateAlarm(alarmListInDB[i]);
+        AlarmScheduler.removeAlarm(alarmListInDB[i].id);
+        await AlarmScheduler().newShot(alarmListInDB[i].alarmDateTime, alarmListInDB[i].id);
       }
     }
     else if(newIndex > oldIndex){
       for(int i = newIndex; i>oldIndex; i--){
         alarmListInDB[i].alarmOrder =  alarmListInDB[i-1].alarmOrder;
         await alarmProvider.updateAlarm(alarmListInDB[i]);
+        AlarmScheduler.removeAlarm(alarmListInDB[i].id);
+        await AlarmScheduler().newShot(alarmListInDB[i].alarmDateTime, alarmListInDB[i].id);
       }
     }
     else{
@@ -120,6 +129,8 @@ class AlarmListController extends GetxController{
     }
     alarmListInDB[oldIndex].alarmOrder = newIndexAlarmOrder;
     await alarmProvider.updateAlarm(alarmListInDB[oldIndex]);
+    AlarmScheduler.removeAlarm(alarmListInDB[oldIndex].id);
+    await AlarmScheduler().newShot(alarmListInDB[oldIndex].alarmDateTime, alarmListInDB[oldIndex].id);
 
 
     alarmList.value = await alarmProvider.getAllAlarms();

@@ -23,6 +23,8 @@ class NotificationController{
       alarmData = await AlarmScheduler().updateAlarmWhenAlarmed(alarmData);
       print('NotificationController: ${alarmData.alarmDateTime}');
       await alarmProvider.updateAlarm(alarmData);
+      AlarmScheduler.removeAlarm(alarmData.id);
+      await AlarmScheduler().newShot(alarmData.alarmDateTime, alarmData.id);
       try {
         await Get.find<AlarmListController>().updateAlarm(alarmData);
       } catch (e) {

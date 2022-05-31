@@ -253,23 +253,7 @@ class AlarmScheduler {
     alarmData = await updateAlarmWhenAlarmed(alarmData);
     alarmData = await skipDayOff(alarmData);
     await alarmProvider.updateAlarm(alarmData);
-  }
-}
-
-class SubAlarmScheduler {
-  String getTimeWithTwoLetter(int time) {
-    if (time < 10)
-      return '0$time';
-    else
-      return '$time';
-  }
-
-  Future<void> updateAlarm(AlarmData alarmData) async {
-    AlarmProvider alarmProvider = AlarmProvider();
-    AlarmScheduler alarmScheduler = AlarmScheduler();
-
-    alarmData = await alarmScheduler.updateAlarmWhenAlarmed(alarmData);
-    alarmData = await alarmScheduler.skipDayOff(alarmData);
-    await alarmProvider.updateAlarm(alarmData);
+    removeAlarm(alarmData.id);
+    await newShot(alarmData.alarmDateTime, alarmData.id);
   }
 }

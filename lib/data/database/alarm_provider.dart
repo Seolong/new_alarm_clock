@@ -3,7 +3,6 @@ import 'package:new_alarm_clock/data/model/alarm_folder_data.dart';
 import 'package:new_alarm_clock/data/model/alarm_week_repeat_data.dart';
 import 'package:new_alarm_clock/data/model/day_off_data.dart';
 import 'package:new_alarm_clock/data/model/music_path_data.dart';
-import 'package:new_alarm_clock/service/alarm_scheduler.dart';
 import 'package:new_alarm_clock/utils/values/string_value.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
@@ -185,9 +184,6 @@ class AlarmProvider {
     Database db = await this.database;
     await db.update(tableName, alarmData.toMap(),
         where: 'id = ?', whereArgs: [alarmData.id]);
-
-    AlarmScheduler.removeAlarm(alarmData.id);
-    await AlarmScheduler().newShot(alarmData.alarmDateTime, alarmData.id);
   }
 
   Future<int> insertAlarmWeekData(AlarmWeekRepeatData data) async {
