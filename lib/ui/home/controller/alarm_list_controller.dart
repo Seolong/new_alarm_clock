@@ -20,6 +20,7 @@ class AlarmListController extends GetxController{
   RxList<AlarmData> currentFolderAlarmList = RxList<AlarmData>();
   AlarmProvider _alarmProvider = AlarmProvider();
   SettingsSharedPreferences _settingsSharedPreferences = SettingsSharedPreferences();
+  AlarmScheduler _alarmScheduler = AlarmScheduler();
 
   @override
   void onInit() async {
@@ -80,14 +81,12 @@ class AlarmListController extends GetxController{
     if(!alarmList.any((e)=>e.id == alarmData.id)){
       alarmList.add(alarmData);
     }
-    alarmFutureList = alarmProvider.getAllAlarms();
     update();
   }
 
   void deleteAlarm(int id){
-    alarmProvider.deleteAlarm(id);
+    AlarmScheduler.removeAlarm(id);
     alarmList.removeWhere((element) => element.id == id);
-    alarmFutureList = alarmProvider.getAllAlarms();
     update();
   }
 
@@ -98,7 +97,6 @@ class AlarmListController extends GetxController{
     await AlarmScheduler().newShot(alarmData.alarmDateTime, alarmData.id);
     alarmList[alarmList.indexWhere((element) =>
     alarmData.id == element.id)] = alarmData;
-    alarmFutureList = alarmProvider.getAllAlarms();
     print('AlarmListController: updateAlarm');
     update();
   }
@@ -112,7 +110,7 @@ class AlarmListController extends GetxController{
       for(int i = newIndex; i<oldIndex; i++){
         alarmListInDB[i].alarmOrder =  alarmListInDB[i+1].alarmOrder;
         await alarmProvider.updateAlarm(alarmListInDB[i]);
-        AlarmScheduler.removeAlarm(alarmListInDB[i].id);
+        _alarmScheduler.cancelAlarm(alarmListInDB[i].id);
         await AlarmScheduler().newShot(alarmListInDB[i].alarmDateTime, alarmListInDB[i].id);
       }
     }
@@ -120,7 +118,7 @@ class AlarmListController extends GetxController{
       for(int i = newIndex; i>oldIndex; i--){
         alarmListInDB[i].alarmOrder =  alarmListInDB[i-1].alarmOrder;
         await alarmProvider.updateAlarm(alarmListInDB[i]);
-        AlarmScheduler.removeAlarm(alarmListInDB[i].id);
+        _alarmScheduler.cancelAlarm(alarmListInDB[i].id);
         await AlarmScheduler().newShot(alarmListInDB[i].alarmDateTime, alarmListInDB[i].id);
       }
     }
@@ -129,7 +127,7 @@ class AlarmListController extends GetxController{
     }
     alarmListInDB[oldIndex].alarmOrder = newIndexAlarmOrder;
     await alarmProvider.updateAlarm(alarmListInDB[oldIndex]);
-    AlarmScheduler.removeAlarm(alarmListInDB[oldIndex].id);
+    _alarmScheduler.cancelAlarm(alarmListInDB[oldIndex].id);
     await AlarmScheduler().newShot(alarmListInDB[oldIndex].alarmDateTime, alarmListInDB[oldIndex].id);
 
 

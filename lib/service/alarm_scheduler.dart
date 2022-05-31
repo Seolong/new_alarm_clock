@@ -95,6 +95,11 @@ class AlarmScheduler {
     }
   }
 
+  void cancelAlarm(int id) async{
+    await AwesomeNotifications().cancel(id);
+    await AndroidAlarmManager.cancel(id);
+  }
+
   static void removeAlarm(int alarmId) {
     AlarmProvider alarmProvider = AlarmProvider();
     print('removed Alarm id in AlarmManager: $alarmId');
@@ -247,13 +252,14 @@ class AlarmScheduler {
     return alarmData;
   }
 
-  Future<void> updateAlarm(AlarmData alarmData) async {
+  Future<void> updateToNextAlarm(AlarmData alarmData) async {
     AlarmProvider alarmProvider = AlarmProvider();
 
     alarmData = await updateAlarmWhenAlarmed(alarmData);
     alarmData = await skipDayOff(alarmData);
+    print('AlarmScheduler: alarm to ${alarmData.alarmDateTime}');
     await alarmProvider.updateAlarm(alarmData);
-    removeAlarm(alarmData.id);
+    cancelAlarm(alarmData.id);
     await newShot(alarmData.alarmDateTime, alarmData.id);
   }
 }
