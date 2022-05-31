@@ -96,7 +96,9 @@ class AlarmScheduler {
   }
 
   static void removeAlarm(int alarmId) {
+    AlarmProvider alarmProvider = AlarmProvider();
     print('removed Alarm id in AlarmManager: $alarmId');
+    alarmProvider.deleteAlarm(alarmId);
     AwesomeNotifications().cancel(alarmId);
     AndroidAlarmManager.cancel(alarmId);
   }

@@ -176,7 +176,7 @@ class AlarmProvider {
       }
     }
 
-    AlarmScheduler.removeAlarm(id);
+    //AlarmScheduler.removeAlarm(id);
 
     return countOfDeletedItems;
   }
