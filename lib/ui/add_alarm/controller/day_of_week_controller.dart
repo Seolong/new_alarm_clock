@@ -8,7 +8,7 @@ import 'package:new_alarm_clock/utils/enum.dart';
 import 'package:new_alarm_clock/utils/values/color_value.dart';
 
 class DayOfWeekController extends GetxController{
-  RxMap<DayWeek, bool> dayButtonStateMap = Map<DayWeek, bool>().obs;
+  Map<DayWeek, bool> dayButtonStateMap = Map<DayWeek, bool>();
   AlarmProvider _alarmProvider = AlarmProvider();
 
   @override
