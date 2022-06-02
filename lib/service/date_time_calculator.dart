@@ -102,18 +102,23 @@ class DateTimeCalculator {
   }
 
   DateTime _getStartNearWeekDay(DateTime currentStartDateTime, List<bool> weekBool){
+    int getDifferenceBetweenCurrentDayAndNextNearDay(int currentWeekDay){
+      for(int difference=1; difference<=6; difference++){
+        if(weekBool[(currentWeekDay+difference)%7] == true){
+          return difference;
+        }
+      }
+      assert(false, 'error in _getStartNearWeekDay of DateTimeCalculator');
+      return -1;
+    }
+
     int currentWeekDay = currentStartDateTime.weekday;
     if(currentWeekDay == DateTime.sunday){ //일요일을 0으로
       currentWeekDay = 0;
     }
     if(weekBool[currentWeekDay] == false){
-      for(int i=1; i<=6; i++){
-        if(weekBool[(currentWeekDay+i)%7] == true){
-          return Jiffy(currentStartDateTime).add(days: i).dateTime;
-        }
-      }
-      assert(false, 'error in _getStartNearWeekDay of DateTimeCalculator');
-      return currentStartDateTime;
+      int difference = getDifferenceBetweenCurrentDayAndNextNearDay(currentWeekDay);
+      return Jiffy(currentStartDateTime).add(days: difference).dateTime;
     }
     else{
       return currentStartDateTime;
@@ -171,31 +176,4 @@ class DateTimeCalculator {
         return DateTime.now();
     }
   }
-
-  // DateTime getEndNearDay(RepeatMode repeatMode, DateTime currentStartDateTime,
-  //     DateTime currentEndDateTime, int interval,
-  //     {List<bool>? weekBool, bool lastDay = false}){
-  //   String month = currentStartDateTime.month < 10? '0${currentStartDateTime.month}':'${currentStartDateTime.month}';
-  //   String day = currentStartDateTime.day < 10? '0${currentStartDateTime.day}':'${currentStartDateTime.day}';
-  //   //int interval = intervalParameter == 0? 1:intervalParameter;
-  //
-  //   DateTime endNearDayBefore = DateTime.parse('${currentStartDateTime.year}-$month-'
-  //       '$day 00:00:00.000000');
-  //   DateTime endNearDayAfter = addDateTime(repeatMode, endNearDayBefore, interval, weekBool: weekBool, lastDay: lastDay);
-  //   while(endNearDayAfter.isBefore(currentEndDateTime)){
-  //     endNearDayBefore = addDateTime(repeatMode, endNearDayBefore, interval, weekBool: weekBool, lastDay: lastDay);
-  //     endNearDayAfter = addDateTime(repeatMode, endNearDayAfter, interval, weekBool: weekBool, lastDay: lastDay);
-  //     print('Interval! $interval');
-  //     print('Before! $endNearDayBefore');
-  //     print('After! $endNearDayAfter');
-  //   }
-  //   if(endNearDayAfter.isAfter(currentEndDateTime)){
-  //     return endNearDayBefore;
-  //   }else if(endNearDayAfter.isAtSameMomentAs(currentEndDateTime)){
-  //     return endNearDayAfter;
-  //   }else{
-  //     assert(false, 'getEndNearDay Error in DateTimeCalculator');
-  //     return endNearDayBefore;
-  //   }
-  // }
 }
