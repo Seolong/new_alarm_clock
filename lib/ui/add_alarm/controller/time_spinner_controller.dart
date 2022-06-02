@@ -4,44 +4,42 @@ import 'package:new_alarm_clock/data/model/alarm_data.dart';
 import 'package:new_alarm_clock/ui/choice_day/controller/repeat_mode_controller.dart';
 import 'package:new_alarm_clock/ui/choice_day/controller/start_end_day_controller.dart';
 import 'dart:async';
-
 import 'package:new_alarm_clock/utils/enum.dart';
 
 class TimeSpinnerController extends GetxController{
-  RxString _alarmDateTime = '2000-01-01T00:00:00.000'.obs;
+  String _alarmDateTime = '2000-01-01T00:00:00.000';
   AlarmProvider _alarmProvider = AlarmProvider();
   Future<DateTime>? dateTimeFuture;
   RepeatMode repeatMode = Get.find<RepeatModeController>().repeatMode;
 
   @override
   void onInit() {
-    _alarmDateTime = DateTime.now().add(Duration(minutes: 5)).toIso8601String().obs;
+    _alarmDateTime = DateTime.now().add(Duration(minutes: 5)).toIso8601String();
     dateTimeFuture = null;
-    debounce(_alarmDateTime, (_)=>print('$_ changed'), time: Duration(seconds: 1));
 
     super.onInit();
   }
 
   set alarmDateTime(DateTime dateTime){
-    _alarmDateTime = dateTime.toIso8601String().obs;
+    _alarmDateTime = dateTime.toIso8601String();
     update();
   }
 
   DateTime get alarmDateTime{
-    return DateTime.parse(_alarmDateTime.value);
+    return DateTime.parse(_alarmDateTime);
   }
 
   Future<void> initDateTimeInEdit(int alarmId)async{
     AlarmData alarmData = await _alarmProvider.getAlarmById(alarmId);
     repeatMode = alarmData.alarmType;
     dateTimeFuture = Future.value(alarmData.alarmDateTime);
-    _alarmDateTime = alarmData.alarmDateTime.toIso8601String().obs;
+    _alarmDateTime = alarmData.alarmDateTime.toIso8601String();
     update();
   }
 
   void initDateTimeInAdd(){
-    _alarmDateTime = DateTime.now().add(Duration(minutes: 5)).toIso8601String().obs;
-    dateTimeFuture = Future.value(DateTime.parse(_alarmDateTime.value));
+    _alarmDateTime = DateTime.now().add(Duration(minutes: 5)).toIso8601String();
+    dateTimeFuture = Future.value(DateTime.parse(_alarmDateTime));
   }
 
   void setDayInRepeatOff(DateTime value){
