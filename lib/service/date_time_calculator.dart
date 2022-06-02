@@ -21,17 +21,31 @@ class DateTimeCalculator {
   // newShot은 알람해제 버튼에서
   // 왜냐하면 alarmEndDay 고려하려고
   DateTime _addWeeks(DateTime currentDateTime, int weeks, List<bool> weekBool) {
+    int getLastTrue(){
+      int lastTrueIndex = 0;
+      for(int i=1; i<=weekBool.length-1; i++){ //list에서 true인 애들 중 마지막 요일
+        if(weekBool[i] == true){
+          lastTrueIndex = i;
+        }
+      }
+      return lastTrueIndex;
+    }
+    int getFirstTrue(){
+      int firstTrueIndex = weekBool.length-1;
+      for(int i=weekBool.length-2; i>=0; i--){ //list에서 true인 애들 중 첫 요일
+        if(weekBool[i] == true){
+          firstTrueIndex = i;
+        }
+      }
+      return firstTrueIndex;
+    }
+
     DateTime resultDateTime;
     int weekday = currentDateTime.weekday;
     if(weekday == DateTime.sunday){ // 0을 sunday로 6 == saturday
       weekday = 0;
     }
-    int lastWeekday = 0;
-    for(int i=1; i<=6; i++){ //list에서 true인 애들 중 마지막 요일
-      if(weekBool[i] == true){
-        lastWeekday = i;
-      }
-    }
+    int lastWeekday = getLastTrue();
     if(lastWeekday != weekday){
       int nextWeekDay = weekday+1;
       for(int i=weekday+1; i<=lastWeekday; i++){// 다음 요일은?
@@ -45,12 +59,7 @@ class DateTimeCalculator {
     }
     else{//지금 알람이 마지막 요일이라면
       resultDateTime = Jiffy(currentDateTime).add(weeks: weeks).dateTime;
-      int firstWeekDay = 6;
-      for(int i=5; i>=0; i--){ //list에서 true인 애들 중 첫 요일
-        if(weekBool[i] == true){
-          firstWeekDay = i;
-        }
-      }
+      int firstWeekDay = getFirstTrue();
       int difference = weekday - firstWeekDay;
       //첫 요일까지 빼기
       resultDateTime = Jiffy(resultDateTime).subtract(days: difference).dateTime;
