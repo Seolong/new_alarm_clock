@@ -1,4 +1,3 @@
-import 'dart:math';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:new_alarm_clock/ui/add_alarm/controller/day_of_week_controller.dart';
@@ -18,14 +17,13 @@ class DayButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var repeatModeController = Get.put(RepeatModeController());
-    DayOfWeekController dayOfWeekController = Get.put(DayOfWeekController());
     return GestureDetector(
       child: DayButtonPainter(dayName, controller),
 
       onTap: () {
         controller.reverseDayButtonState(dayName);
         //터치하면 자동으로 repeatMode Week
-        if(dayOfWeekController.dayButtonStateMap.containsValue(true)){
+        if(controller.dayButtonStateMap.containsValue(true)){
           if(Get.find<RepeatModeController>().repeatMode == RepeatMode.off){
             Get.find<IntervalTextFieldController>().textEditingController.text = '1';
           }

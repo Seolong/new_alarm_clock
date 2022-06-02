@@ -19,12 +19,6 @@ class MusicHandler {
 
   MusicHandler._internal();
 
-  // changeVolume(double volume) async {
-  //   _originalVolume = await PerfectVolumeControl.volume;
-  //   print('current volume is $_originalVolume');
-  //   PerfectVolumeControl.setVolume(volume);
-  // }
-
   initOriginalVolume() async {
     _originalVolume = await PerfectVolumeControl.getVolume();
     print('current volume is $_originalVolume');
@@ -57,13 +51,8 @@ class MusicHandler {
 
   /// This function stops the music player
   Future<void> stopMusic() async {
-    // Notifies UI isolate that nothing is currently playing
-    //playingSoundPath.value = "";
-    // Pause the music instead of stopping... Well i dunno whats up but the
-    // developer of the player recommends it.
     if (currentPlayer.playing) {
       await currentPlayer.stop();
-
       await PerfectVolumeControl.setVolume(_originalVolume);
     }
   }
