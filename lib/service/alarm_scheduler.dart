@@ -232,6 +232,7 @@ class AlarmScheduler {
         }
       }
 
+
       //AlarmData.dayOff는 ~년 ~월 ~일까지만 나온다. ~시 ~분은 안 쓰여있다.
       for (int i = 0; i < dayOffList.length; i++) {
         dayOffList[i].dayOffDate = dayOffList[i]

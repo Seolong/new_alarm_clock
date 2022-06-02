@@ -12,48 +12,37 @@ class TitleTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final alarmTitleTextFieldController = Get.put(AlarmTitleTextFieldController());
+    final alarmTitleTextFieldController =
+        Get.put(AlarmTitleTextFieldController());
     return Container(
       height: 100,
-      //padding: EdgeInsets.fromLTRB(0, 5, 0, 5),
       child: GetBuilder<AlarmTitleTextFieldController>(
         initState: (_) => mode == StringValue.editMode
-            ? alarmTitleTextFieldController
-            .initTitleTextField(alarmId)
+            ? alarmTitleTextFieldController.initTitleTextField(alarmId)
             : null,
         builder: (_) => FittedBox(
           fit: BoxFit.scaleDown,
           child: ConstrainedBox(
-            constraints: BoxConstraints(minWidth: 1, minHeight: 1, maxWidth: Get.width),
+            constraints:
+                BoxConstraints(minWidth: 1, minHeight: 1, maxWidth: Get.width),
             child: TextField(
               controller: _.textEditingController,
-              onChanged: (value) {
-                if (_.textEditingController.text.length != 0) {
-                  print('length not 0');
-                } else {
-                  print('length 0');
-                }
-              },
               style: TextStyle(
-                  fontFamily: MyFontFamily.mainFontFamily,
-                  fontSize: 25
-              ),
+                  fontFamily: MyFontFamily.mainFontFamily, fontSize: 25),
               decoration: InputDecoration(
                   labelText: '알람 이름',
                   labelStyle: TextStyle(
-                      fontFamily: MyFontFamily.mainFontFamily,
-                      fontSize: 20
-                  ),
+                      fontFamily: MyFontFamily.mainFontFamily, fontSize: 20),
                   suffixIcon: _.textEditingController.text.length > 0
                       ? IconButton(
-                    icon: Icon(
-                      Icons.clear,
-                      color: Colors.black,
-                    ),
-                    onPressed: () => _.resetField(),
-                  )
+                          icon: Icon(
+                            Icons.clear,
+                            color: Colors.black,
+                          ),
+                          onPressed: () => _.resetField(),
+                        )
                       : null // Show the clear button if the text field has something
-              ),
+                  ),
             ),
           ),
         ),

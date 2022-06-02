@@ -46,7 +46,6 @@ class TimeSpinner extends StatelessWidget {
                           _.setDayInRepeatOff(value);
                         }
                         _.alarmDateTime = value;
-                        //print(Get.find<RepeatModeController>().repeatMode);
                       },
                     );
                   }
