@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/physics.dart';
 import 'package:flutter/services.dart';
@@ -14,6 +13,7 @@ import 'package:new_alarm_clock/utils/values/color_value.dart';
 import 'package:new_alarm_clock/utils/values/my_font_family.dart';
 import 'package:vibration/vibration.dart';
 import 'package:wakelock/wakelock.dart';
+import 'dart:io' show Platform;
 
 class DraggableDismissButton extends StatefulWidget {
   const DraggableDismissButton({Key? key, required this.child})
@@ -98,9 +98,6 @@ class _DraggableDismissButtonState extends State<DraggableDismissButton>
           int repeatInterval = alarmData.repeatInterval;
           int repeatNum = alarmData.repeatNum;
           if (repeatCount < repeatNum) {
-            debugPrint('$repeatCount');
-            debugPrint('$repeatInterval');
-            debugPrint('ffffffffff${repeatCount * repeatInterval}');
             DateTime nextAlarmTime = alarmData.alarmDateTime.add(Duration(minutes: (repeatCount * repeatInterval)));
             alarmScheduler.newShot(nextAlarmTime, alarmData.id);
           }
@@ -113,7 +110,6 @@ class _DraggableDismissButtonState extends State<DraggableDismissButton>
       else{//버튼 드래그, 롱프레스로 알람을 껐을 경우
         await _repeatCountSharedPreferences.resetRepeatCount();
         await alarmScheduler.updateToNextAlarm(alarmData);
-        print('afsdfawefewa In DraggableDismissButton');
       }
 
       await _appStateSharedPreferences.setAppStateToMain();
@@ -121,7 +117,22 @@ class _DraggableDismissButtonState extends State<DraggableDismissButton>
       await _musicHandler.stopMusic();
       await Wakelock.disable();
 
-      await SystemChannels.platform.invokeMethod('SystemNavigator.pop'); //SystemNavigator.pop()하니까 안 될 때가 있더라
+      //SystemNavigator.pop()하니까 안 될 때가 있더라
+      if (Platform.isAndroid) {
+        await SystemChannels.platform.invokeMethod('SystemNavigator.pop');
+      } else if(Platform.isIOS){
+
+      }
+    }
+  }
+
+  void changeButtonColor(bool isPressedOrDragged){
+    if(isPressedOrDragged){
+      buttonColor = Colors.grey;
+      buttonOutsideColor = Colors.white12;
+    }else{
+      buttonColor = ColorValue.dismissAlarmButton;
+      buttonOutsideColor = ColorValue.mainBackground;
     }
   }
 
@@ -140,7 +151,8 @@ class _DraggableDismissButtonState extends State<DraggableDismissButton>
       ),
       GestureDetector(
         onPanDown: (details) {
-          _controller.stop();
+          //_controller.stop();
+          changeButtonColor(true);
         },
         onPanUpdate: (details) async{
           if (details.localPosition.dx < 130 ||
@@ -160,8 +172,7 @@ class _DraggableDismissButtonState extends State<DraggableDismissButton>
         onPanEnd: (details) {
           _runAnimation(details.velocity.pixelsPerSecond, size);
           setState(() {
-            buttonColor = ColorValue.dismissAlarmButton;
-            buttonOutsideColor = ColorValue.mainBackground;
+            changeButtonColor(false);
           });
         },
         onLongPress: () async{
@@ -170,14 +181,12 @@ class _DraggableDismissButtonState extends State<DraggableDismissButton>
         },
         onTapDown: (details) {
           setState(() {
-            buttonColor = Colors.grey;
-            buttonOutsideColor = Colors.white12;
+            changeButtonColor(true);
           });
         },
         onTapUp: (details) {
           setState(() {
-            buttonColor = ColorValue.dismissAlarmButton;
-            buttonOutsideColor = ColorValue.mainBackground;
+            changeButtonColor(false);
           });
         },
         child: Align(

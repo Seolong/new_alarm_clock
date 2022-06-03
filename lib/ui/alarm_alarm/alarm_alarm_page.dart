@@ -22,7 +22,6 @@ class AlarmAlarmPage extends StatelessWidget {
 
   Future<AlarmData> getAlarmData() async {
     alarmId = await _idSharedPreferences.getAlarmedId();
-    //alarmId = 0;
     print('alarming alarm id = $alarmId');
     return _alarmProvider.getAlarmById(alarmId);
   }
