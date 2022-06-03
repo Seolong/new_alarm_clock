@@ -3,14 +3,11 @@ import 'package:get/get.dart';
 
 class IntervalTextFieldController extends GetxController {
   TextEditingController textEditingController = TextEditingController();
-  RxInt _interval = 0.obs;
 
-  set interval(int intervalValue) {
-    _interval = intervalValue.obs;
-    update();
-  }
+  int getInterval() => int.parse(
+      Get.find<IntervalTextFieldController>().textEditingController.text);
 
-  int get interval => _interval.value;
+  String getIntervalText() => textEditingController.text == '1' ? '매' : textEditingController.text;
 
   @override
   void onInit() {
@@ -28,8 +25,7 @@ class IntervalTextFieldController extends GetxController {
   }
 
   void initTextFieldInEditRepeat(int intervalValue) {
-    _interval = intervalValue.obs;
     textEditingController.text =
-        _interval.value != 0 ? '${_interval.value}' : '';
+      intervalValue != 0 ? '${intervalValue}' : '';
   }
 }

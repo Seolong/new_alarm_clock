@@ -99,6 +99,24 @@ class AddAlarmPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    void closeKeyBoard() {
+      FocusScopeNode currentFocus = FocusScope.of(context);
+      //Checking hasPrimaryFocus is necessary to prevent Flutter from throwing an exception
+      //when trying to unfocus the node at the top of the tree.
+      if (!currentFocus.hasPrimaryFocus && currentFocus.focusedChild != null) {
+        FocusManager.instance.primaryFocus?.unfocus();
+      }
+    }
+
+    bool isRepeat() {
+      return Get.find<RepeatModeController>().repeatMode != RepeatMode.off &&
+          Get.find<RepeatModeController>().repeatMode != RepeatMode.single;
+    }
+
+    bool isLastDay() {
+      return Get.find<MonthRepeatDayController>().monthRepeatDay == 29;
+    }
+
     Map<String, dynamic> argFromPreviousPage = Get.arguments;
     mode = argFromPreviousPage[StringValue.mode]; //add or edit
     alarmId = argFromPreviousPage[StringValue.alarmId];
@@ -131,14 +149,9 @@ class AddAlarmPage extends StatelessWidget {
       onWillPop: _onTouchSystemBackButton,
       child: GestureDetector(
         onTap: () {
-          FocusScopeNode currentFocus = FocusScope.of(context);
-          if (!currentFocus.hasPrimaryFocus &&
-              currentFocus.focusedChild != null) {
-            FocusManager.instance.primaryFocus?.unfocus();
-          }
+          closeKeyBoard();
         },
         child: Scaffold(
-          //resizeToAvoidBottomInset: false,
           backgroundColor: ColorValue.addAlarmPageBackground,
           appBar: AppBar(
             backgroundColor: ColorValue.appbar,
@@ -170,7 +183,6 @@ class AddAlarmPage extends StatelessWidget {
           body: SafeArea(
             child: SingleChildScrollView(
               child: Container(
-                //height: Get.height - Get.statusBarHeight - 10,
                 color: ColorValue.addAlarmPageBackground,
                 padding: EdgeInsets.fromLTRB(25, 0, 25, 10),
                 child: Column(
@@ -198,8 +210,7 @@ class AddAlarmPage extends StatelessWidget {
                               child: GetBuilder<DayOfWeekController>(
                                 //editMode에다가 WeekMode여야 한다
                                 initState: (_) => mode == StringValue.editMode
-                                    ? dayOfWeekController
-                                        .initWhenEditMode(alarmId)
+                                    ? dayOfWeekController.initWhenEditMode(alarmId)
                                     : null,
                                 builder: (_) => LayoutBuilder(
                                   builder: (BuildContext context,
@@ -276,20 +287,15 @@ class AddAlarmPage extends StatelessWidget {
                           GetBuilder<RepeatModeController>(builder: (_) {
                             return IconButton(
                               onPressed: () {
-                                if (mode == StringValue.editMode &&
-                                    _.repeatMode != RepeatMode.off &&
-                                    _.repeatMode != RepeatMode.single) {
-                                  startEndDayController
-                                      .setStart(alarmData.alarmDateTime);
+                                if (mode == StringValue.editMode && isRepeat()) {
+                                  startEndDayController.setStart(alarmData.alarmDateTime);
                                 }
                               },
                               icon: Icon(Icons.refresh_rounded),
                               tooltip: '초기화',
-                              color: (mode == StringValue.editMode &&
-                                      _.repeatMode != RepeatMode.off &&
-                                      _.repeatMode != RepeatMode.single)
-                                  ? Colors.black45
-                                  : Colors.transparent,
+                              color: (mode == StringValue.editMode && isRepeat())
+                                      ? Colors.black45
+                                      : Colors.transparent,
                             );
                           }),
                           //NextYearMonthDayText
@@ -306,40 +312,29 @@ class AddAlarmPage extends StatelessWidget {
                           GetBuilder<RepeatModeController>(builder: (_) {
                             return IconButton(
                               onPressed: () {
-                                if (mode == StringValue.editMode &&
-                                    _.repeatMode != RepeatMode.off &&
-                                    _.repeatMode != RepeatMode.single) {
+                                if (mode == StringValue.editMode && isRepeat()) {
                                   List<bool> weekBool = [];
                                   for (var weekDayBool in DayWeek.values) {
-                                    weekBool.add(dayOfWeekController
-                                        .dayButtonStateMap[weekDayBool]!);
+                                    weekBool.add(dayOfWeekController.dayButtonStateMap[weekDayBool]!);
                                   }
                                   DateTimeCalculator dateTimeCalculator =
                                       DateTimeCalculator();
                                   DateTime nextDate =
                                       dateTimeCalculator.addDateTime(
                                           repeatModeController.repeatMode,
-                                          startEndDayController
-                                              .start['dateTime'],
-                                          int.parse(Get.find<
-                                                  IntervalTextFieldController>()
-                                              .textEditingController
-                                              .text),
+                                          startEndDayController.start['dateTime'],
+                                          Get.find<IntervalTextFieldController>().getInterval(),
                                           weekBool: weekBool,
-                                          lastDay: Get.find<
-                                                      MonthRepeatDayController>()
-                                                  .monthRepeatDay ==
-                                              29);
+                                          lastDay: isLastDay()
+                                      );
                                   startEndDayController.setStart(nextDate);
                                 }
                               },
                               icon: Icon(Icons.arrow_forward_ios),
                               tooltip: '이번 알람 건너뛰기',
-                              color: (mode == StringValue.editMode &&
-                                      _.repeatMode != RepeatMode.off &&
-                                      _.repeatMode != RepeatMode.single)
-                                  ? Colors.black45
-                                  : Colors.transparent,
+                              color: (mode == StringValue.editMode && isRepeat())
+                                      ? Colors.black45
+                                      : Colors.transparent,
                             );
                           }),
                         ],
@@ -359,8 +354,10 @@ class AddAlarmPage extends StatelessWidget {
                               padding: EdgeInsets.all(5),
                               height: 35,
                               child: AutoSizeText(
-                                '${_.textEditingController.text == '1' ? '매' : _.textEditingController.text}'
-                                '${repeatCont.getRepeatModeText(_.textEditingController.text, monthCont.monthRepeatDay)}',
+                                '${_.getIntervalText()}'
+                                '${repeatCont.getRepeatModeText(
+                                    _.textEditingController.text,
+                                    monthCont.monthRepeatDay)}',
                                 color: Colors.black54,
                               ),
                             );
