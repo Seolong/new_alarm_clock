@@ -1,7 +1,6 @@
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:new_alarm_clock/data/model/music_path_data.dart';
 import 'package:new_alarm_clock/ui/alarm_detail_page/ring/controller/ring_radio_list_controller.dart';
+import 'package:new_alarm_clock/ui/alarm_detail_page/ring/widget/add_music_button.dart';
 import 'package:new_alarm_clock/ui/alarm_detail_page/ring/widget/ring_radio_list.dart';
 import 'package:new_alarm_clock/ui/alarm_detail_page/ring/widget/volume_slider.dart';
 import 'package:new_alarm_clock/ui/alarm_detail_page/widget_all/app_bar_title.dart';
@@ -9,8 +8,6 @@ import 'package:new_alarm_clock/ui/global/auto_size_text.dart';
 import 'package:new_alarm_clock/ui/global/divider/rounded_divider.dart';
 import 'package:new_alarm_clock/utils/values/color_value.dart';
 import 'package:get/get.dart';
-import 'dart:io';
-
 import 'package:new_alarm_clock/utils/values/size_value.dart';
 
 
@@ -109,9 +106,9 @@ class RingPage extends StatelessWidget {
                       padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
                       child: Container(
                           height: 55,
-                          //padding: EdgeInsets.fromLTRB(15, 10, 15, 10),
                           child: Row(
                             children: [
+                              //note icon
                               Expanded(
                                 child: Padding(
                                   padding:
@@ -129,6 +126,7 @@ class RingPage extends StatelessWidget {
                                   ),
                                 ),
                               ),
+                              //음악 목록 text
                               Expanded(
                                 flex: 6,
                                 child: Padding(
@@ -162,32 +160,7 @@ class RingPage extends StatelessWidget {
                                     child: ConstrainedBox(
                                         constraints: BoxConstraints(
                                             minWidth: 1, minHeight: 1),
-                                        child: IconButton(
-                                          iconSize: 1150,
-                                          icon: Icon(Icons.add_rounded),
-                                          onPressed: () async {
-                                            FilePickerResult? result =
-                                                await FilePicker.platform
-                                                    .pickFiles(
-                                                        type: FileType.audio);
-
-                                            if (result != null) {
-                                              PlatformFile file =
-                                                  result.files.single;
-                                              if (file.path != null) {
-                                                ringRadioListController
-                                                    .inputMusicPath(
-                                                        MusicPathData(
-                                                            path:
-                                                                File(file.path!)
-                                                                    .absolute
-                                                                    .path));
-                                              }
-                                            } else {
-                                              // User canceled the picker
-                                            }
-                                          },
-                                        )),
+                                        child: AddMusicButton()),
                                   ),
                                 ),
                               ),
