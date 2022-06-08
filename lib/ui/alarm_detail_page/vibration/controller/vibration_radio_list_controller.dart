@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:new_alarm_clock/utils/enum.dart';
@@ -8,12 +7,14 @@ import 'package:vibration/vibration.dart';
 class VibrationRadioListController extends GetxController{
   VibrationPack _vibrationPack = VibrationPack();
   VibrationName _selectedVibration = VibrationName.long; //알람 수정이면 db에서 가져오고 알람 추가면 default 값으로 VibrationName.long으로
-  RxBool _power = true.obs;//DB에서 가져오기
+  bool _power = true;//DB에서 가져오기
   Map<String, Color> textColor = {
     'active': Colors.black,
     'inactive': Colors.grey
   };
   RxMap<String, Color> _listTextColor = {'text': Colors.black}.obs;
+
+  VibrationName get selectedVibration => _selectedVibration;
 
   set selectedVibration(VibrationName selectedVibration) {
     _selectedVibration = selectedVibration;
@@ -21,27 +22,25 @@ class VibrationRadioListController extends GetxController{
     update();
   }
 
-  void initSelectedVibrationInEdit(VibrationName selectedVibration){
-    _selectedVibration = selectedVibration;
-    update();
-  }
-
-  VibrationName get selectedVibration => _selectedVibration;
+  bool get power => _power;
 
   set power(bool value){
-    _power(value);
+    _power = value;
     //switch가 안 움직이면 대개 update()를 빼먹어서다.
     update();
   }
 
-  bool get power => _power.value;
+  Color get listTextColor => _listTextColor['text']!;
 
   set listTextColor(Color color){
     _listTextColor['text'] = color;
     update();
   }
 
-  Color get listTextColor => _listTextColor['text']!;
+  void initSelectedVibrationInEdit(VibrationName selectedVibration){
+    _selectedVibration = selectedVibration;
+    update();
+  }
 
   @override
   void onClose() {

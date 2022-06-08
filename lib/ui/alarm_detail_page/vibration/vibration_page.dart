@@ -1,13 +1,12 @@
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:new_alarm_clock/ui/alarm_detail_page/vibration/controller/vibration_radio_list_controller.dart';
+import 'package:new_alarm_clock/ui/alarm_detail_page/vibration/widget/vibration_list_view.dart';
 import 'package:new_alarm_clock/ui/alarm_detail_page/widget_all/app_bar_title.dart';
 import 'package:new_alarm_clock/ui/global/auto_size_text.dart';
 import 'package:new_alarm_clock/ui/global/divider/rounded_divider.dart';
-import 'package:new_alarm_clock/utils/enum.dart';
 import 'package:new_alarm_clock/utils/values/color_value.dart';
 import 'package:new_alarm_clock/utils/values/size_value.dart';
-import 'package:new_alarm_clock/utils/values/vibration_pack.dart';
 import 'package:vibration/vibration.dart';
 
 class VibrationPage extends StatelessWidget {
@@ -65,36 +64,7 @@ class VibrationPage extends StatelessWidget {
               Expanded(
                   child: Padding(
                 padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
-                child: ListView.builder(
-                  padding: const EdgeInsets.all(8),
-                  itemCount: VibrationName.values.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return GetBuilder<VibrationRadioListController>(
-                      builder: (_) => RadioListTile(
-                        title: Container(
-                          alignment: Alignment.bottomLeft,
-                          height: 30,
-                          child: AutoSizeText(
-                              VibrationPack().convertVibrationNameToRadioName(
-                                  VibrationName.values[index])!,
-                              color: _.power
-                                  ? _.textColor['active']
-                                  : _.textColor['inactive']),
-                        ),
-                        value: VibrationName.values[index],
-                        groupValue: _.selectedVibration,
-                        //초기값
-                        onChanged: (VibrationName? value) {
-                          if (_.power == false) {
-                          } else {
-                            _.selectedVibration = value!;
-                          }
-                        },
-                        activeColor: ColorValue.activeSwitch,
-                      ),
-                    );
-                  },
-                ),
+                child: VibrationListView(),
               )),
             ],
           ),
