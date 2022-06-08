@@ -3,15 +3,15 @@ import 'package:get/get.dart';
 import 'package:new_alarm_clock/utils/enum.dart';
 
 class RepeatModeController extends GetxController {
-  Rx<RepeatMode> _repeatMode = RepeatMode.off.obs;
+  RepeatMode _repeatMode = RepeatMode.off;
   RxInt subIndex = 0.obs;
 
-  //RepeatMode repeatMode = RepeatMode.off;
   RepeatMode previousRepeatMode = RepeatMode.off;
 
-  set repeatMode(RepeatMode repeatMode) {
-    _repeatMode.value = repeatMode;
+  RepeatMode get repeatMode => _repeatMode;
 
+  set repeatMode(RepeatMode repeatMode) {
+    _repeatMode = repeatMode;
 
     //ChoiceDayPage에 Builder 써서 이거 써야한다.
     WidgetsBinding.instance!.addPostFrameCallback((_) {
@@ -24,8 +24,8 @@ class RepeatModeController extends GetxController {
     });
   }
 
-  int getMainIndex(){
-    switch(_repeatMode.value){
+  int getMainIndex() {
+    switch (_repeatMode) {
       case RepeatMode.off:
       case RepeatMode.single:
         return 0;
@@ -40,8 +40,8 @@ class RepeatModeController extends GetxController {
     }
   }
 
-  int getSubIndex(){
-    switch(_repeatMode.value){
+  int getSubIndex() {
+    switch (_repeatMode) {
       case RepeatMode.off:
       case RepeatMode.single:
       case RepeatMode.day:
@@ -53,13 +53,11 @@ class RepeatModeController extends GetxController {
       case RepeatMode.year:
         return 3;
       default:
-        print(_repeatMode.value);
+        print(_repeatMode);
         assert(false, 'getSubIndex error in RepeatModeController');
         return -1;
     }
   }
-
-  RepeatMode get repeatMode => _repeatMode.value;
 
   RepeatMode getRepeatMode() {
     return repeatMode;
@@ -99,20 +97,23 @@ class RepeatModeController extends GetxController {
   }
 
   String getRepeatModeText(
-    String interval, int? monthRepeatDay,
+    String interval,
+    int? monthRepeatDay,
   ) {
     switch (repeatMode) {
       case RepeatMode.off:
       case RepeatMode.single:
         return '';
       case RepeatMode.day:
-        return interval == '1'?'일 반복':'일마다 반복';
+        return interval == '1' ? '일 반복' : '일마다 반복';
       case RepeatMode.week:
-        return interval == '1'?'주 반복':'주마다 반복';
+        return interval == '1' ? '주 반복' : '주마다 반복';
       case RepeatMode.month:
-        return interval == '1'?'달 ${monthRepeatDay}일에 반복':'달마다 ${monthRepeatDay}일에 반복';
+        return interval == '1'
+            ? '달 ${monthRepeatDay}일에 반복'
+            : '달마다 ${monthRepeatDay}일에 반복';
       case RepeatMode.year:
-        return interval == '1'?'년 반복':'년마다 반복';
+        return interval == '1' ? '년 반복' : '년마다 반복';
       default:
         assert(false, 'getRepeatModeText error in AddAlarmPage');
         return '';

@@ -19,17 +19,18 @@ class MonthRepeatContainer extends RepeatContainer {
       children: [
         Padding(
           padding: const EdgeInsets.only(top: 15),
-          child: GetBuilder<MonthRepeatDayController>(
-            builder: (_) {
-              return Text( _.monthRepeatDayText.value,
-                style: TextStyle(
-                    color: Colors.black87,
-                    fontSize: SizeValue.monthRepeatDayText),
-              );
-            }
-          ),
+          child: GetBuilder<MonthRepeatDayController>(builder: (_) {
+            return Text(
+              _.monthRepeatDayText,
+              style: TextStyle(
+                  color: Colors.black87,
+                  fontSize: SizeValue.monthRepeatDayText),
+            );
+          }),
         ),
-        Container(height: 50,),
+        Container(
+          height: 50,
+        ),
         ChoiceDayButton(),
         Container(
           padding: EdgeInsets.fromLTRB(0, 0, 0, 7.5),
@@ -37,19 +38,15 @@ class MonthRepeatContainer extends RepeatContainer {
           child: FittedBox(
             fit: BoxFit.scaleDown,
             child: ConstrainedBox(
-              constraints:
-              BoxConstraints(minWidth: 1, minHeight: 1),
+              constraints: BoxConstraints(minWidth: 1, minHeight: 1),
               child: Text(
                 '반복 날짜 선택',
-                style: TextStyle(
-                    color: Colors.grey, fontSize: 1000),
+                style: TextStyle(color: Colors.grey, fontSize: 1000),
               ),
             ),
           ),
         ),
-
       ],
-
     );
   }
 }
