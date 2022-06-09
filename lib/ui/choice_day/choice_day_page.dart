@@ -18,6 +18,16 @@ class ChoiceDayPage extends StatelessWidget {
   String systemBackButtonName = 'system';
   final repeatModeController = Get.put(RepeatModeController());
 
+  bool isLessInterValThanZero(){
+    return isRepeat() &&
+        Get.find<IntervalTextFieldController>().textEditingController.text != '' &&
+        int.parse(Get.find<IntervalTextFieldController>().textEditingController.text) <= 0;
+  }
+
+  bool isRepeat(){
+    return repeatModeController.repeatMode != RepeatMode.single &&
+        repeatModeController.repeatMode != RepeatMode.off;
+  }
 
   Future<bool> _onTouchBackButton() async {
     if(repeatModeController.repeatMode == RepeatMode.month &&
@@ -26,10 +36,7 @@ class ChoiceDayPage extends StatelessWidget {
       ConvenienceMethod.showSimpleSnackBar('반복 날짜를 선택해주세요.');
       return Future.value(false);
     }
-    if(repeatModeController.repeatMode != RepeatMode.single &&
-        repeatModeController.repeatMode != RepeatMode.off &&
-        Get.find<IntervalTextFieldController>().textEditingController.text != '' &&
-        int.parse(Get.find<IntervalTextFieldController>().textEditingController.text) <= 0){
+    if(isLessInterValThanZero()){
       ConvenienceMethod.showSimpleSnackBar('주기는 1 이상이어야 합니다.');
       return Future.value(false);
     }
@@ -44,8 +51,7 @@ class ChoiceDayPage extends StatelessWidget {
         return Future.value(false);
       }
     }
-    if(repeatModeController.repeatMode == RepeatMode.single ||
-        repeatModeController.repeatMode == RepeatMode.off){
+    if(!isRepeat()){
       Get.find<IntervalTextFieldController>().textEditingController.text = '';
       Get.back();
       return Future.value(false);
@@ -67,10 +73,6 @@ class ChoiceDayPage extends StatelessWidget {
       child: DefaultTabController(
         length: 2,
         initialIndex: repeatModeController.getMainIndex(),
-        //뭐 builder로 감싸서 싸바싸바 아이샤바
-        //탭하면 repeatmode가 defualt인지 day, week, month 아무튼 뭔지 기록
-        //일단 지금 생각은 getxcontroller로 제어할까..
-        //DefaultTabController.of(context).addListener(() { })
         child: Builder(
             builder: (context) {
               final tabController = DefaultTabController.of(context)!;

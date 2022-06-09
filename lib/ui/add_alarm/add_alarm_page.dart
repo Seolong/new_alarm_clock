@@ -22,7 +22,7 @@ import 'package:new_alarm_clock/ui/choice_day/controller/month_repaet_day_contro
 import 'package:new_alarm_clock/ui/choice_day/controller/repeat_mode_controller.dart';
 import 'package:new_alarm_clock/ui/choice_day/controller/start_end_day_controller.dart';
 import 'package:new_alarm_clock/ui/choice_day/controller/year_repeat_day_controller.dart';
-import 'package:new_alarm_clock/ui/choice_day/widget/going_back_dialog.dart';
+import 'package:new_alarm_clock/ui/add_alarm/widgets/going_back_dialog.dart';
 import 'package:new_alarm_clock/ui/day_off/controller/day_off_list_controller.dart';
 import 'package:new_alarm_clock/ui/global/auto_size_text.dart';
 import 'package:new_alarm_clock/ui/global/convenience_method.dart';
@@ -68,11 +68,11 @@ class AddAlarmPage extends StatelessWidget {
   }
 
   Future<bool> _onTouchAppBarBackButton() async {
-    return await Get.dialog(GoingBackDialog('AddAlarm', 'appBar'));
+    return await Get.dialog(GoingBackDialog('appBar'));
   }
 
   Future<bool> _onTouchSystemBackButton() async {
-    return await Get.dialog(GoingBackDialog('AddAlarm', 'system'));
+    return await Get.dialog(GoingBackDialog('system'));
   }
 
   bool _isAbsorb(RepeatModeController repeatModeController) {

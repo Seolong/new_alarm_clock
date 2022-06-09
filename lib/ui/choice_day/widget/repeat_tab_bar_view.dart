@@ -3,7 +3,7 @@ import 'package:new_alarm_clock/ui/choice_day/widget/repeat_container_factory.da
 import 'package:new_alarm_clock/utils/enum.dart';
 
 class RepeatTabBarView extends StatelessWidget {
-  RepeatContainerFactory _repeatContainerFactory = RepeatContainerFactory();
+  final RepeatContainerFactory _repeatContainerFactory = RepeatContainerFactory();
 
   @override
   Widget build(BuildContext context) {

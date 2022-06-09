@@ -18,6 +18,7 @@ class RepeatContainerFactory{
         return YearRepeatContainer();
       default:
         assert(false, 'error in getRepeatContainer in RepeatContainerFactory');
+        return null;
     }
   }
 }
