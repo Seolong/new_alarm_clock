@@ -7,12 +7,12 @@ import 'package:new_alarm_clock/ui/choice_day/widget/repeat_container/widget_all
 
 class DayOffListController extends GetxController{
   AlarmProvider _alarmProvider = AlarmProvider();
-  RxList<DayOffData> dayOffDataList = RxList<DayOffData>();
+  List<DayOffData> dayOffDataList = [];
   late int id;
 
   void initDayOffDataList() async{
     var dayOffDataList_value = await _alarmProvider.getDayOffsById(id);
-    dayOffDataList = dayOffDataList_value.obs;
+    dayOffDataList = dayOffDataList_value;
 
     for(int i=dayOffDataList.length-1; i>=0; i--){
       // 2022-01-01 00:00.000000 이렇게 저장되는데 1월 1일 1시 알람인데 삭제해버리면 곤란하니까
@@ -35,22 +35,27 @@ class DayOffListController extends GetxController{
 
   void insertDayOff() async{
     DateTime now = DateTime.now();
-    DateTime dateTime = await Get.dialog(AlertDialog(
+    DateTime? dateTime = await Get.dialog(AlertDialog(
         contentPadding: EdgeInsets.zero,
         content: CalendarDialog(
             now)));
-    if(dateTime.year==now.year && dateTime.month==now.month && dateTime.day==now.day){
-      String yearMonthDay = DateFormat('yyyy-MM-dd')
-          .format(dateTime);
-      String alarmDateTime = yearMonthDay + 'T' + '00:00:00.000';
-      dateTime = DateTime.parse(alarmDateTime);
-    }
-    if(!dayOffDataList.any((element)=>element.dayOffDate == dateTime)){
-      DayOffData dayOffData = DayOffData(id: id, dayOffDate: dateTime);
-      _alarmProvider.insertDayOff(dayOffData);
-      dayOffDataList.add(dayOffData);
-      dayOffDataList.sort((a, b) => a.dayOffDate.compareTo(b.dayOffDate));
-      update();
+    if (dateTime != null) {
+      if(dateTime.year==now.year && dateTime.month==now.month && dateTime.day==now.day){
+        // 다른 날을 선택하면 0시 0분 0초로 선택된다.
+        // 하지만 오늘을 선택하면 now 시간으로 설정된다.
+        // 시 분 초를 떼고 0시 0분 0초로 만들어 insert하기 위한 작업
+        String yearMonthDay = DateFormat('yyyy-MM-dd')
+            .format(dateTime);
+        String alarmDateTime = yearMonthDay + 'T' + '00:00:00.000';
+        dateTime = DateTime.parse(alarmDateTime);
+      }
+      if(!dayOffDataList.any((element)=>element.dayOffDate == dateTime)){
+        DayOffData dayOffData = DayOffData(id: id, dayOffDate: dateTime);
+        _alarmProvider.insertDayOff(dayOffData);
+        dayOffDataList.add(dayOffData);
+        dayOffDataList.sort((a, b) => a.dayOffDate.compareTo(b.dayOffDate));
+        update();
+      }
     }
   }
 
