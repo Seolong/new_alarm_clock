@@ -11,15 +11,11 @@ class RoundedDivider extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.all(SizeValue.alarmItemDividerPadding),
-        child: Container(
-            height: this.height,
-            decoration: BoxDecoration(
-                color: color,
-                borderRadius: BorderRadius.all(
-                    Radius.circular(15)
-                )
-            )
-        ),
+      child: Container(
+          height: this.height,
+          decoration: BoxDecoration(
+              color: color,
+              borderRadius: BorderRadius.all(Radius.circular(15)))),
     );
   }
 }

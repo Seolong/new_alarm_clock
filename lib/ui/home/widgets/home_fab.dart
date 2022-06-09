@@ -6,8 +6,8 @@ import '../../../routes/app_routes.dart';
 import '../../../utils/values/color_value.dart';
 import '../../../utils/values/size_value.dart';
 import '../../../utils/values/string_value.dart';
-import '../../global/alarm_item/controller/selected_alarm_controller.dart';
 import '../../global/convenience_method.dart';
+import '../page/inner_home_page/widgets/alarm_item/controller/selected_alarm_controller.dart';
 
 class HomeFAB extends StatelessWidget {
   final IdSharedPreferences idSharedPreferences = IdSharedPreferences();

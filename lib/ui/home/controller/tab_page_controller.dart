@@ -1,5 +1,8 @@
 import 'package:get/get.dart';
-import 'package:new_alarm_clock/ui/global/alarm_item/controller/selected_alarm_controller.dart';
+
+import '../page/inner_home_page/widgets/alarm_item/controller/selected_alarm_controller.dart';
+
+
 
 class TabPageController extends GetxController{
   RxInt _pageIndex = 0.obs;

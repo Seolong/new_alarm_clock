@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:new_alarm_clock/data/database/alarm_provider.dart';
-import 'package:new_alarm_clock/ui/global/alarm_item/alarm_item.dart';
 import 'package:new_alarm_clock/ui/home/controller/alarm_list_controller.dart';
 import 'package:new_alarm_clock/ui/home/controller/folder_list_controller.dart';
+import 'package:new_alarm_clock/ui/home/page/inner_home_page/widgets/alarm_item/alarm_item.dart';
 import 'package:new_alarm_clock/utils/values/color_value.dart';
 import 'package:new_alarm_clock/utils/values/my_font_family.dart';
 import 'package:get/get.dart';
@@ -17,7 +17,7 @@ class InnerHomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var alarmListController = Get.put(AlarmListController());
+    Get.put(AlarmListController());
     var folderListController = Get.put(FolderListController());
     return Scaffold(
       backgroundColor: ColorValue.mainBackground,

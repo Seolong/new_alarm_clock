@@ -1,13 +1,14 @@
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
-class FolderNameTextFieldController extends GetxController{
+class FolderNameTextFieldController extends GetxController {
   TextEditingController textEditingController = TextEditingController();
-  RxBool _isError = false.obs;
+  bool _isError = false;
 
-  bool get isError => _isError.value;
-  set isError(bool value){
-    _isError.value = value;
+  bool get isError => _isError;
+
+  set isError(bool value) {
+    _isError = value;
     update();
   }
 
@@ -32,15 +33,14 @@ class FolderNameTextFieldController extends GetxController{
     update();
   }
 
-  String? getErrorText(){
-    if(textEditingController.text == ''){
-      _isError = false.obs;
+  String? getErrorText() {
+    if (textEditingController.text == '') {
+      _isError = false;
       return '폴더 이름을 입력해주세요.';
-    }else{
-      if(_isError.value == true){
+    } else {
+      if (_isError == true) {
         return '이미 같은 이름의 폴더가 있습니다.';
-      }
-      else{
+      } else {
         return null;
       }
     }

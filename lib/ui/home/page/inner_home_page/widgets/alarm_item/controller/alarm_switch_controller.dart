@@ -8,7 +8,7 @@ import 'package:new_alarm_clock/ui/home/controller/alarm_list_controller.dart';
 import 'package:new_alarm_clock/utils/enum.dart';
 
 class AlarmSwitchController extends GetxController {
-  RxMap<int, bool> switchBoolMap = Map<int, bool>().obs;
+  Map<int, bool> switchBoolMap = Map<int, bool>();
   AlarmProvider _alarmProvider = AlarmProvider();
 
   void setSwitchBool(int id) async {

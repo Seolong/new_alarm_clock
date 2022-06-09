@@ -4,31 +4,32 @@ import 'package:new_alarm_clock/data/model/alarm_folder_data.dart';
 import 'package:new_alarm_clock/data/shared_preferences/settings_shared_preferences.dart';
 import 'package:new_alarm_clock/ui/home/controller/alarm_list_controller.dart';
 
-class FolderListController extends GetxController{
+class FolderListController extends GetxController {
   AlarmProvider _alarmProvider = AlarmProvider();
-  RxList<AlarmFolderData> folderList = RxList<AlarmFolderData>();
-  SettingsSharedPreferences settingsSharedPreferences = SettingsSharedPreferences();
-  RxString _currentFolderName = '전체 알람'.obs;
-  RxString _mainFolderName = '전체 알람'.obs;
+  List<AlarmFolderData> folderList = [];
+  SettingsSharedPreferences settingsSharedPreferences =
+      SettingsSharedPreferences();
+  String _currentFolderName = '전체 알람';
+  String _mainFolderName = '전체 알람';
 
-  set currentFolderName(String name){
-    _currentFolderName = name.obs;
+  set currentFolderName(String name) {
+    _currentFolderName = name;
     update();
   }
 
-  String get currentFolderName => _currentFolderName.value;
+  String get currentFolderName => _currentFolderName;
 
-  set mainFolderName(String name){
-    _mainFolderName = name.obs;
+  set mainFolderName(String name) {
+    _mainFolderName = name;
     update();
   }
 
-  String get mainFolderName => _mainFolderName.value;
+  String get mainFolderName => _mainFolderName;
 
   @override
   Future<void> onInit() async {
     var varFolderList = await _alarmProvider.getAllAlarmFolders();
-    folderList = varFolderList.obs;
+    folderList = varFolderList;
     mainFolderName = await settingsSharedPreferences.getMainFolderName();
     _currentFolderName = _mainFolderName;
 
@@ -36,28 +37,29 @@ class FolderListController extends GetxController{
     super.onInit();
   }
 
-  void inputFolder(AlarmFolderData alarmFolderData) async{
+  void inputFolder(AlarmFolderData alarmFolderData) async {
     await _alarmProvider.insertAlarmFolder(alarmFolderData);
     //List에 없을 때만 List에 넣는다
-    if(!folderList.any((e)=>e.name == alarmFolderData.name)){
+    if (!folderList.any((e) => e.name == alarmFolderData.name)) {
       folderList.add(alarmFolderData);
     }
     update();
   }
 
-  void deleteFolder(String name){
+  void deleteFolder(String name) {
     _alarmProvider.deleteAlarmFolder(name);
     folderList.removeWhere((element) => element.name == name);
-    Get.find<AlarmListController>().alarmList.removeWhere((element)
-      => element.folderName == name);
+    Get.find<AlarmListController>()
+        .alarmList
+        .removeWhere((element) => element.folderName == name);
     currentFolderName = '전체 알람';
     update();
   }
 
-  void updateAlarm(AlarmFolderData alarmFolderData){
+  void updateAlarm(AlarmFolderData alarmFolderData) {
     _alarmProvider.updateAlarmFolder(alarmFolderData);
-    folderList[folderList.indexWhere((element) =>
-      alarmFolderData.name == element.name)] = alarmFolderData;
+    folderList[folderList.indexWhere(
+        (element) => alarmFolderData.name == element.name)] = alarmFolderData;
     update();
   }
 }

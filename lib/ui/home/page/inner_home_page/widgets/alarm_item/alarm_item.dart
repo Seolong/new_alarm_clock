@@ -1,12 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:new_alarm_clock/data/database/alarm_provider.dart';
 import 'package:new_alarm_clock/data/model/alarm_data.dart';
 import 'package:new_alarm_clock/routes/app_routes.dart';
-import 'package:new_alarm_clock/ui/global/alarm_item/controller/alarm_skip_button_controller.dart';
-import 'package:new_alarm_clock/ui/global/alarm_item/controller/alarm_switch_controller.dart';
-import 'package:new_alarm_clock/ui/global/alarm_item/controller/selected_alarm_controller.dart';
 import 'package:new_alarm_clock/ui/global/auto_size_text.dart';
 import 'package:new_alarm_clock/ui/global/convenience_method.dart';
 import 'package:new_alarm_clock/ui/home/controller/alarm_list_controller.dart';
@@ -15,18 +11,20 @@ import 'package:new_alarm_clock/utils/values/color_value.dart';
 import 'package:new_alarm_clock/utils/values/size_value.dart';
 import 'package:get/get.dart';
 import 'package:new_alarm_clock/utils/values/string_value.dart';
+import 'controller/alarm_switch_controller.dart';
+import 'controller/selected_alarm_controller.dart';
 import 'widgets/alarm_item_text.dart';
 import 'package:intl/intl.dart';
 
 class AlarmItem extends StatelessWidget {
-  Color _skipButtonColor;
+  Color _swapButtonColor;
   late int _id;
   int index;
   AlarmProvider alarmProvider = AlarmProvider();
 
   AlarmItem({required int id, required Key key, required this.index})
       : _id = id,
-        _skipButtonColor = Colors.grey,
+        _swapButtonColor = Colors.grey,
         super(key: key);
 
   String convertAlarmDateTime(AlarmData alarmData) {
@@ -84,7 +82,6 @@ class AlarmItem extends StatelessWidget {
     BorderRadius _alarmBorder = BorderRadius.all(Radius.circular(10));
     final switchCont = Get.put(AlarmSwitchController());
     Get.put(SelectedAlarmController());
-    Get.put(AlarmSkipButtonController());
     Get.put(AlarmListController());
 
     //나중에 LongPress했을 때 회색도 추가
@@ -336,13 +333,12 @@ class AlarmItem extends StatelessWidget {
                                 //체크/미체크 표시하기기
                                 ReorderableDragStartListener(
                                   index: index,
-                                  child: GetBuilder<AlarmSkipButtonController>(
-                                    builder: (_) => Icon(
+                                  child: Icon(
                                       Icons.swap_vert_rounded,
                                       size: 37.5,
-                                      color: _skipButtonColor,
+                                      color: _swapButtonColor,
                                     ),
-                                  ),
+
                                 ),
                               ],
                             );

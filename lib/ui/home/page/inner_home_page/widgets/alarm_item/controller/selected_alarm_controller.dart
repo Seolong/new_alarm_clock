@@ -5,8 +5,8 @@ import 'package:get/get.dart';
 import 'package:new_alarm_clock/utils/values/color_value.dart';
 
 class SelectedAlarmController extends GetxController{
-  RxMap<int, bool> selectedMap = Map<int, bool>().obs;
-  RxMap<int, Color> colorMap = Map<int, Color>().obs;
+  Map<int, bool> selectedMap = Map<int, bool>();
+  Map<int, Color> colorMap = Map<int, Color>();
   RxBool _isSelectedMode = false.obs;
 
   set isSelectedMode(bool value){
