@@ -1,15 +1,13 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:new_alarm_clock/data/database/alarm_provider.dart';
-import 'package:new_alarm_clock/ui/home/controller/alarm_list_controller.dart';
 import 'package:new_alarm_clock/ui/home/controller/folder_list_controller.dart';
-import 'package:new_alarm_clock/ui/home/page/inner_home_page/widgets/alarm_item/alarm_item.dart';
+import 'package:new_alarm_clock/ui/home/page/inner_home_page/widgets/alarm_list_view.dart';
 import 'package:new_alarm_clock/utils/values/color_value.dart';
 import 'package:new_alarm_clock/utils/values/my_font_family.dart';
 import 'package:get/get.dart';
 
 class InnerHomePage extends StatelessWidget {
-  AlarmProvider alarmProvider = AlarmProvider();
+  final AlarmProvider alarmProvider = AlarmProvider();
 
   InnerHomePage() {
     alarmProvider.initializeDatabase();
@@ -17,8 +15,6 @@ class InnerHomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Get.put(AlarmListController());
-    var folderListController = Get.put(FolderListController());
     return Scaffold(
       backgroundColor: ColorValue.mainBackground,
       extendBody: true,
@@ -26,7 +22,7 @@ class InnerHomePage extends StatelessWidget {
         children: [
           Container(
             height: 65,
-            padding: EdgeInsets.fromLTRB(22.5, 15, 20, 12.5),
+            padding: const EdgeInsets.fromLTRB(22.5, 15, 20, 12.5),
             alignment: Alignment.centerLeft,
             //색 지정 안 하면 알람 스크롤할 때 알람이 비쳐보이더라
             decoration: BoxDecoration(
@@ -51,42 +47,7 @@ class InnerHomePage extends StatelessWidget {
               ),
             ),
           ),
-          Expanded(child: GetBuilder<AlarmListController>(builder: (_) {
-            return ReorderableListView.builder(
-              buildDefaultDragHandles: false,
-              shrinkWrap: true,
-              padding: EdgeInsets.fromLTRB(10, 15, 10, 10),
-              itemCount: _.alarmList.length + 1,
-              onReorder: (int oldIndex, int newIndex) { _.reorderItem(oldIndex, newIndex); },
-              itemBuilder: (BuildContext context, int index) {
-                if (index != _.alarmList.length) {
-                  if(folderListController.currentFolderName == '전체 알람'){
-                    return AlarmItem(
-                      id: _.alarmList[index].id,
-                      key: ValueKey(_.alarmList[index].id),
-                      index: index,
-                    );
-                  }
-                  if (_.alarmList[index].folderName == folderListController.currentFolderName) {
-                    return AlarmItem(
-                      id: _.alarmList[index].id,
-                      key: ValueKey(_.alarmList[index].id),
-                      index: index,
-                    );
-                  }
-                  //return Container(key: ValueKey(-index),);
-                  //이게 빈 컨테이너보다 아주 근소하게 빠르대
-                  return SizedBox.shrink(key: GlobalKey());
-                }
-                else{
-                  return Container(
-                    key: GlobalKey(),
-                    height: 75,
-                  );
-                }
-              },
-            );
-          })),
+          Expanded(child: AlarmListView()),
         ],
       ),
     );
