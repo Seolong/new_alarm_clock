@@ -30,7 +30,7 @@ class Home extends StatelessWidget{
 
 class HomePage extends StatelessWidget {
   final SettingsSharedPreferences _settingsSharedPreferences = SettingsSharedPreferences();
-  MusicHandler _musicHandler = MusicHandler();
+  final MusicHandler _musicHandler = MusicHandler();
 
   @override
   Widget build(BuildContext context) {
