@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:new_alarm_clock/ui/choice_day/controller/month_repaet_day_controller.dart';
+import 'package:new_alarm_clock/ui/choice_day/controller/month_repeat_day_controller.dart';
 import 'package:new_alarm_clock/ui/choice_day/widget/repeat_container.dart';
 import 'package:new_alarm_clock/ui/choice_day/widget/repeat_container/widget_month/choice_day_button.dart';
 import 'package:new_alarm_clock/utils/values/size_value.dart';

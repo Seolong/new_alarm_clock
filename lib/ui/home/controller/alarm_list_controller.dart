@@ -24,8 +24,7 @@ class AlarmListController extends GetxController {
   void onInit() async {
     alarmProvider.initializeDatabase();
     alarmFutureList = alarmProvider.getAllAlarms();
-    List<AlarmData> varAlarmList = await alarmFutureList;
-    alarmList = varAlarmList.obs;
+    alarmList = await alarmFutureList;
     if (appState == 'main') {
       //자꾸 alarmalarm에서 초기화해서 날짜 한번 더 밀어버려서 만듦
       for (AlarmData alarmData in alarmList) {
@@ -78,10 +77,30 @@ class AlarmListController extends GetxController {
   void inputAlarm(AlarmData alarmData) async {
     await alarmProvider.insertAlarm(alarmData);
     AlarmScheduler().newShot(alarmData.alarmDateTime, alarmData.id);
+    String alignValue =  await _settingsSharedPreferences.getAlignValue();
     //List에 없을 때만 List에 넣는다
-    if (!alarmList.any((e) => e.id == alarmData.id)) {
-      alarmList.add(alarmData);
+    if (alignValue == _settingsSharedPreferences.alignBySetting) {
+      if (!alarmList.any((e) => e.id == alarmData.id)) {
+        alarmList.add(alarmData);
+      }
     }
+    else {
+      if (alarmList.any((e) => e.id == alarmData.id)) {
+        return;
+      }
+      int i;
+      for(i=0; i<alarmList.length; i++){
+        if (alarmData.alarmDateTime.isBefore(alarmList[i].alarmDateTime)
+        || alarmData.alarmDateTime.isAtSameMomentAs(alarmList[i].alarmDateTime)) {
+          alarmList.insert(i, alarmData);
+          break;
+        }
+      }
+      if(i>=alarmList.length){
+        alarmList.add(alarmData);
+      }
+    }
+
     update();
   }
 

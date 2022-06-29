@@ -3,77 +3,117 @@ import 'package:new_alarm_clock/ui/choice_day/controller/start_end_day_controlle
 import 'package:new_alarm_clock/utils/values/color_value.dart';
 import 'package:new_alarm_clock/utils/values/my_font_family.dart';
 import 'package:new_alarm_clock/utils/values/size_value.dart';
-import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import 'package:get/get.dart';
+import 'package:table_calendar/table_calendar.dart';
 
 class OneAlarmContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var startEndDayController = Get.put(StartEndDayController());
-    return Container(
-      height: Get.height * 3 / 4,
-      child: SfDateRangePicker(
-        headerHeight: SizeValue.oneAlarmCalendarTitleHeight,
-        minDate: DateTime(2000),
-        maxDate: DateTime(2100),
-        initialSelectedDate: startEndDayController.start['dateTime'],
-        initialDisplayDate: startEndDayController.start['dateTime'],
-        enablePastDates: false,
-        onSelectionChanged: (DateRangePickerSelectionChangedArgs args) {
-          if (args.value is DateTime) {
-            final DateTime selectedDate = args.value;
-            startEndDayController.setStart(selectedDate);
-            print(startEndDayController.start);
-          }
-        },
-        selectionMode: DateRangePickerSelectionMode.single,
-        monthCellStyle: DateRangePickerMonthCellStyle(
-          textStyle: TextStyle(
-              color: Colors.black,
-              fontFamily: MyFontFamily.mainFontFamily,
-              fontSize: SizeValue.oneAlarmCalendarCellTextSize,
-              //fontWeight: FontWeight.bold
-          ),
-          todayTextStyle: TextStyle(
-              color: Colors.black,
-              fontFamily: MyFontFamily.mainFontFamily,
-              fontSize: SizeValue.oneAlarmCalendarCellTextSize,
-              //fontWeight: FontWeight.bold
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(25.0),
+          child: Container(
+            height: 500,
+            width: 400,
+            padding: EdgeInsets.all(15),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(7.5),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black26,
+                  spreadRadius: 0,
+                  blurRadius: 10,
+                  offset: Offset(0, 5), // changes position of shadow
+                )
+              ],
+            ),
+            child: GetBuilder<StartEndDayController>(builder: (context) {
+              return TableCalendar(
+                focusedDay: DateTime.now()
+                        .isAfter(startEndDayController.start['dateTime'])
+                    ? DateTime.now()
+                    : startEndDayController.start['dateTime'],
+                currentDay: DateTime.now()
+                        .isAfter(startEndDayController.start['dateTime'])
+                    ? DateTime.now()
+                    : startEndDayController.start['dateTime'],
+                firstDay: DateTime.now(),
+                lastDay: DateTime(2050, 12, 31),
+                //onHeaderTapped: _onHeaderTapped,
+                headerStyle: HeaderStyle(
+                  headerMargin:
+                      EdgeInsets.only(left: 5, top: 5, right: 5, bottom: 5),
+                  titleCentered: true,
+                  formatButtonVisible: false,
+                  leftChevronIcon: Container(
+                    decoration: BoxDecoration(
+                        color: Colors.green,
+                        shape: BoxShape.circle),
+                    height: 30,
+                    width: 30,
+                    child: Icon(
+                      Icons.keyboard_arrow_left,
+                      color: Colors.white,
+                      size: ButtonSize.small,
+                    ),
+                  ),
+                  rightChevronIcon: Container(
+                    decoration: BoxDecoration(
+                        color: Colors.green,
+                        shape: BoxShape.circle),
+                    height: 30,
+                    width: 30,
+                    child: Icon(
+                      Icons.keyboard_arrow_right,
+                      color: Colors.white,
+                      size: ButtonSize.small,
+                    ),
+                  ),
+                  titleTextStyle: const TextStyle(
+                      fontSize: 20.0,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.lightBlueAccent),
+                ),
+                onHeaderTapped: (DateTime focusedDay) {},
+                daysOfWeekStyle: DaysOfWeekStyle(
+                  weekdayStyle: TextStyle(
+                    color: Colors.green,
+                    fontWeight: FontWeight.bold
+                  ),
+                  weekendStyle: TextStyle(
+                      color: Colors.green,
+                      fontWeight: FontWeight.bold
+                  )
+                ),
+                daysOfWeekHeight: 52,
+                calendarStyle: CalendarStyle(
+                    //selectedDecoration:
+                  todayDecoration: BoxDecoration(
+                    color: Color.fromRGBO(62, 196, 143, 100),
+                    shape: BoxShape.circle,
+                    //borderRadius: BorderRadius.circular(100)
+                  )
+                    ),
+                locale: 'ko-KR',
+                //events: _events,
+                //holidays: _holidays,
+                //availableCalendarFormats: _availableCalendarFormats,
+                //calendarController: _calendarController,
+                //builders: calendarBuilder(),
+                onDaySelected: (selectedDay, focusedDay) {
+                  startEndDayController.setStart(selectedDay);
+                },
+                //pageJumpingEnabled: true,
+                // onVisibleDaysChanged: _onVisibleDaysChanged,
+                // onCalendarCreated: _onCalendarCreated,
+              );
+            }),
           ),
         ),
-        startRangeSelectionColor: Colors.white,
-        endRangeSelectionColor: Colors.white,
-        rangeSelectionColor: Colors.white,
-        selectionTextStyle: TextStyle(
-            color: Colors.white,
-            fontFamily: MyFontFamily.mainFontFamily,
-            fontSize: SizeValue.oneAlarmCalendarCellTextSize,
-            fontWeight: FontWeight.bold),
-        todayHighlightColor: ColorValue.todayColor,
-        selectionColor: ColorValue.calendarSelection,
-        // backgroundColor: Colors.deepPurple,
-        //allowViewNavigation: false,
-        // view:  DateRangePickerView.month,
-        //11월 2021  이 부분
-        headerStyle: DateRangePickerHeaderStyle(
-            backgroundColor: ColorValue.calendarTitleBar,
-            textAlign: TextAlign.center,
-            textStyle: TextStyle(
-              fontStyle: FontStyle.normal,
-              fontSize: SizeValue.oneAlarmCalendarTitleTextSize,
-              letterSpacing: 2,
-              fontFamily: MyFontFamily.mainFontFamily,
-              fontWeight: FontWeight.bold
-            )),
-        monthViewSettings: DateRangePickerMonthViewSettings(
-            enableSwipeSelection: false,
-            //일 월 화 수 목 금 토  이 부분
-            viewHeaderStyle: DateRangePickerViewHeaderStyle(
-                textStyle: TextStyle(
-                    fontFamily: MyFontFamily.mainFontFamily,
-                    color: Colors.black,
-                    fontSize: SizeValue.oneAlarmCalendarCellTextSize - 4))),
-      ),
+      ],
     );
   }
 }

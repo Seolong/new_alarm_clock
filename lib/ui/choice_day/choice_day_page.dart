@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:new_alarm_clock/ui/add_alarm/controller/day_of_week_controller.dart';
 import 'package:new_alarm_clock/ui/choice_day/controller/interval_text_field_controller.dart';
-import 'package:new_alarm_clock/ui/choice_day/controller/month_repaet_day_controller.dart';
+import 'package:new_alarm_clock/ui/choice_day/controller/month_repeat_day_controller.dart';
 import 'package:new_alarm_clock/ui/choice_day/controller/start_end_day_controller.dart';
 import 'package:new_alarm_clock/ui/choice_day/widget/one_alarm_container.dart';
 import 'package:new_alarm_clock/ui/choice_day/widget/repeat_tab_bar.dart';

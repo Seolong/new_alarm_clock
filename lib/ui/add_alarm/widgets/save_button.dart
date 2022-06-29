@@ -11,7 +11,7 @@ import 'package:new_alarm_clock/ui/alarm_detail_page/repeat/controller/repeat_ra
 import 'package:new_alarm_clock/ui/alarm_detail_page/ring/controller/ring_radio_list_controller.dart';
 import 'package:new_alarm_clock/ui/alarm_detail_page/vibration/controller/vibration_radio_list_controller.dart';
 import 'package:new_alarm_clock/ui/choice_day/controller/interval_text_field_controller.dart';
-import 'package:new_alarm_clock/ui/choice_day/controller/month_repaet_day_controller.dart';
+import 'package:new_alarm_clock/ui/choice_day/controller/month_repeat_day_controller.dart';
 import 'package:new_alarm_clock/ui/choice_day/controller/repeat_mode_controller.dart';
 import 'package:new_alarm_clock/ui/choice_day/controller/start_end_day_controller.dart';
 import 'package:new_alarm_clock/ui/global/auto_size_text.dart';

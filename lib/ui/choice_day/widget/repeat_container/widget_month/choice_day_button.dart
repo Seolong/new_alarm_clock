@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:new_alarm_clock/ui/choice_day/controller/month_repaet_day_controller.dart';
+import 'package:jiffy/jiffy.dart';
+import 'package:new_alarm_clock/ui/choice_day/controller/month_repeat_day_controller.dart';
+import 'package:new_alarm_clock/ui/choice_day/controller/start_end_day_controller.dart';
 import 'package:new_alarm_clock/ui/global/auto_size_text.dart';
 import 'package:new_alarm_clock/utils/values/color_value.dart';
 import 'package:new_alarm_clock/utils/values/size_value.dart';
@@ -8,6 +10,7 @@ import 'package:get/get.dart';
 class ChoiceDayButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    var startEndDayController = Get.put(StartEndDayController());
     return InkWell(
       onTap: () {
         //GridView 높이에 wrap_content하려 했는데
@@ -73,6 +76,11 @@ class ChoiceDayButton extends StatelessWidget {
                               print(index + 1);
                               _.monthRepeatDay =
                                   index + 1;
+                              DateTime startDay = startEndDayController.start['dateTime'];
+                              if(startDay.month == DateTime.now().month){
+                                startEndDayController.setStart(
+                                    Jiffy(startDay).add(months: 1).dateTime);
+                              }
                               Get.back();
                             },
                             child: Container(

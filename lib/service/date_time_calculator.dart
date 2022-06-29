@@ -126,6 +126,12 @@ class DateTimeCalculator {
   }
 
   DateTime _getStartNearMonthDay(DateTime currentStartDateTime, int monthDay){
+    if(monthDay == 29){
+      if(currentStartDateTime.isBefore(DateTime.now())){
+        return Jiffy(currentStartDateTime).add(months: 1).endOf(Units.MONTH).dateTime;
+      }
+      return Jiffy(currentStartDateTime).endOf(Units.MONTH).dateTime;
+    }
     if(currentStartDateTime.day < monthDay){
       int difference = monthDay - currentStartDateTime.day;
       return currentStartDateTime.add(Duration(days: difference));

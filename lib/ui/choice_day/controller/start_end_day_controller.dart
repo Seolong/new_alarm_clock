@@ -4,7 +4,7 @@ import 'package:new_alarm_clock/service/date_time_calculator.dart';
 import 'package:new_alarm_clock/ui/add_alarm/controller/day_of_week_controller.dart';
 import 'package:new_alarm_clock/ui/choice_day/controller/year_repeat_day_controller.dart';
 import 'package:new_alarm_clock/utils/enum.dart';
-import 'package:new_alarm_clock/ui/choice_day/controller/month_repaet_day_controller.dart';
+import 'package:new_alarm_clock/ui/choice_day/controller/month_repeat_day_controller.dart';
 
 class StartEndDayController extends GetxController {
   DateTime? endDateTime;

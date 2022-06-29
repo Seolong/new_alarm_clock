@@ -18,7 +18,7 @@ import 'package:new_alarm_clock/ui/alarm_detail_page/repeat/controller/repeat_ra
 import 'package:new_alarm_clock/ui/alarm_detail_page/ring/controller/ring_radio_list_controller.dart';
 import 'package:new_alarm_clock/ui/alarm_detail_page/vibration/controller/vibration_radio_list_controller.dart';
 import 'package:new_alarm_clock/ui/choice_day/controller/interval_text_field_controller.dart';
-import 'package:new_alarm_clock/ui/choice_day/controller/month_repaet_day_controller.dart';
+import 'package:new_alarm_clock/ui/choice_day/controller/month_repeat_day_controller.dart';
 import 'package:new_alarm_clock/ui/choice_day/controller/repeat_mode_controller.dart';
 import 'package:new_alarm_clock/ui/choice_day/controller/start_end_day_controller.dart';
 import 'package:new_alarm_clock/ui/choice_day/controller/year_repeat_day_controller.dart';
@@ -132,7 +132,7 @@ class AddAlarmPage extends StatelessWidget {
     Get.put(VibrationRadioListController());
     Get.put(RepeatRadioListController());
     Get.put(IntervalTextFieldController());
-    Get.put(MonthRepeatDayController());
+    final monthRepeatDayController = Get.put(MonthRepeatDayController());
     Get.put(YearRepeatDayController());
     Get.put(DayOffListController());
 
@@ -287,12 +287,23 @@ class AddAlarmPage extends StatelessWidget {
                           GetBuilder<RepeatModeController>(builder: (_) {
                             return IconButton(
                               onPressed: () {
-                                if (mode == StringValue.editMode && isRepeat()) {
+                                if(repeatModeController.repeatMode == RepeatMode.month){
+                                  // 예를 들어 오늘이 6월 28일인데
+                                  // 설정은 13일로 하면
+                                  // 다음 알람일이 6월 13일이 돼버린다
+                                  // 그거 해결
+                                  DateTime alarmTime = alarmData.alarmDateTime;
+                                  alarmTime = DateTime(alarmTime.year, alarmTime.month,
+                                      monthRepeatDayController.monthRepeatDay!,
+                                    alarmTime.hour, alarmTime.minute);
+                                  startEndDayController.setStart(alarmTime);
+                                }
+                                else if (mode == StringValue.editMode && isRepeat()) {
                                   startEndDayController.setStart(alarmData.alarmDateTime);
                                 }
                               },
                               icon: Icon(Icons.refresh_rounded),
-                              tooltip: '초기화',
+                              //tooltip: '초기화',
                               color: (mode == StringValue.editMode && isRepeat())
                                       ? Colors.black45
                                       : Colors.transparent,
@@ -331,7 +342,7 @@ class AddAlarmPage extends StatelessWidget {
                                 }
                               },
                               icon: Icon(Icons.arrow_forward_ios),
-                              tooltip: '이번 알람 건너뛰기',
+                              //tooltip: '이번 알람 건너뛰기',
                               color: (mode == StringValue.editMode && isRepeat())
                                       ? Colors.black45
                                       : Colors.transparent,

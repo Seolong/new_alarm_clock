@@ -43,6 +43,7 @@ dependencies:
   jiffy: ^5.0.0
   wakelock: ^0.6.1+2
   restart_app: ^1.1.0
+  table_calendar: ^3.0.6
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -61,8 +62,6 @@ flutter:
   assets:
     - assets/audio/old_telephone.mp3
     - assets/audio/alarm_clock.mp3
-    - assets/images/alarm_black_24dp.svg
-    - assets/images/round_alarm_black_18.png
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
