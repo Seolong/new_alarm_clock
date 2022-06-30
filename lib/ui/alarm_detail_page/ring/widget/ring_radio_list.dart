@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:new_alarm_clock/data/model/music_path_data.dart';
 import 'package:new_alarm_clock/ui/alarm_detail_page/ring/controller/ring_radio_list_controller.dart';
 import 'package:get/get.dart';
-import 'package:new_alarm_clock/utils/values/color_value.dart';
 
 class RingRadioList extends StatelessWidget {
   @override
@@ -16,7 +15,7 @@ class RingRadioList extends StatelessWidget {
             return GetBuilder<RingRadioListController>(builder: (_) {
               return ListView.builder(
                 shrinkWrap: true,
-                padding: EdgeInsets.fromLTRB(10, 15, 10, 10),
+                padding: EdgeInsets.fromLTRB(0, 5, 0, 10),
                 itemCount: _.pathList.length + 1,
                 itemBuilder: (BuildContext context, int index) {
                   if (index != _.pathList.length) {
@@ -38,19 +37,17 @@ class RingRadioList extends StatelessWidget {
                             _.selectedMusicPath = value!;
                           }
                         },
-                      activeColor: ColorValue.activeSwitch,
+                      activeColor: _.power? Colors.orange: Colors.grey,
                     );
                   } else {
-                    return Container(
-                      height: 75,
-                    );
+                    return Container();
                   }
                 },
               );
             });
           }
           return Center(
-            child: Container(child: Text('d')),
+            child: Container(child: Text('Error!')),
           );
         });
   }

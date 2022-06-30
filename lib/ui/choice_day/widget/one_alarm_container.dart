@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:new_alarm_clock/ui/choice_day/controller/start_end_day_controller.dart';
-import 'package:new_alarm_clock/utils/values/color_value.dart';
-import 'package:new_alarm_clock/utils/values/my_font_family.dart';
 import 'package:new_alarm_clock/utils/values/size_value.dart';
 import 'package:get/get.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -23,7 +21,7 @@ class OneAlarmContainer extends StatelessWidget {
               borderRadius: BorderRadius.circular(7.5),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black26,
+                  color: Color.fromRGBO(175, 175, 175, 100),
                   spreadRadius: 0,
                   blurRadius: 10,
                   offset: Offset(0, 5), // changes position of shadow
