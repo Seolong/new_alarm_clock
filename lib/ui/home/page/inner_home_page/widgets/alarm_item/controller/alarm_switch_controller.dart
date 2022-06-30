@@ -45,7 +45,7 @@ class AlarmSwitchController extends GetxController {
             thisAlarmData.alarmDateTime = DateTimeCalculator().getStartNearDay(
                 thisAlarmData.alarmType, thisAlarmData.alarmDateTime,
                 weekBool: weekBool,
-                monthDay: thisAlarmData.monthRepeatDay,
+                monthRepeatDay: thisAlarmData.monthRepeatDay,
                 yearRepeatDay: thisAlarmData.alarmDateTime);
           }
         } else{

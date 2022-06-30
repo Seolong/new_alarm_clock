@@ -49,7 +49,7 @@ class AlarmListController extends GetxController {
             alarmData.alarmDateTime = DateTimeCalculator().getStartNearDay(
                 alarmData.alarmType, alarmData.alarmDateTime,
                 weekBool: weekBool,
-                monthDay: alarmData.monthRepeatDay,
+                monthRepeatDay: alarmData.monthRepeatDay,
                 yearRepeatDay: alarmData.alarmDateTime);
           }
           updateAlarm(alarmData);

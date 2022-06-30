@@ -125,19 +125,19 @@ class DateTimeCalculator {
     }
   }
 
-  DateTime _getStartNearMonthDay(DateTime currentStartDateTime, int monthDay){
-    if(monthDay == 29){
+  DateTime _getStartNearMonthDay(DateTime currentStartDateTime, int monthRepeatDay){
+    if(monthRepeatDay == 29){
       if(currentStartDateTime.isBefore(DateTime.now())){
         return Jiffy(currentStartDateTime).add(months: 1).endOf(Units.MONTH).dateTime;
       }
       return Jiffy(currentStartDateTime).endOf(Units.MONTH).dateTime;
     }
-    if(currentStartDateTime.day < monthDay){
-      int difference = monthDay - currentStartDateTime.day;
+    if(currentStartDateTime.day < monthRepeatDay){
+      int difference = monthRepeatDay - currentStartDateTime.day;
       return currentStartDateTime.add(Duration(days: difference));
     }
-    else if(currentStartDateTime.day > monthDay){
-      int difference = currentStartDateTime.day - monthDay;
+    else if(currentStartDateTime.day > monthRepeatDay){
+      int difference = currentStartDateTime.day - monthRepeatDay;
       return currentStartDateTime.subtract(Duration(days: difference));
     }
     else{ //currentStartDateTime.day == monthDay
@@ -165,7 +165,7 @@ class DateTimeCalculator {
   }
 
   DateTime getStartNearDay(RepeatMode repeatMode, DateTime currentStartDateTime,
-  {List<bool>? weekBool, int? monthDay, DateTime? yearRepeatDay}){
+  {List<bool>? weekBool, int? monthRepeatDay, DateTime? yearRepeatDay}){
     switch(repeatMode){
       case RepeatMode.off:
         return DateTime.now();
@@ -174,7 +174,7 @@ class DateTimeCalculator {
       case RepeatMode.week:
         return _getStartNearWeekDay(currentStartDateTime, weekBool!);
       case RepeatMode.month:
-        return _getStartNearMonthDay(currentStartDateTime, monthDay!);
+        return _getStartNearMonthDay(currentStartDateTime, monthRepeatDay!);
       case RepeatMode.year:
         return _getStartNearYearDay(currentStartDateTime, yearRepeatDay!);
       default:

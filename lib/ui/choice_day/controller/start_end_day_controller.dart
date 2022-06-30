@@ -8,9 +8,12 @@ import 'package:new_alarm_clock/ui/choice_day/controller/month_repeat_day_contro
 
 class StartEndDayController extends GetxController {
   DateTime? endDateTime;
+  final String dateTime = 'dateTime';
+  final String monthDay = 'monthDay';
+  final String year = 'year';
 
   Map<String, dynamic> _start = {
-    'dateTime': DateTime.now(),
+    'dateTime' : DateTime.now(),
     'monthDay': '',
     'year': ''
   };
@@ -24,8 +27,8 @@ class StartEndDayController extends GetxController {
 
   @override
   void onInit() {
-    _start['monthDay'] = DateFormat('M월 d일').format(_start['dateTime']);
-    _start['year'] = DateFormat('yyyy년').format(_start['dateTime']);
+    _start[monthDay] = DateFormat('M월 d일').format(_start[dateTime]);
+    _start[year] = DateFormat('yyyy년').format(_start[dateTime]);
     super.onInit();
   }
 
@@ -33,25 +36,25 @@ class StartEndDayController extends GetxController {
 
   Map<String, dynamic> get end => _end;
 
-  void setStart(DateTime dateTime) {
-    DateTime? endTime = _end['dateTime'];
+  void setStart(DateTime startDateTime) {
+    DateTime? endTime = _end[dateTime];
     if (endTime == null ||
-        (dateTime.year <= endTime.year &&
-            dateTime.month <= endTime.month &&
-            dateTime.day <= endTime.day)) {
-      _start['dateTime'] = dateTime;
-      _start['monthDay'] = DateFormat('M월 d일').format(_start['dateTime']);
-      _start['year'] = DateFormat('yyyy년').format(_start['dateTime']);
+        (startDateTime.year <= endTime.year &&
+            startDateTime.month <= endTime.month &&
+            startDateTime.day <= endTime.day)) {
+      _start[dateTime] = startDateTime;
+      _start[monthDay] = DateFormat('M월 d일').format(_start[dateTime]);
+      _start[year] = DateFormat('yyyy년').format(_start[dateTime]);
       update();
     }
   }
 
-  void setEnd(DateTime? dateTime) {
-    _end['dateTime'] = dateTime;
-    _end['monthDay'] =
-        dateTime == null ? '' : DateFormat('M월 d일').format(_end['dateTime']);
-    _end['year'] =
-        dateTime == null ? '' : DateFormat('yyyy년').format(_end['dateTime']);
+  void setEnd(DateTime? endDateTime) {
+    _end[dateTime] = endDateTime;
+    _end[monthDay] =
+        endDateTime == null ? '' : DateFormat('M월 d일').format(_end[dateTime]);
+    _end[year] =
+        endDateTime == null ? '' : DateFormat('yyyy년').format(_end[dateTime]);
     update();
   }
 
@@ -73,18 +76,18 @@ class StartEndDayController extends GetxController {
       weekBool
           .add(Get.find<DayOfWeekController>().dayButtonStateMap[DayWeek.Sat]!);
       setStart(dateTimeCalculator
-          .getStartNearDay(repeatMode, _start['dateTime'], weekBool: weekBool));
+          .getStartNearDay(repeatMode, _start[dateTime], weekBool: weekBool));
     } else if (repeatMode == RepeatMode.month) {
       setStart(dateTimeCalculator.getStartNearDay(
-          repeatMode, _start['dateTime'],
-          monthDay: Get.find<MonthRepeatDayController>().monthRepeatDay!));
+          repeatMode, _start[dateTime],
+          monthRepeatDay: Get.find<MonthRepeatDayController>().monthRepeatDay!));
     } else if (repeatMode == RepeatMode.year) {
       setStart(dateTimeCalculator.getStartNearDay(
-          repeatMode, _start['dateTime'],
+          repeatMode, _start[dateTime],
           yearRepeatDay: Get.find<YearRepeatDayController>().yearRepeatDay));
     } else {
       setStart(
-          dateTimeCalculator.getStartNearDay(repeatMode, _start['dateTime']));
+          dateTimeCalculator.getStartNearDay(repeatMode, _start[dateTime]));
     }
   }
 }

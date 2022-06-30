@@ -296,6 +296,16 @@ class AddAlarmPage extends StatelessWidget {
                                   alarmTime = DateTime(alarmTime.year, alarmTime.month,
                                       monthRepeatDayController.monthRepeatDay!,
                                     alarmTime.hour, alarmTime.minute);
+                                  if(alarmTime.isBefore(DateTime.now())){
+                                    DateTimeCalculator dateTimeCalculator = DateTimeCalculator();
+                                    if(monthRepeatDayController.monthRepeatDay!
+                                      == monthRepeatDayController.lastDay){
+                                      alarmTime = dateTimeCalculator.addDateTime(RepeatMode.month, alarmTime, 1, lastDay: true);
+                                    }
+                                    else{
+                                      alarmTime = dateTimeCalculator.addDateTime(RepeatMode.month, alarmTime, 1, lastDay: false);
+                                    }
+                                  }
                                   startEndDayController.setStart(alarmTime);
                                 }
                                 else if (mode == StringValue.editMode && isRepeat()) {

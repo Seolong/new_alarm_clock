@@ -135,6 +135,36 @@ class SaveButton extends StatelessWidget {
                 _alarmProvider.updateAlarmWeekData(alarmWeekRepeatData);
               }
             }
+
+            // editmode일 때 다음 알람이 now보다 더 전이면
+            // 저장 바로 누르면 알람 바로 울리는 거 해결
+            // 몇달 전? 이런 건 테스트 안 해봄
+            if(alarmData.alarmType != RepeatMode.off && alarmData.alarmType != RepeatMode.single){
+              List<bool> weekBool = [];
+              if (alarmData.alarmType == RepeatMode.week) {
+                weekBool.add(alarmWeekRepeatData.sunday);
+                weekBool.add(alarmWeekRepeatData.monday);
+                weekBool.add(alarmWeekRepeatData.tuesday);
+                weekBool.add(alarmWeekRepeatData.wednesday);
+                weekBool.add(alarmWeekRepeatData.thursday);
+                weekBool.add(alarmWeekRepeatData.friday);
+                weekBool.add(alarmWeekRepeatData.saturday);
+              }
+              while (alarmData.alarmDateTime.isBefore(DateTime.now())) {
+                alarmData.alarmDateTime =
+                    alarmData.alarmDateTime.add(Duration(days: 1));
+                alarmData.alarmDateTime = DateTimeCalculator().getStartNearDay(
+                    alarmData.alarmType, alarmData.alarmDateTime,
+                    weekBool: weekBool,
+                    monthRepeatDay: alarmData.monthRepeatDay,
+                    yearRepeatDay: alarmData.alarmDateTime);
+              }
+            } else{
+              while(alarmData.alarmDateTime.isBefore(DateTime.now())){
+                alarmData.alarmDateTime =
+                    alarmData.alarmDateTime.add(Duration(days: 1));
+              }
+            }
           } else {
             print('error in 저장 button in AddAlarmPage');
           }
