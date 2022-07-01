@@ -95,64 +95,36 @@ class RingPage extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 7.5),
                 child: Divider(thickness: 2.5,),
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 35, vertical: 25),
-                child: Container(
-                  padding: EdgeInsets.only(top: 20),
-                  height: Get.height/5*3,
-                    decoration: BoxDecoration(
-                      color: ColorValue.defaultBackground,
-                      borderRadius: BorderRadius.circular(7.5),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Color.fromRGBO(175, 175, 175, 100),
-                          spreadRadius: 0,
-                          blurRadius: 10,
-                          offset: Offset(0, 5), // changes position of shadow
-                        )
-                      ],
-                    ),
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-                        child: Container(
-                            height: 55,
-                            child: Row(
-                              children: [
-                                //note icon
-                                Expanded(
-                                  child: Padding(
-                                    padding:
-                                        const EdgeInsets.fromLTRB(5, 0, 0, 0),
-                                    child: FittedBox(
-                                      fit: BoxFit.scaleDown,
-                                      child: ConstrainedBox(
-                                        constraints: BoxConstraints(
-                                            minWidth: 1, minHeight: 1),
-                                        child: GetBuilder<RingRadioListController>(
-                                          builder: (_) {
-                                            return Icon(
-                                              Icons.music_note,
-                                              size: 1150,
-                                              color: _.power? Colors.green: Colors.grey,
-                                            );
-                                          }
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                //음악 목록 text
-                                Expanded(
-                                  flex: 6,
-                                  child: Padding(
-                                    padding:
-                                        const EdgeInsets.fromLTRB(0, 10, 0, 10),
-                                    child: Container(
-                                      height: 30,
-                                      padding: EdgeInsets.only(left: 10),
-                                      alignment: Alignment.bottomLeft,
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 35, vertical: 25),
+                  child: Container(
+                    padding: EdgeInsets.only(top: 20),
+                      decoration: BoxDecoration(
+                        color: ColorValue.defaultBackground,
+                        borderRadius: BorderRadius.circular(7.5),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Color.fromRGBO(175, 175, 175, 100),
+                            spreadRadius: 0,
+                            blurRadius: 10,
+                            offset: Offset(0, 5), // changes position of shadow
+                          )
+                        ],
+                      ),
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                          child: Container(
+                              height: 55,
+                              child: Row(
+                                children: [
+                                  //note icon
+                                  Expanded(
+                                    child: Padding(
+                                      padding:
+                                          const EdgeInsets.fromLTRB(5, 0, 0, 0),
                                       child: FittedBox(
                                         fit: BoxFit.scaleDown,
                                         child: ConstrainedBox(
@@ -160,12 +132,10 @@ class RingPage extends StatelessWidget {
                                               minWidth: 1, minHeight: 1),
                                           child: GetBuilder<RingRadioListController>(
                                             builder: (_) {
-                                              return Text(
-                                                '음악 목록',
-                                                style: TextStyle(
-                                                  color: _.power? Colors.green: Colors.grey,
-                                                    fontWeight: FontWeight.bold,
-                                                    fontSize: 1150),
+                                              return Icon(
+                                                Icons.music_note,
+                                                size: 1150,
+                                                color: _.power? Colors.green: Colors.grey,
                                               );
                                             }
                                           ),
@@ -173,25 +143,60 @@ class RingPage extends StatelessWidget {
                                       ),
                                     ),
                                   ),
-                                ),
-                                Expanded(
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(5.0),
-                                    child: FittedBox(
-                                      fit: BoxFit.scaleDown,
-                                      child: ConstrainedBox(
-                                          constraints: BoxConstraints(
-                                              minWidth: 1, minHeight: 1),
-                                          child: AddMusicButton()),
+                                  //음악 목록 text
+                                  Expanded(
+                                    flex: 6,
+                                    child: Padding(
+                                      padding:
+                                          const EdgeInsets.fromLTRB(0, 10, 0, 10),
+                                      child: Container(
+                                        height: 30,
+                                        padding: EdgeInsets.only(left: 5),
+                                        alignment: Alignment.bottomLeft,
+                                        child: FittedBox(
+                                          fit: BoxFit.scaleDown,
+                                          child: ConstrainedBox(
+                                            constraints: BoxConstraints(
+                                                minWidth: 1, minHeight: 1),
+                                            child: GetBuilder<RingRadioListController>(
+                                              builder: (_) {
+                                                return Text(
+                                                  '음악 목록',
+                                                  style: TextStyle(
+                                                    color: _.power? Colors.green: Colors.grey,
+                                                      fontWeight: FontWeight.bold,
+                                                      fontSize: 1150),
+                                                );
+                                              }
+                                            ),
+                                          ),
+                                        ),
+                                      ),
                                     ),
                                   ),
-                                ),
-                              ],
-                            )),
-                      ),
-                      SizedBox(height: 20,),
-                      Expanded(child: RingRadioList()),
-                    ],
+                                  Expanded(
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(5.0),
+                                      child: FittedBox(
+                                        fit: BoxFit.scaleDown,
+                                        child: ConstrainedBox(
+                                            constraints: BoxConstraints(
+                                                minWidth: 1, minHeight: 1),
+                                            child: AddMusicButton()),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              )),
+                        ),
+                        SizedBox(height: 7.5,),
+                        Divider(),
+                        Expanded(child: Padding(
+                          padding: const EdgeInsets.fromLTRB(8, 0, 8, 8),
+                          child: RingRadioList(),
+                        )),
+                      ],
+                    ),
                   ),
                 ),
               ),
