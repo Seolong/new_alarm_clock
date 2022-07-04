@@ -96,7 +96,7 @@ class AlarmProvider {
     await db.insert(alarmFolderTableName, {columnFolderName: '전체 알람'});
   }
 
-  Future<void> resetDatabase()async {
+  Future<void> resetAllTable()async {
     Database db = await this.database;
     await db.execute("DROP TABLE IF EXISTS $tableName");
     await db.execute("DROP TABLE IF EXISTS $alarmFolderTableName");
@@ -260,6 +260,13 @@ class AlarmProvider {
     musicPathData = MusicPathData.fromMap(result.first);
 
     return await musicPathData;
+  }
+
+  Future<void> deleteAllMusicPath() async{
+    Database db = await this.database;
+    db.rawDelete('delete from $musicPathTableName '
+        'where $columnPath != ? and $columnPath != ?',
+    [StringValue.beepBeep, StringValue.ringRing]);
   }
 
   Future<List<AlarmFolderData>> getAllAlarmFolders() async {

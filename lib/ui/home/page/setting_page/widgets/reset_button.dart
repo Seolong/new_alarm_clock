@@ -17,10 +17,10 @@ class ResetButton extends StatelessWidget {
     final folderListController = Get.put(FolderListController());
     return InkWell(
       onTap: () async{
-        bool isDelete = await Get.dialog(DeleteDialog('모든 데이터가 삭제됩니다. 초기화하시겠습니까?'));
+        bool? isDelete = await Get.dialog(DeleteDialog('모든 데이터가 삭제됩니다. 초기화하시겠습니까?'));
         if(isDelete == true){
           await AlarmScheduler.removeAllAlarm();
-          await _alarmProvider.resetDatabase();
+          await _alarmProvider.resetAllTable();
 
           alarmListController.onInit();
           folderListController.onInit();

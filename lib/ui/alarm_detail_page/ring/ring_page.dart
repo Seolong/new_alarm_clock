@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:new_alarm_clock/ui/alarm_detail_page/ring/controller/ring_radio_list_controller.dart';
 import 'package:new_alarm_clock/ui/alarm_detail_page/ring/widget/add_music_button.dart';
+import 'package:new_alarm_clock/ui/alarm_detail_page/ring/widget/delete_music_button.dart';
 import 'package:new_alarm_clock/ui/alarm_detail_page/ring/widget/ring_radio_list.dart';
 import 'package:new_alarm_clock/ui/alarm_detail_page/ring/widget/volume_slider.dart';
 import 'package:new_alarm_clock/ui/alarm_detail_page/widget_all/app_bar_title.dart';
@@ -171,6 +172,18 @@ class RingPage extends StatelessWidget {
                                             ),
                                           ),
                                         ),
+                                      ),
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(5.0),
+                                      child: FittedBox(
+                                        fit: BoxFit.scaleDown,
+                                        child: ConstrainedBox(
+                                            constraints: BoxConstraints(
+                                                minWidth: 1, minHeight: 1),
+                                            child: DeleteMusicButton()),
                                       ),
                                     ),
                                   ),

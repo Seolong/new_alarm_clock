@@ -1,3 +1,4 @@
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:new_alarm_clock/data/database/alarm_provider.dart';
@@ -80,6 +81,15 @@ class RingRadioListController extends GetxController {
       pathList.add(musicPathData);
     }
     pathFutureList = _alarmProvider.getAllMusicPath();
+    update();
+  }
+
+  Future<void> resetMusic() async {
+    _alarmProvider.deleteAllMusicPath();
+    FilePicker.platform.clearTemporaryFiles();
+    int length = pathList.length;
+    pathList.removeRange(2, length);
+
     update();
   }
 
