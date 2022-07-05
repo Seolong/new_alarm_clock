@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:new_alarm_clock/routes/app_routes.dart';
 import 'package:new_alarm_clock/ui/choice_day/controller/interval_text_field_controller.dart';
 import 'package:new_alarm_clock/ui/choice_day/controller/start_end_day_controller.dart';
-import 'package:new_alarm_clock/ui/choice_day/widget/repeat_container/widget_all/calendar_dialog.dart';
+import 'package:new_alarm_clock/ui/choice_day/widget/repeat_container/widget_all/calendar_container.dart';
 import 'package:new_alarm_clock/ui/global/auto_size_text.dart';
 import 'package:new_alarm_clock/ui/global/convenience_method.dart';
 import 'package:new_alarm_clock/utils/values/color_value.dart';
@@ -49,7 +49,9 @@ class RepeatContainer extends StatelessWidget {
                                   content: CalendarContainer(
                                       Get.find<StartEndDayController>()
                                           .start['dateTime'])));
-                              _.setStart(dateTime!);
+                              if (dateTime != null) {
+                                _.setStart(dateTime);
+                              }
                             },
                             child: Padding(
                                 padding: EdgeInsets.all(2.0),
@@ -105,8 +107,8 @@ class RepeatContainer extends StatelessWidget {
                             onTap: () async {
                               DateTime dateTime = await Get.dialog(AlertDialog(
                                   contentPadding: EdgeInsets.zero,
-                                  content:
-                                      CalendarContainer(_.end['dateTime'] == null
+                                  content: CalendarContainer(
+                                      _.end['dateTime'] == null
                                           ? // end를 아직 설정 안했을 때
                                           _.start['dateTime']
                                           : _.end['dateTime'])));
@@ -219,7 +221,7 @@ class RepeatContainer extends StatelessWidget {
         Padding(
             padding: EdgeInsets.only(top: 25),
             child: GestureDetector(
-              onTap: (){
+              onTap: () {
                 Get.toNamed(AppRoutes.dayOffPage);
               },
               child: Icon(
@@ -229,11 +231,7 @@ class RepeatContainer extends StatelessWidget {
               ),
             )),
         Container(
-          height: 22.5,
-            child: AutoSizeText(
-                '금지일 설정',
-              color: Colors.grey
-            )),
+            height: 22.5, child: AutoSizeText('금지일 설정', color: Colors.grey)),
       ],
     );
   }

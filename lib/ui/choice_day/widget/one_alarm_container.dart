@@ -9,7 +9,7 @@ import 'package:table_calendar/table_calendar.dart';
 class OneAlarmContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    var startEndDayController = Get.put(StartEndDayController());
+    Get.put(StartEndDayController());
     return Column(
       children: [
         Padding(
@@ -32,68 +32,70 @@ class OneAlarmContainer extends StatelessWidget {
             ),
             child: GetBuilder<StartEndDayController>(builder: (_) {
               int lastYear = 2045;
-              void showDatePicker(context){
-                DateTime result = startEndDayController.start[startEndDayController.dateTime];
+              void showDatePicker(context) {
+                DateTime result =
+                    _.start[_.dateTime];
                 showCupertinoModalPopup(
                     context: context,
-                    builder: (_) => Container(
-                      height: 250,
-                      color: const Color.fromARGB(255, 255, 255, 255),
-                      child: Column(
-                        children: [
-                          // 확인 취소 만들기
-                          Container(
-                            height: 50,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                // 확인 취소 만들기
-                                CupertinoButton(
-                                  child: const Text('취소',
-                                  style: TextStyle(
-                                    color: Colors.grey
-                                  ),),
-                                  onPressed: () {
-                                    Get.back();
-                                  },
+                    builder: (__) => Container(
+                          height: 250,
+                          color: const Color.fromARGB(255, 255, 255, 255),
+                          child: Column(
+                            children: [
+                              // 확인 취소 만들기
+                              Container(
+                                height: 50,
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    // 확인 취소 만들기
+                                    CupertinoButton(
+                                      child: const Text(
+                                        '취소',
+                                        style: TextStyle(color: Colors.grey),
+                                      ),
+                                      onPressed: () {
+                                        Get.back();
+                                      },
+                                    ),
+                                    CupertinoButton(
+                                      child: const Text('이동'),
+                                      onPressed: () {
+                                        _.setStart(result);
+                                        Get.back();
+                                      },
+                                    ),
+                                  ],
                                 ),
-                                CupertinoButton(
-                                  child: const Text('이동'),
-                                  onPressed: () {
-                                    startEndDayController.setStart(result);
-                                    Get.back();
-                                  },
-                                ),
-                              ],
-                            ),
+                              ),
+                              SizedBox(
+                                height: 200,
+                                child: CupertinoDatePicker(
+                                    initialDateTime: result,
+                                    minimumYear: DateTime.now().year,
+                                    maximumYear: lastYear,
+                                    mode: CupertinoDatePickerMode.date,
+                                    onDateTimeChanged: (val) {
+                                      result = val;
+                                    }),
+                              ),
+                            ],
                           ),
-                          SizedBox(
-                            height: 200,
-                            child: CupertinoDatePicker(
-                                initialDateTime: result,
-                                minimumYear: DateTime.now().year,
-                                maximumYear: lastYear,
-                                mode: CupertinoDatePickerMode.date,
-                                onDateTimeChanged: (val) {
-                                  result = val;
-                                }),
-                          ),
-                        ],
-                      ),
-                    ));
+                        ));
               }
 
               return TableCalendar(
                 focusedDay: DateTime.now()
-                        .isAfter(startEndDayController.start['dateTime'])
+                        .isAfter(_.start['dateTime'])
                     ? DateTime.now()
-                    : startEndDayController.start['dateTime'],
+                    : _.start['dateTime'],
                 currentDay: DateTime.now()
-                        .isAfter(startEndDayController.start['dateTime'])
+                        .isAfter(_.start['dateTime'])
                     ? DateTime.now()
-                    : startEndDayController.start['dateTime'],
+                    : _.start['dateTime'],
                 firstDay: DateTime.now(),
-                lastDay: DateTime(2050, 12, 31),
+                lastDay: DateTime(lastYear, 12, 31),
                 //onHeaderTapped: _onHeaderTapped,
                 headerStyle: HeaderStyle(
                   headerMargin:
@@ -102,17 +104,16 @@ class OneAlarmContainer extends StatelessWidget {
                   formatButtonVisible: false,
                   leftChevronIcon: Container(
                     decoration: BoxDecoration(
-                        shape: BoxShape.circle,
+                      shape: BoxShape.circle,
                       gradient: LinearGradient(
-                        begin: Alignment.topCenter,
+                          begin: Alignment.topCenter,
                           end: Alignment.bottomCenter,
                           //stops: [0.1, 0.4, 1.0],
                           colors: [
                             Get.find<ColorController>().colorSet.deepMainColor,
                             Get.find<ColorController>().colorSet.mainColor,
                             Get.find<ColorController>().colorSet.lightMainColor
-                          ]
-                      ),
+                          ]),
                     ),
                     height: 30,
                     width: 30,
@@ -130,11 +131,14 @@ class OneAlarmContainer extends StatelessWidget {
                             end: Alignment.bottomCenter,
                             //stops: [0.1, 0.4, 1.0],
                             colors: [
-                              Get.find<ColorController>().colorSet.lightMainColor,
+                              Get.find<ColorController>()
+                                  .colorSet
+                                  .lightMainColor,
                               Get.find<ColorController>().colorSet.mainColor,
-                              Get.find<ColorController>().colorSet.deepMainColor,
-                            ]
-                        )),
+                              Get.find<ColorController>()
+                                  .colorSet
+                                  .deepMainColor,
+                            ])),
                     height: 30,
                     width: 30,
                     child: Icon(
@@ -152,36 +156,24 @@ class OneAlarmContainer extends StatelessWidget {
                   showDatePicker(context);
                 },
                 daysOfWeekStyle: DaysOfWeekStyle(
-                  weekdayStyle: TextStyle(
-                    color: Get.find<ColorController>().colorSet.mainColor,
-                    fontWeight: FontWeight.bold
-                  ),
-                  weekendStyle: TextStyle(
-                      color: Get.find<ColorController>().colorSet.mainColor,
-                      fontWeight: FontWeight.bold
-                  )
-                ),
+                    weekdayStyle: TextStyle(
+                        color: Get.find<ColorController>().colorSet.mainColor,
+                        fontWeight: FontWeight.bold),
+                    weekendStyle: TextStyle(
+                        color: Get.find<ColorController>().colorSet.mainColor,
+                        fontWeight: FontWeight.bold)),
                 daysOfWeekHeight: 52,
                 calendarStyle: CalendarStyle(
                     //selectedDecoration:
-                  todayDecoration: BoxDecoration(
-                    color: Get.find<ColorController>().colorSet.mainColor,
-                    shape: BoxShape.circle,
-                    //borderRadius: BorderRadius.circular(100)
-                  )
-                    ),
+                    todayDecoration: BoxDecoration(
+                  color: Get.find<ColorController>().colorSet.mainColor,
+                  shape: BoxShape.circle,
+                  //borderRadius: BorderRadius.circular(100)
+                )),
                 locale: 'ko-KR',
-                //events: _events,
-                //holidays: _holidays,
-                //availableCalendarFormats: _availableCalendarFormats,
-                //calendarController: _calendarController,
-                //builders: calendarBuilder(),
                 onDaySelected: (selectedDay, focusedDay) {
-                  startEndDayController.setStart(selectedDay);
+                  _.setStart(selectedDay);
                 },
-                //pageJumpingEnabled: true,
-                // onVisibleDaysChanged: _onVisibleDaysChanged,
-                // onCalendarCreated: _onCalendarCreated,
               );
             }),
           ),
