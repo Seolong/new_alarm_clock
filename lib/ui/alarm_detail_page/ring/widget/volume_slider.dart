@@ -3,12 +3,14 @@ import 'package:get/get.dart';
 import 'package:new_alarm_clock/ui/alarm_detail_page/ring/controller/ring_radio_list_controller.dart';
 import 'package:new_alarm_clock/utils/values/color_value.dart';
 
+import '../../../global/color_controller.dart';
+
 class VolumeSlider extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<RingRadioListController>(builder: (_) {
-      Color deepColor = _.power ? Colors.greenAccent : Colors.grey;
-      Color lightColor = _.power ? Colors.green : Colors.grey;
+      Color deepColor = _.power ? Get.find<ColorController>().colorSet.deepMainColor : Colors.grey;
+      Color lightColor = _.power ? Get.find<ColorController>().colorSet.lightMainColor : Colors.grey;
       return SliderTheme(
         data: SliderThemeData(
           thumbShape: GradientSliderThumbShape(
@@ -16,8 +18,8 @@ class VolumeSlider extends StatelessWidget {
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
                 colors: [
-                  lightColor,
                   deepColor,
+                  lightColor,
                 ],
               )
           ),
@@ -26,8 +28,8 @@ class VolumeSlider extends StatelessWidget {
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
           colors: [
-            deepColor,
             lightColor,
+            deepColor,
           ],
         ))),
         child: Slider(
@@ -37,7 +39,6 @@ class VolumeSlider extends StatelessWidget {
               _.volume = value;
             }
           },
-          activeColor: _.power ? ColorValue.activeSwitch : Colors.grey,
         ),
       );
     });

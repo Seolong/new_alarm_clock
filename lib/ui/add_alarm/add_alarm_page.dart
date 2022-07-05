@@ -31,6 +31,8 @@ import 'package:new_alarm_clock/utils/values/color_value.dart';
 import 'package:get/get.dart';
 import 'package:new_alarm_clock/utils/values/string_value.dart';
 
+import '../global/color_controller.dart';
+
 final String toBeAddedIdName = 'toBeAddedId';
 
 class AddAlarmPage extends StatelessWidget {
@@ -137,7 +139,7 @@ class AddAlarmPage extends StatelessWidget {
     Get.put(DayOffListController());
 
     SystemChrome.setSystemUIOverlayStyle(
-        SystemUiOverlayStyle(statusBarColor: ColorValue.appbar));
+        SystemUiOverlayStyle(statusBarColor: Get.find<ColorController>().colorSet.mainColor));
 
     if (mode == StringValue.editMode) {
       initEditAlarm();

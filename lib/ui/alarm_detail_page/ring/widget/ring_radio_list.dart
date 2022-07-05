@@ -3,6 +3,8 @@ import 'package:new_alarm_clock/data/model/music_path_data.dart';
 import 'package:new_alarm_clock/ui/alarm_detail_page/ring/controller/ring_radio_list_controller.dart';
 import 'package:get/get.dart';
 
+import '../../../global/color_controller.dart';
+
 class RingRadioList extends StatelessWidget {
 
   var ringListView = GetBuilder<RingRadioListController>(builder: (_) {
@@ -21,7 +23,7 @@ class RingRadioList extends StatelessWidget {
                   _.selectedMusicPath = value!;
                 }
               },
-              activeColor: _.power? Colors.orange: Colors.grey,
+              activeColor: _.power? Get.find<ColorController>().colorSet.accentColor: Colors.grey,
             ),
             Expanded(
               child: MaterialButton(

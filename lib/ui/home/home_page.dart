@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:new_alarm_clock/data/shared_preferences/settings_shared_preferences.dart';
 import 'package:new_alarm_clock/service/music_handler.dart';
+import 'package:new_alarm_clock/ui/global/color_controller.dart';
 import 'package:new_alarm_clock/ui/home/controller/tab_page_controller.dart';
 import 'package:new_alarm_clock/ui/home/page/folder_page/folder_page.dart';
 import 'package:new_alarm_clock/ui/home/page/inner_home_page/inner_home_page.dart';
@@ -20,7 +21,7 @@ class Home extends StatelessWidget{
       title: '알람시계',
       theme: ThemeData(
         appBarTheme: AppBarTheme(
-          color: ColorValue.appbar,
+          color: Get.find<ColorController>().colorSet.mainColor,
         ),
       ),
       home: HomePage(),
@@ -35,7 +36,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark.copyWith(
-      statusBarColor: ColorValue.mainBackground,
+      statusBarColor: Get.find<ColorController>().colorSet.mainColor,
     ));
     _musicHandler.initOriginalVolume();
     Get.put(TabPageController());

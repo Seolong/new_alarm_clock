@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_state_manager/src/simple/get_state.dart';
 
 import '../../../../utils/enum.dart';
 import '../../../../utils/values/color_value.dart';
 import '../../../global/auto_size_text.dart';
+import '../../../global/color_controller.dart';
 import '../controller/repeat_radio_list_controller.dart';
 
 class RepeatContainer extends StatelessWidget {
@@ -26,7 +29,7 @@ class RepeatContainer extends StatelessWidget {
                   _.alarmInterval = value!;
                 }
               },
-              activeColor: Colors.orange,
+              activeColor: _.power? Get.find<ColorController>().colorSet.accentColor: Colors.grey,
             ),
             Container(
               height: 25,
@@ -49,7 +52,7 @@ class RepeatContainer extends StatelessWidget {
                   _.repeatNum = value!;
                 }
               },
-              activeColor: Colors.orange,
+              activeColor: _.power? Get.find<ColorController>().colorSet.accentColor: Colors.grey
             ),
             Container(
               height: 25,
@@ -72,7 +75,7 @@ class RepeatContainer extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: 0, vertical: 20),
       decoration: BoxDecoration(
           border: Border.all(
-            color: Colors.green,
+            color: Get.find<ColorController>().colorSet.mainColor,
           ),
           borderRadius: BorderRadius.all(Radius.circular(7.5))),
       child: Column(
@@ -92,7 +95,7 @@ class RepeatContainer extends StatelessWidget {
                           return Icon(
                             Icons.alarm_rounded,
                             size: 1150,
-                            color: _.power == true? Colors.green: Colors.grey,
+                            color: _.power == true? Get.find<ColorController>().colorSet.mainColor: Colors.grey,
                           );
                         }
                       ),
@@ -108,7 +111,7 @@ class RepeatContainer extends StatelessWidget {
                   child: GetBuilder<RepeatRadioListController>(builder: (_) {
                     return AutoSizeText(containerName,
                         bold: true,
-                        color: _.power ? Colors.green : Colors.grey);
+                        color: _.power ? Get.find<ColorController>().colorSet.mainColor : Colors.grey);
                   }),
                 ),
               ],

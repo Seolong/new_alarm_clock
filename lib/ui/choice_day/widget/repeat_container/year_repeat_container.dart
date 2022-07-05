@@ -37,7 +37,7 @@ class YearRepeatContainer extends RepeatContainer {
               onTap: () async {
                 var dateTime = await Get.dialog(AlertDialog(
                     contentPadding: EdgeInsets.zero,
-                    content: CalendarDialog(_.yearRepeatDay)));
+                    content: CalendarContainer(_.yearRepeatDay)));
                 _.yearRepeatDay = dateTime;
               },
               child: Padding(

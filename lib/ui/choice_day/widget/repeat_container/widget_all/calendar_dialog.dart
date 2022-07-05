@@ -4,10 +4,10 @@ import 'package:new_alarm_clock/utils/values/color_value.dart';
 import 'package:new_alarm_clock/utils/values/my_font_family.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
-class CalendarDialog extends StatelessWidget {
+class CalendarContainer extends StatelessWidget {
   DateTime initialDate;
 
-  CalendarDialog(this.initialDate);
+  CalendarContainer(this.initialDate);
 
   @override
   Widget build(BuildContext context) {

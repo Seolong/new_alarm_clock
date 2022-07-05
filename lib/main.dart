@@ -10,6 +10,7 @@ import 'package:new_alarm_clock/routes/app_routes.dart';
 import 'package:new_alarm_clock/service/life_cycle_listener.dart';
 import 'package:new_alarm_clock/service/notification_controller.dart';
 import 'package:new_alarm_clock/ui/alarm_alarm/alarm_alarm_page.dart';
+import 'package:new_alarm_clock/ui/global/color_controller.dart';
 import 'package:new_alarm_clock/ui/home/controller/alarm_list_controller.dart';
 import 'package:new_alarm_clock/ui/home/home_page.dart';
 import 'package:new_alarm_clock/utils/values/my_font_family.dart';
@@ -52,6 +53,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Get.put(AlarmListController());
+    Get.put(ColorController());
     try {
       AwesomeNotifications().setListeners(
           onActionReceivedMethod: NotificationController.onActionReceivedMethod

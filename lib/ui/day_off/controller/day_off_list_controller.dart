@@ -37,7 +37,7 @@ class DayOffListController extends GetxController{
     DateTime now = DateTime.now();
     DateTime? dateTime = await Get.dialog(AlertDialog(
         contentPadding: EdgeInsets.zero,
-        content: CalendarDialog(
+        content: CalendarContainer(
             now)));
     if (dateTime != null) {
       if(dateTime.year==now.year && dateTime.month==now.month && dateTime.day==now.day){

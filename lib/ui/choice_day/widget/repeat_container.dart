@@ -46,7 +46,7 @@ class RepeatContainer extends StatelessWidget {
                             onTap: () async {
                               var dateTime = await Get.dialog(AlertDialog(
                                   contentPadding: EdgeInsets.zero,
-                                  content: CalendarDialog(
+                                  content: CalendarContainer(
                                       Get.find<StartEndDayController>()
                                           .start['dateTime'])));
                               _.setStart(dateTime!);
@@ -106,7 +106,7 @@ class RepeatContainer extends StatelessWidget {
                               DateTime dateTime = await Get.dialog(AlertDialog(
                                   contentPadding: EdgeInsets.zero,
                                   content:
-                                      CalendarDialog(_.end['dateTime'] == null
+                                      CalendarContainer(_.end['dateTime'] == null
                                           ? // end를 아직 설정 안했을 때
                                           _.start['dateTime']
                                           : _.end['dateTime'])));

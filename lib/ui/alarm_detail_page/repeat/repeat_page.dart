@@ -9,6 +9,8 @@ import 'package:new_alarm_clock/utils/values/color_value.dart';
 import 'package:get/get.dart';
 import 'package:new_alarm_clock/utils/values/size_value.dart';
 
+import '../../global/color_controller.dart';
+
 class RepeatPage extends StatelessWidget {
   final String repeatInterval = '반복 주기';
   final String repeatNum = '반복 횟수';
@@ -20,7 +22,7 @@ class RepeatPage extends StatelessWidget {
       appBar: AppBar(
         foregroundColor: ColorValue.appbarText,
         title: AppBarTitle('반복'),
-        backgroundColor: ColorValue.appbar,
+        backgroundColor: Get.find<ColorController>().colorSet.lightMainColor,
       ),
       body: SafeArea(
         child: Column(
@@ -34,7 +36,7 @@ class RepeatPage extends StatelessWidget {
                     height: SizeValue.detailPowerTextHeight,
                     child: AutoSizeText(_.power ? '사용' : '사용 안 함',
                         bold: true,
-                        color: _.power ? ColorValue.activeSwitch : Colors.grey),
+                        color: _.power ? Get.find<ColorController>().colorSet.mainColor : Colors.grey),
                   ),
                   value: _.power,
                   onChanged: (value) {
@@ -46,7 +48,7 @@ class RepeatPage extends StatelessWidget {
 
                     _.power = value;
                   },
-                  activeColor: ColorValue.activeSwitch,
+                  activeColor: Get.find<ColorController>().colorSet.mainColor,
                 ),
               ),
             ),

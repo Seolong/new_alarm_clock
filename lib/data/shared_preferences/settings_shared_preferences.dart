@@ -7,6 +7,9 @@ class SettingsSharedPreferences {
   final String alignByDate = 'byDate';
   final String alignBySetting = 'bySetting';
   final String mainFolderName = 'mainFolder';
+  final String green = 'green';
+  final String dark = 'dark';
+  final String theme = 'theme';
 
   factory SettingsSharedPreferences() {
     return _instance;
@@ -21,6 +24,10 @@ class SettingsSharedPreferences {
     String? currentFolderNameValue = sharedPreferences.getString(mainFolderName);
     if(currentFolderNameValue == null){
       sharedPreferences.setString(mainFolderName, '전체 알람');
+    }
+    String? currentTheme = sharedPreferences.getString(theme);
+    if(currentTheme == null){
+      sharedPreferences.setString(theme, green);
     }
   }
 
@@ -44,5 +51,15 @@ class SettingsSharedPreferences {
   Future<void> setMainFolderName(String mainFolderNameValue) async{
     await init();
     sharedPreferences.setString(mainFolderName, mainFolderNameValue);
+  }
+
+  Future<String> getTheme() async{
+    await init();
+    return sharedPreferences.getString(theme)!;
+  }
+
+  Future<void> setTheme(String themeValue) async{
+    await init();
+    sharedPreferences.setString(theme, themeValue);
   }
 }

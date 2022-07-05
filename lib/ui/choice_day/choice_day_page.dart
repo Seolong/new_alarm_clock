@@ -11,11 +11,12 @@ import 'package:new_alarm_clock/utils/enum.dart';
 import 'package:new_alarm_clock/utils/values/color_value.dart';
 import 'package:get/get.dart';
 
+import '../global/color_controller.dart';
 import 'controller/repeat_mode_controller.dart';
 
 class ChoiceDayPage extends StatelessWidget {
-  String appBarBackButtonName = 'appBar';
-  String systemBackButtonName = 'system';
+  final String appBarBackButtonName = 'appBar';
+  final String systemBackButtonName = 'system';
   final repeatModeController = Get.put(RepeatModeController());
 
   bool isLessInterValThanZero(){
@@ -87,7 +88,7 @@ class ChoiceDayPage extends StatelessWidget {
                 resizeToAvoidBottomInset : false,
                 appBar: AppBar(
                   foregroundColor: ColorValue.appbarText,
-                  backgroundColor: ColorValue.appbar,
+                  backgroundColor: Get.find<ColorController>().colorSet.mainColor,
                   leading: IconButton(
                     icon: Icon(Icons.arrow_back_ios_rounded),
                     onPressed: _onTouchBackButton,
@@ -105,7 +106,7 @@ class ChoiceDayPage extends StatelessWidget {
                             isScrollable: true,
                             indicatorWeight: 5,
                             indicatorSize: TabBarIndicatorSize.label,
-                            indicatorColor: ColorValue.tabBarIndicator,
+                            indicatorColor: Get.find<ColorController>().colorSet.deepMainColor,
                             unselectedLabelColor: Colors.grey,
                             labelColor: Colors.black,
                             tabs: [

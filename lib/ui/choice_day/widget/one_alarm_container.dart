@@ -1,5 +1,7 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:new_alarm_clock/ui/choice_day/controller/start_end_day_controller.dart';
+import 'package:new_alarm_clock/ui/global/color_controller.dart';
 import 'package:new_alarm_clock/utils/values/size_value.dart';
 import 'package:get/get.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -28,7 +30,59 @@ class OneAlarmContainer extends StatelessWidget {
                 )
               ],
             ),
-            child: GetBuilder<StartEndDayController>(builder: (context) {
+            child: GetBuilder<StartEndDayController>(builder: (_) {
+              int lastYear = 2045;
+              void showDatePicker(context){
+                DateTime result = startEndDayController.start[startEndDayController.dateTime];
+                showCupertinoModalPopup(
+                    context: context,
+                    builder: (_) => Container(
+                      height: 250,
+                      color: const Color.fromARGB(255, 255, 255, 255),
+                      child: Column(
+                        children: [
+                          // 확인 취소 만들기
+                          Container(
+                            height: 50,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                // 확인 취소 만들기
+                                CupertinoButton(
+                                  child: const Text('취소',
+                                  style: TextStyle(
+                                    color: Colors.grey
+                                  ),),
+                                  onPressed: () {
+                                    Get.back();
+                                  },
+                                ),
+                                CupertinoButton(
+                                  child: const Text('이동'),
+                                  onPressed: () {
+                                    startEndDayController.setStart(result);
+                                    Get.back();
+                                  },
+                                ),
+                              ],
+                            ),
+                          ),
+                          SizedBox(
+                            height: 200,
+                            child: CupertinoDatePicker(
+                                initialDateTime: result,
+                                minimumYear: DateTime.now().year,
+                                maximumYear: lastYear,
+                                mode: CupertinoDatePickerMode.date,
+                                onDateTimeChanged: (val) {
+                                  result = val;
+                                }),
+                          ),
+                        ],
+                      ),
+                    ));
+              }
+
               return TableCalendar(
                 focusedDay: DateTime.now()
                         .isAfter(startEndDayController.start['dateTime'])
@@ -48,8 +102,18 @@ class OneAlarmContainer extends StatelessWidget {
                   formatButtonVisible: false,
                   leftChevronIcon: Container(
                     decoration: BoxDecoration(
-                        color: Colors.green,
-                        shape: BoxShape.circle),
+                        shape: BoxShape.circle,
+                      gradient: LinearGradient(
+                        begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          //stops: [0.1, 0.4, 1.0],
+                          colors: [
+                            Get.find<ColorController>().colorSet.deepMainColor,
+                            Get.find<ColorController>().colorSet.mainColor,
+                            Get.find<ColorController>().colorSet.lightMainColor
+                          ]
+                      ),
+                    ),
                     height: 30,
                     width: 30,
                     child: Icon(
@@ -60,8 +124,17 @@ class OneAlarmContainer extends StatelessWidget {
                   ),
                   rightChevronIcon: Container(
                     decoration: BoxDecoration(
-                        color: Colors.green,
-                        shape: BoxShape.circle),
+                        shape: BoxShape.circle,
+                        gradient: LinearGradient(
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                            //stops: [0.1, 0.4, 1.0],
+                            colors: [
+                              Get.find<ColorController>().colorSet.lightMainColor,
+                              Get.find<ColorController>().colorSet.mainColor,
+                              Get.find<ColorController>().colorSet.deepMainColor,
+                            ]
+                        )),
                     height: 30,
                     width: 30,
                     child: Icon(
@@ -75,14 +148,16 @@ class OneAlarmContainer extends StatelessWidget {
                       fontWeight: FontWeight.bold,
                       color: Colors.lightBlueAccent),
                 ),
-                onHeaderTapped: (DateTime focusedDay) {},
+                onHeaderTapped: (DateTime focusedDay) {
+                  showDatePicker(context);
+                },
                 daysOfWeekStyle: DaysOfWeekStyle(
                   weekdayStyle: TextStyle(
-                    color: Colors.green,
+                    color: Get.find<ColorController>().colorSet.mainColor,
                     fontWeight: FontWeight.bold
                   ),
                   weekendStyle: TextStyle(
-                      color: Colors.green,
+                      color: Get.find<ColorController>().colorSet.mainColor,
                       fontWeight: FontWeight.bold
                   )
                 ),
@@ -90,7 +165,7 @@ class OneAlarmContainer extends StatelessWidget {
                 calendarStyle: CalendarStyle(
                     //selectedDecoration:
                   todayDecoration: BoxDecoration(
-                    color: Color.fromRGBO(62, 196, 143, 100),
+                    color: Get.find<ColorController>().colorSet.mainColor,
                     shape: BoxShape.circle,
                     //borderRadius: BorderRadius.circular(100)
                   )

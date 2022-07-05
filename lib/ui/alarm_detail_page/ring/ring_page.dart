@@ -6,6 +6,7 @@ import 'package:new_alarm_clock/ui/alarm_detail_page/ring/widget/ring_radio_list
 import 'package:new_alarm_clock/ui/alarm_detail_page/ring/widget/volume_slider.dart';
 import 'package:new_alarm_clock/ui/alarm_detail_page/widget_all/app_bar_title.dart';
 import 'package:new_alarm_clock/ui/global/auto_size_text.dart';
+import 'package:new_alarm_clock/ui/global/color_controller.dart';
 import 'package:new_alarm_clock/utils/values/color_value.dart';
 import 'package:get/get.dart';
 import 'package:new_alarm_clock/utils/values/size_value.dart';
@@ -27,7 +28,7 @@ class RingPage extends StatelessWidget {
         appBar: AppBar(
           foregroundColor: ColorValue.appbarText,
           title: AppBarTitle('알람음'),
-          backgroundColor: ColorValue.appbar,
+          backgroundColor: Get.find<ColorController>().colorSet.mainColor,
         ),
         body: SafeArea(
           child: Column(
@@ -40,7 +41,7 @@ class RingPage extends StatelessWidget {
                       child: AutoSizeText(
                           _.power ? '사용' : '사용 안 함',
                           bold: true,
-                          color: _.power ? ColorValue.activeSwitch : Colors.grey
+                          color: _.power ? Get.find<ColorController>().colorSet.mainColor : Colors.grey
                       ),
                     ),
                     value: _.power,
@@ -53,7 +54,7 @@ class RingPage extends StatelessWidget {
 
                       _.power = value;
                     },
-                  activeColor: ColorValue.activeSwitch,
+                  activeColor: Get.find<ColorController>().colorSet.mainColor,
                 ),
               ),
               Padding(
@@ -136,7 +137,7 @@ class RingPage extends StatelessWidget {
                                               return Icon(
                                                 Icons.music_note,
                                                 size: 1150,
-                                                color: _.power? Colors.green: Colors.grey,
+                                                color: _.power? Get.find<ColorController>().colorSet.mainColor: Colors.grey,
                                               );
                                             }
                                           ),
@@ -164,7 +165,7 @@ class RingPage extends StatelessWidget {
                                                 return Text(
                                                   '음악 목록',
                                                   style: TextStyle(
-                                                    color: _.power? Colors.green: Colors.grey,
+                                                    color: _.power? Get.find<ColorController>().colorSet.mainColor: Colors.grey,
                                                       fontWeight: FontWeight.bold,
                                                       fontSize: 1150),
                                                 );
