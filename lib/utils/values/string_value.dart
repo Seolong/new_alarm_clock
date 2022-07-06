@@ -1,4 +1,4 @@
-class StringValue{
+class StringValue {
   static final String editMode = 'edit';
   static final String addMode = 'add';
   static final String mode = 'mode';
@@ -8,7 +8,7 @@ class StringValue{
   static final String folderName = 'folderName';
 }
 
-class DatabaseString{
+class DatabaseString {
   static final String tableName = 'alarm';
   static final String weekRepeatTableName = 'week_repeat';
   static final String musicPathTableName = 'music_path';
@@ -36,12 +36,12 @@ class DatabaseString{
   static final String columnPath = 'path';
 }
 
-class DayOfWeekString{
-  static final String columnSunday = 'sunday';
-  static final String columnMonday = 'monday';
-  static final String columnTuesday = 'tuesday';
-  static final String columnWednesday = 'wednesday';
-  static final String columnThursday = 'thursday';
-  static final String columnFriday = 'friday';
-  static final String columnSaturday = 'saturday';
+class DayOfWeekString {
+  static final String sunday = 'sunday';
+  static final String monday = 'monday';
+  static final String tuesday = 'tuesday';
+  static final String wednesday = 'wednesday';
+  static final String thursday = 'thursday';
+  static final String friday = 'friday';
+  static final String saturday = 'saturday';
 }

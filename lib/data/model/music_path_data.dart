@@ -1,12 +1,12 @@
-final String columnPath = 'path';
+import 'package:new_alarm_clock/utils/values/string_value.dart';
 
 class MusicPathData {
-  late String path; //absolutePath
+  late String path; //cache path
 
   MusicPathData({required this.path});
 
   factory MusicPathData.fromMap(Map<String, dynamic> json) =>
-      MusicPathData(path: json[columnPath]);
+      MusicPathData(path: json[DatabaseString.columnPath]);
 
-  Map<String, dynamic> toMap() => {columnPath: path};
+  Map<String, dynamic> toMap() => {DatabaseString.columnPath: path};
 }

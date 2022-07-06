@@ -1,24 +1,17 @@
-import 'package:new_alarm_clock/data/model/alarm_data.dart';
+import '../../utils/values/string_value.dart';
 
-final columnDayOffDate = 'dayOffDate';
-
-class DayOffData{
+class DayOffData {
   late int id;
   late DateTime dayOffDate;
 
-  DayOffData({
-    required this.id,
-    required this.dayOffDate
-  });
+  DayOffData({required this.id, required this.dayOffDate});
 
-  factory DayOffData.fromMap(Map<String, dynamic> json) =>
-      DayOffData(
-        id: json[columnId],
-        dayOffDate: DateTime.parse(json[columnDayOffDate])
-      );
+  factory DayOffData.fromMap(Map<String, dynamic> json) => DayOffData(
+      id: json[DatabaseString.columnId],
+      dayOffDate: DateTime.parse(json[DatabaseString.columnDayOffDate]));
 
   Map<String, dynamic> toMap() => {
-    columnId: id,
-    columnDayOffDate: dayOffDate.toIso8601String()
-  };
+        DatabaseString.columnId: id,
+        DatabaseString.columnDayOffDate: dayOffDate.toIso8601String()
+      };
 }

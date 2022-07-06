@@ -10,11 +10,6 @@ import 'package:sqflite/sqflite.dart';
 class AlarmProvider {
   static Database? _database;
   static AlarmProvider? _alarmProvider;
-  String tableName = 'alarm';
-  String weekRepeatTableName = 'week_repeat';
-  String musicPathTableName = 'music_path';
-  String alarmFolderTableName = 'alarm_folder';
-  String dayOffTableName = 'day_off';
 
   AlarmProvider._createInstance();
 
@@ -32,77 +27,77 @@ class AlarmProvider {
     return _database!;
   }
 
-  // Future _onConfigure(Database db) async {
-  //   // Add support for cascade delete
-  //   // Let's use FOREIGN KEY constraints
-  //   await db.execute('PRAGMA foreign_keys = ON');
-  // }
-
   Future _onCreate(Database db, int newVersion) async {
     //alarm alarm_week_repeat의 id는 같은 것(분리한 것)
     await db.execute('''
-          create table $tableName ( 
-          $columnId integer primary key autoincrement,
-          $columnAlarmType text not null,
-          $columnTitle text,
-          $columnAlarmDateTime text not null,
-          $columnEndDay text,
-          $columnAlarmState integer not null,
-          $columnAlarmOrder integer not null,
-          $columnFolderName text not null,
-          $columnAlarmInterval integer not null,
-          $columnMonthRepeatDay integer,
-          $columnMusicBool integer not null,
-          $columnMusicPath text not null,
-          $columnMusicVolume real not null,
-          $columnVibrationBool integer not null,
-          $columnVibrationName text not null,
-          $columnRepeatBool integer not null,
-          $columnRepeatInterval integer not null, 
-          $columnRepeatNum integer not null)
+          create table ${DatabaseString.tableName} ( 
+          ${DatabaseString.columnId} integer primary key autoincrement,
+          ${DatabaseString.columnAlarmType} text not null,
+          ${DatabaseString.columnTitle} text,
+          ${DatabaseString.columnAlarmDateTime} text not null,
+          ${DatabaseString.columnEndDay} text,
+          ${DatabaseString.columnAlarmState} integer not null,
+          ${DatabaseString.columnAlarmOrder} integer not null,
+          ${DatabaseString.columnFolderName} text not null,
+          ${DatabaseString.columnAlarmInterval} integer not null,
+          ${DatabaseString.columnMonthRepeatDay} integer,
+          ${DatabaseString.columnMusicBool} integer not null,
+          ${DatabaseString.columnMusicPath} text not null,
+          ${DatabaseString.columnMusicVolume} real not null,
+          ${DatabaseString.columnVibrationBool} integer not null,
+          ${DatabaseString.columnVibrationName} text not null,
+          ${DatabaseString.columnRepeatBool} integer not null,
+          ${DatabaseString.columnRepeatInterval} integer not null, 
+          ${DatabaseString.columnRepeatNum} integer not null)
         ''');
 
     await db.execute('''
-        create table $weekRepeatTableName(
-          $columnId integer primary key,
-          $columnSunday integer,
-          $columnMonday integer,
-          $columnTuesday integer,
-          $columnWednesday integer,
-          $columnThursday integer,
-          $columnFriday integer,
-          $columnSaturday integer )
+        create table ${DatabaseString.weekRepeatTableName}(
+          ${DatabaseString.columnId} integer primary key,
+          ${DayOfWeekString.sunday} integer,
+          ${DayOfWeekString.monday} integer,
+          ${DayOfWeekString.tuesday} integer,
+          ${DayOfWeekString.wednesday} integer,
+          ${DayOfWeekString.thursday} integer,
+          ${DayOfWeekString.friday} integer,
+          ${DayOfWeekString.saturday} integer )
     ''');
 
     await db.execute('''
-      create table $musicPathTableName(
-        $columnPath text primary key)
+      create table ${DatabaseString.musicPathTableName}(
+        ${DatabaseString.columnPath} text primary key)
     ''');
 
     await db.execute('''
-      create table $alarmFolderTableName(
-        $columnFolderName text primary key)
+      create table ${DatabaseString.alarmFolderTableName}(
+        ${DatabaseString.columnFolderName} text primary key)
     ''');
 
     await db.execute('''
-      create table $dayOffTableName(
-        $columnId int not null,
-        $columnDayOffDate text not null,
-        primary key ($columnId, $columnDayOffDate))
+      create table ${DatabaseString.dayOffTableName}(
+        ${DatabaseString.columnId} int not null,
+        ${DatabaseString.columnDayOffDate} text not null,
+        primary key (${DatabaseString.columnId}, ${DatabaseString.columnDayOffDate}))
     ''');
 
-    await db.insert(musicPathTableName, {columnPath: StringValue.beepBeep});
-    await db.insert(musicPathTableName, {columnPath: StringValue.ringRing});
-    await db.insert(alarmFolderTableName, {columnFolderName: '전체 알람'});
+    await db.insert(
+        DatabaseString.musicPathTableName, {DatabaseString.columnPath: StringValue.beepBeep});
+    await db.insert(
+        DatabaseString.musicPathTableName, {DatabaseString.columnPath: StringValue.ringRing});
+    await db.insert(DatabaseString.alarmFolderTableName,
+        {DatabaseString.columnFolderName: '전체 알람'});
   }
 
-  Future<void> resetAllTable()async {
+  Future<void> resetAllTable() async {
     Database db = await this.database;
-    await db.execute("DROP TABLE IF EXISTS $tableName");
-    await db.execute("DROP TABLE IF EXISTS $alarmFolderTableName");
-    await db.execute("DROP TABLE IF EXISTS $weekRepeatTableName");
-    await db.execute("DROP TABLE IF EXISTS $musicPathTableName");
-    await db.execute("DROP TABLE IF EXISTS $dayOffTableName");
+    await db.execute("DROP TABLE IF EXISTS ${DatabaseString.tableName}");
+    await db
+        .execute("DROP TABLE IF EXISTS ${DatabaseString.alarmFolderTableName}");
+    await db
+        .execute("DROP TABLE IF EXISTS ${DatabaseString.weekRepeatTableName}");
+    await db
+        .execute("DROP TABLE IF EXISTS ${DatabaseString.musicPathTableName}");
+    await db.execute("DROP TABLE IF EXISTS ${DatabaseString.dayOffTableName}");
     await _onCreate(db, 1);
   }
 
@@ -123,8 +118,7 @@ class AlarmProvider {
     final Database db = await this.database;
     //final List<Map<String, dynamic>> alarmMaps = await db.query(tableName);
     final List<Map<String, dynamic>> alarmMaps = await db.rawQuery(
-      'select * from $tableName order by $columnAlarmOrder asc'
-    );
+        'select * from ${DatabaseString.tableName} order by ${DatabaseString.columnAlarmOrder} asc');
 
     alarmMaps.forEach((element) {
       var alarmData = AlarmData.fromMap(element);
@@ -137,8 +131,9 @@ class AlarmProvider {
   Future<AlarmData> getAlarmById(int id) async {
     AlarmData alarmData;
     Database db = await this.database;
-    var result =
-        await db.rawQuery('select * from $tableName where $columnId = ?', [id]);
+    var result = await db.rawQuery(
+        'select * from ${DatabaseString.tableName} where ${DatabaseString.columnId} = ?',
+        [id]);
     alarmData = AlarmData.fromMap(result.first);
 
     return await alarmData;
@@ -147,7 +142,7 @@ class AlarmProvider {
   Future<int> insertAlarm(AlarmData alarmData) async {
     Database db = await this.database;
     var insertId = await db.insert(
-      tableName,
+      DatabaseString.tableName,
       alarmData.toMap(),
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
@@ -158,19 +153,19 @@ class AlarmProvider {
 
   Future<int> deleteAlarm(int id) async {
     Database db = await this.database;
-    var countOfDeletedItems =
-        await db.delete(tableName, where: 'id = ?', whereArgs: [id]);
+    var countOfDeletedItems = await db
+        .delete(DatabaseString.tableName, where: 'id = ?', whereArgs: [id]);
     print('Count of deleted Items is $countOfDeletedItems');
 
     AlarmWeekRepeatData? currentAlarmWeekData = await getAlarmWeekDataById(id);
-    if(currentAlarmWeekData != null){
+    if (currentAlarmWeekData != null) {
       deleteAlarmWeekData(id);
       print('id: $id WeekData is deleted.');
     }
 
     List<DayOffData> dayOffList = await getDayOffsById(id);
     if (dayOffList.isNotEmpty) {
-      for(int i=0; i<dayOffList.length; i++){
+      for (int i = 0; i < dayOffList.length; i++) {
         deleteDayOff(dayOffList[i].id, dayOffList[i].dayOffDate);
       }
     }
@@ -182,14 +177,14 @@ class AlarmProvider {
 
   Future<void> updateAlarm(AlarmData alarmData) async {
     Database db = await this.database;
-    await db.update(tableName, alarmData.toMap(),
+    await db.update(DatabaseString.tableName, alarmData.toMap(),
         where: 'id = ?', whereArgs: [alarmData.id]);
   }
 
   Future<int> insertAlarmWeekData(AlarmWeekRepeatData data) async {
     Database db = await this.database;
     var insertId = await db.insert(
-      weekRepeatTableName,
+      DatabaseString.weekRepeatTableName,
       data.toMap(),
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
@@ -202,7 +197,8 @@ class AlarmProvider {
     AlarmWeekRepeatData? alarmData;
     Database db = await this.database;
     var result = await db.rawQuery(
-        'select * from $weekRepeatTableName where $columnId = ?', [id]);
+        'select * from ${DatabaseString.weekRepeatTableName} where ${DatabaseString.columnId} = ?',
+        [id]);
     if (result.isNotEmpty)
       alarmData = AlarmWeekRepeatData.fromMap(result.first);
 
@@ -212,24 +208,24 @@ class AlarmProvider {
 
   Future<int> deleteAlarmWeekData(int id) async {
     Database db = await this.database;
-    var countOfDeletedItems =
-        await db.delete(weekRepeatTableName, where: 'id = ?', whereArgs: [id]);
+    var countOfDeletedItems = await db.delete(
+        DatabaseString.weekRepeatTableName,
+        where: 'id = ?',
+        whereArgs: [id]);
     print('Count of deleted Items is $countOfDeletedItems');
     return countOfDeletedItems;
   }
 
   Future<void> updateAlarmWeekData(AlarmWeekRepeatData data) async {
     Database db = await this.database;
-    await db.update(weekRepeatTableName, data.toMap(),
+    await db.update(DatabaseString.weekRepeatTableName, data.toMap(),
         where: 'id = ?', whereArgs: [data.id]);
-
-    //스케줄러 관련 추가
   }
 
   Future<int> insertMusicPath(MusicPathData data) async {
     Database db = await this.database;
     var insertId = await db.insert(
-      musicPathTableName,
+      DatabaseString.musicPathTableName,
       data.toMap(),
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
@@ -242,7 +238,7 @@ class AlarmProvider {
     List<MusicPathData> musicPathList = [];
     final Database db = await this.database;
     final List<Map<String, dynamic>> musicPathMaps =
-        await db.query(musicPathTableName);
+        await db.query(DatabaseString.musicPathTableName);
 
     musicPathMaps.forEach((element) {
       var musicPathData = MusicPathData.fromMap(element);
@@ -256,24 +252,26 @@ class AlarmProvider {
     MusicPathData musicPathData;
     Database db = await this.database;
     var result = await db.rawQuery(
-        'select * from $musicPathTableName where $columnMusicPath = ?', [path]);
+        'select * from ${DatabaseString.musicPathTableName} where ${DatabaseString.columnMusicPath} = ?',
+        [path]);
     musicPathData = MusicPathData.fromMap(result.first);
 
     return await musicPathData;
   }
 
-  Future<void> deleteAllMusicPath() async{
+  Future<void> deleteAllMusicPath() async {
     Database db = await this.database;
-    db.rawDelete('delete from $musicPathTableName '
-        'where $columnPath != ? and $columnPath != ?',
-    [StringValue.beepBeep, StringValue.ringRing]);
+    db.rawDelete(
+        'delete from ${DatabaseString.musicPathTableName} '
+        'where ${DatabaseString.columnPath} != ? and ${DatabaseString.columnPath} != ?',
+        [StringValue.beepBeep, StringValue.ringRing]);
   }
 
   Future<List<AlarmFolderData>> getAllAlarmFolders() async {
     List<AlarmFolderData> alarmFolderList = [];
     final Database db = await this.database;
     final List<Map<String, dynamic>> alarmFolderMaps =
-        await db.query(alarmFolderTableName);
+        await db.query(DatabaseString.alarmFolderTableName);
 
     alarmFolderMaps.forEach((element) {
       var alarmFolderData = AlarmFolderData.fromMap(element);
@@ -287,7 +285,7 @@ class AlarmProvider {
     AlarmFolderData alarmFolderData;
     Database db = await this.database;
     var result = await db.rawQuery(
-        'select * from $alarmFolderTableName where $columnFolderName = ?',
+        'select * from ${DatabaseString.alarmFolderTableName} where ${DatabaseString.columnFolderName} = ?',
         [name]);
     alarmFolderData = AlarmFolderData.fromMap(result.first);
 
@@ -297,7 +295,7 @@ class AlarmProvider {
   Future<int> insertAlarmFolder(AlarmFolderData alarmFolderDataData) async {
     Database db = await this.database;
     var insertId = await db.insert(
-      alarmFolderTableName,
+      DatabaseString.alarmFolderTableName,
       alarmFolderDataData.toMap(),
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
@@ -309,16 +307,12 @@ class AlarmProvider {
   //folder 내부 알람까지 삭제
   Future<int> deleteAlarmFolder(String name) async {
     Database db = await this.database;
-    var countOfDeletedAlarmItems = await db.delete(
-        tableName,
-        where: '$columnFolderName = ?',
-        whereArgs: [name]
-    );
+    var countOfDeletedAlarmItems = await db.delete(DatabaseString.tableName,
+        where: '${DatabaseString.columnFolderName} = ?', whereArgs: [name]);
     var countOfDeletedFolderItems = await db.delete(
-        alarmFolderTableName,
-        where: '$columnFolderName = ?',
-        whereArgs: [name]
-    );
+        DatabaseString.alarmFolderTableName,
+        where: '${DatabaseString.columnFolderName} = ?',
+        whereArgs: [name]);
     print('Count of deleted Folder Items is $countOfDeletedFolderItems'
         '\nCount of deleted Alarm Items is $countOfDeletedAlarmItems');
 
@@ -327,15 +321,16 @@ class AlarmProvider {
 
   Future<void> updateAlarmFolder(AlarmFolderData alarmFolderData) async {
     Database db = await this.database;
-    await db.update(tableName, alarmFolderData.toMap(),
-        where: '$columnFolderName = ?', whereArgs: [alarmFolderData.name]);
+    await db.update(DatabaseString.tableName, alarmFolderData.toMap(),
+        where: '${DatabaseString.columnFolderName} = ?',
+        whereArgs: [alarmFolderData.name]);
   }
 
   Future<List<DayOffData>> getAllDayOff() async {
     List<DayOffData> dayOffDataList = [];
     final Database db = await this.database;
     final List<Map<String, dynamic>> dayOffDataMaps =
-    await db.query(dayOffTableName);
+        await db.query(DatabaseString.dayOffTableName);
 
     dayOffDataMaps.forEach((element) {
       var dayOffData = DayOffData.fromMap(element);
@@ -349,7 +344,7 @@ class AlarmProvider {
     List<DayOffData> dayOffDataList = [];
     final Database db = await this.database;
     final List<Map<String, dynamic>> dayOffDataMaps =
-    await db.query(dayOffTableName);
+        await db.query(DatabaseString.dayOffTableName);
 
     dayOffDataMaps.forEach((element) {
       var dayOffData = DayOffData.fromMap(element);
@@ -364,7 +359,7 @@ class AlarmProvider {
   Future<int> insertDayOff(DayOffData dayOffData) async {
     Database db = await this.database;
     var insertId = await db.insert(
-      dayOffTableName,
+      DatabaseString.dayOffTableName,
       dayOffData.toMap(),
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
@@ -376,10 +371,9 @@ class AlarmProvider {
   Future<int> deleteDayOff(int id, DateTime dayOff) async {
     Database db = await this.database;
     String dayOffString = dayOff.toIso8601String();
-    var countOfDeletedItems =
-      await db.rawDelete('delete from $dayOffTableName where $columnId = ? and $columnDayOffDate = ?',
+    var countOfDeletedItems = await db.rawDelete(
+        'delete from ${DatabaseString.dayOffTableName} where ${DatabaseString.columnId} = ? and ${DatabaseString.columnDayOffDate} = ?',
         [id, dayOffString]);
-    //rawDelete('DELETE FROM Test WHERE name = ?', ['another name']);
     print('Count of deleted Items is $countOfDeletedItems');
     return countOfDeletedItems;
   }

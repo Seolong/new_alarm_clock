@@ -1,13 +1,5 @@
 import 'package:new_alarm_clock/utils/type_converter.dart';
-import 'alarm_data.dart';
-
-final String columnSunday = 'sunday';
-final String columnMonday = 'monday';
-final String columnTuesday = 'tuesday';
-final String columnWednesday = 'wednesday';
-final String columnThursday = 'thursday';
-final String columnFriday = 'friday';
-final String columnSaturday = 'saturday';
+import 'package:new_alarm_clock/utils/values/string_value.dart';
 
 class AlarmWeekRepeatData {
   late int id;
@@ -31,23 +23,27 @@ class AlarmWeekRepeatData {
 
   factory AlarmWeekRepeatData.fromMap(Map<String, dynamic> json) =>
       AlarmWeekRepeatData(
-          id: json[columnId],
-          sunday: TypeConverter.convertIntToBool(json[columnSunday]),
-          monday: TypeConverter.convertIntToBool(json[columnMonday]),
-          tuesday: TypeConverter.convertIntToBool(json[columnTuesday]),
-          wednesday: TypeConverter.convertIntToBool(json[columnWednesday]),
-          thursday: TypeConverter.convertIntToBool(json[columnThursday]),
-          friday: TypeConverter.convertIntToBool(json[columnFriday]),
-          saturday: TypeConverter.convertIntToBool(json[columnSaturday]));
+          id: json[DatabaseString.columnId],
+          sunday: TypeConverter.convertIntToBool(json[DayOfWeekString.sunday]),
+          monday: TypeConverter.convertIntToBool(json[DayOfWeekString.monday]),
+          tuesday:
+              TypeConverter.convertIntToBool(json[DayOfWeekString.tuesday]),
+          wednesday:
+              TypeConverter.convertIntToBool(json[DayOfWeekString.wednesday]),
+          thursday:
+              TypeConverter.convertIntToBool(json[DayOfWeekString.thursday]),
+          friday: TypeConverter.convertIntToBool(json[DayOfWeekString.friday]),
+          saturday:
+              TypeConverter.convertIntToBool(json[DayOfWeekString.saturday]));
 
   Map<String, dynamic> toMap() => {
-        columnId: id,
-        columnSunday: TypeConverter.convertBoolToInt(sunday),
-        columnMonday: TypeConverter.convertBoolToInt(monday),
-        columnTuesday: TypeConverter.convertBoolToInt(tuesday),
-        columnWednesday: TypeConverter.convertBoolToInt(wednesday),
-        columnThursday: TypeConverter.convertBoolToInt(thursday),
-        columnFriday: TypeConverter.convertBoolToInt(friday),
-        columnSaturday: TypeConverter.convertBoolToInt(saturday)
+        DatabaseString.columnId: id,
+        DayOfWeekString.sunday: TypeConverter.convertBoolToInt(sunday),
+        DayOfWeekString.monday: TypeConverter.convertBoolToInt(monday),
+        DayOfWeekString.tuesday: TypeConverter.convertBoolToInt(tuesday),
+        DayOfWeekString.wednesday: TypeConverter.convertBoolToInt(wednesday),
+        DayOfWeekString.thursday: TypeConverter.convertBoolToInt(thursday),
+        DayOfWeekString.friday: TypeConverter.convertBoolToInt(friday),
+        DayOfWeekString.saturday: TypeConverter.convertBoolToInt(saturday)
       };
 }
