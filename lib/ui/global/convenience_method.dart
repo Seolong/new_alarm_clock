@@ -4,15 +4,6 @@ import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 
 class ConvenienceMethod{
-  Map<String, dynamic> getArgToNextPage(String mode, int alarmId, String folderName){
-    Map<String, dynamic> result = {
-      StringValue.mode: mode,
-      StringValue.alarmId: alarmId,
-      StringValue.folderName: folderName
-    };
-    return result;
-  }
-
   static void showSimpleSnackBar(String message){
     Get.closeAllSnackbars();
     Get.rawSnackbar(

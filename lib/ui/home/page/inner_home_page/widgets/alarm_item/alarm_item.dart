@@ -11,6 +11,7 @@ import 'package:new_alarm_clock/utils/values/color_value.dart';
 import 'package:new_alarm_clock/utils/values/size_value.dart';
 import 'package:get/get.dart';
 import 'package:new_alarm_clock/utils/values/string_value.dart';
+import '../../../../controller/required_parameter_to_add_alarm_page_controller.dart';
 import 'controller/alarm_switch_controller.dart';
 import 'controller/selected_alarm_controller.dart';
 import 'widgets/alarm_item_text.dart';
@@ -83,6 +84,7 @@ class AlarmItem extends StatelessWidget {
     final switchCont = Get.put(AlarmSwitchController());
     Get.put(SelectedAlarmController());
     Get.put(AlarmListController());
+    var requiredParameterToAddAlarmPageController = Get.put(RequiredParameterToAddAlarmPageController());
 
     //나중에 LongPress했을 때 회색도 추가
     Get.find<SelectedAlarmController>().colorMap[_id] = ColorValue.alarm;
@@ -140,17 +142,13 @@ class AlarmItem extends StatelessWidget {
                         borderRadius: _alarmBorder,
                         splashColor: Colors.grey,
                         onTap: () async {
-                          Map<String, dynamic> argToNextPage =
-                              ConvenienceMethod().getArgToNextPage(
-                                  StringValue.editMode,
-                                  _id,
-                                  (await alarmProvider.getAlarmById(_id))
-                                      .folderName);
+                          requiredParameterToAddAlarmPageController.mode = StringValue.editMode;
+                          requiredParameterToAddAlarmPageController.alarmId = _id;
+                          requiredParameterToAddAlarmPageController.folderName = (await alarmProvider.getAlarmById(_id)).folderName;
                           Get.closeAllSnackbars();
                           Get.find<SelectedAlarmController>().isSelectedMode =
                               false;
-                          Get.toNamed(AppRoutes.addAlarmPage,
-                              arguments: argToNextPage);
+                          Get.toNamed(AppRoutes.addAlarmPage);
                         },
                         onLongPress: () {
                           if (selectedCont.isSelectedMode == false) {

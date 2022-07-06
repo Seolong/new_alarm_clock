@@ -3,8 +3,6 @@ import 'package:new_alarm_clock/ui/alarm_detail_page/repeat/controller/repeat_ra
 import 'package:new_alarm_clock/ui/alarm_detail_page/repeat/widget/RepeatContainer.dart';
 import 'package:new_alarm_clock/ui/alarm_detail_page/widget_all/app_bar_title.dart';
 import 'package:new_alarm_clock/ui/global/auto_size_text.dart';
-import 'package:new_alarm_clock/ui/global/divider/rounded_divider.dart';
-import 'package:new_alarm_clock/utils/enum.dart';
 import 'package:new_alarm_clock/utils/values/color_value.dart';
 import 'package:get/get.dart';
 import 'package:new_alarm_clock/utils/values/size_value.dart';
@@ -22,7 +20,7 @@ class RepeatPage extends StatelessWidget {
       appBar: AppBar(
         foregroundColor: ColorValue.appbarText,
         title: AppBarTitle('반복'),
-        backgroundColor: Get.find<ColorController>().colorSet.lightMainColor,
+        backgroundColor: Get.find<ColorController>().colorSet.mainColor,
       ),
       body: SafeArea(
         child: Column(

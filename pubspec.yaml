@@ -27,7 +27,6 @@ dependencies:
   sqflite: ^2.0.0+4
   path: ^1.8.0
   vibration: ^1.7.4-nullsafety.0
-  syncfusion_flutter_datepicker: ^19.3.48
   flutter_localizations:
     sdk: flutter
   shared_preferences: ^2.0.12

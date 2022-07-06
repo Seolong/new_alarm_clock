@@ -1,15 +1,8 @@
-import 'package:get/get.dart';
-
 class SizeValue{
   static final double dividerIndent = 10;
   static final double dividerEndIndent = 10;
   static final double dividerHeight = 20;
   static final double dividerThickness = 5;
-
-  static final double nextAlarmHeight = Get.height / 10;
-  static final double lightBulbWidth = Get.width / 6;
-  static final double nearestAlarmNameHeight = Get.height / 30;
-  static final double nearestAlarmTimeHeight = Get.height / 40;
 
   static final double alarmItemHeight = 130;
   static final double alarmItemDividerPadding = 7;

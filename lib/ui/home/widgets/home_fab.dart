@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:new_alarm_clock/ui/home/controller/folder_list_controller.dart';
+import 'package:new_alarm_clock/ui/home/controller/required_parameter_to_add_alarm_page_controller.dart';
 import '../../../data/shared_preferences/id_shared_preferences.dart';
 import '../../../routes/app_routes.dart';
 import '../../../utils/values/color_value.dart';
@@ -15,6 +16,7 @@ class HomeFAB extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var folderListController = Get.put(FolderListController());
+    var requiredParameterToAddAlarmPageController = Get.put(RequiredParameterToAddAlarmPageController());
     return Container(
       width: ButtonSize.xlarge,
       height: ButtonSize.xlarge,
@@ -31,13 +33,12 @@ class HomeFAB extends StatelessWidget {
           Get.closeAllSnackbars();
           Get.find<SelectedAlarmController>().isSelectedMode = false;
           int newId = await idSharedPreferences.getId();
-          Map<String, dynamic> argToNextPage = ConvenienceMethod().getArgToNextPage(
-              StringValue.addMode,
-              newId,
-              folderListController.currentFolderName
-          );
+          requiredParameterToAddAlarmPageController.mode = StringValue.addMode;
+          requiredParameterToAddAlarmPageController.alarmId = newId;
+          requiredParameterToAddAlarmPageController.folderName = folderListController.currentFolderName;
+
           idSharedPreferences.setId(++newId);
-          Get.toNamed(AppRoutes.addAlarmPage, arguments: argToNextPage);
+          Get.toNamed(AppRoutes.addAlarmPage);
         },
       ),
     );

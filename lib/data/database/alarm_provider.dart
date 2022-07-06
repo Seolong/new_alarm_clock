@@ -212,10 +212,10 @@ class AlarmProvider {
 
   Future<int> deleteAlarmWeekData(int id) async {
     Database db = await this.database;
-    var countOfdeletedItems =
+    var countOfDeletedItems =
         await db.delete(weekRepeatTableName, where: 'id = ?', whereArgs: [id]);
-    print('Count of deleted Items is $countOfdeletedItems');
-    return countOfdeletedItems;
+    print('Count of deleted Items is $countOfDeletedItems');
+    return countOfDeletedItems;
   }
 
   Future<void> updateAlarmWeekData(AlarmWeekRepeatData data) async {

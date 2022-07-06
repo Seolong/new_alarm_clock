@@ -26,6 +26,7 @@ import 'package:new_alarm_clock/ui/add_alarm/widgets/going_back_dialog.dart';
 import 'package:new_alarm_clock/ui/day_off/controller/day_off_list_controller.dart';
 import 'package:new_alarm_clock/ui/global/auto_size_text.dart';
 import 'package:new_alarm_clock/ui/global/convenience_method.dart';
+import 'package:new_alarm_clock/ui/home/controller/required_parameter_to_add_alarm_page_controller.dart';
 import 'package:new_alarm_clock/utils/enum.dart';
 import 'package:new_alarm_clock/utils/values/color_value.dart';
 import 'package:get/get.dart';
@@ -46,27 +47,32 @@ class AddAlarmPage extends StatelessWidget {
   final IdSharedPreferences idSharedPreferences = IdSharedPreferences();
 
   Future<void> initEditAlarm() async {
-    alarmData = await _alarmProvider.getAlarmById(alarmId);
+    // 페이지가 빌드 될 때마다 처음 init 상태로 되돌아가는 것을 막기 위함
+    if (Get.find<RequiredParameterToAddAlarmPageController>().isFirstInit == true) {
+      alarmData = await _alarmProvider.getAlarmById(alarmId);
 
-    Get.find<RepeatModeController>().repeatMode = alarmData.alarmType;
-    Get.find<VibrationRadioListController>().power = alarmData.vibrationBool;
-    Get.find<VibrationRadioListController>()
-        .initSelectedVibrationInEdit(alarmData.vibrationName);
-    Get.find<RingRadioListController>().power = alarmData.musicBool;
-    Get.find<RingRadioListController>().volume = alarmData.musicVolume;
-    Get.find<RingRadioListController>()
-        .initSelectedMusicPathInEdit(alarmData.musicPath);
-    Get.find<RepeatRadioListController>().power = alarmData.repeatBool;
-    Get.find<RepeatRadioListController>()
-        .setAlarmIntervalWithInt(alarmData.repeatInterval);
-    Get.find<RepeatRadioListController>()
-        .setRepeatNumWithInt(alarmData.repeatNum);
-    Get.find<IntervalTextFieldController>()
-        .initTextFieldInEditRepeat(alarmData.alarmInterval);
-    Get.find<MonthRepeatDayController>().initInEdit(alarmData.monthRepeatDay);
-    Get.find<StartEndDayController>().setStart(alarmData.alarmDateTime);
-    Get.find<StartEndDayController>().setEnd(alarmData.endDay);
-    Get.find<YearRepeatDayController>().yearRepeatDay = alarmData.alarmDateTime;
+      Get.find<RepeatModeController>().repeatMode = alarmData.alarmType;
+      Get.find<VibrationRadioListController>().power = alarmData.vibrationBool;
+      Get.find<VibrationRadioListController>()
+          .initSelectedVibrationInEdit(alarmData.vibrationName);
+      Get.find<RingRadioListController>().power = alarmData.musicBool;
+      Get.find<RingRadioListController>().volume = alarmData.musicVolume;
+      Get.find<RingRadioListController>()
+          .initSelectedMusicPathInEdit(alarmData.musicPath);
+      Get.find<RepeatRadioListController>().power = alarmData.repeatBool;
+      Get.find<RepeatRadioListController>()
+          .setAlarmIntervalWithInt(alarmData.repeatInterval);
+      Get.find<RepeatRadioListController>()
+          .setRepeatNumWithInt(alarmData.repeatNum);
+      Get.find<IntervalTextFieldController>()
+          .initTextFieldInEditRepeat(alarmData.alarmInterval);
+      Get.find<MonthRepeatDayController>().initInEdit(alarmData.monthRepeatDay);
+      Get.find<StartEndDayController>().setStart(alarmData.alarmDateTime);
+      Get.find<StartEndDayController>().setEnd(alarmData.endDay);
+      Get.find<YearRepeatDayController>().yearRepeatDay = alarmData.alarmDateTime;
+
+      Get.find<RequiredParameterToAddAlarmPageController>().isFirstInit = false;
+    }
   }
 
   Future<bool> _onTouchAppBarBackButton() async {
@@ -119,10 +125,9 @@ class AddAlarmPage extends StatelessWidget {
       return Get.find<MonthRepeatDayController>().monthRepeatDay == 29;
     }
 
-    Map<String, dynamic> argFromPreviousPage = Get.arguments;
-    mode = argFromPreviousPage[StringValue.mode]; //add or edit
-    alarmId = argFromPreviousPage[StringValue.alarmId];
-    currentFolderName = argFromPreviousPage[StringValue.folderName];
+    mode = Get.find<RequiredParameterToAddAlarmPageController>().mode; //add or edit
+    alarmId = Get.find<RequiredParameterToAddAlarmPageController>().alarmId;
+    currentFolderName = Get.find<RequiredParameterToAddAlarmPageController>().folderName;
 
     final repeatModeController = Get.put(RepeatModeController());
     final dayOfWeekController = Get.put(DayOfWeekController());
