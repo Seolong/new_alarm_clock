@@ -45,3 +45,7 @@ class DayOfWeekString {
   static final String friday = 'friday';
   static final String saturday = 'saturday';
 }
+
+class SystemMessage{
+  static final String notWeekMode = '현재 \'주마다 반복 모드\'가 아닙니다.';
+}

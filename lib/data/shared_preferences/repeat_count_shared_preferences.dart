@@ -4,6 +4,7 @@ class RepeatCountSharedPreferences {
   static final RepeatCountSharedPreferences _instance = RepeatCountSharedPreferences._internal();
   late SharedPreferences sharedPreferences;
   final String repeatCount = 'repeatCount';//지금 몇번 울렸니?
+  final int initialValue = 0;
 
   factory RepeatCountSharedPreferences() {
     return _instance;
@@ -11,8 +12,8 @@ class RepeatCountSharedPreferences {
 
   Future<void> init() async {
     sharedPreferences = await SharedPreferences.getInstance();
-    int count = sharedPreferences.getInt(repeatCount) ?? 0;
-    if(count == 0){
+    int count = sharedPreferences.getInt(repeatCount) ?? initialValue;
+    if(count == initialValue){
       sharedPreferences.setInt(repeatCount, count);
     }
   }
@@ -32,6 +33,6 @@ class RepeatCountSharedPreferences {
 
   Future<void> resetRepeatCount() async{
     await init();
-    sharedPreferences.setInt(repeatCount, 0);
+    sharedPreferences.setInt(repeatCount, initialValue);
   }
 }

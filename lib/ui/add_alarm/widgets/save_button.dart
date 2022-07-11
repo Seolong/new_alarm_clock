@@ -24,21 +24,11 @@ import 'package:get/get.dart';
 
 class SaveButton extends StatelessWidget {
   AlarmProvider _alarmProvider = AlarmProvider();
-  RepeatModeController repeatModeController;
-  TimeSpinnerController timeSpinnerController;
-  StartEndDayController startEndDayController;
-  AlarmTitleTextFieldController alarmTitleTextFieldController;
-  DayOfWeekController dayOfWeekController;
   String mode;
   int alarmId;
   String currentFolderName;
 
-  SaveButton(this.alarmId, this.mode, this.currentFolderName,
-      {required this.repeatModeController,
-      required this.timeSpinnerController,
-      required this.startEndDayController,
-      required this.alarmTitleTextFieldController,
-      required this.dayOfWeekController});
+  SaveButton(this.alarmId, this.mode, this.currentFolderName);
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +36,7 @@ class SaveButton extends StatelessWidget {
         onPressed: () async {
           //선택, 반복 날짜와 timespinner의 시간을 합치기 위함
           String hourMinute = DateFormat.Hm()
-              .format(timeSpinnerController.alarmDateTime)
+              .format(Get.find<TimeSpinnerController>().alarmDateTime)
               .toString();
           hourMinute += ':00.000';
           print(hourMinute);
@@ -54,15 +44,15 @@ class SaveButton extends StatelessWidget {
           setStartDay(hourMinute);
 
           DateTime? endDay;
-          if (startEndDayController.end['dateTime'] != null) {
+          if (Get.find<StartEndDayController>().end['dateTime'] != null) {
             endDay = getEndDay(hourMinute);
           }
 
           AlarmData alarmData = AlarmData(
             id: alarmId,
-            alarmType: repeatModeController.getRepeatMode(),
-            title: alarmTitleTextFieldController.textEditingController.text,
-            alarmDateTime: timeSpinnerController.alarmDateTime,
+            alarmType: Get.find<RepeatModeController>().getRepeatMode(),
+            title: Get.find<AlarmTitleTextFieldController>().textEditingController.text,
+            alarmDateTime: Get.find<TimeSpinnerController>().alarmDateTime,
             endDay: endDay,
             alarmState: true,
             alarmOrder: alarmId,
@@ -91,20 +81,20 @@ class SaveButton extends StatelessWidget {
 
           AlarmWeekRepeatData alarmWeekRepeatData = AlarmWeekRepeatData(
               id: alarmId,
-              sunday: dayOfWeekController.dayButtonStateMap[DayWeek.Sun]!,
-              monday: dayOfWeekController.dayButtonStateMap[DayWeek.Mon]!,
-              tuesday: dayOfWeekController.dayButtonStateMap[DayWeek.Tue]!,
-              wednesday: dayOfWeekController.dayButtonStateMap[DayWeek.Wed]!,
-              thursday: dayOfWeekController.dayButtonStateMap[DayWeek.Thu]!,
-              friday: dayOfWeekController.dayButtonStateMap[DayWeek.Fri]!,
-              saturday: dayOfWeekController.dayButtonStateMap[DayWeek.Sat]!);
+              sunday: Get.find<DayOfWeekController>().dayButtonStateMap[DayWeek.Sun]!,
+              monday: Get.find<DayOfWeekController>().dayButtonStateMap[DayWeek.Mon]!,
+              tuesday: Get.find<DayOfWeekController>().dayButtonStateMap[DayWeek.Tue]!,
+              wednesday: Get.find<DayOfWeekController>().dayButtonStateMap[DayWeek.Wed]!,
+              thursday: Get.find<DayOfWeekController>().dayButtonStateMap[DayWeek.Thu]!,
+              friday: Get.find<DayOfWeekController>().dayButtonStateMap[DayWeek.Fri]!,
+              saturday: Get.find<DayOfWeekController>().dayButtonStateMap[DayWeek.Sat]!);
 
           if (mode == StringValue.addMode) {
-            if (repeatModeController.getRepeatMode() == RepeatMode.week) {
+            if (Get.find<RepeatModeController>().getRepeatMode() == RepeatMode.week) {
               List<bool> weekBool = [];
               for (var weekDayBool in DayWeek.values) {
                 weekBool
-                    .add(dayOfWeekController.dayButtonStateMap[weekDayBool]!);
+                    .add(Get.find<DayOfWeekController>().dayButtonStateMap[weekDayBool]!);
               }
               alarmData.alarmDateTime = DateTimeCalculator().getStartNearDay(
                   alarmData.alarmType, alarmData.alarmDateTime,
@@ -117,15 +107,14 @@ class SaveButton extends StatelessWidget {
                 await _alarmProvider.getAlarmById(alarmId);
             int alarmOrder = alarmDataInDB.alarmOrder;
             alarmData.alarmOrder = alarmOrder;
-            Get.find<AlarmListController>().updateAlarm(alarmData);
-            if (repeatModeController.getRepeatMode() == RepeatMode.off) {
+            if (Get.find<RepeatModeController>().getRepeatMode() == RepeatMode.off) {
               AlarmWeekRepeatData? weekDataInDB =
                   await _alarmProvider.getAlarmWeekDataById(alarmId);
               if (weekDataInDB != null) {
                 //weekData가 남아있으면 delete
                 _alarmProvider.deleteAlarmWeekData(alarmId);
               }
-            } else if (repeatModeController.getRepeatMode() ==
+            } else if (Get.find<RepeatModeController>().getRepeatMode() ==
                 RepeatMode.week) {
               AlarmWeekRepeatData? weekDataInDB =
                   await _alarmProvider.getAlarmWeekDataById(alarmId);
@@ -159,12 +148,18 @@ class SaveButton extends StatelessWidget {
                     monthRepeatDay: alarmData.monthRepeatDay,
                     yearRepeatDay: alarmData.alarmDateTime);
               }
+              alarmData.alarmDateTime = DateTimeCalculator().getStartNearDay(
+                  alarmData.alarmType, alarmData.alarmDateTime,
+                  weekBool: weekBool,
+                  monthRepeatDay: alarmData.monthRepeatDay,
+                  yearRepeatDay: alarmData.alarmDateTime);
             } else{
               while(alarmData.alarmDateTime.isBefore(DateTime.now())){
                 alarmData.alarmDateTime =
                     alarmData.alarmDateTime.add(Duration(days: 1));
               }
             }
+            Get.find<AlarmListController>().updateAlarm(alarmData);
           } else {
             print('error in 저장 button in AddAlarmPage');
           }
@@ -182,20 +177,20 @@ class SaveButton extends StatelessWidget {
 
   void setStartDay(String hourMinute){
     String yearMonthDay = DateFormat('yyyy-MM-dd')
-        .format(startEndDayController.start['dateTime']);
+        .format(Get.find<StartEndDayController>().start['dateTime']);
     String alarmDateTime = yearMonthDay + 'T' + hourMinute;
     print('SaveButton: $alarmDateTime');
-    timeSpinnerController.alarmDateTime = DateTime.parse(alarmDateTime);
+    Get.find<TimeSpinnerController>().alarmDateTime = DateTime.parse(alarmDateTime);
 
-    if (timeSpinnerController.alarmDateTime.isBefore(DateTime.now())) {
-      timeSpinnerController.alarmDateTime =
-          timeSpinnerController.alarmDateTime.add(Duration(days: 1));
+    if (Get.find<TimeSpinnerController>().alarmDateTime.isBefore(DateTime.now())) {
+      Get.find<TimeSpinnerController>().alarmDateTime =
+          Get.find<TimeSpinnerController>().alarmDateTime.add(Duration(days: 1));
     }
   }
 
   DateTime getEndDay(String hourMinute){
     String yearMonthDay_end = DateFormat('yyyy-MM-dd')
-        .format(startEndDayController.end['dateTime']);
+        .format(Get.find<StartEndDayController>().end['dateTime']);
     String endDateTime = yearMonthDay_end + 'T' + hourMinute;
     return DateTime.parse(endDateTime);
   }

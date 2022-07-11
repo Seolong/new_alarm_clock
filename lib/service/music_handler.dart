@@ -24,9 +24,6 @@ class MusicHandler {
     print('current volume is $_originalVolume');
   }
 
-  /// Play device default alarm tone
-  Future<void> playDeviceDefaultTone(double volume) async {}
-
   /// This function initializes the music player with a sound path and
   /// starts playing based on the given alarm configuration.
   /// @param alarm - An ObservableAlarm object holding ringtone description
