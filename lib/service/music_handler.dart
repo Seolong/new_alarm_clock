@@ -6,10 +6,9 @@ import 'package:perfect_volume_control/perfect_volume_control.dart';
 class MusicHandler {
   static final MusicHandler _instance = MusicHandler._internal();
   AudioPlayer currentPlayer = AudioPlayer();
-  Map<String, String> defaultRingPath = {
-    StringValue.beepBeep: 'assets/audio/alarm_clock.mp3',
-    StringValue.ringRing: 'assets/audio/old_telephone.mp3'
-  };
+  final String beepBeepPath = 'assets/audio/alarm_clock.mp3';
+  final String ringRingPath = 'assets/audio/old_telephone.mp3';
+  Map<String, String> defaultRingPath = {};
   late double _originalVolume;
 
   factory MusicHandler() {
@@ -21,6 +20,10 @@ class MusicHandler {
 
   initOriginalVolume() async {
     _originalVolume = await PerfectVolumeControl.getVolume();
+    defaultRingPath = {
+      StringValue.beepBeep: beepBeepPath,
+      StringValue.ringRing: ringRingPath
+    };
     print('current volume is $_originalVolume');
   }
 
@@ -35,9 +38,9 @@ class MusicHandler {
 
     PerfectVolumeControl.setVolume(volume);
     if (absPath == StringValue.beepBeep) {
-      await currentPlayer.setAsset('assets/audio/alarm_clock.mp3');
+      await currentPlayer.setAsset(beepBeepPath);
     } else if (absPath == StringValue.ringRing) {
-      await currentPlayer.setAsset('assets/audio/old_telephone.mp3');
+      await currentPlayer.setAsset(ringRingPath);
     } else {
       await currentPlayer.setFilePath(absPath);
     }

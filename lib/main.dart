@@ -14,6 +14,7 @@ import 'package:new_alarm_clock/ui/global/color_controller.dart';
 import 'package:new_alarm_clock/ui/home/controller/alarm_list_controller.dart';
 import 'package:new_alarm_clock/ui/home/home_page.dart';
 import 'package:new_alarm_clock/utils/values/my_font_family.dart';
+import 'package:new_alarm_clock/utils/values/string_value.dart';
 
 final AppStateSharedPreferences _appStateSharedPreferences =
     AppStateSharedPreferences();
@@ -33,7 +34,7 @@ void main() async {
       [            // notification icon
         NotificationChannel(
           channelGroupKey: 'basic_test',
-          channelKey: 'basic',
+          channelKey: StringValue.notificationChannelKey,
           channelName: 'Basic notifications',
           channelDescription: 'Notification channel for basic tests',
           channelShowBadge: true,

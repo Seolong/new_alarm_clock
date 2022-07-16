@@ -5,10 +5,12 @@ import 'package:new_alarm_clock/utils/values/color_value.dart';
 import 'package:new_alarm_clock/utils/values/my_font_family.dart';
 import 'package:get/get.dart';
 
+import '../../../../utils/values/string_value.dart';
+
 class RingListTile extends AlarmDetailListTile{
   RingListTile(){
     tileTitle = Text(
-      '알람음',
+      StringValue.ringtone,
       textAlign: TextAlign.start,
       style: TextStyle(
         color: ColorValue.listTileTitleText,
@@ -32,9 +34,9 @@ class RingListTile extends AlarmDetailListTile{
               value: _.power,
               onChanged: (value) {
                 if (_.power) {
-                  _.listTextColor = _.textColor['inactive']!;
+                  _.listTextColor = _.textColor[StringValue.inactive]!;
                 } else {
-                  _.listTextColor = _.textColor['active']!;
+                  _.listTextColor = _.textColor[StringValue.active]!;
                 }
 
                 _.power = value;

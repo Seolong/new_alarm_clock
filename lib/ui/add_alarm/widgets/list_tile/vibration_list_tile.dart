@@ -6,10 +6,12 @@ import 'package:new_alarm_clock/utils/values/color_value.dart';
 import 'package:new_alarm_clock/utils/values/my_font_family.dart';
 import 'package:get/get.dart';
 
+import '../../../../utils/values/string_value.dart';
+
 class VibrationListTile extends AlarmDetailListTile {
   VibrationListTile() {
     tileTitle = Text(
-      '진동',
+      StringValue.vibration,
       textAlign: TextAlign.start,
       style: TextStyle(
           color: ColorValue.listTileTitleText,
@@ -33,9 +35,9 @@ class VibrationListTile extends AlarmDetailListTile {
             value: _.power,
             onChanged: (value) {
               if (_.power) {
-                _.listTextColor = _.textColor['inactive']!;
+                _.listTextColor = _.textColor[StringValue.inactive]!;
               } else {
-                _.listTextColor = _.textColor['active']!;
+                _.listTextColor = _.textColor[StringValue.active]!;
               }
 
               _.power = value;

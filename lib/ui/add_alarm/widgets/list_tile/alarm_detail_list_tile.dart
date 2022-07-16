@@ -5,29 +5,26 @@ import 'package:new_alarm_clock/ui/alarm_detail_page/ring/controller/ring_radio_
 import 'package:new_alarm_clock/ui/alarm_detail_page/vibration/controller/vibration_radio_list_controller.dart';
 import 'package:new_alarm_clock/utils/values/my_font_family.dart';
 import 'package:get/get.dart';
+import 'package:new_alarm_clock/utils/values/string_value.dart';
 
 class AlarmDetailListTile extends StatelessWidget {
   Text tileTitle =
       Text('', style: TextStyle(fontFamily: MyFontFamily.mainFontFamily));
   dynamic tileSubTitle;
   dynamic stateSwitch = Switch(value: true, onChanged: null);
-  AlarmDetailPageFactory alarmDetailPageFactory = AlarmDetailPageFactory();
+  final AlarmDetailPageFactory alarmDetailPageFactory = AlarmDetailPageFactory();
   dynamic currentListTileController;
 
   @override
   Widget build(BuildContext context) {
-    switch(tileTitle.data!){
-      case '알람음':
-        currentListTileController = Get.put(RingRadioListController());
-        break;
-      case '진동':
-        currentListTileController = Get.put(VibrationRadioListController());
-        break;
-      case '반복':
-        currentListTileController = Get.put(RepeatRadioListController());
-        break;
-      default://error
-        assert(false, 'error in currentListTileController of AlarmDetailListTile');
+    if(tileTitle.data! == StringValue.ringtone){
+      currentListTileController = Get.put(RingRadioListController());
+    }else if(tileTitle.data! == StringValue.vibration){
+      currentListTileController = Get.put(VibrationRadioListController());
+    }else if(tileTitle.data! == StringValue.repeat){
+      currentListTileController = Get.put(RepeatRadioListController());
+    }else{
+      assert(false, 'error in currentListTileController of AlarmDetailListTile');
     }
 
     return Container(

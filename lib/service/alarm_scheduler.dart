@@ -9,6 +9,7 @@ import 'package:new_alarm_clock/data/model/alarm_week_repeat_data.dart';
 import 'package:new_alarm_clock/data/shared_preferences/app_state_shared_preferences.dart';
 import 'package:new_alarm_clock/data/shared_preferences/id_shared_preferences.dart';
 import 'package:new_alarm_clock/utils/enum.dart';
+import 'package:new_alarm_clock/utils/values/string_value.dart';
 import 'package:restart_app/restart_app.dart';
 
 import '../main.dart';
@@ -34,15 +35,15 @@ class AlarmScheduler {
       //show notification
       AwesomeNotifications().createNotification(
           content: NotificationContent(
-              //simgple notification
+              //simple notification
               id: alarmId,
-              channelKey: 'basic',
+              channelKey: StringValue.notificationChannelKey,
               //set configuration with key "basic"
-              title: '곧 알람이 울립니다.',
+              title: SystemMessage.alarmWillGoOffSoon,
               body: '${alarmData.title} '
                   '${getTimeWithTwoLetter(alarmData.alarmDateTime.hour)}:'
                   '${getTimeWithTwoLetter(alarmData.alarmDateTime.minute)}',
-              payload: {'id': '$alarmId'},
+              payload: {StringValue.id: '$alarmId'},
               autoDismissible: false,
               //actionType: ActionType.SilentBackgroundAction,
               //category: NotificationCategory.Alarm
@@ -51,8 +52,8 @@ class AlarmScheduler {
               date: alarmData.alarmDateTime.subtract(Duration(minutes: 30))),
           actionButtons: [
             NotificationActionButton(
-              key: 'skip_once',
-              label: '한 번 건너뛰기',
+              key: StringValue.skipButtonKey,
+              label: SystemMessage.skipOnce,
               actionType: ActionType.SilentBackgroundAction,
             )
           ]);
@@ -71,15 +72,15 @@ class AlarmScheduler {
       //show notification
       AwesomeNotifications().createNotification(
           content: NotificationContent(
-              //simgple notification
+              //simple notification
               id: alarmId,
-              channelKey: 'basic',
+              channelKey: StringValue.notificationChannelKey,
               //set configuration with key "basic"
-              title: '곧 알람이 울립니다.',
+              title: SystemMessage.alarmWillGoOffSoon,
               body: '${alarmData.title} '
                   '${getTimeWithTwoLetter(alarmData.alarmDateTime.hour)}:'
                   '${getTimeWithTwoLetter(alarmData.alarmDateTime.minute)}',
-              payload: {'id': '$alarmId'},
+              payload: {StringValue.id: '$alarmId'},
               autoDismissible: false,
               actionType: ActionType.SilentBackgroundAction,
               category: NotificationCategory.Alarm),
@@ -88,8 +89,8 @@ class AlarmScheduler {
               date: alarmData.alarmDateTime.add(Duration(days: 100000))),
           actionButtons: [
             NotificationActionButton(
-                key: 'skip_once',
-                label: '한 번 건너뛰기',
+                key: StringValue.skipButtonKey,
+                label: SystemMessage.skipOnce,
                 actionType: ActionType.KeepOnTop)
           ]);
     }

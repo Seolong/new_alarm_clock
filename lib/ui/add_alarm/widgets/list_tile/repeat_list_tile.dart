@@ -4,11 +4,12 @@ import 'package:new_alarm_clock/ui/alarm_detail_page/repeat/controller/repeat_ra
 import 'package:new_alarm_clock/utils/values/color_value.dart';
 import 'package:new_alarm_clock/utils/values/my_font_family.dart';
 import 'package:get/get.dart';
+import 'package:new_alarm_clock/utils/values/string_value.dart';
 
 class RepeatListTile extends AlarmDetailListTile{
   RepeatListTile(){
     tileTitle = Text(
-      '반복',
+      StringValue.repeat,
       textAlign: TextAlign.start,
       style: TextStyle(
           fontFamily: MyFontFamily.mainFontFamily,
@@ -35,9 +36,9 @@ class RepeatListTile extends AlarmDetailListTile{
             value: _.power,
             onChanged: (value) {
               if (_.power) {
-                _.listTextColor = _.textColor['inactive']!;
+                _.listTextColor = _.textColor[StringValue.inactive]!;
               } else {
-                _.listTextColor = _.textColor['active']!;
+                _.listTextColor = _.textColor[StringValue.active]!;
               }
 
               _.power = value;

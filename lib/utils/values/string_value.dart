@@ -2,10 +2,19 @@ class StringValue {
   static final String editMode = 'edit';
   static final String addMode = 'add';
   static final String mode = 'mode';
-  static final String alarmId = 'id';
+  static final String id = 'id';
   static final String beepBeep = '삐빅';
   static final String ringRing = '따르릉';
   static final String folderName = 'folderName';
+  static final String skipButtonKey = 'skip_once';
+  static final String notificationChannelKey = 'basic';
+
+  static final String ringtone = '알람음';
+  static final String vibration = '진동';
+  static final String repeat = '반복';
+
+  static final String active = 'active';
+  static final String inactive = 'inactive';
 }
 
 class DatabaseString {
@@ -46,6 +55,9 @@ class DayOfWeekString {
   static final String saturday = 'saturday';
 }
 
+// message that user can see
 class SystemMessage{
   static final String notWeekMode = '현재 \'주마다 반복 모드\'가 아닙니다.';
+  static final String alarmWillGoOffSoon = '곧 알람이 울립니다.';
+  static final String skipOnce = '한 번 건너뛰기';
 }
