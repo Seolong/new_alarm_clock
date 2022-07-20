@@ -23,7 +23,7 @@ String appState = 'main';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  WidgetsBinding.instance!.addObserver(LifeCycleListener());
+  WidgetsBinding.instance.addObserver(LifeCycleListener());
 
   await AndroidAlarmManager.initialize();
   appState = await _appStateSharedPreferences.getAppState();

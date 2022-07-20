@@ -60,4 +60,5 @@ class SystemMessage{
   static final String notWeekMode = '현재 \'주마다 반복 모드\'가 아닙니다.';
   static final String alarmWillGoOffSoon = '곧 알람이 울립니다.';
   static final String skipOnce = '한 번 건너뛰기';
+  static final String resetMusicList = '음악 목록을 초기화하시겠습니까?';
 }

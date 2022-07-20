@@ -14,7 +14,7 @@ class RepeatModeController extends GetxController {
     _repeatMode = repeatMode;
 
     //ChoiceDayPage에 Builder 써서 이거 써야한다.
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       // executes after build
 
       //chioceDay의 초기 subTabBarIndex 설정을 위해
