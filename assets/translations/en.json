@@ -1,0 +1,22 @@
+{
+  "ringtone": "Ringtone",
+  "vibration": "Vibration",
+  "repeat": "Repeat",
+
+  "on": "On",
+  "off": "Off",
+
+  "ringtoneList": "Ringtone List",
+  "minute": {
+    "zero": "minute",
+    "one": "minute",
+    "other": "minutes"
+  },
+  "repeatInterval": "Interval",
+  "repeatNum": "Repeat",
+
+  "notWeekMode": "This is not a repeat mode per week",
+  "alarmWillGoOffSoon": "The alarm will go off soon",
+  "skipOnce": "Skip once",
+  "resetMusicList": "Will you reset this music list?"
+}

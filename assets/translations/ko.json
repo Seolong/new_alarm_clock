@@ -1,0 +1,16 @@
+{
+  "ringtone": "알람음",
+  "vibration": "진동",
+  "repeat": "반복",
+
+  "on": "사용",
+  "off": "사용 안 함",
+
+  "ringtoneList": "음악 목록",
+  "minute": "분",
+
+  "notWeekMode": "현재 '주마다 반복 모드'가 아닙니다.",
+  "alarmWillGoOffSoon": "곧 알람이 울립니다.",
+  "skipOnce": "한 번 건너뛰기",
+  "resetMusicList": "음악 목록을 초기화하시겠습니까?"
+}

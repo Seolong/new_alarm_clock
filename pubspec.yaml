@@ -29,6 +29,7 @@ dependencies:
   vibration: ^1.7.4-nullsafety.0
   flutter_localizations:
     sdk: flutter
+  easy_localization: ^3.0.1
   shared_preferences: ^2.0.12
   bringtoforeground:
     git:
@@ -58,9 +59,12 @@ dev_dependencies:
 
 # The following section is specific to Flutter.
 flutter:
+  generate: true
   assets:
     - assets/audio/old_telephone.mp3
     - assets/audio/alarm_clock.mp3
+    - assets/translations/ko.json
+    - assets/translations/en.json
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in

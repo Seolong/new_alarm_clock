@@ -8,9 +8,10 @@ import 'package:new_alarm_clock/ui/alarm_detail_page/widget_all/app_bar_title.da
 import 'package:new_alarm_clock/ui/global/auto_size_text.dart';
 import 'package:new_alarm_clock/ui/global/color_controller.dart';
 import 'package:new_alarm_clock/utils/values/color_value.dart';
-import 'package:get/get.dart';
+import 'package:get/get.dart' hide Trans;
+import 'package:easy_localization/easy_localization.dart';
+import 'package:new_alarm_clock/generated/locale_keys.g.dart';
 import 'package:new_alarm_clock/utils/values/size_value.dart';
-
 
 class RingPage extends StatelessWidget {
 
@@ -27,7 +28,7 @@ class RingPage extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           foregroundColor: ColorValue.appbarText,
-          title: AppBarTitle('알람음'),
+          title: AppBarTitle(LocaleKeys.ringtone.tr()),
           backgroundColor: Get.find<ColorController>().colorSet.mainColor,
         ),
         body: SafeArea(
