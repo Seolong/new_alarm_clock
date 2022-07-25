@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:get/get.dart' hide Trans;
+import 'package:easy_localization/easy_localization.dart';
+import 'package:new_alarm_clock/generated/locale_keys.g.dart';
 import 'package:new_alarm_clock/ui/global/auto_size_text.dart';
 import 'package:new_alarm_clock/ui/home/controller/folder_list_controller.dart';
 import 'package:new_alarm_clock/ui/home/controller/folder_name_text_field_controller.dart';
@@ -29,7 +31,7 @@ class FolderPage extends StatelessWidget {
               height: 150,
               alignment: Alignment.center,
               child: Text(
-                '폴더',
+                LocaleKeys.folder.tr(),
                 style: TextStyle(
                     fontSize: 30,
                     fontWeight: FontWeight.bold,
@@ -77,7 +79,7 @@ class FolderPage extends StatelessWidget {
                             ),
                             Container(
                                 height: 20,
-                                child: AutoSizeText(
+                                child: AutoSizeText(index == 0?LocaleKeys.allAlarms.tr():
                                   '${_.folderList[index].name}',
                                   bold: true,
                                 )),
@@ -100,7 +102,7 @@ class FolderPage extends StatelessWidget {
                             Container(
                                 height: 20,
                                 child: AutoSizeText(
-                                  '폴더 추가',
+                                  LocaleKeys.addFolder.tr(),
                                   bold: true,
                                 )),
                           ],

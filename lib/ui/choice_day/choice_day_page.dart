@@ -9,8 +9,9 @@ import 'package:new_alarm_clock/ui/global/auto_size_text.dart';
 import 'package:new_alarm_clock/ui/global/convenience_method.dart';
 import 'package:new_alarm_clock/utils/enum.dart';
 import 'package:new_alarm_clock/utils/values/color_value.dart';
-import 'package:get/get.dart';
-
+import 'package:get/get.dart' hide Trans;
+import 'package:easy_localization/easy_localization.dart';
+import 'package:new_alarm_clock/generated/locale_keys.g.dart';
 import '../global/color_controller.dart';
 import 'controller/repeat_mode_controller.dart';
 
@@ -94,7 +95,7 @@ class ChoiceDayPage extends StatelessWidget {
                     onPressed: _onTouchBackButton,
                   ),
                   title: Text(
-                      '날짜 선택'
+                      LocaleKeys.alarmType.tr()
                   ),
                 ),
                 body: SafeArea(
@@ -115,14 +116,14 @@ class ChoiceDayPage extends StatelessWidget {
                                 height: 37.5,
                                 width: 60,
                                 alignment: Alignment.center,
-                                child: AutoSizeText('선택', bold: true, color: null,),
+                                child: AutoSizeText(LocaleKeys.chooseOne.tr(), bold: true, color: null,),
                               ),
                               Container(
                                 padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
                                 height: 37.5,
                                 width: 60,
                                 alignment: Alignment.center,
-                                child: AutoSizeText('반복', bold: true, color: null,),
+                                child: AutoSizeText(LocaleKeys.repeat.tr(), bold: true, color: null,),
                               ),
                             ]),
                       ),

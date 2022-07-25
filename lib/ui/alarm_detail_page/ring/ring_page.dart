@@ -28,7 +28,7 @@ class RingPage extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           foregroundColor: ColorValue.appbarText,
-          title: AppBarTitle(LocaleKeys.ringtone.tr()),
+          title: AppBarTitle(LocaleKeys.sound.tr()),
           backgroundColor: Get.find<ColorController>().colorSet.mainColor,
         ),
         body: SafeArea(

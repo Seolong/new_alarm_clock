@@ -1,6 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:get/get.dart' hide Trans;
+import 'package:easy_localization/easy_localization.dart';
+import 'package:new_alarm_clock/generated/locale_keys.g.dart';
 import 'package:new_alarm_clock/data/shared_preferences/settings_shared_preferences.dart';
 import 'package:new_alarm_clock/ui/home/controller/alarm_list_controller.dart';
 import '../../../../../utils/values/color_value.dart';
@@ -60,7 +61,7 @@ class AlignButton extends StatelessWidget {
                             height: buttonHeight,
                             padding: EdgeInsets.all(buttonPadding),
                             child: AutoSizeText(
-                              '설정순',
+                              LocaleKeys.custom.tr(),
                             )),
                         Container(height: 10,),
                         Stack(alignment: Alignment.center, children: [
@@ -101,7 +102,7 @@ class AlignButton extends StatelessWidget {
                             height: buttonHeight,
                             padding: EdgeInsets.all(buttonPadding),
                             child: AutoSizeText(
-                              '날짜순',
+                              LocaleKeys.byDate.tr(),
                             )),
                         Container(height: 10,),
                         Stack(alignment: Alignment.center, children: [
@@ -143,7 +144,7 @@ class AlignButton extends StatelessWidget {
           Container(
               height: 20,
               child: AutoSizeText(
-                '정렬',
+                LocaleKeys.align.tr(),
                 bold: true,
               )),
         ],

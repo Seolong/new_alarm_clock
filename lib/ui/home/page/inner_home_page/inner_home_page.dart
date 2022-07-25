@@ -4,7 +4,11 @@ import 'package:new_alarm_clock/ui/home/controller/folder_list_controller.dart';
 import 'package:new_alarm_clock/ui/home/page/inner_home_page/widgets/alarm_list_view.dart';
 import 'package:new_alarm_clock/utils/values/color_value.dart';
 import 'package:new_alarm_clock/utils/values/my_font_family.dart';
-import 'package:get/get.dart';
+import 'package:get/get.dart' hide Trans;
+import 'package:easy_localization/easy_localization.dart';
+import 'package:new_alarm_clock/generated/locale_keys.g.dart';
+
+import '../../../../utils/values/string_value.dart';
 
 class InnerHomePage extends StatelessWidget {
   final AlarmProvider alarmProvider = AlarmProvider();
@@ -36,7 +40,9 @@ class InnerHomePage extends StatelessWidget {
               child: GetBuilder<FolderListController>(
                 builder: (_) {
                   return Text(
-                    _.currentFolderName,
+                  _.currentFolderName == StringValue.allAlarms
+                      ? LocaleKeys.allAlarms.tr()
+                      : _.currentFolderName,
                     style: TextStyle(
                         fontSize: 1000,
                         color: Colors.black54,

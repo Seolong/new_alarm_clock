@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-
+import 'package:get/get.dart' hide Trans;
+import 'package:easy_localization/easy_localization.dart';
+import 'package:new_alarm_clock/generated/locale_keys.g.dart';
 import '../../../../../data/database/alarm_provider.dart';
 import '../../../../../service/alarm_scheduler.dart';
 import '../../../../global/auto_size_text.dart';
@@ -17,7 +18,7 @@ class ResetButton extends StatelessWidget {
     final folderListController = Get.put(FolderListController());
     return InkWell(
       onTap: () async{
-        bool? isDelete = await Get.dialog(DeleteDialog('모든 데이터가 삭제됩니다. 초기화하시겠습니까?'));
+        bool? isDelete = await Get.dialog(DeleteDialog(LocaleKeys.resetAll.tr()));
         if(isDelete == true){
           await AlarmScheduler.removeAllAlarm();
           await _alarmProvider.resetAllTable();
@@ -36,7 +37,7 @@ class ResetButton extends StatelessWidget {
           Container(
               height: 20,
               child: AutoSizeText(
-                '초기화',
+                LocaleKeys.reset.tr(),
                 bold: true,
               )),
         ],

@@ -11,7 +11,7 @@ import '../../../../utils/values/string_value.dart';
 class RingListTile extends AlarmDetailListTile{
   RingListTile(){
     tileTitle = Text(
-      LocaleKeys.ringtone.tr(),
+      LocaleKeys.sound.tr(),
       textAlign: TextAlign.start,
       style: TextStyle(
         color: ColorValue.listTileTitleText,

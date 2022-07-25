@@ -1,5 +1,6 @@
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:flutter/material.dart';import 'package:get/get.dart' hide Trans;
+import 'package:easy_localization/easy_localization.dart';
+import 'package:new_alarm_clock/generated/locale_keys.g.dart';
 import 'package:new_alarm_clock/data/shared_preferences/settings_shared_preferences.dart';
 
 import '../../../../../utils/values/color_value.dart';
@@ -12,7 +13,7 @@ class SetHomeFolderButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final folderListController = Get.put(FolderListController());
+    Get.put(FolderListController());
     return InkWell(
       onTap: () async {
         Get.dialog(
@@ -28,7 +29,7 @@ class SetHomeFolderButton extends StatelessWidget {
                 padding: EdgeInsets.fromLTRB(0, 15, 0, 15),
                 height: 60,
                 child: AutoSizeText(
-                  '첫 화면 폴더 선택',
+                  LocaleKeys.chooseMainFolder.tr(),
                   bold: true,
                   color: Colors.black54,
                 )),
@@ -80,8 +81,9 @@ class SetHomeFolderButton extends StatelessWidget {
                               ),
                               Container(
                                   height: 17.5,
-                                  child: AutoSizeText(
-                                    '${_.folderList[index].name}',
+                                  child: AutoSizeText(index==0
+                                      ? LocaleKeys.allAlarms.tr()
+                                      : '${_.folderList[index].name}',
                                     bold: true,
                                   )),
                             ],
@@ -108,7 +110,7 @@ class SetHomeFolderButton extends StatelessWidget {
           Container(
               height: 20,
               child: AutoSizeText(
-                '첫 화면 폴더',
+                LocaleKeys.mainFolder.tr(),
                 bold: true,
               )),
         ],

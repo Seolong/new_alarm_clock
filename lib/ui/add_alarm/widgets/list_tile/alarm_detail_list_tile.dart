@@ -7,7 +7,6 @@ import 'package:new_alarm_clock/ui/alarm_detail_page/ring/controller/ring_radio_
 import 'package:new_alarm_clock/ui/alarm_detail_page/vibration/controller/vibration_radio_list_controller.dart';
 import 'package:new_alarm_clock/utils/values/my_font_family.dart';
 import 'package:get/get.dart' hide Trans;
-import 'package:new_alarm_clock/utils/values/string_value.dart';
 
 class AlarmDetailListTile extends StatelessWidget {
   Text tileTitle =
@@ -19,11 +18,11 @@ class AlarmDetailListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if(tileTitle.data! == LocaleKeys.ringtone.tr()){
+    if(tileTitle.data! == LocaleKeys.sound.tr()){
       currentListTileController = Get.put(RingRadioListController());
-    }else if(tileTitle.data! == StringValue.vibration){
+    }else if(tileTitle.data! == LocaleKeys.vibration.tr()){
       currentListTileController = Get.put(VibrationRadioListController());
-    }else if(tileTitle.data! == StringValue.repeat){
+    }else if(tileTitle.data! == LocaleKeys.snooze.tr()){
       currentListTileController = Get.put(RepeatRadioListController());
     }else{
       assert(false, 'error in currentListTileController of AlarmDetailListTile');

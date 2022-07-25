@@ -20,7 +20,9 @@ import 'package:new_alarm_clock/utils/enum.dart';
 import 'package:new_alarm_clock/utils/values/color_value.dart';
 import 'package:intl/intl.dart';
 import 'package:new_alarm_clock/utils/values/string_value.dart';
-import 'package:get/get.dart';
+import 'package:get/get.dart' hide Trans;
+import 'package:easy_localization/easy_localization.dart';
+import 'package:new_alarm_clock/generated/locale_keys.g.dart';
 
 class SaveButton extends StatelessWidget {
   AlarmProvider _alarmProvider = AlarmProvider();
@@ -170,7 +172,7 @@ class SaveButton extends StatelessWidget {
           Get.back();
         },
         child: AutoSizeText(
-          '저장',
+          LocaleKeys.save.tr(),
           bold: true,
         ));
   }

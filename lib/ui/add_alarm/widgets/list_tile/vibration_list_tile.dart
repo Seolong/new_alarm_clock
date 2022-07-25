@@ -4,14 +4,15 @@ import 'package:new_alarm_clock/ui/alarm_detail_page/vibration/controller/vibrat
 import 'package:new_alarm_clock/utils/type_converter.dart';
 import 'package:new_alarm_clock/utils/values/color_value.dart';
 import 'package:new_alarm_clock/utils/values/my_font_family.dart';
-import 'package:get/get.dart';
-
+import 'package:get/get.dart' hide Trans;
+import 'package:easy_localization/easy_localization.dart';
+import 'package:new_alarm_clock/generated/locale_keys.g.dart';
 import '../../../../utils/values/string_value.dart';
 
 class VibrationListTile extends AlarmDetailListTile {
   VibrationListTile() {
     tileTitle = Text(
-      StringValue.vibration,
+      LocaleKeys.vibration.tr(),
       textAlign: TextAlign.start,
       style: TextStyle(
           color: ColorValue.listTileTitleText,

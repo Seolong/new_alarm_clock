@@ -8,6 +8,7 @@ class StringValue {
   static final String folderName = 'folderName';
   static final String skipButtonKey = 'skip_once';
   static final String notificationChannelKey = 'basic';
+  static final String allAlarms = '전체 알람';
 
   static final String ringtone = '알람음';
   static final String vibration = '진동';

@@ -3,14 +3,15 @@ import 'package:new_alarm_clock/data/database/alarm_provider.dart';
 import 'package:new_alarm_clock/data/model/alarm_folder_data.dart';
 import 'package:new_alarm_clock/data/shared_preferences/settings_shared_preferences.dart';
 import 'package:new_alarm_clock/ui/home/controller/alarm_list_controller.dart';
+import 'package:new_alarm_clock/utils/values/string_value.dart';
 
 class FolderListController extends GetxController {
   AlarmProvider _alarmProvider = AlarmProvider();
   List<AlarmFolderData> folderList = [];
   SettingsSharedPreferences settingsSharedPreferences =
       SettingsSharedPreferences();
-  String _currentFolderName = '전체 알람';
-  String _mainFolderName = '전체 알람';
+  String _currentFolderName = StringValue.allAlarms;
+  String _mainFolderName = StringValue.allAlarms;
 
   set currentFolderName(String name) {
     _currentFolderName = name;
@@ -52,7 +53,7 @@ class FolderListController extends GetxController {
     Get.find<AlarmListController>()
         .alarmList
         .removeWhere((element) => element.folderName == name);
-    currentFolderName = '전체 알람';
+    currentFolderName = StringValue.allAlarms;
     update();
   }
 

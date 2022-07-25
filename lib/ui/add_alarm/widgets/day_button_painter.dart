@@ -4,6 +4,8 @@ import 'package:new_alarm_clock/ui/add_alarm/controller/day_of_week_controller.d
 import 'package:new_alarm_clock/ui/global/auto_size_text.dart';
 import 'package:new_alarm_clock/utils/enum.dart';
 import 'package:new_alarm_clock/utils/values/color_value.dart';
+import 'package:easy_localization/easy_localization.dart';
+import 'package:new_alarm_clock/generated/locale_keys.g.dart';
 
 class DayButtonPainter extends StatelessWidget {
   Color circleColor = ColorValue.addAlarmPageBackground;
@@ -16,19 +18,19 @@ class DayButtonPainter extends StatelessWidget {
   String? convertName(DayWeek dayName) {
     switch (dayName) {
       case DayWeek.Sun:
-        return '일';
+        return LocaleKeys.sun.tr();
       case DayWeek.Mon:
-        return '월';
+        return LocaleKeys.mon.tr();
       case DayWeek.Tue:
-        return '화';
+        return LocaleKeys.tue.tr();
       case DayWeek.Wed:
-        return '수';
+        return LocaleKeys.wed.tr();
       case DayWeek.Thu:
-        return '목';
+        return LocaleKeys.thu.tr();
       case DayWeek.Fri:
-        return '금';
+        return LocaleKeys.fri.tr();
       case DayWeek.Sat:
-        return '토';
+        return LocaleKeys.sat.tr();
       default:
         assert(false, 'convertName Error in DayButtonPainter Class');
         return null;

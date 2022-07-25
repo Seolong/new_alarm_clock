@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:get/get.dart' hide Trans;
+import 'package:easy_localization/easy_localization.dart';
+import 'package:new_alarm_clock/generated/locale_keys.g.dart';
 
 class DeleteDialog extends StatelessWidget {
   String message;
@@ -20,7 +22,7 @@ class DeleteDialog extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   TextButton(
-                    child: Text('아니오',
+                    child: Text(LocaleKeys.cancel.tr(),
                       style: TextStyle(color:Colors.grey),),
                     onPressed: () {
                       Get.back(result: false);
@@ -33,7 +35,7 @@ class DeleteDialog extends StatelessWidget {
                     color: Colors.grey,
                   ),
                   TextButton(
-                    child: Text('예'),
+                    child: Text(LocaleKeys.confirm.tr()),
                     onPressed: () {
                       Get.back(result: true);
                     },

@@ -8,7 +8,9 @@ import 'package:new_alarm_clock/ui/global/auto_size_text.dart';
 import 'package:new_alarm_clock/ui/global/convenience_method.dart';
 import 'package:new_alarm_clock/utils/values/color_value.dart';
 import 'package:new_alarm_clock/utils/values/size_value.dart';
-import 'package:get/get.dart';
+import 'package:get/get.dart' hide Trans;
+import 'package:easy_localization/easy_localization.dart';
+import 'package:new_alarm_clock/generated/locale_keys.g.dart';
 
 class RepeatContainer extends StatelessWidget {
   late IconButton startDayButton;
@@ -135,7 +137,7 @@ class RepeatContainer extends StatelessWidget {
                                     BoxConstraints(minHeight: 1, minWidth: 1),
                                 child: Text(
                                   _.end['dateTime'] == null
-                                      ? '종료일'
+                                      ? LocaleKeys.endDate.tr()
                                       : _.end['monthDay'],
                                   style: TextStyle(fontSize: 1000),
                                 )),
@@ -150,7 +152,7 @@ class RepeatContainer extends StatelessWidget {
                                     BoxConstraints(minHeight: 1, minWidth: 1),
                                 child: Text(
                                   _.end['dateTime'] == null
-                                      ? '설정 안함'
+                                      ? LocaleKeys.notSet.tr()
                                       : _.end['year'],
                                   style: TextStyle(fontSize: 1000),
                                 )),

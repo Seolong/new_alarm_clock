@@ -6,11 +6,11 @@ import 'package:get/get.dart' hide Trans;
 class AlarmDetailPageFactory{
 
   void getAlarmDetailPage(String pageName){
-    if(LocaleKeys.ringtone.tr() == pageName){
+    if(LocaleKeys.sound.tr() == pageName){
       Get.toNamed(AppRoutes.ringPage);
     }else if(LocaleKeys.vibration.tr() == pageName){
       Get.toNamed(AppRoutes.vibrationPage);
-    }else if(LocaleKeys.repeat.tr() == pageName){
+    }else if(LocaleKeys.snooze.tr() == pageName){
       Get.toNamed(AppRoutes.repeatPage);
     }else{
       assert(false, 'error in getAlarmDetailPage of AlarmDetailFactory');

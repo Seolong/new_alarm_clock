@@ -6,11 +6,13 @@ import 'package:new_alarm_clock/ui/home/page/setting_page/widgets/align_button.d
 import 'package:new_alarm_clock/ui/home/page/setting_page/widgets/reset_button.dart';
 import 'package:new_alarm_clock/ui/home/page/setting_page/widgets/set_home_folder_button.dart';
 import 'package:new_alarm_clock/utils/values/my_font_family.dart';
-import 'package:get/get.dart';
+import 'package:get/get.dart' hide Trans;
+import 'package:easy_localization/easy_localization.dart';
+import 'package:new_alarm_clock/generated/locale_keys.g.dart';
 
 class SettingPage extends StatelessWidget {
   AlarmProvider _alarmProvider = AlarmProvider();
-  String nextAlarmTimeDifferenceText = '모든 알람이 꺼져있습니다.';
+  String nextAlarmTimeDifferenceText = LocaleKeys.allAlarmsAreOff.tr();
   String nextAlarmTimeText = '';
   String? nextAlarmTitle;
 
@@ -49,7 +51,7 @@ class SettingPage extends StatelessWidget {
     DateTime? nextAlarmTime = await nextAlarm();
     String result;
     if(nextAlarmTime == null){
-      result = '모든 알람이 꺼져있습니다.';
+      result = LocaleKeys.allAlarmsAreOff.tr();
     } else {
       Duration difference = nextAlarmTime.difference(DateTime.now());
       if(difference.inDays < 1){
@@ -107,7 +109,7 @@ class SettingPage extends StatelessWidget {
               height: 150,
               alignment: Alignment.center,
               child: Text(
-                '더보기',
+                LocaleKeys.moreOptions.tr(),
                 style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,

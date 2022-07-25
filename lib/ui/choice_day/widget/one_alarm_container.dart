@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:new_alarm_clock/ui/choice_day/controller/start_end_day_controller.dart';
@@ -170,7 +171,7 @@ class OneAlarmContainer extends StatelessWidget {
                   shape: BoxShape.circle,
                   //borderRadius: BorderRadius.circular(100)
                 )),
-                locale: 'ko-KR',
+                locale: context.locale.toString(),
                 onDaySelected: (selectedDay, focusedDay) {
                   _.setStart(selectedDay);
                 },
