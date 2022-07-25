@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:new_alarm_clock/ui/choice_day/controller/start_end_day_controller.dart';
 import 'package:new_alarm_clock/ui/global/color_controller.dart';
 import 'package:new_alarm_clock/utils/values/size_value.dart';
-import 'package:get/get.dart';
+import 'package:get/get.dart' hide Trans;
+import 'package:new_alarm_clock/generated/locale_keys.g.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class OneAlarmContainer extends StatelessWidget {
@@ -52,8 +53,8 @@ class OneAlarmContainer extends StatelessWidget {
                                   children: [
                                     // 확인 취소 만들기
                                     CupertinoButton(
-                                      child: const Text(
-                                        '취소',
+                                      child: Text(
+                                        LocaleKeys.cancel.tr(),
                                         style: TextStyle(color: Colors.grey),
                                       ),
                                       onPressed: () {
@@ -61,7 +62,7 @@ class OneAlarmContainer extends StatelessWidget {
                                       },
                                     ),
                                     CupertinoButton(
-                                      child: const Text('이동'),
+                                      child: Text(LocaleKeys.move.tr()),
                                       onPressed: () {
                                         _.setStart(result);
                                         Get.back();

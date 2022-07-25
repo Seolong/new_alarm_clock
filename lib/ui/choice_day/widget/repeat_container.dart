@@ -13,15 +13,8 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:new_alarm_clock/generated/locale_keys.g.dart';
 
 class RepeatContainer extends StatelessWidget {
-  late IconButton startDayButton;
-  late Text startDayText;
   late Text intervalType;
   late Column bottomColumn;
-
-  RepeatContainer() {
-    startDayButton = IconButton(onPressed: () {}, icon: Icon(Icons.today));
-    startDayText = Text('시작일');
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -107,16 +100,19 @@ class RepeatContainer extends StatelessWidget {
                         InkWell(
                             borderRadius: BorderRadius.all(Radius.circular(20)),
                             onTap: () async {
-                              DateTime dateTime = await Get.dialog(AlertDialog(
+                              DateTime? dateTime = await Get.dialog(AlertDialog(
                                   contentPadding: EdgeInsets.zero,
                                   content: CalendarContainer(
                                       _.end['dateTime'] == null
                                           ? // end를 아직 설정 안했을 때
                                           _.start['dateTime']
                                           : _.end['dateTime'])));
+                              if(dateTime == null){
+                                return;
+                              }
                               if (dateTime.isBefore(_.start['dateTime'])) {
                                 ConvenienceMethod.showSimpleSnackBar(
-                                    '종료일을 시작일보다 전에 설정할 수 없습니다.');
+                                    LocaleKeys.endDateCannotBeforeStartDate.tr());
                               } else {
                                 _.setEnd(dateTime);
                               }
@@ -208,7 +204,7 @@ class RepeatContainer extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.fromLTRB(0, 5, 15, 0),
                     child: Text(
-                      '주기',
+                      LocaleKeys.interval.tr(),
                       textAlign: TextAlign.end,
                       style: TextStyle(fontSize: 14, color: Colors.grey),
                     ),
@@ -233,7 +229,7 @@ class RepeatContainer extends StatelessWidget {
               ),
             )),
         Container(
-            height: 22.5, child: AutoSizeText('금지일 설정', color: Colors.grey)),
+            height: 22.5, child: AutoSizeText(LocaleKeys.setDayOff.tr(), color: Colors.grey)),
       ],
     );
   }

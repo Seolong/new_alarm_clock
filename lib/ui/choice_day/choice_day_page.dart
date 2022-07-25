@@ -16,8 +16,6 @@ import '../global/color_controller.dart';
 import 'controller/repeat_mode_controller.dart';
 
 class ChoiceDayPage extends StatelessWidget {
-  final String appBarBackButtonName = 'appBar';
-  final String systemBackButtonName = 'system';
   final repeatModeController = Get.put(RepeatModeController());
 
   bool isLessInterValThanZero(){
@@ -35,11 +33,11 @@ class ChoiceDayPage extends StatelessWidget {
     if(repeatModeController.repeatMode == RepeatMode.month &&
     Get.find<MonthRepeatDayController>().monthRepeatDay == null
     ){
-      ConvenienceMethod.showSimpleSnackBar('반복 날짜를 선택해주세요.');
+      ConvenienceMethod.showSimpleSnackBar(LocaleKeys.youMustChooseRepeatDay.tr());
       return Future.value(false);
     }
     if(isLessInterValThanZero()){
-      ConvenienceMethod.showSimpleSnackBar('주기는 1 이상이어야 합니다.');
+      ConvenienceMethod.showSimpleSnackBar(LocaleKeys.theIntervalMustBeAtLeastOne.tr());
       return Future.value(false);
     }
     if(repeatModeController.repeatMode != RepeatMode.week){
@@ -114,14 +112,14 @@ class ChoiceDayPage extends StatelessWidget {
                               Container(
                                 padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
                                 height: 37.5,
-                                width: 60,
+                                width: 100,
                                 alignment: Alignment.center,
                                 child: AutoSizeText(LocaleKeys.chooseOne.tr(), bold: true, color: null,),
                               ),
                               Container(
                                 padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
                                 height: 37.5,
-                                width: 60,
+                                width: 100,
                                 alignment: Alignment.center,
                                 child: AutoSizeText(LocaleKeys.repeat.tr(), bold: true, color: null,),
                               ),

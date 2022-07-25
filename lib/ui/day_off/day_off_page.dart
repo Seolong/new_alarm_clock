@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:get/get.dart' hide Trans;
+import 'package:easy_localization/easy_localization.dart';
+import 'package:new_alarm_clock/generated/locale_keys.g.dart';
 import 'package:new_alarm_clock/ui/day_off/controller/day_off_list_controller.dart';
 import 'package:new_alarm_clock/utils/values/color_value.dart';
 
@@ -17,7 +19,7 @@ class DayOffPage extends StatelessWidget {
             icon: Icon(Icons.arrow_back_ios_rounded),
             onPressed: () { Get.back(); },
           ),
-        title: Text('금지일'),
+        title: Text(LocaleKeys.daysOff.tr()),
         actions:[ IconButton(
           icon: Icon(Icons.add),
           onPressed: () {

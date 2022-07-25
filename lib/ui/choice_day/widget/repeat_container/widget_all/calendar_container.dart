@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:get/get.dart' hide Trans;
+import 'package:easy_localization/easy_localization.dart';
+import 'package:new_alarm_clock/generated/locale_keys.g.dart';
 import 'package:table_calendar/table_calendar.dart';
 import '../../../../../utils/values/size_value.dart';
 import '../../../../global/color_controller.dart';
@@ -48,8 +50,8 @@ class CalendarContainer extends StatelessWidget {
                         children: [
                           // 확인 취소 만들기
                           CupertinoButton(
-                            child: const Text(
-                              '취소',
+                            child: Text(
+                              LocaleKeys.cancel.tr(),
                               style: TextStyle(color: Colors.grey),
                             ),
                             onPressed: () {
@@ -57,7 +59,7 @@ class CalendarContainer extends StatelessWidget {
                             },
                           ),
                           CupertinoButton(
-                            child: const Text('이동'),
+                            child: Text(LocaleKeys.move.tr()),
                             onPressed: () {
                               _.selectedDay = initialDate;
                               Get.back();
@@ -87,8 +89,12 @@ class CalendarContainer extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
               child: TableCalendar(
-                focusedDay: _.selectedDay,
-                currentDay: _.selectedDay,
+                focusedDay: _.selectedDay.isAfter(DateTime.now())
+                    ? _.selectedDay
+                    : DateTime.now().add(Duration(minutes: 15)),
+                currentDay: _.selectedDay.isAfter(DateTime.now())
+                    ? _.selectedDay
+                    : DateTime.now().add(Duration(minutes: 15)),
                 firstDay: DateTime.now(),
                 lastDay: DateTime(lastYear, 12, 31),
                 //onHeaderTapped: _onHeaderTapped,
@@ -180,14 +186,14 @@ class CalendarContainer extends StatelessWidget {
                     onPressed: (){
                       Get.back();
                     },
-                    child: Text('취소',
+                    child: Text(LocaleKeys.cancel.tr(),
                     style: TextStyle(color: Colors.grey),)),
                 TextButton(
                     onPressed: (){
                       print(_.selectedDay);
                       Get.back(result: _.selectedDay);
                     },
-                    child: Text('확인')),
+                    child: Text(LocaleKeys.confirm.tr())),
               ],
             )
           ],

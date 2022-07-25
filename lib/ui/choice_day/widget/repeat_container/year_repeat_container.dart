@@ -7,8 +7,6 @@ import 'package:new_alarm_clock/utils/values/size_value.dart';
 import 'package:get/get.dart';
 
 class YearRepeatContainer extends RepeatContainer {
-  late IconButton startDayButton;
-  late Text startDayText;
   late Text intervalType;
 
   YearRepeatContainer() {
