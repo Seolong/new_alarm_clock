@@ -25,14 +25,6 @@ class DayOffListController extends GetxController{
     update();
   }
 
-  String getDayExceptHour(int index){
-    String result;
-    result = '${dayOffDataList[index].dayOffDate.year}년 '
-        '${dayOffDataList[index].dayOffDate.month}월 '
-        '${dayOffDataList[index].dayOffDate.day}일';
-    return result;
-  }
-
   void insertDayOff() async{
     DateTime now = DateTime.now();
     DateTime? dateTime = await Get.dialog(AlertDialog(

@@ -1,4 +1,6 @@
 {
+  "locale": "en",
+
   "allAlarms": "All alarms",
   "every": "every",
   "folder": "Folders",
@@ -10,6 +12,7 @@
   "align": "Align",
   "custom": "Custom",
   "byDate": "By date",
+  "language": "Language",
   "reset": "Reset",
 
   "confirm": "confirm",
@@ -28,6 +31,8 @@
   "vibration": "Vibration",
   "snooze": "Snooze",
 
+  "yearFormat": "yyyy",
+
   "on": "On",
   "off": "Off",
 
@@ -39,6 +44,12 @@
   },
   "repeatInterval": "Interval",
   "repeatNum": "Repeat",
+
+  "day_args": {
+    "zero": "day",
+    "one": "day",
+    "other": "days"
+  },
 
   "alarmType": "Alarm Type",
   "chooseOne": "One",
@@ -52,8 +63,8 @@
   "year": "Year",
   "endDate": "End date",
   "notSet": "not set",
-  "setDayOff": "set a day off",
-  "daysOff": "Days off",
+  "setDayOff": "Day off",
+  "daysOff": "Day off",
   "chooseRepeatDay": "Choose a repeat day",
   "monthAndDay": "(month, day)",
   "youMustChooseRepeatDay": "In monthly repeat mode,\nyou must select a repeat day.",

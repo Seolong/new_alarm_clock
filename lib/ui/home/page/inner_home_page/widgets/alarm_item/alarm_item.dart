@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:jiffy/jiffy.dart';
 import 'package:new_alarm_clock/data/database/alarm_provider.dart';
 import 'package:new_alarm_clock/data/model/alarm_data.dart';
 import 'package:new_alarm_clock/routes/app_routes.dart';
@@ -29,9 +30,9 @@ class AlarmItem extends StatelessWidget {
 
   String convertAlarmDateTime(AlarmData alarmData) {
     if (alarmData.alarmDateTime.year > DateTime.now().year) {
-      return DateFormat('yyyy년 M월 d일').format(alarmData.alarmDateTime);
+      return Jiffy(alarmData.alarmDateTime).yMMMd;
     }
-    return DateFormat('M월 d일').format(alarmData.alarmDateTime);
+    return Jiffy(alarmData.alarmDateTime).MMMd;
   }
 
   String getTextOfAlarmPoint(AlarmData alarmData) {
@@ -229,7 +230,7 @@ class AlarmItem extends StatelessWidget {
                                                   padding: const EdgeInsets.all(1.0),
                                                   child: AlarmItemText(
                                                       itemText:
-                                                          DateFormat('hh:mm a')
+                                                          DateFormat('hh:mm a', 'en')
                                                               .format((snapshot
                                                                       .data)!
                                                                   .alarmDateTime)

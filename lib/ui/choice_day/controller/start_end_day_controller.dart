@@ -1,5 +1,8 @@
-import 'package:get/get.dart';
+import 'package:get/get.dart' hide Trans;
+import 'package:easy_localization/easy_localization.dart';
+import 'package:new_alarm_clock/generated/locale_keys.g.dart';
 import 'package:intl/intl.dart';
+import 'package:jiffy/jiffy.dart';
 import 'package:new_alarm_clock/data/database/alarm_provider.dart';
 import 'package:new_alarm_clock/data/model/day_off_data.dart';
 import 'package:new_alarm_clock/service/date_time_calculator.dart';
@@ -31,8 +34,8 @@ class StartEndDayController extends GetxController {
 
   @override
   void onInit() {
-    _start[monthDay] = DateFormat('M월 d일').format(_start[dateTime]);
-    _start[year] = DateFormat('yyyy년').format(_start[dateTime]);
+    _start[monthDay] = Jiffy(_start[dateTime]).MMMMd;
+    _start[year] = DateFormat(LocaleKeys.yearFormat.tr()).format(_start[dateTime]);
     super.onInit();
   }
 
@@ -47,8 +50,8 @@ class StartEndDayController extends GetxController {
             startDateTime.month <= endTime.month &&
             startDateTime.day <= endTime.day)) {
       _start[dateTime] = startDateTime;
-      _start[monthDay] = DateFormat('M월 d일').format(_start[dateTime]);
-      _start[year] = DateFormat('yyyy년').format(_start[dateTime]);
+      _start[monthDay] = Jiffy(_start[dateTime]).MMMMd;
+      _start[year] = DateFormat(LocaleKeys.yearFormat.tr()).format(_start[dateTime]);
       update();
     }
   }
@@ -56,9 +59,9 @@ class StartEndDayController extends GetxController {
   void setEnd(DateTime? endDateTime) {
     _end[dateTime] = endDateTime;
     _end[monthDay] =
-        endDateTime == null ? '' : DateFormat('M월 d일').format(_end[dateTime]);
+        endDateTime == null ? '' : Jiffy(_end[dateTime]).MMMMd;
     _end[year] =
-        endDateTime == null ? '' : DateFormat('yyyy년').format(_end[dateTime]);
+        endDateTime == null ? '' : DateFormat(LocaleKeys.yearFormat.tr()).format(_end[dateTime]);
     update();
   }
 

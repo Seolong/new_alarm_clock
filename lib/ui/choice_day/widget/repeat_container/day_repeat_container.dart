@@ -1,16 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:new_alarm_clock/ui/choice_day/controller/interval_text_field_controller.dart';
 import 'package:new_alarm_clock/ui/choice_day/widget/repeat_container.dart';
 import 'package:new_alarm_clock/utils/values/size_value.dart';
+import 'package:get/get.dart' hide Trans;
+import 'package:easy_localization/easy_localization.dart';
+import 'package:new_alarm_clock/generated/locale_keys.g.dart';
 
 class DayRepeatContainer extends RepeatContainer {
-  late Text intervalType;
+  dynamic intervalType;
 
   DayRepeatContainer(){
-    intervalType = Text(
-        '일마다',
-      style: TextStyle(
-          fontSize: SizeValue.intervalTypeTextSize
-      ),
+    intervalType = GetBuilder<IntervalTextFieldController>(
+      builder: (_) {
+        return Text(
+            plural(LocaleKeys.day_args, _.getInterval()),
+          style: TextStyle(
+              fontSize: SizeValue.intervalTypeTextSize
+          ),
+        );
+      }
     );
     bottomColumn = Column();
   }

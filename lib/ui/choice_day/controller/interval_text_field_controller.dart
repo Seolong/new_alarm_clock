@@ -4,8 +4,7 @@ import 'package:get/get.dart';
 class IntervalTextFieldController extends GetxController {
   TextEditingController textEditingController = TextEditingController();
 
-  int getInterval() => int.parse(
-      Get.find<IntervalTextFieldController>().textEditingController.text);
+  int getInterval() => int.parse(textEditingController.text);
 
   String getIntervalText() => textEditingController.text == '1' ? '매' : textEditingController.text;
 

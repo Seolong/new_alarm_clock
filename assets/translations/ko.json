@@ -1,4 +1,6 @@
 {
+  "locale": "ko",
+
   "allAlarms": "전체 알람",
   "every": "",
   "folder": "폴더",
@@ -10,6 +12,7 @@
   "align": "정렬",
   "custom": "설정순",
   "byDate": "날짜순",
+  "language": "언어",
   "reset": "초기화",
 
   "confirm": "확인",
@@ -28,6 +31,8 @@
   "vibration": "진동",
   "snooze": "반복",
 
+  "yearFormat": "yyyy년",
+
   "on": "사용",
   "off": "사용 안 함",
 
@@ -35,6 +40,8 @@
   "minute": "분",
   "repeatInterval": "반복 주기",
   "repeatNum": "반복 횟수",
+
+  "day_args": "일",
 
   "alarmType": "날짜 선택",
   "chooseOne": "선택",

@@ -10,7 +10,6 @@ import 'package:new_alarm_clock/ui/home/page/inner_home_page/widgets/alarm_item/
 import 'package:new_alarm_clock/ui/home/page/setting_page/setting_page.dart';
 import 'package:new_alarm_clock/ui/home/widgets/home_bottom_navigation_bar.dart';
 import 'package:new_alarm_clock/ui/home/widgets/home_fab.dart';
-import 'package:new_alarm_clock/utils/values/color_value.dart';
 import 'package:get/get.dart';
 
 class Home extends StatelessWidget{

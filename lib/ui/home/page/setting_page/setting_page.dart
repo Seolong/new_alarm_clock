@@ -3,6 +3,7 @@ import 'package:new_alarm_clock/data/database/alarm_provider.dart';
 import 'package:new_alarm_clock/data/model/alarm_data.dart';
 import 'package:new_alarm_clock/ui/global/auto_size_text.dart';
 import 'package:new_alarm_clock/ui/home/page/setting_page/widgets/align_button.dart';
+import 'package:new_alarm_clock/ui/home/page/setting_page/widgets/language_button.dart';
 import 'package:new_alarm_clock/ui/home/page/setting_page/widgets/reset_button.dart';
 import 'package:new_alarm_clock/ui/home/page/setting_page/widgets/set_home_folder_button.dart';
 import 'package:new_alarm_clock/utils/values/my_font_family.dart';
@@ -19,6 +20,7 @@ class SettingPage extends StatelessWidget {
   List<Widget> settingButtons = [
     SetHomeFolderButton(),
     AlignButton(),
+    LanguageButton(),
     ResetButton(),
   ];
 

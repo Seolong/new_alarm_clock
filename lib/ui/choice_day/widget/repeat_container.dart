@@ -13,7 +13,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:new_alarm_clock/generated/locale_keys.g.dart';
 
 class RepeatContainer extends StatelessWidget {
-  late Text intervalType;
+  dynamic intervalType;
   late Column bottomColumn;
 
   @override

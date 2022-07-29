@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart' hide Trans;
 import 'package:easy_localization/easy_localization.dart';
+import 'package:jiffy/jiffy.dart';
 import 'package:new_alarm_clock/generated/locale_keys.g.dart';
 import 'package:new_alarm_clock/ui/day_off/controller/day_off_list_controller.dart';
 import 'package:new_alarm_clock/utils/values/color_value.dart';
@@ -36,7 +37,7 @@ class DayOffPage extends StatelessWidget {
               itemBuilder: (BuildContext context, int index) {
                 return ListTile(
                   title: Text(
-                    _.getDayExceptHour(index)
+                    Jiffy(_.dayOffDataList[index].dayOffDate).yMMMMd
                   ),
                   trailing: IconButton(
                     icon: Icon(Icons.clear_rounded),

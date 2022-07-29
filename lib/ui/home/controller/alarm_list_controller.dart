@@ -1,7 +1,10 @@
 import 'dart:core';
 import 'package:android_alarm_manager_plus/android_alarm_manager_plus.dart';
 import 'package:awesome_notifications/awesome_notifications.dart';
-import 'package:get/get.dart';
+import 'package:get/get.dart' hide Trans;
+import 'package:easy_localization/easy_localization.dart';
+import 'package:new_alarm_clock/generated/locale_keys.g.dart';
+import 'package:jiffy/jiffy.dart';
 import 'package:new_alarm_clock/data/database/alarm_provider.dart';
 import 'package:new_alarm_clock/data/model/alarm_data.dart';
 import 'package:new_alarm_clock/data/model/alarm_week_repeat_data.dart';
@@ -25,6 +28,7 @@ class AlarmListController extends GetxController {
     alarmProvider.initializeDatabase();
     alarmFutureList = alarmProvider.getAllAlarms();
     alarmList = await alarmFutureList;
+    await Jiffy.locale(LocaleKeys.locale.tr());
     if (appState == 'main') {
       //자꾸 alarmalarm에서 초기화해서 날짜 한번 더 밀어버려서 만듦
       for (AlarmData alarmData in alarmList) {

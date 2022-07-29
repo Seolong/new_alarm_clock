@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:new_alarm_clock/utils/values/string_value.dart';
 
 import '../../../controller/alarm_list_controller.dart';
 import '../../../controller/folder_list_controller.dart';
@@ -21,7 +22,7 @@ class AlarmListView extends StatelessWidget {
         onReorder: (int oldIndex, int newIndex) { _.reorderItem(oldIndex, newIndex); },
         itemBuilder: (BuildContext context, int index) {
           if (index != _.alarmList.length) {
-            if(folderListController.currentFolderName == '전체 알람'){
+            if(folderListController.currentFolderName == StringValue.allAlarms){
               return AlarmItem(
                 id: _.alarmList[index].id,
                 key: ValueKey(_.alarmList[index].id),
