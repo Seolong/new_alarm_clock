@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_state_manager/src/simple/get_state.dart';
 
 import '../../../../utils/enum.dart';
-import '../../../../utils/values/color_value.dart';
 import '../../../global/auto_size_text.dart';
 import '../../../global/color_controller.dart';
 import '../controller/repeat_radio_list_controller.dart';
@@ -12,12 +9,13 @@ import '../controller/repeat_radio_list_controller.dart';
 class RepeatContainer extends StatelessWidget {
   final String repeatInterval = '반복 주기';
   final String repeatNum = '반복 횟수';
+  String containerId = '';
   String containerName = '';
 
-  RepeatContainer(this.containerName);
+  RepeatContainer(this.containerId, this.containerName);
 
   Widget getRadioListTile(BuildContext context, int index) {
-    if (containerName == repeatInterval) {
+    if (containerId == repeatInterval) {
       return GetBuilder<RepeatRadioListController>(
         builder: (_) => Row(
           children: [
@@ -40,7 +38,7 @@ class RepeatContainer extends StatelessWidget {
           ],
         ),
       );
-    } else if (containerName == repeatNum) {
+    } else if (containerId == repeatNum) {
       return GetBuilder<RepeatRadioListController>(
         builder: (_) => Row(
           children: [

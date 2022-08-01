@@ -4,7 +4,9 @@ import 'package:new_alarm_clock/ui/alarm_detail_page/repeat/widget/RepeatContain
 import 'package:new_alarm_clock/ui/alarm_detail_page/widget_all/app_bar_title.dart';
 import 'package:new_alarm_clock/ui/global/auto_size_text.dart';
 import 'package:new_alarm_clock/utils/values/color_value.dart';
-import 'package:get/get.dart';
+import 'package:get/get.dart' hide Trans;
+import 'package:easy_localization/easy_localization.dart';
+import 'package:new_alarm_clock/generated/locale_keys.g.dart';
 import 'package:new_alarm_clock/utils/values/size_value.dart';
 
 import '../../global/color_controller.dart';
@@ -19,7 +21,7 @@ class RepeatPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         foregroundColor: ColorValue.appbarText,
-        title: AppBarTitle('반복'),
+        title: AppBarTitle(LocaleKeys.snooze.tr()),
         backgroundColor: Get.find<ColorController>().colorSet.mainColor,
       ),
       body: SafeArea(
@@ -32,7 +34,7 @@ class RepeatPage extends StatelessWidget {
                   title: Container(
                     alignment: Alignment.bottomLeft,
                     height: SizeValue.detailPowerTextHeight,
-                    child: AutoSizeText(_.power ? '사용' : '사용 안 함',
+                    child: AutoSizeText(_.power ? LocaleKeys.on.tr() : LocaleKeys.off.tr(),
                         bold: true,
                         color: _.power ? Get.find<ColorController>().colorSet.mainColor : Colors.grey),
                   ),
@@ -54,11 +56,11 @@ class RepeatPage extends StatelessWidget {
             //주기 박스
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 18),
-              child: RepeatContainer(repeatInterval),
+              child: RepeatContainer(repeatInterval, LocaleKeys.repeatInterval.tr()),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 18),
-              child: RepeatContainer(repeatNum),
+              child: RepeatContainer(repeatNum, LocaleKeys.repeatNum.tr()),
             ),
           ],
         ),

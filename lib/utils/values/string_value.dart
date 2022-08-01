@@ -3,8 +3,8 @@ class StringValue {
   static final String addMode = 'add';
   static final String mode = 'mode';
   static final String id = 'id';
-  static final String beepBeep = '삐빅';
-  static final String ringRing = '따르릉';
+  static final String beepBeep = 'Beep-beep';
+  static final String ringRing = 'Ring-ring';
   static final String folderName = 'folderName';
   static final String skipButtonKey = 'skip_once';
   static final String notificationChannelKey = 'basic';

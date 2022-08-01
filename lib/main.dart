@@ -64,7 +64,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     Get.put(AlarmListController());
     Get.put(ColorController());
-    context.setLocale(Locale('en')); //이거 한번만 하면 뭐 shared 이런 거 할 필요없이 클릭 한번에 끝
+    //context.setLocale(Locale('en')); //이거 한번만 하면 뭐 shared 이런 거 할 필요없이 클릭 한번에 끝
     try {
       AwesomeNotifications().setListeners(
           onActionReceivedMethod: NotificationController.onActionReceivedMethod

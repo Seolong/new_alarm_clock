@@ -1,4 +1,6 @@
-import 'package:get/get.dart';
+import 'package:get/get.dart' hide Trans;
+import 'package:easy_localization/easy_localization.dart';
+import 'package:new_alarm_clock/generated/locale_keys.g.dart';
 import 'package:flutter/material.dart';
 import 'package:new_alarm_clock/ui/alarm_detail_page/vibration/controller/vibration_radio_list_controller.dart';
 import 'package:new_alarm_clock/ui/alarm_detail_page/vibration/widget/vibration_list_view.dart';
@@ -22,7 +24,7 @@ class VibrationPage extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           foregroundColor: ColorValue.appbarText,
-          title: AppBarTitle('진동'),
+          title: AppBarTitle(LocaleKeys.vibration.tr()),
           backgroundColor: ColorValue.appbar,
         ),
         body: SafeArea(
@@ -35,7 +37,7 @@ class VibrationPage extends StatelessWidget {
                     title: Container(
                       alignment: Alignment.bottomLeft,
                       height: SizeValue.detailPowerTextHeight,
-                      child: AutoSizeText(_.power ? '사용' : '사용 안 함',
+                      child: AutoSizeText(_.power ? LocaleKeys.on.tr() : LocaleKeys.off.tr(),
                           bold: true,
                           color:
                               _.power ? ColorValue.activeSwitch : Colors.grey),

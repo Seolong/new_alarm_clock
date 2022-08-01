@@ -171,7 +171,7 @@ class CalendarContainer extends StatelessWidget {
                       shape: BoxShape.circle,
                       //borderRadius: BorderRadius.circular(100)
                     )),
-                locale: 'ko-KR',
+                locale: context.locale.toString(),
                 onDaySelected: (selectedDay, focusedDay) {
                   _.selectedDay = selectedDay;
                   print(selectedDay);

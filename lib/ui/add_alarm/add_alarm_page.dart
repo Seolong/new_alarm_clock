@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:jiffy/jiffy.dart';
 import 'package:new_alarm_clock/data/database/alarm_provider.dart';
 import 'package:new_alarm_clock/data/model/alarm_data.dart';
 import 'package:new_alarm_clock/data/shared_preferences/id_shared_preferences.dart';
@@ -23,12 +24,11 @@ import 'package:new_alarm_clock/ui/global/auto_size_text.dart';
 import 'package:new_alarm_clock/ui/home/controller/required_parameter_to_add_alarm_page_controller.dart';
 import 'package:new_alarm_clock/utils/enum.dart';
 import 'package:new_alarm_clock/utils/values/color_value.dart';
-import 'package:get/get.dart';
+import 'package:get/get.dart' hide Trans;
+import 'package:easy_localization/easy_localization.dart';
+import 'package:new_alarm_clock/generated/locale_keys.g.dart';
 import 'package:new_alarm_clock/utils/values/string_value.dart';
-
 import '../global/color_controller.dart';
-
-final String toBeAddedIdName = 'toBeAddedId';
 
 class AddAlarmPage extends StatelessWidget {
   String mode = '';
@@ -69,6 +69,35 @@ class AddAlarmPage extends StatelessWidget {
     }
   }
 
+  String getIntervalInfoText(int interval, RepeatMode repeatMode, int? monthlyRepeatDay) {
+    //off거나 single이면 비어있고
+    //그 외에는 '2일마다 반복'
+    if (repeatMode == RepeatMode.off ||
+        repeatMode == RepeatMode.single) {
+      return '';
+    } else {
+      String alarmPoint;
+      switch (repeatMode) {
+        case RepeatMode.day:
+          alarmPoint = LocaleKeys.repeatEveryDay.plural(interval);
+          break;
+        case RepeatMode.week:
+          alarmPoint = LocaleKeys.repeatEveryWeek.plural(interval);
+          break;
+        case RepeatMode.month:
+          alarmPoint = LocaleKeys.repeatEveryMonth.plural(interval);
+          break;
+        case RepeatMode.year:
+          alarmPoint = LocaleKeys.repeatEveryYear.plural(interval);
+          break;
+        default:
+          alarmPoint = '';
+          assert(false, 'getIntervalInfoText error in AddAlarmPage');
+      }
+      return alarmPoint;
+    }
+  }
+
   Future<bool> _onTouchAppBarBackButton() async {
     return await Get.dialog(GoingBackDialog('appBar'));
   }
@@ -80,11 +109,10 @@ class AddAlarmPage extends StatelessWidget {
   String convertAlarmDateTime() {
     if (Get.find<StartEndDayController>().start['dateTime'].year >
         DateTime.now().year) {
-      return '${Get.find<StartEndDayController>().start['year']} '
-          '${Get.find<StartEndDayController>().start['monthDay']}';
+      return Jiffy(Get.find<StartEndDayController>().start['dateTime']).yMMMMd;
     } else if (Get.find<StartEndDayController>().start['dateTime'].year ==
         DateTime.now().year) {
-      return Get.find<StartEndDayController>().start['monthDay'];
+      return Jiffy(Get.find<StartEndDayController>().start['dateTime']).MMMMd;
     } else {
       return '';
     }
@@ -273,10 +301,11 @@ class AddAlarmPage extends StatelessWidget {
                               padding: EdgeInsets.all(5),
                               height: 35,
                               child: AutoSizeText(
-                                '${_.getIntervalText()}'
-                                '${repeatCont.getRepeatModeText(
-                                    _.textEditingController.text,
-                                    monthCont.monthRepeatDay)}',
+                                getIntervalInfoText(
+                                  _.getInterval(),
+                                  repeatCont.repeatMode,
+                                  monthCont.monthRepeatDay
+                                ),
                                 color: Colors.black54,
                               ),
                             );

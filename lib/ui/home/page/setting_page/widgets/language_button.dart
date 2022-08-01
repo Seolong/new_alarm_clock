@@ -20,12 +20,7 @@ extension LanguageExtention on Language {
   }
 
   String parseString() {
-    switch (this) {
-      case Language.ko:
-        return 'ko';
-      case Language.en:
-        return 'en';
-    }
+    return this.toString().split('.')[1];
   }
 }
 

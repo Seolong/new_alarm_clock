@@ -5,7 +5,9 @@ import 'package:new_alarm_clock/ui/choice_day/controller/start_end_day_controlle
 import 'package:new_alarm_clock/ui/global/auto_size_text.dart';
 import 'package:new_alarm_clock/utils/values/color_value.dart';
 import 'package:new_alarm_clock/utils/values/size_value.dart';
-import 'package:get/get.dart';
+import 'package:get/get.dart' hide Trans;
+import 'package:easy_localization/easy_localization.dart';
+import 'package:new_alarm_clock/generated/locale_keys.g.dart';
 
 class ChoiceDayButton extends StatelessWidget {
   @override
@@ -30,7 +32,7 @@ class ChoiceDayButton extends StatelessWidget {
                 padding: EdgeInsets.fromLTRB(0, 15, 0, 15),
                 height: 60,
                 child: AutoSizeText(
-                  '날짜 선택',
+                  LocaleKeys.chooseRepeatDay.tr(),
                   bold: true,
                   color: Colors.black54,
                 )),
@@ -96,7 +98,7 @@ class ChoiceDayButton extends StatelessWidget {
                                   constraints:
                                       BoxConstraints(minWidth: 1, minHeight: 1),
                                   child: Text(
-                                    index != 28 ? '${index + 1}' : '말일',
+                                    index != 28 ? '${index + 1}' : LocaleKeys.lastDay.tr(),
                                     style: TextStyle(
                                       color: _.monthRepeatDay != index+1 ? Colors.black54: Colors.black,
                                       fontWeight: _.monthRepeatDay != index+1 ? null: FontWeight.bold,

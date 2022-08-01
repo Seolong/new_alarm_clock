@@ -40,7 +40,7 @@ class RingPage extends StatelessWidget {
                       alignment: Alignment.bottomLeft,
                       height: SizeValue.detailPowerTextHeight,
                       child: AutoSizeText(
-                          _.power ? '사용' : '사용 안 함',
+                          _.power ? LocaleKeys.on.tr() : LocaleKeys.off.tr(),
                           bold: true,
                           color: _.power ? Get.find<ColorController>().colorSet.mainColor : Colors.grey
                       ),
@@ -164,7 +164,7 @@ class RingPage extends StatelessWidget {
                                             child: GetBuilder<RingRadioListController>(
                                               builder: (_) {
                                                 return Text(
-                                                  '음악 목록',
+                                                  LocaleKeys.soundList.tr(),
                                                   style: TextStyle(
                                                     color: _.power? Get.find<ColorController>().colorSet.mainColor: Colors.grey,
                                                       fontWeight: FontWeight.bold,

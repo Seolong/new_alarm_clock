@@ -15,6 +15,23 @@
   "language": "Language",
   "reset": "Reset",
 
+  "repeatEveryDay": {
+    "one": "Repeat every day",
+    "other": "Repeat every {} days"
+  },
+  "repeatEveryWeek": {
+    "one": "Repeat every week",
+    "other": "Repeat every {} weeks"
+  },
+  "repeatEveryMonth": {
+    "one": "Repeat every month",
+    "other": "Repeat every {} months"
+  },
+  "repeatEveryYear": {
+    "one": "Repeat every year",
+    "other": "Repeat every {} years"
+  },
+
   "confirm": "confirm",
   "cancel": "cancel",
 
@@ -37,11 +54,9 @@
   "off": "Off",
 
   "soundList": "Sound list",
-  "minute": {
-    "zero": "minute",
-    "one": "minute",
-    "other": "minutes"
-  },
+  "minutes": " minutes",
+  "times": " times",
+  "continuously": "Continuously",
   "repeatInterval": "Interval",
   "repeatNum": "Repeat",
 
@@ -49,6 +64,21 @@
     "zero": "day",
     "one": "day",
     "other": "days"
+  },
+  "week_args": {
+    "zero": "week",
+    "one": "week",
+    "other": "weeks"
+  },
+  "month_args": {
+    "zero": "month",
+    "one": "month",
+    "other": "months"
+  },
+  "year_args": {
+    "zero": "year",
+    "one": "year",
+    "other": "years"
   },
 
   "alarmType": "Alarm Type",
@@ -65,7 +95,12 @@
   "notSet": "not set",
   "setDayOff": "Day off",
   "daysOff": "Day off",
+  "prefixOnThe": "on the ",
+  "suffixOnThe": "",
+  "prefixOn": "on ",
+  "suffixOn": "",
   "chooseRepeatDay": "Choose a repeat day",
+  "lastDay": "last",
   "monthAndDay": "(month, day)",
   "youMustChooseRepeatDay": "In monthly repeat mode,\nyou must select a repeat day.",
   "theIntervalMustBeAtLeastOne": "The interval must be at least 1",

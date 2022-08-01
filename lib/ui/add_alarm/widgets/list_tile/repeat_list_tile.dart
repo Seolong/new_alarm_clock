@@ -23,7 +23,7 @@ class RepeatListTile extends AlarmDetailListTile{
       builder: (_) {
         return Text(
           '${_.getIntervalAsString(_.alarmInterval)}'
-              '마다 ${_.getRepeatNumAsString(_.repeatNum)}', //알람음 설정
+              ', ${_.getRepeatNumAsString(_.repeatNum)}', //알람음 설정
           style: TextStyle(
               fontFamily: MyFontFamily.mainFontFamily,
               fontSize: 1000,

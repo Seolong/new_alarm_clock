@@ -15,6 +15,23 @@
   "language": "언어",
   "reset": "초기화",
 
+  "repeatEveryDay": {
+    "one": "매일 반복",
+    "other": "{}일마다 반복"
+  },
+  "repeatEveryWeek": {
+    "one": "매주 반복",
+    "other": "{}주마다 반복"
+  },
+  "repeatEveryMonth": {
+    "one": "매달 반복",
+    "other": "{}달마다 반복"
+  },
+  "repeatEveryYear": {
+    "one": "매년 반복",
+    "other": "{}년마다 반복"
+  },
+
   "confirm": "확인",
   "cancel": "취소",
 
@@ -37,11 +54,16 @@
   "off": "사용 안 함",
 
   "soundList": "음악 목록",
-  "minute": "분",
+  "minutes": "분",
+  "times": "회",
+  "continuously": "계속 반복",
   "repeatInterval": "반복 주기",
   "repeatNum": "반복 횟수",
 
-  "day_args": "일",
+  "day_args": "일마다",
+  "week_args": "주마다",
+  "month_args": "달마다",
+  "year_args": "년마다",
 
   "alarmType": "날짜 선택",
   "chooseOne": "선택",
@@ -57,7 +79,12 @@
   "notSet": "설정 안함",
   "setDayOff": "휴일 설정",
   "daysOff": "휴일",
+  "prefixOnThe": "",
+  "suffixOnThe": "에",
+  "prefixOn": "",
+  "suffixOn": "에",
   "chooseRepeatDay": "반복 날짜 선택",
+  "lastDay": "말일",
   "monthAndDay": "(월, 일)",
   "youMustChooseRepeatDay": "월마다 반복모드에선\n반복 날짜를 선택해야 합니다.",
   "theIntervalMustBeAtLeastOne": "주기는 1 이상이어야 합니다.",

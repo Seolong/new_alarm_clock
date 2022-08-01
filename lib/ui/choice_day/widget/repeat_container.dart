@@ -172,6 +172,8 @@ class RepeatContainer extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              Text(LocaleKeys.every.tr(),
+                  style: TextStyle(fontSize: SizeValue.intervalTypeTextSize)),
               Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.end,

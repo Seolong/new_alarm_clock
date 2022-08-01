@@ -1,6 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:get/get.dart' hide Trans;
+import 'package:easy_localization/easy_localization.dart';
+import 'package:new_alarm_clock/generated/locale_keys.g.dart';
 import 'package:new_alarm_clock/utils/enum.dart';
 import 'package:vibration/vibration.dart';
 
@@ -86,14 +87,19 @@ class RepeatRadioListController extends GetxController{
   }
 
   String getIntervalAsString(AlarmInterval interval){//radio에 text 표시용
+    String result;
     switch(interval){
       case AlarmInterval.five:
-        return '5분';
+        result = '5';
+        break;
       case AlarmInterval.ten:
-        return '10분';
+        result = '10';
+        break;
       case AlarmInterval.fifteen:
-        return '15분';
+        result = '15';
     }
+    result += LocaleKeys.minutes.tr();
+    return result;
   }
 
   int getIntervalAsInt(){//DB 저장용
@@ -108,14 +114,19 @@ class RepeatRadioListController extends GetxController{
   }
 
   String getRepeatNumAsString(RepeatNum num){
+    String result;
     switch(num){
       case RepeatNum.two:
-        return '2회';
+        result = '2';
+        break;
       case RepeatNum.three:
-        return '3회';
+        result = '3';
+        break;
       case RepeatNum.infinite:
-        return '계속 반복';
+        return LocaleKeys.continuously.tr();
     }
+    result += LocaleKeys.times.tr();
+    return result;
   }
 
   int getRepeatNumAsInt(){

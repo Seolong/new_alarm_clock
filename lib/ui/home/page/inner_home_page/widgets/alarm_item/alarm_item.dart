@@ -9,7 +9,9 @@ import 'package:new_alarm_clock/ui/home/controller/alarm_list_controller.dart';
 import 'package:new_alarm_clock/utils/enum.dart';
 import 'package:new_alarm_clock/utils/values/color_value.dart';
 import 'package:new_alarm_clock/utils/values/size_value.dart';
-import 'package:get/get.dart';
+import 'package:get/get.dart' hide Trans;
+import 'package:easy_localization/easy_localization.dart';
+import 'package:new_alarm_clock/generated/locale_keys.g.dart';
 import 'package:new_alarm_clock/utils/values/string_value.dart';
 import '../../../../controller/required_parameter_to_add_alarm_page_controller.dart';
 import 'controller/alarm_switch_controller.dart';
@@ -46,16 +48,16 @@ class AlarmItem extends StatelessWidget {
       int interval = alarmData.alarmInterval;
       switch (alarmData.alarmType) {
         case RepeatMode.day:
-          alarmPoint = interval == 1 ? '매일 반복' : '${interval}일마다 반복';
+          alarmPoint = LocaleKeys.repeatEveryDay.plural(interval);
           break;
         case RepeatMode.week:
-          alarmPoint = interval == 1 ? '매주 반복' : '${interval}주마다 반복';
+          alarmPoint = LocaleKeys.repeatEveryWeek.plural(interval);
           break;
         case RepeatMode.month:
-          alarmPoint = interval == 1 ? '매달 반복' : '${interval}달마다 반복';
+          alarmPoint = LocaleKeys.repeatEveryMonth.plural(interval);
           break;
         case RepeatMode.year:
-          alarmPoint = interval == 1 ? '매년 반복' : '${interval}년마다 반복';
+          alarmPoint = LocaleKeys.repeatEveryYear.plural(interval);
           break;
         default:
           alarmPoint = '';

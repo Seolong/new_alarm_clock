@@ -6,18 +6,18 @@
 // tree, read text, and verify that the values of widget properties are correct.
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:jiffy/jiffy.dart';
 import 'dart:async';
 
 var log = [];
 
+enum ABC{ a }
+
 void main() {
   test('DateTimeCalculator test', overridePrint((){
 
-    DateTime dateTime = DateTime.now();
-    dateTime.add(Duration(days: 1));
+    String a = ABC.a.toString().split('.')[1];
 
-    expect(dateTime.day, 3);
+    expect(a, 'a1');
   }));
 
 

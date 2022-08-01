@@ -1,5 +1,7 @@
-import 'package:get/get.dart';
-import 'package:intl/intl.dart';
+import 'package:get/get.dart' hide Trans;
+import 'package:easy_localization/easy_localization.dart';
+import 'package:new_alarm_clock/generated/locale_keys.g.dart';
+import 'package:jiffy/jiffy.dart';
 
 class YearRepeatDayController extends GetxController {
   DateTime _yearRepeatDay = DateTime.now();
@@ -13,6 +15,8 @@ class YearRepeatDayController extends GetxController {
   }
 
   String getYearRepeatDay_monthDay() {
-    return DateFormat('M월 d일에').format(_yearRepeatDay);
+    return LocaleKeys.prefixOn.tr()
+      +Jiffy(_yearRepeatDay).format('MMMM do')
+        +LocaleKeys.suffixOn.tr();
   }
 }

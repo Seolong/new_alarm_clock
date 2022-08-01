@@ -1,19 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:new_alarm_clock/ui/choice_day/controller/interval_text_field_controller.dart';
 import 'package:new_alarm_clock/ui/choice_day/controller/year_repeat_day_controller.dart';
 import 'package:new_alarm_clock/ui/choice_day/widget/repeat_container.dart';
 import 'package:new_alarm_clock/ui/choice_day/widget/repeat_container/widget_all/calendar_container.dart';
 import 'package:new_alarm_clock/utils/values/color_value.dart';
 import 'package:new_alarm_clock/utils/values/size_value.dart';
-import 'package:get/get.dart';
+import 'package:get/get.dart' hide Trans;
+import 'package:easy_localization/easy_localization.dart';
+import 'package:new_alarm_clock/generated/locale_keys.g.dart';
 
 class YearRepeatContainer extends RepeatContainer {
-  late Text intervalType;
+  dynamic intervalType;
 
   YearRepeatContainer() {
     Get.put(YearRepeatDayController());
-    intervalType = Text(
-      '년마다',
-      style: TextStyle(fontSize: SizeValue.intervalTypeTextSize),
+    intervalType = GetBuilder<IntervalTextFieldController>(
+      builder: (_) {
+        return Text(
+          plural(LocaleKeys.year_args, _.getInterval()),
+          style: TextStyle(fontSize: SizeValue.intervalTypeTextSize),
+        );
+      }
     );
     bottomColumn = Column(
       children: [
@@ -54,7 +61,7 @@ class YearRepeatContainer extends RepeatContainer {
             child: ConstrainedBox(
               constraints: BoxConstraints(minWidth: 1, minHeight: 1),
               child: Text(
-                '반복 날짜 선택\n(월, 일)',
+                '${LocaleKeys.chooseRepeatDay.tr()}\n${LocaleKeys.monthAndDay.tr()}',
                 style: TextStyle(color: Colors.grey, fontSize: 1000),
                 textAlign: TextAlign.center,
               ),

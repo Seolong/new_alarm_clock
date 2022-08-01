@@ -1,21 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:new_alarm_clock/ui/add_alarm/controller/day_of_week_controller.dart';
 import 'package:new_alarm_clock/ui/add_alarm/widgets/day_button.dart';
+import 'package:new_alarm_clock/ui/choice_day/controller/interval_text_field_controller.dart';
 import 'package:new_alarm_clock/ui/choice_day/controller/repeat_mode_controller.dart';
 import 'package:new_alarm_clock/ui/choice_day/widget/repeat_container.dart';
 import 'package:new_alarm_clock/utils/enum.dart';
 import 'package:new_alarm_clock/utils/values/size_value.dart';
-import 'package:get/get.dart';
+import 'package:get/get.dart' hide Trans;
+import 'package:easy_localization/easy_localization.dart';
+import 'package:new_alarm_clock/generated/locale_keys.g.dart';
 
 class WeekRepeatContainer extends RepeatContainer {
-  late Text intervalType;
+  dynamic intervalType;
 
   WeekRepeatContainer(){
-    intervalType = Text(
-        '주마다',
-      style: TextStyle(
-          fontSize: SizeValue.intervalTypeTextSize
-      ),
+    intervalType = GetBuilder<IntervalTextFieldController>(
+      builder: (_) {
+        return Text(
+            plural(LocaleKeys.week_args, _.getInterval()),
+          style: TextStyle(
+              fontSize: SizeValue.intervalTypeTextSize
+          ),
+        );
+      }
     );
     bottomColumn = Column(
       children: [
