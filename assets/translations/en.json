@@ -3,6 +3,7 @@
 
   "allAlarms": "All alarms",
   "every": "every",
+  "turnOffEraseMode": "Turn off the erase mode",
   "folder": "Folders",
   "addFolder": "Add folder",
   "moreOptions": "More options",
@@ -32,8 +33,11 @@
     "other": "Repeat every {} years"
   },
 
-  "confirm": "confirm",
-  "cancel": "cancel",
+  "confirm": "Confirm",
+  "okay": "OK",
+  "done": "Done",
+  "cancel": "Cancel",
+  "leaveWithoutSaving": "Do you want to leave without saving?",
 
   "save": "Save",
   "sun": "S",
@@ -110,5 +114,5 @@
   "notWeekMode": "It is not currently in 'weekly repeat mode'.",
   "alarmWillGoOffSoon": "The alarm will go off soon",
   "skipOnce": "Skip once",
-  "resetMusicList": "Will you reset this music list?"
+  "resetMusicList": "Do you want to reset this music list?"
 }

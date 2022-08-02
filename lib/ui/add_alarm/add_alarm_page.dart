@@ -42,7 +42,8 @@ class AddAlarmPage extends StatelessWidget {
 
   Future<void> initEditAlarm() async {
     // 페이지가 빌드 될 때마다 처음 init 상태로 되돌아가는 것을 막기 위함
-    if (Get.find<RequiredParameterToAddAlarmPageController>().isFirstInit == true) {
+    if (Get.find<RequiredParameterToAddAlarmPageController>().isFirstInit ==
+        true) {
       alarmData = await _alarmProvider.getAlarmById(alarmId);
 
       Get.find<RepeatModeController>().repeatMode = alarmData.alarmType;
@@ -63,17 +64,18 @@ class AddAlarmPage extends StatelessWidget {
       Get.find<MonthRepeatDayController>().initInEdit(alarmData.monthRepeatDay);
       Get.find<StartEndDayController>().setStart(alarmData.alarmDateTime);
       Get.find<StartEndDayController>().setEnd(alarmData.endDay);
-      Get.find<YearRepeatDayController>().yearRepeatDay = alarmData.alarmDateTime;
+      Get.find<YearRepeatDayController>().yearRepeatDay =
+          alarmData.alarmDateTime;
 
       Get.find<RequiredParameterToAddAlarmPageController>().isFirstInit = false;
     }
   }
 
-  String getIntervalInfoText(int interval, RepeatMode repeatMode, int? monthlyRepeatDay) {
+  String getIntervalInfoText(
+      int interval, RepeatMode repeatMode, int? monthlyRepeatDay) {
     //off거나 single이면 비어있고
     //그 외에는 '2일마다 반복'
-    if (repeatMode == RepeatMode.off ||
-        repeatMode == RepeatMode.single) {
+    if (repeatMode == RepeatMode.off || repeatMode == RepeatMode.single) {
       return '';
     } else {
       String alarmPoint;
@@ -134,9 +136,11 @@ class AddAlarmPage extends StatelessWidget {
           Get.find<RepeatModeController>().repeatMode != RepeatMode.single;
     }
 
-    mode = Get.find<RequiredParameterToAddAlarmPageController>().mode; //add or edit
+    mode = Get.find<RequiredParameterToAddAlarmPageController>()
+        .mode; //add or edit
     alarmId = Get.find<RequiredParameterToAddAlarmPageController>().alarmId;
-    currentFolderName = Get.find<RequiredParameterToAddAlarmPageController>().folderName;
+    currentFolderName =
+        Get.find<RequiredParameterToAddAlarmPageController>().folderName;
 
     final repeatModeController = Get.put(RepeatModeController());
     final startEndDayController = Get.put(StartEndDayController());
@@ -148,8 +152,8 @@ class AddAlarmPage extends StatelessWidget {
     Get.put(YearRepeatDayController());
     Get.put(DayOffListController());
 
-    SystemChrome.setSystemUIOverlayStyle(
-        SystemUiOverlayStyle(statusBarColor: Get.find<ColorController>().colorSet.mainColor));
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+        statusBarColor: Get.find<ColorController>().colorSet.mainColor));
 
     if (mode == StringValue.editMode) {
       initEditAlarm();
@@ -166,8 +170,20 @@ class AddAlarmPage extends StatelessWidget {
         child: Scaffold(
           backgroundColor: ColorValue.addAlarmPageBackground,
           appBar: AppBar(
-            backgroundColor: ColorValue.appbar,
+            // flexibleSpace: Container(
+            //   decoration: BoxDecoration(
+            //     gradient: LinearGradient(
+            //         begin: Alignment.topCenter,
+            //         end: Alignment.bottomCenter,
+            //         stops: [0.3, 1.0],
+            //         colors: <Color>[
+            //           Get.find<ColorController>().colorSet.lightMainColor,
+            //           Get.find<ColorController>().colorSet.mainColor
+            //         ]),
+            //   ),
+            // ),
             foregroundColor: ColorValue.appbarText,
+            //backgroundColor: Get.find<ColorController>().colorSet.mainColor,
             leading: IconButton(
               icon: Icon(Icons.arrow_back_ios_rounded),
               onPressed: _onTouchAppBarBackButton,
@@ -222,7 +238,7 @@ class AddAlarmPage extends StatelessWidget {
                               child: GestureDetector(
                                 child: Icon(
                                   Icons.today,
-                                  color: ColorValue.calendarIcon,
+                                  color: Get.find<ColorController>().colorSet.accentColor,
                                   size: 1000,
                                 ),
                                 onTap: () {
@@ -244,16 +260,21 @@ class AddAlarmPage extends StatelessWidget {
                           GetBuilder<RepeatModeController>(builder: (_) {
                             return IconButton(
                               onPressed: () {
-                                if(repeatModeController.repeatMode == RepeatMode.month){
-                                  startEndDayController.resetDateWhenMonthRepeat(alarmData.alarmDateTime);
-                                }
-                                else if (mode == StringValue.editMode && isRepeat()) {
-                                  startEndDayController.setStart(alarmData.alarmDateTime);
+                                if (repeatModeController.repeatMode ==
+                                    RepeatMode.month) {
+                                  startEndDayController
+                                      .resetDateWhenMonthRepeat(
+                                          alarmData.alarmDateTime);
+                                } else if (mode == StringValue.editMode &&
+                                    isRepeat()) {
+                                  startEndDayController
+                                      .setStart(alarmData.alarmDateTime);
                                 }
                               },
                               icon: Icon(Icons.refresh_rounded),
                               //tooltip: '초기화',
-                              color: (mode == StringValue.editMode && isRepeat())
+                              color:
+                                  (mode == StringValue.editMode && isRepeat())
                                       ? Colors.black45
                                       : Colors.transparent,
                             );
@@ -273,13 +294,16 @@ class AddAlarmPage extends StatelessWidget {
                           GetBuilder<RepeatModeController>(builder: (_) {
                             return IconButton(
                               onPressed: () {
-                                if (mode == StringValue.editMode && isRepeat()) {
-                                  startEndDayController.skipNextAlarmDate(alarmId);
+                                if (mode == StringValue.editMode &&
+                                    isRepeat()) {
+                                  startEndDayController
+                                      .skipNextAlarmDate(alarmId);
                                 }
                               },
                               icon: Icon(Icons.arrow_forward_ios),
                               //tooltip: '이번 알람 건너뛰기',
-                              color: (mode == StringValue.editMode && isRepeat())
+                              color:
+                                  (mode == StringValue.editMode && isRepeat())
                                       ? Colors.black45
                                       : Colors.transparent,
                             );
@@ -302,10 +326,9 @@ class AddAlarmPage extends StatelessWidget {
                               height: 35,
                               child: AutoSizeText(
                                 getIntervalInfoText(
-                                  _.getInterval(),
-                                  repeatCont.repeatMode,
-                                  monthCont.monthRepeatDay
-                                ),
+                                    _.getInterval(),
+                                    repeatCont.repeatMode,
+                                    monthCont.monthRepeatDay),
                                 color: Colors.black54,
                               ),
                             );

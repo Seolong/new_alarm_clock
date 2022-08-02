@@ -17,7 +17,6 @@ import '../../../../controller/required_parameter_to_add_alarm_page_controller.d
 import 'controller/alarm_switch_controller.dart';
 import 'controller/selected_alarm_controller.dart';
 import 'widgets/alarm_item_text.dart';
-import 'package:intl/intl.dart';
 
 class AlarmItem extends StatelessWidget {
   Color _swapButtonColor;
@@ -183,10 +182,10 @@ class AlarmItem extends StatelessWidget {
                                       }),
                                         overlayColor: MaterialStateProperty.all(Colors.transparent),//splash 효과 없애는 코드
                                         minimumSize: MaterialStateProperty.all(Size(40, 40)),
-                                        maximumSize: MaterialStateProperty.all(Size(150, 40))
+                                        maximumSize: MaterialStateProperty.all(Size(200, 40))
                                       ),
                                       child: AutoSizeText(
-                                        '삭제 모드 해제',
+                                        LocaleKeys.turnOffEraseMode.tr(),
                                         color: Colors.white,
                                       )));
                             }

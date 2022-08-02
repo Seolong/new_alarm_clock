@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:new_alarm_clock/ui/alarm_detail_page/ring/controller/ring_radio_list_controller.dart';
-import 'package:new_alarm_clock/utils/values/color_value.dart';
-
-import '../../../global/color_controller.dart';
+import 'package:new_alarm_clock/ui/global/color_controller.dart';
 
 class VolumeSlider extends StatelessWidget {
   @override

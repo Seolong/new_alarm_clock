@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:get/get.dart';
+import 'package:get/get.dart' hide Trans;
+import 'package:easy_localization/easy_localization.dart';
+import 'package:new_alarm_clock/generated/locale_keys.g.dart';
 import 'package:new_alarm_clock/utils/values/color_value.dart';
 
 class GoingBackDialog extends StatelessWidget {
@@ -19,12 +21,12 @@ class GoingBackDialog extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              Text('저장하지 않고 나가시겠습니까?'),
+              Text(LocaleKeys.leaveWithoutSaving.tr()),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   TextButton(
-                    child: Text('아니오',
+                    child: Text(LocaleKeys.cancel.tr(),
                     style: TextStyle(color:Colors.grey),),
                     onPressed: () {
                       Get.back(result: false);
@@ -37,7 +39,7 @@ class GoingBackDialog extends StatelessWidget {
                     color: Colors.grey,
                   ),
                   TextButton(
-                    child: Text('예'),
+                    child: Text(LocaleKeys.okay.tr()),
                     onPressed: () {
                       SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark.copyWith(
                           statusBarColor: ColorValue.mainBackground,

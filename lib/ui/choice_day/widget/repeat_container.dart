@@ -5,8 +5,8 @@ import 'package:new_alarm_clock/ui/choice_day/controller/interval_text_field_con
 import 'package:new_alarm_clock/ui/choice_day/controller/start_end_day_controller.dart';
 import 'package:new_alarm_clock/ui/choice_day/widget/repeat_container/widget_all/calendar_container.dart';
 import 'package:new_alarm_clock/ui/global/auto_size_text.dart';
+import 'package:new_alarm_clock/ui/global/color_controller.dart';
 import 'package:new_alarm_clock/ui/global/convenience_method.dart';
-import 'package:new_alarm_clock/utils/values/color_value.dart';
 import 'package:new_alarm_clock/utils/values/size_value.dart';
 import 'package:get/get.dart' hide Trans;
 import 'package:easy_localization/easy_localization.dart';
@@ -53,7 +53,7 @@ class RepeatContainer extends StatelessWidget {
                                 child: Icon(
                                   Icons.today,
                                   size: ButtonSize.large,
-                                  color: ColorValue.calendarIcon,
+                                  color: Get.find<ColorController>().colorSet.accentColor,
                                 ))),
                         Container(
                           height: ButtonSize.small - 4,
@@ -122,7 +122,7 @@ class RepeatContainer extends StatelessWidget {
                                 child: Icon(
                                   Icons.event,
                                   size: ButtonSize.large,
-                                  color: ColorValue.calendarIcon,
+                                  color: Get.find<ColorController>().colorSet.accentColor,
                                 ))),
                         Container(
                           height: ButtonSize.small - 4,

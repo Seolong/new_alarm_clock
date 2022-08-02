@@ -193,7 +193,7 @@ class CalendarContainer extends StatelessWidget {
                       print(_.selectedDay);
                       Get.back(result: _.selectedDay);
                     },
-                    child: Text(LocaleKeys.confirm.tr())),
+                    child: Text(LocaleKeys.done.tr())),
               ],
             )
           ],

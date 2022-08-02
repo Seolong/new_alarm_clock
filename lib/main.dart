@@ -78,6 +78,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
           appBarTheme: AppBarTheme(
             systemOverlayStyle: SystemUiOverlayStyle.dark,
+            backgroundColor: Get.find<ColorController>().colorSet.mainColor,
           ),
           textTheme: TextTheme(
             headline1: TextStyle(fontFamily: MyFontFamily.mainFontFamily),

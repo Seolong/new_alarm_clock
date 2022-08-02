@@ -3,6 +3,7 @@
 
   "allAlarms": "전체 알람",
   "every": "",
+  "turnOffEraseMode": "Turn off the erase mode",
   "folder": "폴더",
   "addFolder": "폴더 추가",
   "moreOptions": "더보기",
@@ -33,7 +34,10 @@
   },
 
   "confirm": "확인",
+  "okay": "예",
+  "done": "완료",
   "cancel": "취소",
+  "leaveWithoutSaving": "저장하지 않고 나가시겠습니까?",
 
   "save": "저장",
   "sun": "일",

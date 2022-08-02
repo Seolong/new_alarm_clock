@@ -81,12 +81,9 @@ class AlarmDetailListTile extends StatelessWidget {
                   ),
 
                   //스위치
-                  Expanded(
-                    flex: 2,
-                    child: Padding(
-                      padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
-                      child: stateSwitch,
-                    ),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
+                    child: stateSwitch,
                   ),
                 ],
               ),

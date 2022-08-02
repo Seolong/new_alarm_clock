@@ -4,7 +4,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:new_alarm_clock/generated/locale_keys.g.dart';
 import 'package:new_alarm_clock/ui/choice_day/controller/repeat_mode_controller.dart';
 import 'package:new_alarm_clock/ui/choice_day/widget/repeat_tab_bar_view.dart';
-import 'package:new_alarm_clock/utils/values/color_value.dart';
+import 'package:new_alarm_clock/ui/global/color_controller.dart';
 import 'package:new_alarm_clock/utils/values/my_font_family.dart';
 
 class RepeatTabBar extends StatelessWidget {
@@ -28,8 +28,8 @@ class RepeatTabBar extends StatelessWidget {
               fontFamily: MyFontFamily.mainFontFamily,
               fontWeight: FontWeight.bold,
             ),
-            indicatorColor: ColorValue.subTabBarIndicator,
-            labelColor: ColorValue.subTabBarIndicator,
+            indicatorColor: Get.find<ColorController>().colorSet.deepMainColor,
+            labelColor: Get.find<ColorController>().colorSet.deepMainColor,
             unselectedLabelColor: Colors.black54,
             isScrollable: true,
             tabs: <Widget>[

@@ -35,7 +35,7 @@ class DeleteDialog extends StatelessWidget {
                     color: Colors.grey,
                   ),
                   TextButton(
-                    child: Text(LocaleKeys.confirm.tr()),
+                    child: Text(LocaleKeys.okay.tr()),
                     onPressed: () {
                       Get.back(result: true);
                     },

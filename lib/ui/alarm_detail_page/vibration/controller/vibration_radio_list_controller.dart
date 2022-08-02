@@ -18,7 +18,7 @@ class VibrationRadioListController extends GetxController{
 
   set selectedVibration(VibrationName selectedVibration) {
     _selectedVibration = selectedVibration;
-    _vibrationPack.vibrateByVibrationName(selectedVibration); //재부팅 후 잘 적용됐나 확인, 진동 잘 울리나 테스트
+    _vibrationPack.vibrateByVibrationName(selectedVibration);
     update();
   }
 

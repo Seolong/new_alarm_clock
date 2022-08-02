@@ -32,6 +32,7 @@ class RingPage extends StatelessWidget {
           backgroundColor: Get.find<ColorController>().colorSet.mainColor,
         ),
         body: SafeArea(
+          minimum: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
           child: Column(
             children: [
               GetBuilder<RingRadioListController>(
@@ -59,7 +60,7 @@ class RingPage extends StatelessWidget {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
+                padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
                 child: Divider(),
               ),
               Padding(
@@ -95,12 +96,12 @@ class RingPage extends StatelessWidget {
                     )),
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 7.5),
+                padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 7.5),
                 child: Divider(thickness: 2.5,),
               ),
               Expanded(
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 35, vertical: 25),
+                  padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 25),
                   child: Container(
                     padding: EdgeInsets.only(top: 20),
                       decoration: BoxDecoration(
