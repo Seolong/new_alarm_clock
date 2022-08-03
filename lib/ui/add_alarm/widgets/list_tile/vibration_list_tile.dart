@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:new_alarm_clock/ui/add_alarm/widgets/list_tile/alarm_detail_list_tile.dart';
 import 'package:new_alarm_clock/ui/alarm_detail_page/vibration/controller/vibration_radio_list_controller.dart';
 import 'package:new_alarm_clock/ui/global/color_controller.dart';
+import 'package:new_alarm_clock/ui/global/custom_switch.dart';
 import 'package:new_alarm_clock/utils/values/color_value.dart';
 import 'package:new_alarm_clock/utils/values/my_font_family.dart';
 import 'package:get/get.dart' hide Trans;
@@ -33,7 +34,7 @@ class VibrationListTile extends AlarmDetailListTile {
     );
     stateSwitch = GetBuilder<VibrationRadioListController>(
       builder: (_) {
-        return Switch(
+        return CustomSwitch(
             value: _.power,
             onChanged: (value) {
               if (_.power) {
@@ -44,7 +45,12 @@ class VibrationListTile extends AlarmDetailListTile {
 
               _.power = value;
             },
-          activeColor: Get.find<ColorController>().colorSet.mainColor,
+          thumbColor: [
+            Get.find<ColorController>().colorSet.lightMainColor,
+            Get.find<ColorController>().colorSet.mainColor,
+            Get.find<ColorController>().colorSet.deepMainColor,
+          ],
+          activeColor: Get.find<ColorController>().colorSet.switchTrackColor,
         );
       }
     );
