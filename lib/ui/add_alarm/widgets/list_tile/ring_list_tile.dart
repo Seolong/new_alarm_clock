@@ -125,27 +125,31 @@ class _CustomSwitchState extends State<CustomSwitch>
                 // I commented here.
                 color: widget.value
                     ? widget.activeColor
-                    : Color.fromARGB(150, 193, 240, 195),
+                    : Colors.black12,
               ),
               duration: Duration(milliseconds: 200),
               child: Align(
                   alignment: _circleAnimation.value,
-                  child: Container(
-                    width: SizeValue.switchHeight,
-                    height: SizeValue.switchHeight,
-                    decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                      color: widget.value
-                      ? null
-                      : Colors.black26,
-                      gradient: widget.value
-                      ? LinearGradient(
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter,
-                        // You can set your own colors in here!
-                        colors: widget.thumbColor,
-                      )
-                      : null,
+                  child: Material(
+                    elevation: 2,
+                    shape: CircleBorder(),
+                    child: Container(
+                      width: SizeValue.switchHeight,
+                      height: SizeValue.switchHeight,
+                      decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                        color: widget.value
+                        ? null
+                        : Colors.black12,
+                        gradient: widget.value
+                        ? LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          // You can set your own colors in here!
+                          colors: widget.thumbColor,
+                        )
+                        : null,
+                      ),
                     ),
                   ),
                 ),
