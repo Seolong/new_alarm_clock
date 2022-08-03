@@ -7,6 +7,7 @@ import 'package:new_alarm_clock/utils/values/color_value.dart';
 import 'package:new_alarm_clock/utils/values/my_font_family.dart';
 import 'package:get/get.dart' hide Trans;
 import 'package:easy_localization/easy_localization.dart';
+import 'package:new_alarm_clock/utils/values/size_value.dart';
 import '../../../../utils/values/string_value.dart';
 
 class RingListTile extends AlarmDetailListTile{
@@ -43,7 +44,12 @@ class RingListTile extends AlarmDetailListTile{
 
                 _.power = value;
               },
-            activeColor: Get.find<ColorController>().colorSet.mainColor,
+            thumbColor: [
+              Get.find<ColorController>().colorSet.lightMainColor,
+              Get.find<ColorController>().colorSet.mainColor,
+              Get.find<ColorController>().colorSet.deepMainColor,
+            ],
+            activeColor: Get.find<ColorController>().colorSet.switchTrackColor,
           );
         }
     );
@@ -57,21 +63,16 @@ class CustomSwitch extends StatefulWidget {
   final ValueChanged<bool> onChanged;
   final Color activeColor;
   final Color inactiveColor;
-  final String activeText;
-  final String inactiveText;
-  final Color activeTextColor;
-  final Color inactiveTextColor;
+  final List<Color> thumbColor;
 
   const CustomSwitch(
       {
         required this.value,
         required this.onChanged,
         required this.activeColor,
-        this.inactiveColor = Colors.grey,
-        this.activeText = '',
-        this.inactiveText = '',
-        this.activeTextColor = Colors.white70,
-        this.inactiveTextColor = Colors.white70});
+        required this.thumbColor,
+        this.inactiveColor = Colors.black12,
+      });
 
   @override
   _CustomSwitchState createState() => _CustomSwitchState();
@@ -86,7 +87,7 @@ class _CustomSwitchState extends State<CustomSwitch>
   void initState() {
     super.initState();
     _animationController =
-        AnimationController(vsync: this, duration: Duration(milliseconds: 60));
+        AnimationController(vsync: this, duration: Duration(milliseconds: 240));
     _circleAnimation = AlignmentTween(
         begin: widget.value ? Alignment.centerRight : Alignment.centerLeft,
         end: widget.value ? Alignment.centerLeft : Alignment.centerRight)
@@ -100,7 +101,8 @@ class _CustomSwitchState extends State<CustomSwitch>
       animation: _animationController,
       builder: (context, child) {
         return GestureDetector(
-          onTap: () {
+            behavior: HitTestBehavior.translucent,
+            onTap: () {
             if (_animationController.isCompleted) {
               _animationController.reverse();
             } else {
@@ -110,68 +112,44 @@ class _CustomSwitchState extends State<CustomSwitch>
                 ? widget.onChanged(true)
                 : widget.onChanged(false);
           },
-          child: Container(
-            width: 40.0,
-            height: 20.0,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(15.0),
-              // I commented here.
-              // color: _circleAnimation.value == Alignment.centerLeft
-              //     ? widget.inactiveColor
-              //     : widget.activeColor,
-
-              gradient: LinearGradient(
-                begin: Alignment.topRight,
-                end: Alignment.bottomLeft,
-                // You can set your own colors in here!
-                colors: [
-                  Colors.blue,
-                  Colors.red,
-                ],
+          child: Stack(
+            alignment: Alignment.center,
+            children: [
+              SizedBox(width: 45,height: 70,),
+              AnimatedContainer(
+              padding: EdgeInsets.all(0.5),
+              width: 45.0,
+              height: SizeValue.switchHeight,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(15.0),
+                // I commented here.
+                color: widget.value
+                    ? widget.activeColor
+                    : Color.fromARGB(150, 193, 240, 195),
               ),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.only(
-                  top: 4.0, bottom: 4.0, right: 0.0, left: 0.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  _circleAnimation.value == Alignment.centerRight
-                      ? Padding(
-                    padding: const EdgeInsets.only(left: 5.0, right: 0),
-                    child: Text(
-                      widget.activeText,
-                      style: TextStyle(
-                          color: widget.activeTextColor,
-                          fontWeight: FontWeight.w900,
-                          fontSize: 16.0),
-                    ),
-                  )
-                      : Container(),
-                  Align(
-                    alignment: _circleAnimation.value,
-                    child: Container(
-                      width: 20.0,
-                      height: 20.0,
-                      decoration: BoxDecoration(
-                          shape: BoxShape.circle, color: Colors.white),
+              duration: Duration(milliseconds: 200),
+              child: Align(
+                  alignment: _circleAnimation.value,
+                  child: Container(
+                    width: SizeValue.switchHeight,
+                    height: SizeValue.switchHeight,
+                    decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                      color: widget.value
+                      ? null
+                      : Colors.black26,
+                      gradient: widget.value
+                      ? LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        // You can set your own colors in here!
+                        colors: widget.thumbColor,
+                      )
+                      : null,
                     ),
                   ),
-                  _circleAnimation.value == Alignment.centerLeft
-                      ? Padding(
-                    padding: const EdgeInsets.only(left: 0, right: 16.0),
-                    child: Text(
-                      widget.inactiveText,
-                      style: TextStyle(
-                          color: widget.inactiveTextColor,
-                          fontWeight: FontWeight.w900,
-                          fontSize: 16.0),
-                    ),
-                  )
-                      : Container(),
-                ],
-              ),
-            ),
+                ),
+            ),]
           ),
         );
       },

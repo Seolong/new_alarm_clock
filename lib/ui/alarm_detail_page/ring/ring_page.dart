@@ -4,7 +4,6 @@ import 'package:new_alarm_clock/ui/alarm_detail_page/ring/widget/add_music_butto
 import 'package:new_alarm_clock/ui/alarm_detail_page/ring/widget/delete_music_button.dart';
 import 'package:new_alarm_clock/ui/alarm_detail_page/ring/widget/ring_radio_list.dart';
 import 'package:new_alarm_clock/ui/alarm_detail_page/ring/widget/volume_slider.dart';
-import 'package:new_alarm_clock/ui/alarm_detail_page/widget_all/app_bar_title.dart';
 import 'package:new_alarm_clock/ui/global/auto_size_text.dart';
 import 'package:new_alarm_clock/ui/global/color_controller.dart';
 import 'package:new_alarm_clock/utils/values/color_value.dart';
@@ -27,9 +26,9 @@ class RingPage extends StatelessWidget {
       },
       child: Scaffold(
         appBar: AppBar(
-          foregroundColor: ColorValue.appbarText,
-          title: AppBarTitle(LocaleKeys.sound.tr()),
-          backgroundColor: Get.find<ColorController>().colorSet.mainColor,
+          //foregroundColor: ColorValue.appbarText,
+          title: Text(LocaleKeys.sound.tr()),
+          //backgroundColor: Get.find<ColorController>().colorSet.mainColor,
         ),
         body: SafeArea(
           minimum: EdgeInsets.symmetric(horizontal: 10, vertical: 5),

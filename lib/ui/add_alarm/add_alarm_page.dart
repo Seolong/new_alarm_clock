@@ -182,7 +182,7 @@ class AddAlarmPage extends StatelessWidget {
             //         ]),
             //   ),
             // ),
-            foregroundColor: ColorValue.appbarText,
+            //foregroundColor: ColorValue.appbarText,
             //backgroundColor: Get.find<ColorController>().colorSet.mainColor,
             leading: IconButton(
               icon: Icon(Icons.arrow_back_ios_rounded),

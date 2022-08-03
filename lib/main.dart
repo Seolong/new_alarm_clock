@@ -79,21 +79,16 @@ class MyApp extends StatelessWidget {
           appBarTheme: AppBarTheme(
             systemOverlayStyle: SystemUiOverlayStyle.dark,
             backgroundColor: Get.find<ColorController>().colorSet.mainColor,
+            foregroundColor: Get.find<ColorController>().colorSet.appBarContentColor,
+            titleTextStyle: TextStyle(
+                color: Get.find<ColorController>().colorSet.appBarContentColor,
+              fontFamily: MyFontFamily.mainFontFamily,
+              fontSize: Theme.of(context).textTheme.titleLarge!.fontSize
+            ),
+            toolbarTextStyle: TextStyle(color: Get.find<ColorController>().colorSet.appBarContentColor)
           ),
           textTheme: TextTheme(
-            headline1: TextStyle(fontFamily: MyFontFamily.mainFontFamily),
-            headline2: TextStyle(fontFamily: MyFontFamily.mainFontFamily),
-            headline3: TextStyle(fontFamily: MyFontFamily.mainFontFamily),
-            headline4: TextStyle(fontFamily: MyFontFamily.mainFontFamily),
-            headline5: TextStyle(fontFamily: MyFontFamily.mainFontFamily),
-            headline6: TextStyle(fontFamily: MyFontFamily.mainFontFamily),
-            subtitle1: TextStyle(fontFamily: MyFontFamily.mainFontFamily),
-            subtitle2: TextStyle(fontFamily: MyFontFamily.mainFontFamily),
-            bodyText1: TextStyle(fontFamily: MyFontFamily.mainFontFamily),
-            bodyText2: TextStyle(fontFamily: MyFontFamily.mainFontFamily),
-            caption: TextStyle(fontFamily: MyFontFamily.mainFontFamily),
-            button: TextStyle(fontFamily: MyFontFamily.mainFontFamily),
-            overline: TextStyle(fontFamily: MyFontFamily.mainFontFamily),
+            //titleLarge: TextStyle(fontFamily: MyFontFamily.mainFontFamily),
           )),
       initialRoute: AppRoutes.home,
       getPages: AppPages.pages,

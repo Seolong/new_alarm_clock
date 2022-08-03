@@ -7,8 +7,12 @@ class ColorController extends GetxController {
   String _colorTheme = 'green';
   SettingsSharedPreferences settingsSharedPreferences =
       SettingsSharedPreferences();
-  ColorSet colorSet = ColorSet(ColorValue.yellowGreen, ColorValue.green,
-      ColorValue.teal, ColorValue.yellow, ColorValue.orange, ColorValue.darkOrange);
+  ColorSet colorSet = ColorSet(
+    ColorValue.yellowGreen, ColorValue.green, ColorValue.teal,
+    ColorValue.yellow, ColorValue.orange, ColorValue.darkOrange,
+    ColorValue.white, ColorValue.black, ColorValue.skyBlue,
+    ColorValue.magicMint
+  );
 
   set colorTheme(String color) => _colorTheme = color;
 
@@ -25,8 +29,12 @@ class ColorController extends GetxController {
 
   void setColorSet(String theme){
     if(theme == settingsSharedPreferences.green){
-      colorSet = ColorSet(ColorValue.yellowGreen, ColorValue.green,
-          ColorValue.teal, ColorValue.yellow, ColorValue.orange, ColorValue.darkOrange);
+      colorSet = ColorSet(
+        ColorValue.yellowGreen, ColorValue.green, ColorValue.teal,
+        ColorValue.yellow, ColorValue.orange, ColorValue.darkOrange,
+        ColorValue.white, ColorValue.black, ColorValue.skyBlue,
+        ColorValue.magicMint
+      );
     }
     settingsSharedPreferences.setTheme(theme);
   }
@@ -39,7 +47,13 @@ class ColorSet {
   Color lightAccentColor;
   Color accentColor;
   Color deepAccentColor;
+  Color appBarContentColor;
+  Color mainTextColor;
+  Color calendarTitleColor;
+  Color switchTrackColor;
 
   ColorSet(this.lightMainColor, this.mainColor, this.deepMainColor,
-      this.lightAccentColor, this.accentColor, this.deepAccentColor);
+      this.lightAccentColor, this.accentColor, this.deepAccentColor,
+      this.appBarContentColor, this.mainTextColor, this.calendarTitleColor,
+      this.switchTrackColor);
 }
