@@ -9,7 +9,6 @@ import 'package:get/get.dart' hide Trans;
 import 'package:easy_localization/easy_localization.dart';
 import 'package:new_alarm_clock/generated/locale_keys.g.dart';
 import 'package:new_alarm_clock/utils/values/vibration_Pack.dart';
-import '../../../../utils/values/string_value.dart';
 
 class VibrationListTile extends AlarmDetailListTile {
   VibrationListTile() {
@@ -37,12 +36,6 @@ class VibrationListTile extends AlarmDetailListTile {
         return CustomSwitch(
             value: _.power,
             onChanged: (value) {
-              if (_.power) {
-                _.listTextColor = _.textColor[StringValue.inactive]!;
-              } else {
-                _.listTextColor = _.textColor[StringValue.active]!;
-              }
-
               _.power = value;
             },
           thumbColor: [

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:get/get.dart' hide Trans;
+import 'package:easy_localization/easy_localization.dart';
+import 'package:new_alarm_clock/generated/locale_keys.g.dart';
 import '../../../utils/enum.dart';
 import '../../../utils/values/string_value.dart';
 import '../../choice_day/controller/repeat_mode_controller.dart';
@@ -40,7 +42,7 @@ class DaysOfWeekRow extends StatelessWidget {
                     onTap: () {
                       if (_isAbsorb(repeatCont)) {
                         ConvenienceMethod.showSimpleSnackBar(
-                            SystemMessage.notWeekMode);
+                            LocaleKeys.notWeekMode.tr());
                       }
                     },
                     child: AbsorbPointer(

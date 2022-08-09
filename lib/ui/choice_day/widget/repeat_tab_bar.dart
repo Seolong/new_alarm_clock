@@ -30,7 +30,7 @@ class RepeatTabBar extends StatelessWidget {
             ),
             indicatorColor: Get.find<ColorController>().colorSet.deepMainColor,
             labelColor: Get.find<ColorController>().colorSet.deepMainColor,
-            unselectedLabelColor: Colors.black54,
+            unselectedLabelColor: Colors.grey,
             isScrollable: true,
             tabs: <Widget>[
               Tab(

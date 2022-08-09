@@ -8,50 +8,39 @@ import 'package:new_alarm_clock/utils/values/color_value.dart';
 import 'package:new_alarm_clock/utils/values/my_font_family.dart';
 import 'package:get/get.dart' hide Trans;
 import 'package:easy_localization/easy_localization.dart';
-import '../../../../utils/values/string_value.dart';
 
-class RingListTile extends AlarmDetailListTile{
-  RingListTile(){
+class RingListTile extends AlarmDetailListTile {
+  RingListTile() {
     tileTitle = Text(
       LocaleKeys.sound.tr(),
       textAlign: TextAlign.start,
       style: TextStyle(
-        color: ColorValue.listTileTitleText,
-        fontFamily: MyFontFamily.mainFontFamily,
-        fontSize: 1000
-      ),
+          color: ColorValue.listTileTitleText,
+          fontFamily: MyFontFamily.mainFontFamily,
+          fontSize: 1000),
     );
-    tileSubTitle = GetBuilder<RingRadioListController>(
-        builder: (_) {
-          return Text(_.getNameOfSong(_.selectedMusicPath), //알람음 설정
-            style: TextStyle(
-                color: Get.find<ColorController>().colorSet.mainColor,
-                fontFamily: MyFontFamily.mainFontFamily,
-                fontSize: 1000),
-          );
-        }
-    );
-    stateSwitch = GetBuilder<RingRadioListController>(
-        builder: (_) {
-          return CustomSwitch(
-              value: _.power,
-              onChanged: (value) {
-                if (_.power) {
-                  _.listTextColor = _.textColor[StringValue.inactive]!;
-                } else {
-                  _.listTextColor = _.textColor[StringValue.active]!;
-                }
-
-                _.power = value;
-              },
-            thumbColor: [
-              Get.find<ColorController>().colorSet.lightMainColor,
-              Get.find<ColorController>().colorSet.mainColor,
-              Get.find<ColorController>().colorSet.deepMainColor,
-            ],
-            activeColor: Get.find<ColorController>().colorSet.switchTrackColor,
-          );
-        }
-    );
+    tileSubTitle = GetBuilder<RingRadioListController>(builder: (_) {
+      return Text(
+        _.getNameOfSong(_.selectedMusicPath), //알람음 설정
+        style: TextStyle(
+            color: Get.find<ColorController>().colorSet.mainColor,
+            fontFamily: MyFontFamily.mainFontFamily,
+            fontSize: 1000),
+      );
+    });
+    stateSwitch = GetBuilder<RingRadioListController>(builder: (_) {
+      return CustomSwitch(
+        value: _.power,
+        onChanged: (value) {
+          _.power = value;
+        },
+        thumbColor: [
+          Get.find<ColorController>().colorSet.lightMainColor,
+          Get.find<ColorController>().colorSet.mainColor,
+          Get.find<ColorController>().colorSet.deepMainColor,
+        ],
+        activeColor: Get.find<ColorController>().colorSet.switchTrackColor,
+      );
+    });
   }
 }

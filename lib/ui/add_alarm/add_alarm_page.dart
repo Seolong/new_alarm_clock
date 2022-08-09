@@ -40,7 +40,7 @@ class AddAlarmPage extends StatelessWidget {
       AlarmDetailListTileFactory();
   final IdSharedPreferences idSharedPreferences = IdSharedPreferences();
 
-  Future<void> initEditAlarm() async {
+  Future<String> initEditAlarm() async {
     // 페이지가 빌드 될 때마다 처음 init 상태로 되돌아가는 것을 막기 위함
     if (Get.find<RequiredParameterToAddAlarmPageController>().isFirstInit ==
         true) {
@@ -69,6 +69,7 @@ class AddAlarmPage extends StatelessWidget {
 
       Get.find<RequiredParameterToAddAlarmPageController>().isFirstInit = false;
     }
+    return StringValue.editMode;
   }
 
   String getIntervalInfoText(
@@ -118,6 +119,27 @@ class AddAlarmPage extends StatelessWidget {
     } else {
       return '';
     }
+  }
+
+  //editMode일 때 initEditAlarm()를 쓰기 위함
+  FutureBuilder getInitializedWidget(Widget widget){
+    return FutureBuilder(
+        future: mode == StringValue.editMode
+            ? initEditAlarm()
+            : Future<String>.value(StringValue.addMode),
+        builder: (BuildContext context, AsyncSnapshot snapshot){
+          if(snapshot.hasData){
+            if (snapshot.data == StringValue.editMode
+                || snapshot.data == StringValue.addMode) {
+              return widget;
+            }
+            else{
+              return Text('Loading..');
+            }
+          }else{
+            return Text('Loading..');
+          }
+        });
   }
 
   @override
@@ -213,7 +235,7 @@ class AddAlarmPage extends StatelessWidget {
                     Container(
                       height: 250,
                       child: TimeSpinner(
-                          alarmId: alarmId, fontSize: 24, mode: mode),
+                          alarmId: alarmId, fontSize: 22, mode: mode),
                     ),
 
                     Divider(
@@ -338,13 +360,13 @@ class AddAlarmPage extends StatelessWidget {
                     ),
 
                     TitleTextField(mode, alarmId),
-
-                    _alarmDetailListTileFactory
-                        .getDetailListTile(DetailTileName.ring),
-                    _alarmDetailListTileFactory
-                        .getDetailListTile(DetailTileName.vibration),
-                    _alarmDetailListTileFactory
-                        .getDetailListTile(DetailTileName.repeat),
+                    
+                    getInitializedWidget(_alarmDetailListTileFactory
+                        .getDetailListTile(DetailTileName.ring)),
+                    getInitializedWidget(_alarmDetailListTileFactory
+                        .getDetailListTile(DetailTileName.vibration)),
+                    getInitializedWidget(_alarmDetailListTileFactory
+                        .getDetailListTile(DetailTileName.repeat)),
                   ],
                 ),
               ),

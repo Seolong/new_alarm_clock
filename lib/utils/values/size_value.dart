@@ -26,6 +26,10 @@ class SizeValue{
   static final double detailPowerTextHeight = 30;
 
   static final double switchHeight = 22;
+
+  static final double alarmDetailPageHorizontalPadding = 17.5;
+  static final double alarmDetailPageVerticalPadding = 10;
+  static final double alarmDetailPagePowerPadding = 10;
 }
 
 class ButtonSize{

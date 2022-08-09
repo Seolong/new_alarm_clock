@@ -12,7 +12,6 @@ class VibrationRadioListController extends GetxController{
     'active': Colors.black,
     'inactive': Colors.grey
   };
-  RxMap<String, Color> _listTextColor = {'text': Colors.black}.obs;
 
   VibrationName get selectedVibration => _selectedVibration;
 
@@ -27,13 +26,6 @@ class VibrationRadioListController extends GetxController{
   set power(bool value){
     _power = value;
     //switch가 안 움직이면 대개 update()를 빼먹어서다.
-    update();
-  }
-
-  Color get listTextColor => _listTextColor['text']!;
-
-  set listTextColor(Color color){
-    _listTextColor['text'] = color;
     update();
   }
 

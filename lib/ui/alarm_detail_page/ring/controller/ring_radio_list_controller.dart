@@ -15,7 +15,6 @@ class RingRadioListController extends GetxController {
     'active': Colors.black,
     'inactive': Colors.grey
   };
-  Map<String, Color> _listTextColor = {'text': Colors.black};
   Future<List<MusicPathData>>? pathFutureList = null;
   RxList<MusicPathData> pathList = RxList<MusicPathData>();
   double _volume = 0.7; //addalarmpage에서 edit이면 db에서 받아오기
@@ -43,13 +42,6 @@ class RingRadioListController extends GetxController {
     if (_power == false) {
       musicHandler.stopMusic();
     }
-    update();
-  }
-
-  Color get listTextColor => _listTextColor['text']!;
-
-  set listTextColor(Color color) {
-    _listTextColor['text'] = color;
     update();
   }
 

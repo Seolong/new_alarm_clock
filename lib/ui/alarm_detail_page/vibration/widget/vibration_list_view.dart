@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:get/get_state_manager/src/simple/get_state.dart';
+import 'package:get/get.dart';
+import 'package:new_alarm_clock/ui/global/color_controller.dart';
 import '../../../../utils/enum.dart';
-import '../../../../utils/values/color_value.dart';
 import '../../../../utils/values/vibration_Pack.dart';
 import '../../../global/auto_size_text.dart';
 import '../controller/vibration_radio_list_controller.dart';
@@ -35,7 +35,7 @@ class VibrationListView extends StatelessWidget {
                 _.selectedVibration = value!;
               }
             },
-            activeColor: ColorValue.activeSwitch,
+            activeColor: _.power? Get.find<ColorController>().colorSet.accentColor: Colors.grey,
           ),
         );
       },

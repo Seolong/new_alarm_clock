@@ -25,10 +25,16 @@ class RepeatPage extends StatelessWidget {
         backgroundColor: Get.find<ColorController>().colorSet.mainColor,
       ),
       body: SafeArea(
+        minimum: EdgeInsets.symmetric(
+            horizontal: SizeValue.alarmDetailPageHorizontalPadding,
+            vertical: SizeValue.alarmDetailPageVerticalPadding
+        ),
         child: Column(
           children: [
             Padding(
-              padding: const EdgeInsets.fromLTRB(5, 3, 5, 0),
+              padding: EdgeInsets.symmetric(
+                  horizontal: SizeValue.alarmDetailPagePowerPadding
+              ),
               child: GetBuilder<RepeatRadioListController>(
                 builder: (_) => SwitchListTile(
                   title: Container(
@@ -40,12 +46,6 @@ class RepeatPage extends StatelessWidget {
                   ),
                   value: _.power,
                   onChanged: (value) {
-                    if (_.power) {
-                      _.listTextColor = _.textColor['inactive']!;
-                    } else {
-                      _.listTextColor = _.textColor['active']!;
-                    }
-
                     _.power = value;
                   },
                   activeColor: Get.find<ColorController>().colorSet.mainColor,

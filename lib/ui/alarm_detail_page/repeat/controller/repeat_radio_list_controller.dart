@@ -13,7 +13,6 @@ class RepeatRadioListController extends GetxController{
     'active': Colors.black,
     'inactive': Colors.grey
   };
-  RxMap<String, Color> _listTextColor = {'text': Colors.black}.obs;
 
 
   set alarmInterval(AlarmInterval alarmInterval){
@@ -71,13 +70,6 @@ class RepeatRadioListController extends GetxController{
   }
 
   bool get power => _power.value;
-
-  set listTextColor(Color color){
-    _listTextColor['text'] = color;
-    update();
-  }
-
-  Color get listTextColor => _listTextColor['text']!;
 
   @override
   void onClose() {

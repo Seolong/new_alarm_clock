@@ -1,20 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:new_alarm_clock/utils/values/size_value.dart';
 
 class CustomSwitch extends StatefulWidget {
+  final double touchAreaHeight;
   final bool value;
   final ValueChanged<bool> onChanged;
   final Color activeColor;
   final Color inactiveColor;
   final List<Color> thumbColor;
+  final double switchHeight;
 
   const CustomSwitch(
       {
+        this.touchAreaHeight = 70,
         required this.value,
         required this.onChanged,
         required this.activeColor,
         required this.thumbColor,
         this.inactiveColor = Colors.black12,
+        this.switchHeight = 22
       });
 
   @override
@@ -23,9 +26,12 @@ class CustomSwitch extends StatefulWidget {
 
 class _CustomSwitchState extends State<CustomSwitch>
     with SingleTickerProviderStateMixin {
+  double _start = 0.0;
+  double _end = 1.0;
   late Animation _circleAnimation;
   late AnimationController _animationController;
-  late Animation<Color?> _color;
+  late Animation<Color?> _trackColor;
+  late double animationTarget;
 
   @override
   void initState() {
@@ -37,11 +43,29 @@ class _CustomSwitchState extends State<CustomSwitch>
         end: widget.value ? Alignment.centerLeft : Alignment.centerRight)
         .animate(CurvedAnimation(
         parent: _animationController, curve: Curves.linear));
-    _color =
+    _trackColor =
         ColorTween(
           begin: widget.value? widget.activeColor: widget.activeColor.withAlpha(100),
           end: widget.value? widget.activeColor.withAlpha(100): widget.activeColor,)
             .animate(_animationController);
+    animationTarget = _start;
+    print("initState widget.value: ${widget.value}");
+  }
+
+  @override
+  void didUpdateWidget(CustomSwitch oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.value != widget.value) {
+      print("CustomSwitch didUpdateWidget ${widget.value}");
+      if(animationTarget==_start){
+        animationTarget=_end;
+      }else if(animationTarget==_end){
+        animationTarget=_start;
+      }else{
+        assert(false, "CustomSwitch error: didUpdateWidget");
+      }
+      _animationController.animateTo(animationTarget);
+    }
   }
 
   @override
@@ -64,20 +88,19 @@ class _CustomSwitchState extends State<CustomSwitch>
           child: Stack(
               alignment: Alignment.center,
               children: [
-                SizedBox(width: 45,height: 70,),
+                SizedBox(width: 45, height: widget.touchAreaHeight,),
                 Container(
                   width: 45.0,
-                  height: SizeValue.switchHeight,
+                  height: widget.switchHeight,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(30.0),
-                    // I commented here.
-                    color: _color.value,
+                    color: _trackColor.value,
                   ),
                   child: Align(
                     alignment: _circleAnimation.value,
                     child: Container(
-                      width: SizeValue.switchHeight,
-                      height: SizeValue.switchHeight,
+                      width: widget.switchHeight,
+                      height: widget.switchHeight,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         color: widget.value
@@ -87,7 +110,6 @@ class _CustomSwitchState extends State<CustomSwitch>
                             ? LinearGradient(
                           begin: Alignment.topCenter,
                           end: Alignment.bottomCenter,
-                          // You can set your own colors in here!
                           colors: widget.thumbColor,
                         )
                             : null,

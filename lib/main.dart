@@ -77,7 +77,7 @@ class MyApp extends StatelessWidget {
       navigatorKey: MyApp.navigatorKey,
       theme: ThemeData(
           appBarTheme: AppBarTheme(
-            systemOverlayStyle: SystemUiOverlayStyle.dark,
+            systemOverlayStyle: SystemUiOverlayStyle.light,
             backgroundColor: Get.find<ColorController>().colorSet.mainColor,
             foregroundColor: Get.find<ColorController>().colorSet.appBarContentColor,
             titleTextStyle: TextStyle(
