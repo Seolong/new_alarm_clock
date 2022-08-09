@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'auto_size_text.dart';
 
-class CustomRadioListTile extends StatelessWidget {
+class CustomRadioListTile<T> extends StatelessWidget {
   final dynamic radioValue;
   final dynamic radioGroupValue;
-  final ValueChanged<dynamic> onPressed;
+  final ValueChanged<T?>? onPressed;
   final String title;
   final Color activeColor;
   final Color textColor;
@@ -24,20 +24,18 @@ class CustomRadioListTile extends StatelessWidget {
       height: 50,
       child: Row(
         children: [
-          Radio<dynamic>(
+          Radio<T>(
             value: radioValue,
             groupValue: radioGroupValue, //초기값
-            onChanged: (value) {
-              onPressed;
-            },
+            onChanged: onPressed,
             activeColor: activeColor,
           ),
           Expanded(
             child: MaterialButton(
               minWidth: 0,
               padding: EdgeInsets.zero,
-              onPressed: () {
-                onPressed;
+              onPressed: (){
+                onPressed!(radioValue);
               },
               child: Align(
                 alignment: Alignment.centerLeft,

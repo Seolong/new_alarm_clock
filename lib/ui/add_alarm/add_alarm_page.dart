@@ -23,7 +23,6 @@ import 'package:new_alarm_clock/ui/day_off/controller/day_off_list_controller.da
 import 'package:new_alarm_clock/ui/global/auto_size_text.dart';
 import 'package:new_alarm_clock/ui/home/controller/required_parameter_to_add_alarm_page_controller.dart';
 import 'package:new_alarm_clock/utils/enum.dart';
-import 'package:new_alarm_clock/utils/values/color_value.dart';
 import 'package:get/get.dart' hide Trans;
 import 'package:easy_localization/easy_localization.dart';
 import 'package:new_alarm_clock/generated/locale_keys.g.dart';
@@ -190,7 +189,6 @@ class AddAlarmPage extends StatelessWidget {
           closeKeyBoard();
         },
         child: Scaffold(
-          backgroundColor: ColorValue.addAlarmPageBackground,
           appBar: AppBar(
             // flexibleSpace: Container(
             //   decoration: BoxDecoration(
@@ -227,8 +225,7 @@ class AddAlarmPage extends StatelessWidget {
           body: SafeArea(
             child: SingleChildScrollView(
               child: Container(
-                color: ColorValue.addAlarmPageBackground,
-                padding: EdgeInsets.fromLTRB(25, 0, 25, 10),
+                color: Color.fromARGB(255, 248, 248, 252),
                 child: Column(
                   children: [
                     //spinner
@@ -237,44 +234,12 @@ class AddAlarmPage extends StatelessWidget {
                       child: TimeSpinner(
                           alarmId: alarmId, fontSize: 22, mode: mode),
                     ),
-
-                    Divider(
-                      thickness: 2,
-                    ),
-
-                    Container(
-                      height: 50,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Expanded(
-                            child: Padding(
-                              padding: const EdgeInsets.all(2.0),
-                              child: DaysOfWeekRow(mode, alarmId),
-                            ),
-                          ),
-
-                          //ChoiceDayButton
-                          FittedBox(
-                              fit: BoxFit.scaleDown,
-                              child: GestureDetector(
-                                child: Icon(
-                                  Icons.today,
-                                  color: Get.find<ColorController>().colorSet.accentColor,
-                                  size: 1000,
-                                ),
-                                onTap: () {
-                                  repeatModeController.previousRepeatMode =
-                                      repeatModeController.repeatMode;
-                                  Get.toNamed(AppRoutes.choiceDayPage);
-                                },
-                              )),
-                        ],
-                      ),
-                    ),
-
                     Padding(
-                      padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
+                      padding: const EdgeInsets.symmetric(horizontal: 17.5),
+                      child: Divider(),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
@@ -286,7 +251,7 @@ class AddAlarmPage extends StatelessWidget {
                                     RepeatMode.month) {
                                   startEndDayController
                                       .resetDateWhenMonthRepeat(
-                                          alarmData.alarmDateTime);
+                                      alarmData.alarmDateTime);
                                 } else if (mode == StringValue.editMode &&
                                     isRepeat()) {
                                   startEndDayController
@@ -296,9 +261,9 @@ class AddAlarmPage extends StatelessWidget {
                               icon: Icon(Icons.refresh_rounded),
                               //tooltip: '초기화',
                               color:
-                                  (mode == StringValue.editMode && isRepeat())
-                                      ? Colors.black45
-                                      : Colors.transparent,
+                              (mode == StringValue.editMode && isRepeat())
+                                  ? Colors.black45
+                                  : Colors.transparent,
                             );
                           }),
                           //NextYearMonthDayText
@@ -325,9 +290,9 @@ class AddAlarmPage extends StatelessWidget {
                               icon: Icon(Icons.arrow_forward_ios),
                               //tooltip: '이번 알람 건너뛰기',
                               color:
-                                  (mode == StringValue.editMode && isRepeat())
-                                      ? Colors.black45
-                                      : Colors.transparent,
+                              (mode == StringValue.editMode && isRepeat())
+                                  ? Colors.black45
+                                  : Colors.transparent,
                             );
                           }),
                         ],
@@ -336,37 +301,84 @@ class AddAlarmPage extends StatelessWidget {
 
                     //IntervalInfoText
                     Padding(
-                      padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
+                      padding: const EdgeInsets.fromLTRB(0, 0, 0, 20),
                       child:
-                          GetBuilder<IntervalTextFieldController>(builder: (_) {
+                      GetBuilder<IntervalTextFieldController>(builder: (_) {
                         return GetBuilder<RepeatModeController>(
                             builder: (repeatCont) {
-                          return GetBuilder<MonthRepeatDayController>(
-                              builder: (monthCont) {
-                            return Container(
-                              padding: EdgeInsets.all(5),
-                              height: 35,
-                              child: AutoSizeText(
-                                getIntervalInfoText(
-                                    _.getInterval(),
-                                    repeatCont.repeatMode,
-                                    monthCont.monthRepeatDay),
-                                color: Colors.black54,
-                              ),
-                            );
-                          });
-                        });
+                              return GetBuilder<MonthRepeatDayController>(
+                                  builder: (monthCont) {
+                                    return Container(
+                                      padding: EdgeInsets.all(5),
+                                      height: 35,
+                                      child: AutoSizeText(
+                                        getIntervalInfoText(
+                                            _.getInterval(),
+                                            repeatCont.repeatMode,
+                                            monthCont.monthRepeatDay),
+                                        color: Colors.black54,
+                                      ),
+                                    );
+                                  });
+                            });
                       }),
                     ),
 
-                    TitleTextField(mode, alarmId),
-                    
-                    getInitializedWidget(_alarmDetailListTileFactory
-                        .getDetailListTile(DetailTileName.ring)),
-                    getInitializedWidget(_alarmDetailListTileFactory
-                        .getDetailListTile(DetailTileName.vibration)),
-                    getInitializedWidget(_alarmDetailListTileFactory
-                        .getDetailListTile(DetailTileName.repeat)),
+
+                    Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        border: Border.fromBorderSide(BorderSide(color: Color.fromARGB(255, 200, 200, 200))),
+                        borderRadius: BorderRadius.only(
+                      topRight: Radius.circular(40.0),
+                        topLeft: Radius.circular(40.0),
+                        )
+                      ),
+                      padding: EdgeInsets.fromLTRB(17.5, 30, 17.5, 10),
+                      child: Column(
+                        children: [
+                          Container(
+                            height: 50,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Expanded(
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(2.0),
+                                    child: DaysOfWeekRow(mode, alarmId),
+                                  ),
+                                ),
+
+                                //ChoiceDayButton
+                                FittedBox(
+                                    fit: BoxFit.scaleDown,
+                                    child: GestureDetector(
+                                      child: Icon(
+                                        Icons.today,
+                                        color: Get.find<ColorController>().colorSet.accentColor,
+                                        size: 1000,
+                                      ),
+                                      onTap: () {
+                                        repeatModeController.previousRepeatMode =
+                                            repeatModeController.repeatMode;
+                                        Get.toNamed(AppRoutes.choiceDayPage);
+                                      },
+                                    )),
+                              ],
+                            ),
+                          ),
+
+                          TitleTextField(mode, alarmId),
+
+                          getInitializedWidget(_alarmDetailListTileFactory
+                              .getDetailListTile(DetailTileName.ring)),
+                          getInitializedWidget(_alarmDetailListTileFactory
+                              .getDetailListTile(DetailTileName.vibration)),
+                          getInitializedWidget(_alarmDetailListTileFactory
+                              .getDetailListTile(DetailTileName.repeat)),
+                        ],
+                      ),
+                    ),
                   ],
                 ),
               ),

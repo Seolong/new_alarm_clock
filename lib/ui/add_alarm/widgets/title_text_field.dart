@@ -32,6 +32,14 @@ class TitleTextField extends StatelessWidget {
               style: TextStyle(
                   fontFamily: MyFontFamily.mainFontFamily, fontSize: 25),
               decoration: InputDecoration(
+                // enabledBorder: OutlineInputBorder(
+                //   borderSide: BorderSide(color: Colors.grey, width: 0.5),
+                //   borderRadius: const BorderRadius.all(Radius.circular(8.0)),
+                // ),
+                //   border: OutlineInputBorder(
+                //     borderSide: BorderSide(color: Colors.grey, width: 2),
+                //     borderRadius: const BorderRadius.all(Radius.circular(8.0)),
+                //   ),
                   labelText: LocaleKeys.alarmName.tr(),
                   labelStyle: TextStyle(
                       fontFamily: MyFontFamily.mainFontFamily, fontSize: 20),

@@ -7,6 +7,7 @@ import 'package:new_alarm_clock/ui/alarm_detail_page/ring/widget/volume_slider.d
 import 'package:new_alarm_clock/ui/global/auto_size_text.dart';
 import 'package:new_alarm_clock/ui/global/color_controller.dart';
 import 'package:new_alarm_clock/ui/global/custom_switch.dart';
+import 'package:new_alarm_clock/ui/global/custom_switch_list_tile.dart';
 import 'package:new_alarm_clock/utils/values/color_value.dart';
 import 'package:get/get.dart' hide Trans;
 import 'package:easy_localization/easy_localization.dart';
@@ -41,42 +42,36 @@ class RingPage extends StatelessWidget {
           child: Column(
             children: [
               GetBuilder<RingRadioListController>(
-                builder: (_) => Padding(
-                  padding: EdgeInsets.symmetric(
-                      horizontal: SizeValue.alarmDetailPagePowerPadding),
-                  child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Container(
-                          alignment: Alignment.bottomLeft,
-                          height: SizeValue.detailPowerTextHeight,
-                          child: AutoSizeText(
-                              _.power
-                                  ? LocaleKeys.on.tr()
-                                  : LocaleKeys.off.tr(),
-                              bold: true,
-                              color: _.power
-                                  ? Get.find<ColorController>()
-                                      .colorSet
-                                      .mainColor
-                                  : Colors.grey),
-                        ),
-                        CustomSwitch(
-                          touchAreaHeight: 55,
-                          value: _.power,
-                          onChanged: (value) {
-                            _.power = value;
-                          },
-                          thumbColor: [
-                            Get.find<ColorController>().colorSet.lightMainColor,
-                            Get.find<ColorController>().colorSet.mainColor,
-                            Get.find<ColorController>().colorSet.deepMainColor,
-                          ],
-                          activeColor: Get.find<ColorController>()
-                              .colorSet
-                              .switchTrackColor,
-                        )
-                      ]),
+                builder: (_) => CustomSwitchListTile(
+                    title: AutoSizeText(
+                        _.power
+                            ? LocaleKeys.on.tr()
+                            : LocaleKeys.off.tr(),
+                        bold: true,
+                        color: _.power
+                            ? Get.find<ColorController>()
+                            .colorSet
+                            .mainColor
+                            : Colors.grey),
+                    switchWidget: CustomSwitch(
+                      touchAreaHeight: 55,
+                      value: _.power,
+                      onChanged: (value) {
+                        _.power = value;
+                      },
+                      thumbColor: [
+                        Get.find<ColorController>().colorSet.lightMainColor,
+                        Get.find<ColorController>().colorSet.mainColor,
+                        Get.find<ColorController>().colorSet.deepMainColor,
+                      ],
+                      activeColor: Get.find<ColorController>()
+                          .colorSet
+                          .switchTrackColor,
+                    ),
+                    value: _.power,
+                    onChanged: (bool value) {
+                      _.power = value;
+                    }
                 ),
               ),
               Divider(),
