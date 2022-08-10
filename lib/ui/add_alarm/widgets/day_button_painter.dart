@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:get/get_state_manager/src/simple/get_state.dart';
 import 'package:new_alarm_clock/ui/add_alarm/controller/day_of_week_controller.dart';
 import 'package:new_alarm_clock/ui/global/auto_size_text.dart';
 import 'package:new_alarm_clock/utils/enum.dart';
-import 'package:new_alarm_clock/utils/values/color_value.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:new_alarm_clock/generated/locale_keys.g.dart';
+import 'package:get/get.dart' hide Trans;
+import '../../global/color_controller.dart';
 
 class DayButtonPainter extends StatelessWidget {
-  Color circleColor = ColorValue.addAlarmPageBackground;
-  Color textColor = Colors.black;
+  Color circleColor = Get.find<ColorController>().colorSet.backgroundColor;
+  Color textColor = Get.find<ColorController>().colorSet.mainTextColor;
   DayWeek name;
   DayOfWeekController controller;
 

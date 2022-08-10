@@ -21,7 +21,7 @@ class OneAlarmContainer extends StatelessWidget {
             width: 400,
             padding: EdgeInsets.all(15),
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: Get.find<ColorController>().colorSet.backgroundColor,
               borderRadius: BorderRadius.circular(7.5),
               boxShadow: [
                 BoxShadow(
@@ -41,7 +41,7 @@ class OneAlarmContainer extends StatelessWidget {
                     context: context,
                     builder: (__) => Container(
                           height: 250,
-                          color: const Color.fromARGB(255, 255, 255, 255),
+                          color: Get.find<ColorController>().colorSet.backgroundColor,
                           child: Column(
                             children: [
                               // 확인 취소 만들기

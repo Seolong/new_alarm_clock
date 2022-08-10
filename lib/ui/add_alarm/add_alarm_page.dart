@@ -225,7 +225,7 @@ class AddAlarmPage extends StatelessWidget {
           body: SafeArea(
             child: SingleChildScrollView(
               child: Container(
-                color: Color.fromARGB(255, 248, 248, 252),
+                color: Get.find<ColorController>().colorSet.topBackgroundColor,
                 child: Column(
                   children: [
                     //spinner
@@ -263,7 +263,7 @@ class AddAlarmPage extends StatelessWidget {
                               //tooltip: '초기화',
                               color:
                               (mode == StringValue.editMode && isRepeat())
-                                  ? Colors.black45
+                                  ? Get.find<ColorController>().colorSet.mainTextColor
                                   : Colors.transparent,
                             );
                           }),
@@ -292,7 +292,7 @@ class AddAlarmPage extends StatelessWidget {
                               //tooltip: '이번 알람 건너뛰기',
                               color:
                               (mode == StringValue.editMode && isRepeat())
-                                  ? Colors.black45
+                                  ? Get.find<ColorController>().colorSet.mainTextColor
                                   : Colors.transparent,
                             );
                           }),
@@ -327,7 +327,7 @@ class AddAlarmPage extends StatelessWidget {
 
                     Container(
                       decoration: BoxDecoration(
-                        color: Colors.white,
+                        color: Get.find<ColorController>().colorSet.backgroundColor,
                         border: Border.fromBorderSide(BorderSide(color: Color.fromARGB(255, 200, 200, 200))),
                         borderRadius: BorderRadius.only(
                       topRight: Radius.circular(40.0),

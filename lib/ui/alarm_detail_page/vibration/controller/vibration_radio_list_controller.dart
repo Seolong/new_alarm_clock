@@ -4,12 +4,14 @@ import 'package:new_alarm_clock/utils/enum.dart';
 import 'package:new_alarm_clock/utils/values/vibration_Pack.dart';
 import 'package:vibration/vibration.dart';
 
+import '../../../global/color_controller.dart';
+
 class VibrationRadioListController extends GetxController{
   VibrationPack _vibrationPack = VibrationPack();
   VibrationName _selectedVibration = VibrationName.long; //알람 수정이면 db에서 가져오고 알람 추가면 default 값으로 VibrationName.long으로
   bool _power = true;//DB에서 가져오기
   Map<String, Color> textColor = {
-    'active': Colors.black,
+    'active': Get.find<ColorController>().colorSet.mainTextColor,
     'inactive': Colors.grey
   };
 

@@ -3,7 +3,7 @@ import 'package:jiffy/jiffy.dart';
 import 'package:new_alarm_clock/ui/choice_day/controller/month_repeat_day_controller.dart';
 import 'package:new_alarm_clock/ui/choice_day/controller/start_end_day_controller.dart';
 import 'package:new_alarm_clock/ui/global/auto_size_text.dart';
-import 'package:new_alarm_clock/utils/values/color_value.dart';
+import 'package:new_alarm_clock/ui/global/color_controller.dart';
 import 'package:new_alarm_clock/utils/values/size_value.dart';
 import 'package:get/get.dart' hide Trans;
 import 'package:easy_localization/easy_localization.dart';
@@ -26,7 +26,7 @@ class ChoiceDayButton extends StatelessWidget {
             contentPadding: EdgeInsets.zero,
             title: Container(
                 decoration: BoxDecoration(
-                  color: ColorValue.mainBackground,
+                  color: Get.find<ColorController>().colorSet.mainColor,
                   borderRadius: BorderRadius.vertical(top: Radius.circular(10)),
                 ),
                 padding: EdgeInsets.fromLTRB(0, 15, 0, 15),
@@ -34,18 +34,12 @@ class ChoiceDayButton extends StatelessWidget {
                 child: AutoSizeText(
                   LocaleKeys.chooseRepeatDay.tr(),
                   bold: true,
-                  color: Colors.black54,
+                  color: Get.find<ColorController>().colorSet.appBarContentColor,
                 )),
             titlePadding: EdgeInsets.fromLTRB(0, 0, 0, 0),
-            // titleTextStyle: TextStyle(
-            //     color: Colors.black26,
-            //     fontSize: 25,
-            //     fontFamily: MyFontFamily.mainFontFamily,
-            // ),
-            backgroundColor: Colors.white,
+            backgroundColor: Get.find<ColorController>().colorSet.backgroundColor,
 
             content: Container(
-              //height: Get.height / 5 * 3,
               width: Get.width / 5 * 3,
               padding: EdgeInsets.fromLTRB(17.5, 10, 17.5, 15),
               child: GridView.builder(
@@ -67,7 +61,7 @@ class ChoiceDayButton extends StatelessWidget {
                         padding: const EdgeInsets.all(5.0),
                         child: Ink(
                           decoration: BoxDecoration(
-                            color: Colors.white,
+                            color: Get.find<ColorController>().colorSet.backgroundColor,
                             //border: Border.all(width: 0.5),
                             borderRadius: BorderRadius.all(Radius.circular(115)),
                           ),
@@ -89,7 +83,9 @@ class ChoiceDayButton extends StatelessWidget {
                               alignment: Alignment.center,
                               padding: EdgeInsets.all(7.5),
                               decoration: BoxDecoration(
-                                color: _.monthRepeatDay != index+1 ? null: ColorValue.mainBackground,
+                                color: _.monthRepeatDay != index+1
+                                    ? null
+                                    : Get.find<ColorController>().colorSet.mainColor,
                                 borderRadius: BorderRadius.all(Radius.circular(110)),
                               ),
                               child: FittedBox(
@@ -100,7 +96,9 @@ class ChoiceDayButton extends StatelessWidget {
                                   child: Text(
                                     index != 28 ? '${index + 1}' : LocaleKeys.lastDay.tr(),
                                     style: TextStyle(
-                                      color: _.monthRepeatDay != index+1 ? Colors.black54: Colors.black,
+                                      color: _.monthRepeatDay != index+1
+                                          ? Colors.grey
+                                          : Get.find<ColorController>().colorSet.mainTextColor,
                                       fontWeight: _.monthRepeatDay != index+1 ? null: FontWeight.bold,
                                       fontSize: 1000,
                                     ),
@@ -124,7 +122,7 @@ class ChoiceDayButton extends StatelessWidget {
       child: Icon(
         Icons.apps,
         size: ButtonSize.large,
-        color: ColorValue.selectMonthDayButton,
+        color: Get.find<ColorController>().colorSet.mainColor,
       ),
     );
   }

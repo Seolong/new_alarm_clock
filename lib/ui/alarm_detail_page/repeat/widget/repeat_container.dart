@@ -27,13 +27,17 @@ class RepeatContainer extends StatelessWidget {
                   _.alarmInterval = value!;
                 }
               },
-              activeColor: _.power? Get.find<ColorController>().colorSet.accentColor: Colors.grey,
+              activeColor: _.power
+                  ? Get.find<ColorController>().colorSet.accentColor
+                  : Colors.grey,
             ),
             Container(
               height: 25,
-              child: AutoSizeText(_.getIntervalAsString(AlarmInterval.values[index]),
-                  color:
-                      _.power ? _.textColor['active'] : _.textColor['inactive']),
+              child: AutoSizeText(
+                  _.getIntervalAsString(AlarmInterval.values[index]),
+                  color: _.power
+                      ? _.textColor['active']
+                      : _.textColor['inactive']),
             )
           ],
         ),
@@ -43,20 +47,23 @@ class RepeatContainer extends StatelessWidget {
         builder: (_) => Row(
           children: [
             Radio(
-              value: RepeatNum.values[index],
-              groupValue: _.repeatNum,
-              onChanged: (RepeatNum? value) {
-                if (_.power == true) {
-                  _.repeatNum = value!;
-                }
-              },
-              activeColor: _.power? Get.find<ColorController>().colorSet.accentColor: Colors.grey
-            ),
+                value: RepeatNum.values[index],
+                groupValue: _.repeatNum,
+                onChanged: (RepeatNum? value) {
+                  if (_.power == true) {
+                    _.repeatNum = value!;
+                  }
+                },
+                activeColor: _.power
+                    ? Get.find<ColorController>().colorSet.accentColor
+                    : Colors.grey),
             Container(
               height: 25,
-              child: AutoSizeText(_.getRepeatNumAsString(RepeatNum.values[index]),
-                  color:
-                  _.power ? _.textColor['active'] : _.textColor['inactive']),
+              child: AutoSizeText(
+                  _.getRepeatNumAsString(RepeatNum.values[index]),
+                  color: _.power
+                      ? _.textColor['active']
+                      : _.textColor['inactive']),
             )
           ],
         ),
@@ -88,15 +95,16 @@ class RepeatContainer extends StatelessWidget {
                     fit: BoxFit.scaleDown,
                     child: ConstrainedBox(
                       constraints: BoxConstraints(minWidth: 1, minHeight: 1),
-                      child: GetBuilder<RepeatRadioListController>(
-                        builder: (_) {
-                          return Icon(
-                            Icons.alarm_rounded,
-                            size: 1150,
-                            color: _.power == true? Get.find<ColorController>().colorSet.mainColor: Colors.grey,
-                          );
-                        }
-                      ),
+                      child:
+                          GetBuilder<RepeatRadioListController>(builder: (_) {
+                        return Icon(
+                          Icons.alarm_rounded,
+                          size: 1150,
+                          color: _.power == true
+                              ? Get.find<ColorController>().colorSet.mainColor
+                              : Colors.grey,
+                        );
+                      }),
                     ),
                   ),
                 ),
@@ -109,7 +117,9 @@ class RepeatContainer extends StatelessWidget {
                   child: GetBuilder<RepeatRadioListController>(builder: (_) {
                     return AutoSizeText(containerName,
                         bold: true,
-                        color: _.power ? Get.find<ColorController>().colorSet.mainColor : Colors.grey);
+                        color: _.power
+                            ? Get.find<ColorController>().colorSet.mainColor
+                            : Colors.grey);
                   }),
                 ),
               ],

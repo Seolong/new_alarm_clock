@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:new_alarm_clock/ui/alarm_detail_page/repeat/controller/repeat_radio_list_controller.dart';
-import 'package:new_alarm_clock/ui/alarm_detail_page/repeat/widget/RepeatContainer.dart';
+import 'package:new_alarm_clock/ui/alarm_detail_page/repeat/widget/repeat_container.dart';
 import 'package:new_alarm_clock/ui/global/auto_size_text.dart';
 import 'package:get/get.dart' hide Trans;
 import 'package:easy_localization/easy_localization.dart';

@@ -6,13 +6,15 @@ import 'package:new_alarm_clock/data/model/music_path_data.dart';
 import 'package:new_alarm_clock/service/music_handler.dart';
 import 'package:new_alarm_clock/utils/values/string_value.dart';
 
+import '../../../global/color_controller.dart';
+
 class RingRadioListController extends GetxController {
   MusicHandler musicHandler = MusicHandler();
   AlarmProvider _alarmProvider = AlarmProvider();
   String _selectedMusicPath = StringValue.beepBeep; //절대경로
   bool _power = false; //DB에서 가져오기
   Map<String, Color> textColor = {
-    'active': Colors.black,
+    'active': Get.find<ColorController>().colorSet.mainTextColor,
     'inactive': Colors.grey
   };
   Future<List<MusicPathData>>? pathFutureList = null;

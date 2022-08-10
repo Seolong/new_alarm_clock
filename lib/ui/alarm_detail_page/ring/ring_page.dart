@@ -8,7 +8,6 @@ import 'package:new_alarm_clock/ui/global/auto_size_text.dart';
 import 'package:new_alarm_clock/ui/global/color_controller.dart';
 import 'package:new_alarm_clock/ui/global/custom_switch.dart';
 import 'package:new_alarm_clock/ui/global/custom_switch_list_tile.dart';
-import 'package:new_alarm_clock/utils/values/color_value.dart';
 import 'package:get/get.dart' hide Trans;
 import 'package:easy_localization/easy_localization.dart';
 import 'package:new_alarm_clock/generated/locale_keys.g.dart';
@@ -107,7 +106,7 @@ class RingPage extends StatelessWidget {
                   child: Container(
                     padding: EdgeInsets.only(top: 20),
                     decoration: BoxDecoration(
-                      color: ColorValue.defaultBackground,
+                      color: Get.find<ColorController>().colorSet.backgroundColor,
                       borderRadius: BorderRadius.circular(7.5),
                       boxShadow: [
                         BoxShadow(

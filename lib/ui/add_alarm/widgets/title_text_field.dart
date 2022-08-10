@@ -41,7 +41,7 @@ class TitleTextField extends StatelessWidget {
                   ? IconButton(
                       icon: Icon(
                         Icons.clear,
-                        color: Colors.black,
+                        color: Colors.grey,
                       ),
                       onPressed: () => _.resetField(),
                     )

@@ -8,7 +8,6 @@ import 'package:new_alarm_clock/ui/choice_day/widget/repeat_tab_bar.dart';
 import 'package:new_alarm_clock/ui/global/auto_size_text.dart';
 import 'package:new_alarm_clock/ui/global/convenience_method.dart';
 import 'package:new_alarm_clock/utils/enum.dart';
-import 'package:new_alarm_clock/utils/values/color_value.dart';
 import 'package:get/get.dart' hide Trans;
 import 'package:easy_localization/easy_localization.dart';
 import 'package:new_alarm_clock/generated/locale_keys.g.dart';
@@ -83,11 +82,8 @@ class ChoiceDayPage extends StatelessWidget {
                 print(repeatModeController.getRepeatMode());
               });
               return Scaffold(
-                backgroundColor: ColorValue.addAlarmPageBackground,
                 resizeToAvoidBottomInset : false,
                 appBar: AppBar(
-                  foregroundColor: ColorValue.appbarText,
-                  backgroundColor: Get.find<ColorController>().colorSet.mainColor,
                   leading: IconButton(
                     icon: Icon(Icons.arrow_back_ios_rounded),
                     onPressed: _onTouchBackButton,
@@ -107,7 +103,7 @@ class ChoiceDayPage extends StatelessWidget {
                             indicatorSize: TabBarIndicatorSize.label,
                             indicatorColor: Get.find<ColorController>().colorSet.deepMainColor,
                             unselectedLabelColor: Colors.grey,
-                            labelColor: Colors.black,
+                            labelColor: Get.find<ColorController>().colorSet.mainTextColor,
                             tabs: [
                               Container(
                                 padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
@@ -127,7 +123,7 @@ class ChoiceDayPage extends StatelessWidget {
                       ),
                       Divider(
                         height: 5,
-                        color: ColorValue.defaultBackground,
+                        color: Get.find<ColorController>().colorSet.backgroundColor,
                       ),
                       Flexible(
                         flex: 1,

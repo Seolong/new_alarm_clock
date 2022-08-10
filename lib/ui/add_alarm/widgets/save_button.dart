@@ -18,7 +18,6 @@ import 'package:new_alarm_clock/ui/global/auto_size_text.dart';
 import 'package:new_alarm_clock/ui/global/color_controller.dart';
 import 'package:new_alarm_clock/ui/home/controller/alarm_list_controller.dart';
 import 'package:new_alarm_clock/utils/enum.dart';
-import 'package:new_alarm_clock/utils/values/color_value.dart';
 import 'package:new_alarm_clock/utils/values/string_value.dart';
 import 'package:get/get.dart' hide Trans;
 import 'package:easy_localization/easy_localization.dart';
@@ -179,7 +178,7 @@ class SaveButton extends StatelessWidget {
           }
           SystemChrome.setSystemUIOverlayStyle(
               SystemUiOverlayStyle.dark.copyWith(
-            statusBarColor: ColorValue.mainBackground,
+            statusBarColor: Get.find<ColorController>().colorSet.mainColor,
           ));
           Get.back();
         },

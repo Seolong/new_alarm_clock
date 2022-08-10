@@ -11,7 +11,7 @@ class ColorController extends GetxController {
     ColorValue.yellowGreen, ColorValue.green, ColorValue.teal,
     ColorValue.yellow, ColorValue.orange, ColorValue.darkOrange,
     ColorValue.white, ColorValue.black, ColorValue.skyBlue,
-    ColorValue.magicMint
+    ColorValue.magicMint, ColorValue.white, ColorValue.cloudyWhite
   );
 
   set colorTheme(String color) => _colorTheme = color;
@@ -33,7 +33,7 @@ class ColorController extends GetxController {
         ColorValue.yellowGreen, ColorValue.green, ColorValue.teal,
         ColorValue.yellow, ColorValue.orange, ColorValue.darkOrange,
         ColorValue.white, ColorValue.black, ColorValue.skyBlue,
-        ColorValue.magicMint
+        ColorValue.magicMint, ColorValue.white, ColorValue.cloudyWhite
       );
     }
     settingsSharedPreferences.setTheme(theme);
@@ -51,9 +51,11 @@ class ColorSet {
   Color mainTextColor;
   Color calendarTitleColor;
   Color switchTrackColor;
+  Color backgroundColor;
+  Color topBackgroundColor;
 
   ColorSet(this.lightMainColor, this.mainColor, this.deepMainColor,
       this.lightAccentColor, this.accentColor, this.deepAccentColor,
       this.appBarContentColor, this.mainTextColor, this.calendarTitleColor,
-      this.switchTrackColor);
+      this.switchTrackColor, this.backgroundColor, this.topBackgroundColor);
 }

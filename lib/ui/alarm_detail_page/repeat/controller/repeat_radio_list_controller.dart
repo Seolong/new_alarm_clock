@@ -5,12 +5,14 @@ import 'package:new_alarm_clock/generated/locale_keys.g.dart';
 import 'package:new_alarm_clock/utils/enum.dart';
 import 'package:vibration/vibration.dart';
 
+import '../../../global/color_controller.dart';
+
 class RepeatRadioListController extends GetxController{
   AlarmInterval _alarmInterval = AlarmInterval.five;
   RepeatNum _repeatNum = RepeatNum.three;
   RxBool _power = false.obs;//DB에서 가져오기
   Map<String, Color> textColor = {
-    'active': Colors.black,
+    'active': Get.find<ColorController>().colorSet.mainTextColor,
     'inactive': Colors.grey
   };
 

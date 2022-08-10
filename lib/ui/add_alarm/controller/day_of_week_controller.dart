@@ -6,7 +6,6 @@ import 'package:new_alarm_clock/data/model/alarm_week_repeat_data.dart';
 import 'package:new_alarm_clock/ui/choice_day/controller/repeat_mode_controller.dart';
 import 'package:new_alarm_clock/ui/global/color_controller.dart';
 import 'package:new_alarm_clock/utils/enum.dart';
-import 'package:new_alarm_clock/utils/values/color_value.dart';
 
 class DayOfWeekController extends GetxController{
   Map<DayWeek, bool> dayButtonStateMap = Map<DayWeek, bool>();
@@ -52,7 +51,9 @@ class DayOfWeekController extends GetxController{
   }
 
   Color getButtonStateColor(bool state){
-    return state ? Get.find<ColorController>().colorSet.mainColor : ColorValue.addAlarmPageBackground;
+    return state
+        ? Get.find<ColorController>().colorSet.mainColor
+        : Get.find<ColorController>().colorSet.backgroundColor;
   }
 
   Color getButtonTextColor(bool state){
@@ -62,7 +63,9 @@ class DayOfWeekController extends GetxController{
         Get.find<RepeatModeController>().repeatMode == RepeatMode.year){
       return Colors.black12;
     }
-    return state ? Get.find<ColorController>().colorSet.mainColor : Colors.black;
+    return state
+        ? Get.find<ColorController>().colorSet.mainColor
+        : Get.find<ColorController>().colorSet.mainTextColor;
   }
 
 }

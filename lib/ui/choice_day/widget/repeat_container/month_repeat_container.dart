@@ -8,6 +8,8 @@ import 'package:get/get.dart' hide Trans;
 import 'package:easy_localization/easy_localization.dart';
 import 'package:new_alarm_clock/generated/locale_keys.g.dart';
 
+import '../../../global/color_controller.dart';
+
 class MonthRepeatContainer extends RepeatContainer {
   dynamic intervalType;
 
@@ -28,7 +30,7 @@ class MonthRepeatContainer extends RepeatContainer {
             return Text(
               _.monthRepeatDayText,
               style: TextStyle(
-                  color: Colors.black87,
+                  color: Get.find<ColorController>().colorSet.mainTextColor,
                   fontSize: SizeValue.monthRepeatDayText),
             );
           }),

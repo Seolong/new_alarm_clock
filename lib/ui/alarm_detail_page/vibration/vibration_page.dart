@@ -11,8 +11,6 @@ import 'package:new_alarm_clock/ui/global/custom_switch_list_tile.dart';
 import 'package:new_alarm_clock/utils/values/size_value.dart';
 import 'package:vibration/vibration.dart';
 
-import '../../../utils/values/color_value.dart';
-
 class VibrationPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -77,7 +75,7 @@ class VibrationPage extends StatelessWidget {
                 child: Container(
                     padding: EdgeInsets.only(top: 20),
                     decoration: BoxDecoration(
-                      color: ColorValue.defaultBackground,
+                      color: Get.find<ColorController>().colorSet.backgroundColor,
                       borderRadius: BorderRadius.circular(7.5),
                       boxShadow: [
                         BoxShadow(

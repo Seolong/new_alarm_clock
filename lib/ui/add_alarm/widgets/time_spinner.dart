@@ -3,10 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:new_alarm_clock/ui/add_alarm/controller/time_spinner_controller.dart';
 import 'package:new_alarm_clock/ui/choice_day/controller/repeat_mode_controller.dart';
 import 'package:new_alarm_clock/utils/enum.dart';
-import 'package:new_alarm_clock/utils/values/color_value.dart';
 import 'package:new_alarm_clock/utils/values/my_font_family.dart';
 import 'package:get/get.dart';
 import 'package:new_alarm_clock/utils/values/string_value.dart';
+
+import '../../global/color_controller.dart';
 
 class TimeSpinner extends StatelessWidget {
   int alarmId;
@@ -25,7 +26,7 @@ class TimeSpinner extends StatelessWidget {
           dateTimePickerTextStyle: TextStyle(
             fontSize: this.fontSize,
             fontFamily: MyFontFamily.mainFontFamily,
-            color: ColorValue.timeSpinnerText,
+            color: Get.find<ColorController>().colorSet.mainTextColor,
           ),
         ),
       ),
@@ -54,7 +55,7 @@ class TimeSpinner extends StatelessWidget {
                       height: 50,
                       width: 50,
                       child: CircularProgressIndicator(
-                        valueColor: AlwaysStoppedAnimation<Color>(ColorValue.fab),
+                        valueColor: AlwaysStoppedAnimation<Color>(Colors.grey),
                       ),
                     ),
                   );

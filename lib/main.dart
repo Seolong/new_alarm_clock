@@ -76,6 +76,7 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       navigatorKey: MyApp.navigatorKey,
       theme: ThemeData(
+        scaffoldBackgroundColor: Get.find<ColorController>().colorSet.backgroundColor,
           appBarTheme: AppBarTheme(
             systemOverlayStyle: SystemUiOverlayStyle.light,
             backgroundColor: Get.find<ColorController>().colorSet.mainColor,

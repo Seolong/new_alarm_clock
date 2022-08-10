@@ -41,6 +41,7 @@ class ColorValue{
   static final Color orange = Color(0xffffaa00);
   static final Color yellow = Color(0xffffdf01);
   static final Color white = Colors.white;
+  static final Color cloudyWhite = Color.fromARGB(255, 248, 248, 252);
   static final Color black = Colors.black;
   static final Color skyBlue = Colors.lightBlueAccent;
   static final Color magicMint = Color.fromARGB(255, 193, 240, 195);

@@ -38,7 +38,7 @@ class CalendarContainer extends StatelessWidget {
               context: context,
               builder: (__) => Container(
                 height: 250,
-                color: const Color.fromARGB(255, 255, 255, 255),
+                color: Get.find<ColorController>().colorSet.backgroundColor,
                 child: Column(
                   children: [
                     // 확인 취소 만들기
