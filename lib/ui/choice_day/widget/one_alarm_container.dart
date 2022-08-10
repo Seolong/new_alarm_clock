@@ -149,10 +149,10 @@ class OneAlarmContainer extends StatelessWidget {
                       size: ButtonSize.small,
                     ),
                   ),
-                  titleTextStyle: const TextStyle(
+                  titleTextStyle: TextStyle(
                       fontSize: 20.0,
                       fontWeight: FontWeight.bold,
-                      color: Colors.lightBlueAccent),
+                      color: Get.find<ColorController>().colorSet.calendarTitleColor),
                 ),
                 onHeaderTapped: (DateTime focusedDay) {
                   showDatePicker(context);

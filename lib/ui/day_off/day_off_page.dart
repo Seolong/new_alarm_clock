@@ -4,7 +4,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:new_alarm_clock/generated/locale_keys.g.dart';
 import 'package:new_alarm_clock/ui/day_off/controller/day_off_list_controller.dart';
-import 'package:new_alarm_clock/utils/values/color_value.dart';
 
 class DayOffPage extends StatelessWidget {
 
@@ -14,8 +13,6 @@ class DayOffPage extends StatelessWidget {
     dayOffListController.initDayOffDataList();
     return Scaffold(
       appBar: AppBar(
-          foregroundColor: ColorValue.appbarText,
-          backgroundColor: ColorValue.appbar,
           leading: IconButton(
             icon: Icon(Icons.arrow_back_ios_rounded),
             onPressed: () { Get.back(); },

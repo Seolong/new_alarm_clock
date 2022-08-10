@@ -89,6 +89,9 @@ class MyApp extends StatelessWidget {
             toolbarTextStyle: TextStyle(color: Get.find<ColorController>().colorSet.appBarContentColor)
           ),
           textTheme: TextTheme(
+            headlineMedium: Theme.of(context).textTheme.headlineMedium!.copyWith(
+              fontFamily: MyFontFamily.mainFontFamily
+            ),
             titleLarge: Theme.of(context).textTheme.titleLarge!.copyWith(
               fontFamily: MyFontFamily.mainFontFamily
             ),

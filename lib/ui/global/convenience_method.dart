@@ -1,5 +1,4 @@
 import 'package:new_alarm_clock/utils/values/color_value.dart';
-import 'package:new_alarm_clock/utils/values/string_value.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:new_alarm_clock/ui/global/color_controller.dart';
 
 import '../../../utils/values/color_value.dart';
 import '../../../utils/values/size_value.dart';
@@ -21,15 +23,15 @@ class HomeBottomNavigationBar extends StatelessWidget {
         notchMargin: 5,
         clipBehavior: Clip.antiAlias,
         child: GetBuilder<TabPageController>(
-            builder:(controller) {
+            builder:(_) {
               return BottomNavigationBar(
-                currentIndex: controller.pageIndex,
+                currentIndex: _.pageIndex,
                 showSelectedLabels: false,
                 showUnselectedLabels: false,
                 selectedFontSize: 0,
                 unselectedFontSize: 0,
                 iconSize: ButtonSize.medium,
-                onTap: controller.setPageIndex,
+                onTap: _.setPageIndex,
                 type: BottomNavigationBarType.fixed,
                 selectedItemColor: Color(0xff753422),
                 unselectedItemColor: ColorValue.tabBarIcon,
@@ -51,10 +53,15 @@ class HomeBottomNavigationBar extends StatelessWidget {
                       label: "홈"
                   ),
                   BottomNavigationBarItem(
-                      icon: Icon(
-                        Icons.volunteer_activism_rounded,
+                      icon: SvgPicture.asset(
+                        'assets/icons/book.svg',
+                        width: 30,
+                        height: 30,
+                        color:_.pageIndex==3
+                            ? Get.find<ColorController>().colorSet.deepMainColor
+                        : Colors.grey,
                       ),
-                      label: "후원"
+                      label: "성경"
                   ),
                   BottomNavigationBarItem(
                       icon: Icon(

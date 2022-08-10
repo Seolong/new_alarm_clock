@@ -13,6 +13,7 @@ import 'package:get/get.dart' hide Trans;
 import 'package:easy_localization/easy_localization.dart';
 import 'package:new_alarm_clock/generated/locale_keys.g.dart';
 import 'package:new_alarm_clock/utils/values/string_value.dart';
+import '../../../../../global/color_controller.dart';
 import '../../../../controller/required_parameter_to_add_alarm_page_controller.dart';
 import 'controller/alarm_switch_controller.dart';
 import 'controller/selected_alarm_controller.dart';
@@ -88,7 +89,7 @@ class AlarmItem extends StatelessWidget {
     var requiredParameterToAddAlarmPageController = Get.put(RequiredParameterToAddAlarmPageController());
 
     //나중에 LongPress했을 때 회색도 추가
-    Get.find<SelectedAlarmController>().colorMap[_id] = ColorValue.alarm;
+    Get.find<SelectedAlarmController>().colorMap[_id] = Get.find<ColorController>().colorSet.backgroundColor;
 
     return GetBuilder<SelectedAlarmController>(builder: (selectedCont) {
       return Stack(
@@ -110,14 +111,14 @@ class AlarmItem extends StatelessWidget {
           ),
           AnimatedContainer(
             padding: EdgeInsets.fromLTRB(0, 7.5, 0, 7.5),
-            color: ColorValue.mainBackground,
+            color: Get.find<ColorController>().colorSet.backgroundColor,
             duration: Duration(milliseconds: 250),
             transform: Matrix4.translationValues(
                 selectedCont.isSelectedMode ? 65 : 0, 0, 0),
             child: Container(
               height: SizeValue.alarmItemHeight,
               decoration: BoxDecoration(
-                color: ColorValue.mainBackground,
+                color: Get.find<ColorController>().colorSet.backgroundColor,
                 borderRadius: _alarmBorder,
                 boxShadow: [
                   BoxShadow(

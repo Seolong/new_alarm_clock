@@ -4,6 +4,7 @@ import 'package:new_alarm_clock/data/shared_preferences/settings_shared_preferen
 import 'package:new_alarm_clock/service/music_handler.dart';
 import 'package:new_alarm_clock/ui/global/color_controller.dart';
 import 'package:new_alarm_clock/ui/home/controller/tab_page_controller.dart';
+import 'package:new_alarm_clock/ui/home/page/book_page/book_page.dart';
 import 'package:new_alarm_clock/ui/home/page/folder_page/folder_page.dart';
 import 'package:new_alarm_clock/ui/home/page/inner_home_page/inner_home_page.dart';
 import 'package:new_alarm_clock/ui/home/page/inner_home_page/widgets/alarm_item/controller/selected_alarm_controller.dart';
@@ -70,7 +71,7 @@ class HomePage extends StatelessWidget {
                     InnerHomePage(),
                     FolderPage(),
                     FolderPage(),
-                    FolderPage(),
+                    BookPage(),
                     SettingPage(),
                   ],
                 );
