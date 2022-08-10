@@ -20,12 +20,12 @@ import 'package:new_alarm_clock/ui/choice_day/controller/start_end_day_controlle
 import 'package:new_alarm_clock/ui/choice_day/controller/year_repeat_day_controller.dart';
 import 'package:new_alarm_clock/ui/add_alarm/widgets/going_back_dialog.dart';
 import 'package:new_alarm_clock/ui/day_off/controller/day_off_list_controller.dart';
-import 'package:new_alarm_clock/ui/global/auto_size_text.dart';
 import 'package:new_alarm_clock/ui/home/controller/required_parameter_to_add_alarm_page_controller.dart';
 import 'package:new_alarm_clock/utils/enum.dart';
 import 'package:get/get.dart' hide Trans;
 import 'package:easy_localization/easy_localization.dart';
 import 'package:new_alarm_clock/generated/locale_keys.g.dart';
+import 'package:new_alarm_clock/utils/values/my_font_family.dart';
 import 'package:new_alarm_clock/utils/values/string_value.dart';
 import '../global/color_controller.dart';
 
@@ -231,6 +231,7 @@ class AddAlarmPage extends StatelessWidget {
                     //spinner
                     Container(
                       height: 250,
+                      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                       child: TimeSpinner(
                           alarmId: alarmId, fontSize: 22, mode: mode),
                     ),
@@ -239,7 +240,7 @@ class AddAlarmPage extends StatelessWidget {
                       child: Divider(),
                     ),
                     Padding(
-                      padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
+                      padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
@@ -268,12 +269,12 @@ class AddAlarmPage extends StatelessWidget {
                           }),
                           //NextYearMonthDayText
                           GetBuilder<StartEndDayController>(builder: (_) {
-                            return Container(
-                              padding: EdgeInsets.only(top: 5),
-                              height: 40,
-                              child: AutoSizeText(
-                                convertAlarmDateTime(),
-                                bold: true,
+                            return Text(
+                              convertAlarmDateTime(),
+                              style: TextStyle(
+                                fontSize: 22,
+                                //fontWeight: FontWeight.bold,
+                                fontFamily: MyFontFamily.mainFontFamily
                               ),
                             );
                           }),
@@ -287,7 +288,7 @@ class AddAlarmPage extends StatelessWidget {
                                       .skipNextAlarmDate(alarmId);
                                 }
                               },
-                              icon: Icon(Icons.arrow_forward_ios),
+                              icon: Icon(Icons.arrow_forward_ios_rounded),
                               //tooltip: '이번 알람 건너뛰기',
                               color:
                               (mode == StringValue.editMode && isRepeat())
@@ -301,22 +302,21 @@ class AddAlarmPage extends StatelessWidget {
 
                     //IntervalInfoText
                     Padding(
-                      padding: const EdgeInsets.fromLTRB(0, 0, 0, 20),
-                      child:
-                      GetBuilder<IntervalTextFieldController>(builder: (_) {
+                      padding: const EdgeInsets.fromLTRB(0, 0, 0, 30),
+                      child: GetBuilder<IntervalTextFieldController>(builder: (_) {
                         return GetBuilder<RepeatModeController>(
                             builder: (repeatCont) {
                               return GetBuilder<MonthRepeatDayController>(
                                   builder: (monthCont) {
-                                    return Container(
-                                      padding: EdgeInsets.all(5),
-                                      height: 35,
-                                      child: AutoSizeText(
-                                        getIntervalInfoText(
-                                            _.getInterval(),
-                                            repeatCont.repeatMode,
-                                            monthCont.monthRepeatDay),
-                                        color: Colors.black54,
+                                    return Text(
+                                      getIntervalInfoText(
+                                          _.getInterval(),
+                                          repeatCont.repeatMode,
+                                          monthCont.monthRepeatDay),
+                                      style: TextStyle(
+                                        color: Colors.grey,
+                                        fontSize: 16,
+                                        fontFamily: MyFontFamily.mainFontFamily
                                       ),
                                     );
                                   });
@@ -334,7 +334,7 @@ class AddAlarmPage extends StatelessWidget {
                         topLeft: Radius.circular(40.0),
                         )
                       ),
-                      padding: EdgeInsets.fromLTRB(17.5, 30, 17.5, 10),
+                      padding: EdgeInsets.fromLTRB(20, 30, 20, 10),
                       child: Column(
                         children: [
                           Container(

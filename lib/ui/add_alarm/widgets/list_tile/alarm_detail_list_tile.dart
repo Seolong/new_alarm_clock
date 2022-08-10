@@ -1,33 +1,16 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:new_alarm_clock/generated/locale_keys.g.dart';
 import 'package:new_alarm_clock/ui/add_alarm/widgets/list_tile/alarm_detail_page_factory.dart';
-import 'package:new_alarm_clock/ui/alarm_detail_page/repeat/controller/repeat_radio_list_controller.dart';
-import 'package:new_alarm_clock/ui/alarm_detail_page/ring/controller/ring_radio_list_controller.dart';
-import 'package:new_alarm_clock/ui/alarm_detail_page/vibration/controller/vibration_radio_list_controller.dart';
 import 'package:new_alarm_clock/utils/values/my_font_family.dart';
-import 'package:get/get.dart' hide Trans;
 
 class AlarmDetailListTile extends StatelessWidget {
   Text tileTitle =
-      Text('', style: TextStyle(fontFamily: MyFontFamily.mainFontFamily));
-  dynamic tileSubTitle;
+      Text('Title', style: TextStyle(fontFamily: MyFontFamily.mainFontFamily));
+  Widget tileSubTitle = Text('SubTitle');
   dynamic stateSwitch = Switch(value: true, onChanged: null);
   final AlarmDetailPageFactory alarmDetailPageFactory = AlarmDetailPageFactory();
-  dynamic currentListTileController;
 
   @override
   Widget build(BuildContext context) {
-    if(tileTitle.data! == LocaleKeys.sound.tr()){
-      currentListTileController = Get.put(RingRadioListController());
-    }else if(tileTitle.data! == LocaleKeys.vibration.tr()){
-      currentListTileController = Get.put(VibrationRadioListController());
-    }else if(tileTitle.data! == LocaleKeys.snooze.tr()){
-      currentListTileController = Get.put(RepeatRadioListController());
-    }else{
-      assert(false, 'error in currentListTileController of AlarmDetailListTile');
-    }
-
     return Container(
       height: 77.5,
       child: InkWell(
@@ -41,42 +24,25 @@ class AlarmDetailListTile extends StatelessWidget {
           children: [
             Expanded(
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Expanded(
-                    flex: 8,
-                    child: Padding(
-                      padding: const EdgeInsets.fromLTRB(0, 7.5, 0, 7.5),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          //tileTitle
-                          Expanded(
-                            flex: 5,
-                            child: FittedBox(
-                              fit: BoxFit.scaleDown,
-                              child: ConstrainedBox(
-                                  constraints: BoxConstraints(
-                                      minWidth: 1, minHeight: 1),
-                                  child: tileTitle),
-                            ),
-                          ),
-
-                          //tileSubTitle
-                          Expanded(
-                            flex: 3,
-                            child: Padding(
-                              padding: const EdgeInsets.fromLTRB(2.5, 0, 0, 0),
-                              child: FittedBox(
-                                fit: BoxFit.scaleDown,
-                                child: ConstrainedBox(
-                                    constraints: BoxConstraints(
-                                        minWidth: 1, minHeight: 1),
-                                    child: tileSubTitle),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(0, 7.5, 0, 7.5),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        tileTitle,
+                        Row(
+                          children: [
+                            tileSubTitle,
+                            Icon(
+                              Icons.arrow_forward_ios_rounded,
+                              size: 12,
+                              color: Colors.grey,
+                            )
+                          ],
+                        ),
+                      ],
                     ),
                   ),
 

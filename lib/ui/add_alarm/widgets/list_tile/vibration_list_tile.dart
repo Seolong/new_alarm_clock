@@ -3,8 +3,6 @@ import 'package:new_alarm_clock/ui/add_alarm/widgets/list_tile/alarm_detail_list
 import 'package:new_alarm_clock/ui/alarm_detail_page/vibration/controller/vibration_radio_list_controller.dart';
 import 'package:new_alarm_clock/ui/global/color_controller.dart';
 import 'package:new_alarm_clock/ui/global/custom_switch.dart';
-import 'package:new_alarm_clock/utils/values/color_value.dart';
-import 'package:new_alarm_clock/utils/values/my_font_family.dart';
 import 'package:get/get.dart' hide Trans;
 import 'package:easy_localization/easy_localization.dart';
 import 'package:new_alarm_clock/generated/locale_keys.g.dart';
@@ -15,19 +13,15 @@ class VibrationListTile extends AlarmDetailListTile {
     tileTitle = Text(
       LocaleKeys.vibration.tr(),
       textAlign: TextAlign.start,
-      style: TextStyle(
-          color: ColorValue.listTileTitleText,
-          fontFamily: MyFontFamily.mainFontFamily,
-          fontSize: 1000),
+      style: Theme.of(Get.context!).textTheme.titleMedium!,
     );
     tileSubTitle = GetBuilder<VibrationRadioListController>(
       builder: (_) {
         return Text(
           VibrationPack().convertVibrationNameToRadioName(_.selectedVibration)!, //알람음 설정
-          style: TextStyle(
-              color: Get.find<ColorController>().colorSet.mainColor,
-              fontFamily: MyFontFamily.mainFontFamily,
-              fontSize: 1000),
+          style: Theme.of(Get.context!).textTheme.bodyMedium!.copyWith(
+            color: Get.find<ColorController>().colorSet.mainColor,
+          ),
         );
       }
     );

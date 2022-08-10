@@ -88,7 +88,18 @@ class MyApp extends StatelessWidget {
             toolbarTextStyle: TextStyle(color: Get.find<ColorController>().colorSet.appBarContentColor)
           ),
           textTheme: TextTheme(
-            //titleLarge: TextStyle(fontFamily: MyFontFamily.mainFontFamily),
+            titleLarge: Theme.of(context).textTheme.titleLarge!.copyWith(
+              fontFamily: MyFontFamily.mainFontFamily
+            ),
+            titleMedium: Theme.of(context).textTheme.titleMedium!.copyWith(
+                fontFamily: MyFontFamily.mainFontFamily
+            ),
+            bodyLarge: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                fontFamily: MyFontFamily.mainFontFamily
+            ),
+              bodyMedium: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                  fontFamily: MyFontFamily.mainFontFamily
+              )
           )),
       initialRoute: AppRoutes.home,
       getPages: AppPages.pages,

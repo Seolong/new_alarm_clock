@@ -4,8 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:new_alarm_clock/ui/alarm_detail_page/ring/controller/ring_radio_list_controller.dart';
 import 'package:new_alarm_clock/ui/global/color_controller.dart';
 import 'package:new_alarm_clock/ui/global/custom_switch.dart';
-import 'package:new_alarm_clock/utils/values/color_value.dart';
-import 'package:new_alarm_clock/utils/values/my_font_family.dart';
 import 'package:get/get.dart' hide Trans;
 import 'package:easy_localization/easy_localization.dart';
 
@@ -14,18 +12,14 @@ class RingListTile extends AlarmDetailListTile {
     tileTitle = Text(
       LocaleKeys.sound.tr(),
       textAlign: TextAlign.start,
-      style: TextStyle(
-          color: ColorValue.listTileTitleText,
-          fontFamily: MyFontFamily.mainFontFamily,
-          fontSize: 1000),
+      style: Theme.of(Get.context!).textTheme.titleMedium!,
     );
     tileSubTitle = GetBuilder<RingRadioListController>(builder: (_) {
       return Text(
         _.getNameOfSong(_.selectedMusicPath), //알람음 설정
-        style: TextStyle(
+        style: Theme.of(Get.context!).textTheme.bodyMedium!.copyWith(
             color: Get.find<ColorController>().colorSet.mainColor,
-            fontFamily: MyFontFamily.mainFontFamily,
-            fontSize: 1000),
+        ),
       );
     });
     stateSwitch = GetBuilder<RingRadioListController>(builder: (_) {
