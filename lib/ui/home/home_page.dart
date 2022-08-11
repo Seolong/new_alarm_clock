@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:new_alarm_clock/data/shared_preferences/settings_shared_preferences.dart';
 import 'package:new_alarm_clock/service/music_handler.dart';
 import 'package:new_alarm_clock/ui/global/color_controller.dart';
@@ -35,9 +34,6 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark.copyWith(
-      statusBarColor: Get.find<ColorController>().colorSet.mainColor,
-    ));
     _musicHandler.initOriginalVolume();
     Get.put(TabPageController());
     Get.put(SelectedAlarmController());

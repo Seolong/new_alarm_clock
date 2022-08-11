@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:new_alarm_clock/ui/global/custom_radio_list_tile.dart';
 
 import '../../../../utils/enum.dart';
 import '../../../global/auto_size_text.dart';
@@ -17,55 +18,36 @@ class RepeatContainer extends StatelessWidget {
   Widget getRadioListTile(BuildContext context, int index) {
     if (containerId == repeatInterval) {
       return GetBuilder<RepeatRadioListController>(
-        builder: (_) => Row(
-          children: [
-            Radio(
-              value: AlarmInterval.values[index],
-              groupValue: _.alarmInterval,
-              onChanged: (AlarmInterval? value) {
-                if (_.power == true) {
-                  _.alarmInterval = value!;
-                }
-              },
-              activeColor: _.power
-                  ? Get.find<ColorController>().colorSet.accentColor
-                  : Colors.grey,
-            ),
-            Container(
-              height: 25,
-              child: AutoSizeText(
-                  _.getIntervalAsString(AlarmInterval.values[index]),
-                  color: _.power
-                      ? _.textColor['active']
-                      : _.textColor['inactive']),
-            )
-          ],
+        builder: (_) => CustomRadioListTile(
+            radioValue: AlarmInterval.values[index],
+            radioGroupValue: _.alarmInterval,
+            onPressed: (AlarmInterval? value) {
+              if (_.power == true) {
+                _.alarmInterval = value!;
+              }
+            },
+            title: _.getIntervalAsString(AlarmInterval.values[index]),
+            activeColor: _.power? Get.find<ColorController>().colorSet.accentColor: Colors.grey,
+            textColor: _.power
+                ? _.textColor['active']!
+                : _.textColor['inactive']!
         ),
       );
     } else if (containerId == repeatNum) {
       return GetBuilder<RepeatRadioListController>(
-        builder: (_) => Row(
-          children: [
-            Radio(
-                value: RepeatNum.values[index],
-                groupValue: _.repeatNum,
-                onChanged: (RepeatNum? value) {
-                  if (_.power == true) {
-                    _.repeatNum = value!;
-                  }
-                },
-                activeColor: _.power
-                    ? Get.find<ColorController>().colorSet.accentColor
-                    : Colors.grey),
-            Container(
-              height: 25,
-              child: AutoSizeText(
-                  _.getRepeatNumAsString(RepeatNum.values[index]),
-                  color: _.power
-                      ? _.textColor['active']
-                      : _.textColor['inactive']),
-            )
-          ],
+        builder: (_) => CustomRadioListTile(
+            radioValue: RepeatNum.values[index],
+            radioGroupValue: _.repeatNum,
+            onPressed: (RepeatNum? value) {
+              if (_.power == true) {
+                _.repeatNum = value!;
+              }
+            },
+            title: _.getRepeatNumAsString(RepeatNum.values[index]),
+            activeColor: _.power? Get.find<ColorController>().colorSet.accentColor: Colors.grey,
+            textColor: _.power
+                ? _.textColor['active']!
+                : _.textColor['inactive']!
         ),
       );
     } else {

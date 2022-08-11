@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:new_alarm_clock/data/model/alarm_folder_data.dart';
 import 'package:new_alarm_clock/ui/home/controller/folder_list_controller.dart';
 import 'package:new_alarm_clock/ui/home/controller/folder_name_text_field_controller.dart';
-import 'package:get/get.dart';
+import 'package:get/get.dart' hide Trans;
+import 'package:easy_localization/easy_localization.dart';
+import 'package:new_alarm_clock/generated/locale_keys.g.dart';
 
 class SetFolderTitleDialog extends StatelessWidget {
   @override
@@ -13,17 +15,17 @@ class SetFolderTitleDialog extends StatelessWidget {
 
     return GetBuilder<FolderNameTextFieldController>(builder: (_) {
       return AlertDialog(
-        title: Text('폴더 이름'),
+        title: Text(LocaleKeys.folderName.tr()),
         content: TextField(
           onChanged: (value) {},
           controller: _.textEditingController,
           decoration: InputDecoration(
-            hintText: "폴더 이름을 입력하세요.",
+            hintText: LocaleKeys.inputFolderName.tr(),
             suffixIcon: _.textEditingController.text.length > 0
                 ? IconButton(
                     icon: Icon(
                       Icons.clear,
-                      color: Colors.black,
+                      color: Colors.grey,
                     ),
                     onPressed: () => _.resetField(),
                   )
@@ -36,7 +38,7 @@ class SetFolderTitleDialog extends StatelessWidget {
             style: TextButton.styleFrom(
               primary: Colors.grey,
             ),
-            child: Text('취소'),
+            child: Text(LocaleKeys.cancel.tr()),
             onPressed: () {
               folderNameTextFieldController.textEditingController.text = '';
               Get.back();
@@ -46,7 +48,7 @@ class SetFolderTitleDialog extends StatelessWidget {
             style: TextButton.styleFrom(
               primary: Colors.blue,
             ),
-            child: Text('확인'),
+            child: Text(LocaleKeys.done.tr()),
             onPressed: () {
               if (folderListController.folderList.any((e) =>
                   e.name == folderNameTextFieldController.textEditingController.text)) {

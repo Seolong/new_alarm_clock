@@ -7,6 +7,7 @@ import '../../../routes/app_routes.dart';
 import '../../../utils/values/color_value.dart';
 import '../../../utils/values/size_value.dart';
 import '../../../utils/values/string_value.dart';
+import '../../global/color_controller.dart';
 import '../../global/convenience_method.dart';
 import '../page/inner_home_page/widgets/alarm_item/controller/selected_alarm_controller.dart';
 
@@ -22,7 +23,7 @@ class HomeFAB extends StatelessWidget {
       height: ButtonSize.xlarge,
       child: FloatingActionButton( // addAlarmButton
         //폴더 탭일 때 다른 색, 메뉴 탭일 땐 disable임을 나타내기 위해 회색
-        backgroundColor: ColorValue.fab,
+        backgroundColor: Get.find<ColorController>().colorSet.accentColor,
         child: FittedBox(
           child: Icon(
             Icons.add_rounded,

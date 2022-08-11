@@ -4,8 +4,8 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:new_alarm_clock/generated/locale_keys.g.dart';
 import 'package:new_alarm_clock/data/shared_preferences/settings_shared_preferences.dart';
 import 'package:new_alarm_clock/ui/home/controller/alarm_list_controller.dart';
-import '../../../../../utils/values/color_value.dart';
 import '../../../../global/auto_size_text.dart';
+import '../../../../global/color_controller.dart';
 
 class AlignButton extends StatelessWidget {
   final _settingsSharedPreferences = SettingsSharedPreferences();
@@ -14,16 +14,17 @@ class AlignButton extends StatelessWidget {
   double radioRadius = 7.5;
   late double borderRadius = radioRadius + 7.5;
   double borderWidth = 2;
-  Color activeColor = ColorValue.activeSwitch;
+  Color activeColor = Get.find<ColorController>().colorSet.mainColor;
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
+      borderRadius: BorderRadius.all(Radius.circular(10)),
       onTap: () async {
         String currentAlign = await _settingsSharedPreferences.getAlignValue();
-        Color settingColor = Colors.white;
+        Color settingColor = Get.find<ColorController>().colorSet.backgroundColor;
         Color settingBorderColor = Colors.black54;
-        Color dateColor = Colors.white;
+        Color dateColor = Get.find<ColorController>().colorSet.backgroundColor;
         Color dateBorderColor = Colors.black54;
         if (currentAlign == _settingsSharedPreferences.alignBySetting) {
           settingColor = activeColor;
@@ -135,6 +136,7 @@ class AlignButton extends StatelessWidget {
         //dayOffList.sort((a, b) => a.dayOffDate.compareTo(b.dayOffDate));
       },
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Icon(
             Icons.subject_rounded,

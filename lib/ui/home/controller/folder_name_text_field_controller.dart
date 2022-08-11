@@ -1,5 +1,7 @@
 import 'package:flutter/widgets.dart';
-import 'package:get/get.dart';
+import 'package:get/get.dart' hide Trans;
+import 'package:easy_localization/easy_localization.dart';
+import 'package:new_alarm_clock/generated/locale_keys.g.dart';
 
 class FolderNameTextFieldController extends GetxController {
   TextEditingController textEditingController = TextEditingController();
@@ -36,10 +38,10 @@ class FolderNameTextFieldController extends GetxController {
   String? getErrorText() {
     if (textEditingController.text == '') {
       _isError = false;
-      return '폴더 이름을 입력해주세요.';
+      return LocaleKeys.inputFolderName.tr();
     } else {
       if (_isError == true) {
-        return '이미 같은 이름의 폴더가 있습니다.';
+        return LocaleKeys.sameNameFolderExist.tr();
       } else {
         return null;
       }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';import 'package:get/get.dart' hide Trans;
 import 'package:easy_localization/easy_localization.dart';
 import 'package:new_alarm_clock/generated/locale_keys.g.dart';
 import 'package:new_alarm_clock/data/shared_preferences/settings_shared_preferences.dart';
+import 'package:new_alarm_clock/ui/global/color_controller.dart';
 
 import '../../../../../utils/values/color_value.dart';
 import '../../../../global/auto_size_text.dart';
@@ -15,6 +16,7 @@ class SetHomeFolderButton extends StatelessWidget {
   Widget build(BuildContext context) {
     Get.put(FolderListController());
     return InkWell(
+      borderRadius: BorderRadius.all(Radius.circular(10)),
       onTap: () async {
         Get.dialog(
           AlertDialog(
@@ -23,7 +25,7 @@ class SetHomeFolderButton extends StatelessWidget {
             contentPadding: EdgeInsets.zero,
             title: Container(
                 decoration: BoxDecoration(
-                  color: ColorValue.mainBackground,
+                  color: Get.find<ColorController>().colorSet.mainColor,
                   borderRadius: BorderRadius.vertical(top: Radius.circular(10)),
                 ),
                 padding: EdgeInsets.fromLTRB(0, 15, 0, 15),
@@ -31,10 +33,10 @@ class SetHomeFolderButton extends StatelessWidget {
                 child: AutoSizeText(
                   LocaleKeys.chooseMainFolder.tr(),
                   bold: true,
-                  color: Colors.black54,
+                  color: Get.find<ColorController>().colorSet.appBarContentColor,
                 )),
             titlePadding: EdgeInsets.fromLTRB(0, 0, 0, 0),
-            backgroundColor: Colors.white,
+            backgroundColor: Get.find<ColorController>().colorSet.backgroundColor,
             content: GetBuilder<FolderListController>(builder: (_) {
               return Container(
                 //height: Get.height / 5 * 3,
@@ -58,7 +60,7 @@ class SetHomeFolderButton extends StatelessWidget {
                       padding: const EdgeInsets.all(5.0),
                       child: Ink(
                         decoration: BoxDecoration(
-                          color: Colors.white,
+                          color: Get.find<ColorController>().colorSet.backgroundColor,
                           //border: Border.all(width: 0.5),
                           borderRadius: BorderRadius.all(Radius.circular(115)),
                         ),
@@ -85,6 +87,7 @@ class SetHomeFolderButton extends StatelessWidget {
                                       ? LocaleKeys.allAlarms.tr()
                                       : '${_.folderList[index].name}',
                                     bold: true,
+                                    color: Get.find<ColorController>().colorSet.mainTextColor,
                                   )),
                             ],
                           ),
@@ -101,6 +104,7 @@ class SetHomeFolderButton extends StatelessWidget {
         );
       },
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Icon(
             Icons.folder_special_rounded,
@@ -112,6 +116,7 @@ class SetHomeFolderButton extends StatelessWidget {
               child: AutoSizeText(
                 LocaleKeys.mainFolder.tr(),
                 bold: true,
+                color: Get.find<ColorController>().colorSet.mainTextColor,
               )),
         ],
       ),

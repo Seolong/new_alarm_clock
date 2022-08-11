@@ -1,13 +1,14 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:new_alarm_clock/data/database/alarm_provider.dart';
 import 'package:new_alarm_clock/data/model/alarm_data.dart';
 import 'package:new_alarm_clock/routes/app_routes.dart';
 import 'package:new_alarm_clock/ui/global/auto_size_text.dart';
+import 'package:new_alarm_clock/ui/global/custom_switch.dart';
 import 'package:new_alarm_clock/ui/home/controller/alarm_list_controller.dart';
 import 'package:new_alarm_clock/utils/enum.dart';
 import 'package:new_alarm_clock/utils/values/color_value.dart';
+import 'package:new_alarm_clock/utils/values/my_font_family.dart';
 import 'package:new_alarm_clock/utils/values/size_value.dart';
 import 'package:get/get.dart' hide Trans;
 import 'package:easy_localization/easy_localization.dart';
@@ -17,7 +18,6 @@ import '../../../../../global/color_controller.dart';
 import '../../../../controller/required_parameter_to_add_alarm_page_controller.dart';
 import 'controller/alarm_switch_controller.dart';
 import 'controller/selected_alarm_controller.dart';
-import 'widgets/alarm_item_text.dart';
 
 class AlarmItem extends StatelessWidget {
   Color _swapButtonColor;
@@ -124,7 +124,7 @@ class AlarmItem extends StatelessWidget {
                   BoxShadow(
                     color: Colors.black26,
                     spreadRadius: 0.5,
-                    blurRadius: 0.5,
+                    blurRadius: 2.5,
                     offset: Offset(0, 1), // changes position of shadow
                   ),
                 ],
@@ -161,7 +161,7 @@ class AlarmItem extends StatelessWidget {
                                   isDismissible: false,
                                   margin: EdgeInsets.zero,
                                   snackStyle: SnackStyle.GROUNDED,
-                                  backgroundColor: ColorValue.mainBackground,
+                                  backgroundColor: Get.find<ColorController>().colorSet.mainColor,
                                   duration: Duration(minutes: 15),
                                   animationDuration:
                                       Duration(milliseconds: 250),
@@ -179,7 +179,7 @@ class AlarmItem extends StatelessWidget {
                                             .contains(MaterialState.pressed)) {
                                           return Colors.black26;
                                         }
-                                        return ColorValue.activeSwitch;
+                                        return Get.find<ColorController>().colorSet.deepMainColor;
                                       }),
                                         overlayColor: MaterialStateProperty.all(Colors.transparent),//splash 효과 없애는 코드
                                         minimumSize: MaterialStateProperty.all(Size(40, 40)),
@@ -187,7 +187,7 @@ class AlarmItem extends StatelessWidget {
                                       ),
                                       child: AutoSizeText(
                                         LocaleKeys.turnOffEraseMode.tr(),
-                                        color: Colors.white,
+                                        color: Get.find<ColorController>().colorSet.appBarContentColor,
                                       )));
                             }
                           }
@@ -197,7 +197,7 @@ class AlarmItem extends StatelessWidget {
                             builder: (context, snapshot) {
                               if (snapshot.hasData) {
                                 return Container(
-                                  padding: EdgeInsets.all(10),
+                                  padding: EdgeInsets.fromLTRB(20, 10, 10, 10),
                                   child: Row(
                                     children: [
                                       Expanded(
@@ -206,68 +206,59 @@ class AlarmItem extends StatelessWidget {
                                           padding: const EdgeInsets.fromLTRB(
                                               3, 3, 0, 3),
                                           child: Column(
+                                            mainAxisAlignment: MainAxisAlignment.center,
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,
                                             children: [
                                               //알람 제목 텍스트
-                                              Flexible(
-                                                flex: 4,
-                                                child: Padding(
-                                                  padding: const EdgeInsets.all(2.0),
-                                                  child: AlarmItemText(
-                                                      itemText: (snapshot.data)!
-                                                          .title!),
+                                              Padding(
+                                                padding: const EdgeInsets.all(2.0),
+                                                child: Text(
+                                                    (snapshot.data)!
+                                                        .title!,
+                                                  textScaleFactor: 1.0,
+                                                  style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                                                    fontFamily: MyFontFamily.mainFontFamily
+                                                  ),),
                                                 ),
-                                              ),
-                                              Divider(
-                                                thickness: 1,
-                                                color:
-                                                    ColorValue.alarmItemDivider,
-                                              ),
+                                              Divider(height: 6.0, thickness: 1.0,),
 
                                               //알람 시간 텍스트
-                                              Flexible(
-                                                flex: 6,
-                                                child: Padding(
-                                                  padding: const EdgeInsets.all(1.0),
-                                                  child: AlarmItemText(
-                                                      itemText:
-                                                          DateFormat('hh:mm a', 'en')
-                                                              .format((snapshot
-                                                                      .data)!
-                                                                  .alarmDateTime)
-                                                              .toLowerCase()),
-                                                ),
+                                              Padding(
+                                                padding: const EdgeInsets.all(1.0),
+                                                child: Text(DateFormat('hh:mm a', 'en')
+                                                            .format((snapshot
+                                                                    .data)!
+                                                                .alarmDateTime)
+                                                            .toLowerCase(),
+                                                textScaleFactor: 1.0,
+                                                style: Theme.of(context).textTheme.headlineSmall!.copyWith(
+                                                    fontFamily: MyFontFamily.mainFontFamily,
+                                                  color: Get.find<ColorController>().colorSet.mainColor,
+                                                  fontWeight: FontWeight.bold
+                                                ),),
                                               ),
+                                              SizedBox(height: 2,),
                                               //alarmPoint 텍스트
-                                              Flexible(
-                                                flex: 3,
-                                                child: Padding(
-                                                  padding: const EdgeInsets.only(left: 1),
-                                                  child: Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceBetween,
-                                                    children: [
-                                                      AlarmItemText(
-                                                          itemText:
-                                                              convertAlarmDateTime(
-                                                                  (snapshot
-                                                                      .data)!)),
-                                                      Container(
-                                                        decoration: getLeftBorder(
-                                                            (snapshot.data)!),
-                                                        child: AlarmItemText(
-                                                          itemText:
-                                                              getTextOfAlarmPoint(
-                                                                  (snapshot
-                                                                      .data)!),
-                                                          textColor:
-                                                              Colors.black45,
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
+                                              Padding(
+                                                padding: const EdgeInsets.only(left: 1),
+                                                child: Text(
+                                                    convertAlarmDateTime(
+                                                        (snapshot
+                                                            .data)!),
+                                                textScaleFactor: 1.0,
+                                                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                                                  fontFamily: MyFontFamily.mainFontFamily
+                                                ),),
+                                              ),
+                                              SizedBox(height: 2,),
+                                              Text(getTextOfAlarmPoint(
+                                                  (snapshot
+                                                      .data)!),
+                                                textScaleFactor: 1.0,
+                                                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                                                    fontFamily: MyFontFamily.mainFontFamily,
+                                                    color: Colors.grey
                                                 ),
                                               ),
                                               //Spacer(),
@@ -289,7 +280,7 @@ class AlarmItem extends StatelessWidget {
                               return Center(
                                 child: Text(
                                   'Loading..',
-                                  style: TextStyle(color: Colors.white),
+                                  style: TextStyle(color: Colors.grey),
                                 ),
                               );
                             }),
@@ -299,9 +290,8 @@ class AlarmItem extends StatelessWidget {
                   alignment: Alignment.centerRight,
                   child: Container(
                     width: 70,
-                    //alignment: Alignment.center,
                     decoration: BoxDecoration(
-                        //color: Color.fromARGB(255, 250, 250, 250),
+                        color: Colors.transparent,
                         borderRadius: _alarmBorder),
                     padding: EdgeInsets.fromLTRB(0, 20, 20, 20),
                     child: FutureBuilder<AlarmData>(
@@ -312,21 +302,24 @@ class AlarmItem extends StatelessWidget {
                                 snapshot.data!.alarmState;
                             return Column(
                               children: [
-                                Transform.scale(
-                                    scale: 0.8,
-                                    child: GetBuilder<AlarmSwitchController>(
-                                        builder: (_) {
-                                      return CupertinoSwitch(
-                                        value: _.switchBoolMap[_id]!,
-                                        onChanged: (value) {
-                                          _.setSwitchBool(_id);
-                                        },
-                                        activeColor: ColorValue.activeSwitch,
-                                        trackColor: Color(0xffC8C2BC),
-                                      );
-                                    })),
-
-                                Spacer(),
+                                GetBuilder<AlarmSwitchController>(
+                                    builder: (_) {
+                                  return CustomSwitch(
+                                    touchAreaHeight: 40,
+                                      switchHeight: 22,
+                                      value: _.switchBoolMap[_id]!,
+                                      onChanged: (value) {
+                                        _.setSwitchBool(_id);
+                                      },
+                                      activeColor: Get.find<ColorController>().colorSet.switchTrackColor,
+                                      thumbColor: [
+                                        Get.find<ColorController>().colorSet.lightMainColor,
+                                        Get.find<ColorController>().colorSet.mainColor,
+                                        Get.find<ColorController>().colorSet.deepMainColor,
+                                      ]
+                                  );
+                                }),
+                                SizedBox(height: 12,),
 
                                 //이 페이지 볼 때마다
                                 //체크되어있나 아닌가 설정값 찾아서
@@ -346,7 +339,7 @@ class AlarmItem extends StatelessWidget {
                           return Center(
                             child: Text(
                               'Loading..',
-                              style: TextStyle(color: Colors.white),
+                              style: TextStyle(color: Colors.grey),
                             ),
                           );
                         }),

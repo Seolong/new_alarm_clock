@@ -17,7 +17,7 @@ class AlarmListView extends StatelessWidget {
       return Theme(
         data: Theme.of(context).copyWith(
           canvasColor: Colors.transparent,
-          shadowColor: Colors.transparent
+          shadowColor: Colors.transparent,
         ),
         child: ReorderableListView.builder(
           buildDefaultDragHandles: false,

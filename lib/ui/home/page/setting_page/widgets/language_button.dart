@@ -3,9 +3,10 @@ import 'package:get/get.dart' hide Trans;
 import 'package:easy_localization/easy_localization.dart';
 import 'package:new_alarm_clock/generated/locale_keys.g.dart';
 import 'package:restart_app/restart_app.dart';
-import '../../../../../utils/values/color_value.dart';
 import '../../../../global/auto_size_text.dart';
 import 'dart:developer';
+
+import '../../../../global/color_controller.dart';
 
 enum Language { ko, en }
 
@@ -44,13 +45,13 @@ class LanguageButton extends StatelessWidget {
   double radioRadius = 7.5;
   late double borderRadius = radioRadius + 7.5;
   double borderWidth = 2;
-  Color activeColor = ColorValue.activeSwitch;
   Language language = Language.ko;
 
   @override
   Widget build(BuildContext context) {
     Locale currentLocale = context.locale;
     return InkWell(
+      borderRadius: BorderRadius.all(Radius.circular(10)),
       onTap: () async {
         log(currentLocale.languageCode);
         language = currentLocale.languageCode.parseLanguage();
@@ -70,6 +71,7 @@ class LanguageButton extends StatelessWidget {
         );
       },
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Icon(
             Icons.language,
@@ -95,6 +97,7 @@ class LanguageButton extends StatelessWidget {
           title: Text(Language.values[i].parseName()),
           value: Language.values[i],
           groupValue: language,
+          activeColor: Get.find<ColorController>().colorSet.mainColor,
           onChanged: (newValue) {
             log(newValue!.parseName());
             Get.dialog(Dialog(

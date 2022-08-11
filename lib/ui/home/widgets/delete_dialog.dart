@@ -3,6 +3,8 @@ import 'package:get/get.dart' hide Trans;
 import 'package:easy_localization/easy_localization.dart';
 import 'package:new_alarm_clock/generated/locale_keys.g.dart';
 
+import '../../global/color_controller.dart';
+
 class DeleteDialog extends StatelessWidget {
   String message;
 
@@ -17,7 +19,12 @@ class DeleteDialog extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              Text(message),
+              Text(
+                message,
+                style: TextStyle(
+                  color: Get.find<ColorController>().colorSet.mainTextColor
+                ),
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [

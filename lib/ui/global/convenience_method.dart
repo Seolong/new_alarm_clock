@@ -12,8 +12,16 @@ class ConvenienceMethod{
           style: TextStyle(fontSize: 16),
           textAlign: TextAlign.center,
         ),
-        backgroundColor: ColorValue.mainBackground,
-        snackStyle: SnackStyle.GROUNDED
+        borderRadius: 100.0,
+        backgroundColor: Colors.grey[200]!,
+        snackStyle: SnackStyle.FLOATING,
+      margin: EdgeInsets.all(10.0),
+      boxShadows: [
+        BoxShadow(
+            blurRadius: 2.0,
+          color: Colors.grey[500]!
+        )
+      ]
     );
   }
 }

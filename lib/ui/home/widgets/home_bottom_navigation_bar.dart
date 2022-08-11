@@ -13,7 +13,7 @@ class HomeBottomNavigationBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Theme(
       data: ThemeData(
-        canvasColor: ColorValue.mainBackground,
+        canvasColor: Get.find<ColorController>().colorSet.backgroundColor,
         //중간 더미 BottomNavigationBarItem 터치 효과가 안 보이게 하기 위함
         splashColor: Colors.transparent,
         highlightColor: Colors.transparent,
@@ -33,8 +33,8 @@ class HomeBottomNavigationBar extends StatelessWidget {
                 iconSize: ButtonSize.medium,
                 onTap: _.setPageIndex,
                 type: BottomNavigationBarType.fixed,
-                selectedItemColor: Color(0xff753422),
-                unselectedItemColor: ColorValue.tabBarIcon,
+                selectedItemColor: Get.find<ColorController>().colorSet.deepMainColor,
+                unselectedItemColor: Colors.grey,
                 items: [
                   BottomNavigationBarItem(
                       icon: Icon(
