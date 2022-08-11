@@ -8,15 +8,16 @@ import 'package:get/get.dart' hide Trans;
 import 'package:easy_localization/easy_localization.dart';
 import 'package:new_alarm_clock/generated/locale_keys.g.dart';
 
+import '../../../../data/model/alarm_data.dart';
 import '../../../../utils/values/string_value.dart';
 
 class InnerHomePage extends StatelessWidget {
-  final AlarmProvider alarmProvider = AlarmProvider();
-  final double nextAlarmContainerHeight = 50.0;
+  final AlarmProvider _alarmProvider = AlarmProvider();
 
   InnerHomePage() {
-    alarmProvider.initializeDatabase();
+    _alarmProvider.initializeDatabase();
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -47,38 +48,6 @@ class InnerHomePage extends StatelessWidget {
                 );
               }
             ),
-          ),
-          Stack(
-            children: [
-              Container(height: nextAlarmContainerHeight * 2.0, color: Colors.transparent,),
-              Container(
-                height: nextAlarmContainerHeight,
-                decoration: BoxDecoration(
-                  color: Get.find<ColorController>().colorSet.mainColor,
-                  border: Border.all(color: Get.find<ColorController>().colorSet.mainColor)
-                ),
-              ),
-              Positioned(
-                top: nextAlarmContainerHeight / 2.0,
-                left: 30.0,
-                right: 30.0,
-                child: Container(
-                  margin: EdgeInsets.symmetric(horizontal: 20),
-                  decoration: BoxDecoration(
-                    color: Get.find<ColorController>().colorSet.appBarContentColor,
-                    borderRadius: BorderRadius.circular(5.0),
-                    boxShadow: [
-                      BoxShadow(
-                        blurRadius: 2.0,
-                        color: Colors.grey[400]!
-                      )
-                    ]
-                  ),
-                  height: nextAlarmContainerHeight,
-                  child: Center(child: Text('Hi!')),
-                ),
-              ),
-            ]
           ),
           Expanded(child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 0),

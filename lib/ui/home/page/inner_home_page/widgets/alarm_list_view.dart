@@ -13,13 +13,13 @@ class AlarmListView extends StatelessWidget {
     Get.put(AlarmListController());
     var folderListController = Get.put(FolderListController());
 
-    return GetBuilder<AlarmListController>(builder: (_) {
-      return Theme(
-        data: Theme.of(context).copyWith(
-          canvasColor: Colors.transparent,
-          shadowColor: Colors.transparent,
-        ),
-        child: ReorderableListView.builder(
+    return Theme(
+      data: ThemeData(
+        canvasColor: Colors.transparent,
+        shadowColor: Colors.transparent
+      ),
+      child: GetBuilder<AlarmListController>(builder: (_) {
+        return ReorderableListView.builder(
           buildDefaultDragHandles: false,
           shrinkWrap: true,
           padding: const EdgeInsets.fromLTRB(10, 15, 10, 10),
@@ -52,8 +52,8 @@ class AlarmListView extends StatelessWidget {
               );
             }
           },
-        ),
-      );
-    });
+        );
+      }),
+    );
   }
 }

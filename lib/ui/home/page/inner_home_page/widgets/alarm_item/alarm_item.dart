@@ -217,6 +217,8 @@ class AlarmItem extends StatelessWidget {
                                                     (snapshot.data)!
                                                         .title!,
                                                   textScaleFactor: 1.0,
+                                                  overflow: TextOverflow.ellipsis,
+                                                  maxLines: 1,
                                                   style: Theme.of(context).textTheme.titleMedium!.copyWith(
                                                     fontFamily: MyFontFamily.mainFontFamily
                                                   ),),
