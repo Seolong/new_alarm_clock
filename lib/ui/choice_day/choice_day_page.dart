@@ -5,14 +5,15 @@ import 'package:new_alarm_clock/ui/choice_day/controller/month_repeat_day_contro
 import 'package:new_alarm_clock/ui/choice_day/controller/start_end_day_controller.dart';
 import 'package:new_alarm_clock/ui/choice_day/widget/one_alarm_container.dart';
 import 'package:new_alarm_clock/ui/choice_day/widget/repeat_tab_bar.dart';
-import 'package:new_alarm_clock/ui/global/auto_size_text.dart';
 import 'package:new_alarm_clock/ui/global/convenience_method.dart';
 import 'package:new_alarm_clock/utils/enum.dart';
 import 'package:get/get.dart' hide Trans;
 import 'package:easy_localization/easy_localization.dart';
 import 'package:new_alarm_clock/generated/locale_keys.g.dart';
+import '../../utils/values/my_font_family.dart';
 import '../global/color_controller.dart';
 import 'controller/repeat_mode_controller.dart';
+import 'package:tab_indicator_styler/tab_indicator_styler.dart';
 
 class ChoiceDayPage extends StatelessWidget {
   final repeatModeController = Get.put(RepeatModeController());
@@ -99,25 +100,25 @@ class ChoiceDayPage extends StatelessWidget {
                         padding: const EdgeInsets.fromLTRB(0, 5, 0, 0),
                         child: TabBar(
                             isScrollable: true,
-                            indicatorWeight: 5,
-                            indicatorSize: TabBarIndicatorSize.label,
+                            indicator: MaterialIndicator(
+                              color: Get.find<ColorController>().colorSet.deepMainColor
+                            ),
                             indicatorColor: Get.find<ColorController>().colorSet.deepMainColor,
                             unselectedLabelColor: Colors.grey,
-                            labelColor: Get.find<ColorController>().colorSet.mainTextColor,
+                            labelStyle: TextStyle(
+                              fontFamily: MyFontFamily.mainFontFamily,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 18
+                            ),
+                            labelColor: Get.find<ColorController>().colorSet.deepMainColor,
                             tabs: [
-                              Container(
-                                padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
-                                height: 37.5,
-                                width: 100,
-                                alignment: Alignment.center,
-                                child: AutoSizeText(LocaleKeys.chooseOne.tr(), bold: true, color: null,),
+                              Tab(
+                                text: LocaleKeys.chooseOne.tr(),
+                                height: 50,
                               ),
-                              Container(
-                                padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
-                                height: 37.5,
-                                width: 100,
-                                alignment: Alignment.center,
-                                child: AutoSizeText(LocaleKeys.repeat.tr(), bold: true, color: null,),
+                              Tab(
+                                text: LocaleKeys.repeat.tr(),
+                                height: 50,
                               ),
                             ]),
                       ),

@@ -68,6 +68,23 @@
   "repeatInterval": "Interval",
   "repeatNum": "Repeat",
 
+  "prefixAfter": "After ",
+  "suffixAfter": ", ",
+  "minute_args": {
+    "zero": " minute",
+    "one": " minute",
+    "other": " minutes"
+  },
+  "hour_args": {
+    "zero": " hour",
+    "one": " hour",
+    "other": " hours"
+  },
+  "next_day_args": {
+    "zero": "day",
+    "one": "day",
+    "other": "days"
+  },
   "day_args": {
     "zero": "day",
     "one": "day",
@@ -107,7 +124,7 @@
   "suffixOnThe": "",
   "prefixOn": "on ",
   "suffixOn": "",
-  "chooseRepeatDay": "Choose a repeat day",
+  "chooseRepeatDay": "Select a repeat day",
   "lastDay": "last",
   "monthAndDay": "(month, day)",
   "youMustChooseRepeatDay": "In monthly repeat mode,\nyou must select a repeat day.",
@@ -118,5 +135,6 @@
   "notWeekMode": "It is not currently in 'weekly repeat mode'.",
   "alarmWillGoOffSoon": "The alarm will go off soon",
   "skipOnce": "Skip once",
-  "resetMusicList": "Do you want to reset this music list?"
+  "resetMusicList": "Do you want to reset this music list?",
+  "nextAlarmWillGoOff": "the next alarm will go off."
 }

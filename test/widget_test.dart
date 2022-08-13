@@ -5,7 +5,6 @@
 // gestures. You can also use WidgetTester to find child widgets in the widget
 // tree, read text, and verify that the values of widget properties are correct.
 
-import 'package:flutter_test/flutter_test.dart';
 import 'dart:async';
 
 var log = [];
@@ -13,15 +12,25 @@ var log = [];
 enum ABC{ a }
 
 void main() {
-  test('DateTimeCalculator test', overridePrint((){
-
-    String a = ABC.a.toString().split('.')[1];
-
-    expect(a, 'a1');
-  }));
-
-
+  // test('DateTimeCalculator test', overridePrint((){
+  //
+  //   String a = ABC.a.toString().split('.')[1];
+  //
+  //   expect(a, 'a1');
+  // }));
+  // final int last = 100000000000;
+  // final stopWatch = Stopwatch();
+  //
+  // stopWatch.start();
+  // double a = 0;
+  // for(int i = 0; i < last; i++){
+  //   a = 1.0;
+  // }
+  // print(stopWatch.elapsedMicroseconds);
+  // stopWatch.stop();
+  // stopWatch.reset();
 }
+
 void Function() overridePrint(void testFn()) => () {
   var spec = new ZoneSpecification(
       print: (_, __, ___, String msg) {

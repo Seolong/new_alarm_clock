@@ -6,6 +6,7 @@ import 'package:new_alarm_clock/ui/choice_day/controller/repeat_mode_controller.
 import 'package:new_alarm_clock/ui/choice_day/widget/repeat_tab_bar_view.dart';
 import 'package:new_alarm_clock/ui/global/color_controller.dart';
 import 'package:new_alarm_clock/utils/values/my_font_family.dart';
+import 'package:tab_indicator_styler/tab_indicator_styler.dart';
 
 class RepeatTabBar extends StatelessWidget {
   @override
@@ -27,6 +28,9 @@ class RepeatTabBar extends StatelessWidget {
             labelStyle: TextStyle(
               fontFamily: MyFontFamily.mainFontFamily,
               fontWeight: FontWeight.bold,
+            ),
+            indicator: MaterialIndicator(
+                color: Get.find<ColorController>().colorSet.deepMainColor
             ),
             indicatorColor: Get.find<ColorController>().colorSet.deepMainColor,
             labelColor: Get.find<ColorController>().colorSet.deepMainColor,

@@ -20,6 +20,7 @@ class AlarmListView extends StatelessWidget {
       ),
       child: GetBuilder<AlarmListController>(builder: (_) {
         return ReorderableListView.builder(
+          physics: NeverScrollableScrollPhysics(),
           buildDefaultDragHandles: false,
           shrinkWrap: true,
           padding: const EdgeInsets.fromLTRB(10, 15, 10, 10),

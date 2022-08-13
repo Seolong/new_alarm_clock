@@ -33,7 +33,7 @@ class FolderPage extends StatelessWidget {
               child: Text(
                 LocaleKeys.folder.tr(),
                 style: TextStyle(
-                    fontSize: 30,
+                    fontSize: 26,
                     fontWeight: FontWeight.bold,
                     fontFamily: MyFontFamily.mainFontFamily),
               ),

@@ -68,6 +68,11 @@
   "repeatInterval": "반복 주기",
   "repeatNum": "반복 횟수",
 
+  "prefixAfter": "",
+  "suffixAfter": " 후에 다음 알람이 울립니다",
+  "minute_args": "분",
+  "hour_args": "시간",
+  "next_day_args": "일",
   "day_args": "일마다",
   "week_args": "주마다",
   "month_args": "달마다",
@@ -102,5 +107,6 @@
   "notWeekMode": "현재 '주마다 반복 모드'가 아닙니다.",
   "alarmWillGoOffSoon": "곧 알람이 울립니다.",
   "skipOnce": "한 번 건너뛰기",
-  "resetMusicList": "음악 목록을 초기화하시겠습니까?"
+  "resetMusicList": "음악 목록을 초기화하시겠습니까?",
+  "nextAlarmWillGoOff": ""
 }

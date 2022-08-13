@@ -49,14 +49,12 @@ class _CustomSwitchState extends State<CustomSwitch>
           end: widget.value? widget.activeColor.withAlpha(100): widget.activeColor,)
             .animate(_animationController);
     animationTarget = _start;
-    print("initState widget.value: ${widget.value}");
   }
 
   @override
   void didUpdateWidget(CustomSwitch oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.value != widget.value) {
-      print("CustomSwitch didUpdateWidget ${widget.value}");
       if(animationTarget==_start){
         animationTarget=_end;
       }else if(animationTarget==_end){

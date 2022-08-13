@@ -3,18 +3,18 @@
     android:height="108dp"
     android:viewportWidth="108"
     android:viewportHeight="108"
-    android:tint="#BF8F46">
-  <group android:scaleX="2.3751"
-      android:scaleY="2.3751"
-      android:translateX="25.4988"
-      android:translateY="25.4988">
+    android:tint="#3AC38F">
+  <group android:scaleX="2.1663"
+      android:scaleY="2.1663"
+      android:translateX="28.0044"
+      android:translateY="28.0044">
     <path
         android:fillColor="@android:color/white"
-        android:pathData="M12,6c-3.87,0 -7,3.13 -7,7s3.13,7 7,7 7,-3.13 7,-7 -3.13,-7 -7,-7zM15.75,16.85L11,14L11,8h1.5v5.25l4,2.37 -0.75,1.23z"
+        android:pathData="M12,6c-3.86,0 -7,3.14 -7,7s3.14,7 7,7 7,-3.14 7,-7 -3.14,-7 -7,-7zM15.75,16.85L11,14L11,8h1.5v5.25l4,2.37 -0.75,1.23z"
         android:strokeAlpha="0.3"
         android:fillAlpha="0.3"/>
     <path
         android:fillColor="@android:color/white"
-        android:pathData="M12,4c-4.97,0 -9,4.03 -9,9s4.02,9 9,9c4.97,0 9,-4.03 9,-9s-4.03,-9 -9,-9zM12,20c-3.87,0 -7,-3.13 -7,-7s3.13,-7 7,-7 7,3.13 7,7 -3.13,7 -7,7zM12.5,8L11,8v6l4.75,2.85 0.75,-1.23 -4,-2.37zM22,5.72l-4.6,-3.86 -1.29,1.53 4.6,3.86zM7.88,3.39L6.6,1.86 2,5.71l1.29,1.53z"/>
+        android:pathData="M12.5,8L11,8v6l4.75,2.85 0.75,-1.23 -4,-2.37zM17.337,1.81l4.607,3.845 -1.28,1.535 -4.61,-3.843zM6.663,1.81l1.282,1.536L3.337,7.19l-1.28,-1.536zM12,4c-4.97,0 -9,4.03 -9,9s4.03,9 9,9 9,-4.03 9,-9 -4.03,-9 -9,-9zM12,20c-3.86,0 -7,-3.14 -7,-7s3.14,-7 7,-7 7,3.14 7,7 -3.14,7 -7,7z"/>
   </group>
 </vector>
