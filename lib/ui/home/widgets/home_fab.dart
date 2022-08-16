@@ -5,11 +5,9 @@ import 'package:new_alarm_clock/ui/home/controller/folder_list_controller.dart';
 import 'package:new_alarm_clock/ui/home/controller/required_parameter_to_add_alarm_page_controller.dart';
 import '../../../data/shared_preferences/id_shared_preferences.dart';
 import '../../../routes/app_routes.dart';
-import '../../../utils/values/color_value.dart';
 import '../../../utils/values/size_value.dart';
 import '../../../utils/values/string_value.dart';
 import '../../global/color_controller.dart';
-import '../../global/convenience_method.dart';
 import '../page/inner_home_page/widgets/alarm_item/controller/selected_alarm_controller.dart';
 
 class HomeFAB extends StatelessWidget {
@@ -39,7 +37,7 @@ class HomeFAB extends StatelessWidget {
           requiredParameterToAddAlarmPageController.alarmId = newId;
           requiredParameterToAddAlarmPageController.folderName = folderListController.currentFolderName;
 
-          Get.find<RecentAlarmDateStreamController>().dateStreamSubscription.cancel();
+          Get.find<RecentAlarmDateStreamController>().dateStreamSubscription.pause();
           idSharedPreferences.setId(++newId);
           Get.toNamed(AppRoutes.addAlarmPage);
         },

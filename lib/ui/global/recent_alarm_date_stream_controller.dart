@@ -38,22 +38,17 @@ class RecentAlarmDateStreamController extends GetxController {
     super.onInit();
 
     dateStream =
-        Stream<AlarmData>.periodic(Duration(seconds: 1), (_) => (alarm))
-            .asBroadcastStream();
-    dateStreamController = StreamController<AlarmData>(
-      onCancel: (){
-        print('RADS controllse canceled');
-      }
-    );
+        Stream<AlarmData>.periodic(Duration(seconds: 1), (_) => (alarm));
+    dateStreamController = StreamController<AlarmData>(onCancel: () {
+      print('RADS controller canceled');
+    });
     dateStreamController.addStream(dateStream);
     dateStreamSubscription = dateStreamController.stream.listen((event) {
       differenceTimeNowAndNextAlarm();
-      print('RecentAlarmDateStreamController: dateStream is running');
-    },
-      onError: (error){
-        print('RecentAlarmDateStreamController: $error');
-      }
-    );
+    }, onError: (error) {
+      print('RecentAlarmDateStreamController: $error');
+    });
+    update();
   }
 
   Future<AlarmData?> nextAlarm() async {
@@ -82,6 +77,7 @@ class RecentAlarmDateStreamController extends GetxController {
     }
 
     alarm = result ?? alarm;
+    update();
     return result;
   }
 
@@ -123,5 +119,6 @@ class RecentAlarmDateStreamController extends GetxController {
     }
 
     nextAlarmTimeDifferenceText = result;
+    update();
   }
 }

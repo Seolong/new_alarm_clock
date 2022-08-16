@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart' hide Trans;
 import 'package:easy_localization/easy_localization.dart';
 import 'package:new_alarm_clock/generated/locale_keys.g.dart';
-import '../../global/color_controller.dart';
+import '../../global/recent_alarm_date_stream_controller.dart';
 
 class GoingBackDialog extends StatelessWidget {
   String buttonName;
@@ -41,9 +40,7 @@ class GoingBackDialog extends StatelessWidget {
                   TextButton(
                     child: Text(LocaleKeys.okay.tr()),
                     onPressed: () {
-                      SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark.copyWith(
-                          statusBarColor: Get.find<ColorController>().colorSet.mainColor,
-                        ));
+                      Get.find<RecentAlarmDateStreamController>().dateStreamSubscription.resume();
                       if (buttonName == system) {
                         Get.back(result: true);
                       } else if (buttonName == appBar) {
