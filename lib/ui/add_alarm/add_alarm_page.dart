@@ -190,20 +190,6 @@ class AddAlarmPage extends StatelessWidget {
         },
         child: Scaffold(
           appBar: AppBar(
-            // flexibleSpace: Container(
-            //   decoration: BoxDecoration(
-            //     gradient: LinearGradient(
-            //         begin: Alignment.topCenter,
-            //         end: Alignment.bottomCenter,
-            //         stops: [0.3, 1.0],
-            //         colors: <Color>[
-            //           Get.find<ColorController>().colorSet.lightMainColor,
-            //           Get.find<ColorController>().colorSet.mainColor
-            //         ]),
-            //   ),
-            // ),
-            //foregroundColor: ColorValue.appbarText,
-            //backgroundColor: Get.find<ColorController>().colorSet.mainColor,
             leading: IconButton(
               icon: Icon(Icons.arrow_back_ios_rounded),
               onPressed: _onTouchAppBarBackButton,

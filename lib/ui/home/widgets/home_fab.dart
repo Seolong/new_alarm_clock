@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:new_alarm_clock/ui/global/recent_alarm_date_stream_controller.dart';
 import 'package:new_alarm_clock/ui/home/controller/folder_list_controller.dart';
 import 'package:new_alarm_clock/ui/home/controller/required_parameter_to_add_alarm_page_controller.dart';
 import '../../../data/shared_preferences/id_shared_preferences.dart';
@@ -38,6 +39,7 @@ class HomeFAB extends StatelessWidget {
           requiredParameterToAddAlarmPageController.alarmId = newId;
           requiredParameterToAddAlarmPageController.folderName = folderListController.currentFolderName;
 
+          Get.find<RecentAlarmDateStreamController>().dateStreamSubscription.cancel();
           idSharedPreferences.setId(++newId);
           Get.toNamed(AppRoutes.addAlarmPage);
         },
