@@ -23,7 +23,7 @@ class AlarmItem extends StatelessWidget {
   Color _swapButtonColor;
   late int _id;
   int index;
-  AlarmProvider alarmProvider = AlarmProvider();
+  final AlarmProvider alarmProvider = AlarmProvider();
 
   AlarmItem({required int id, required Key key, required this.index})
       : _id = id,
@@ -42,7 +42,7 @@ class AlarmItem extends StatelessWidget {
     //그 외에는 '2일마다 반복'
     if (alarmData.alarmType == RepeatMode.off ||
         alarmData.alarmType == RepeatMode.single) {
-      return '';
+      return LocaleKeys.alarmOnce.tr();
     } else {
       String alarmPoint;
       int interval = alarmData.alarmInterval;
@@ -72,9 +72,9 @@ class AlarmItem extends StatelessWidget {
         alarmData.alarmType == RepeatMode.single) {
       return null;
     } else {
-      return BoxDecoration(
+      return const BoxDecoration(
           border: Border(
-        left: BorderSide(color: ColorValue.alarmItemDivider),
+        left: BorderSide(color: Colors.grey),
       ));
     }
   }
@@ -96,8 +96,8 @@ class AlarmItem extends StatelessWidget {
         alignment: AlignmentDirectional.centerStart,
         children: [
           AnimatedContainer(
-            padding: EdgeInsets.only(left: 3.5),
-            duration: Duration(milliseconds: 250),
+            padding: const EdgeInsets.only(left: 3.5),
+            duration: const Duration(milliseconds: 250),
             child: GestureDetector(
               onTap: () {
                 Get.find<AlarmListController>().deleteAlarm(_id);
@@ -110,9 +110,9 @@ class AlarmItem extends StatelessWidget {
             ),
           ),
           AnimatedContainer(
-            padding: EdgeInsets.fromLTRB(0, 7.5, 0, 7.5),
+            padding: const EdgeInsets.fromLTRB(0, 7.5, 0, 7.5),
             color: Get.find<ColorController>().colorSet.backgroundColor,
-            duration: Duration(milliseconds: 250),
+            duration: const Duration(milliseconds: 250),
             transform: Matrix4.translationValues(
                 selectedCont.isSelectedMode ? 65 : 0, 0, 0),
             child: Container(
@@ -121,7 +121,7 @@ class AlarmItem extends StatelessWidget {
                 color: Get.find<ColorController>().colorSet.backgroundColor,
                 borderRadius: _alarmBorder,
                 boxShadow: [
-                  BoxShadow(
+                  const BoxShadow(
                     color: Colors.black26,
                     spreadRadius: 0.5,
                     blurRadius: 2.5,
@@ -162,9 +162,9 @@ class AlarmItem extends StatelessWidget {
                                   margin: EdgeInsets.zero,
                                   snackStyle: SnackStyle.GROUNDED,
                                   backgroundColor: Get.find<ColorController>().colorSet.mainColor,
-                                  duration: Duration(minutes: 15),
+                                  duration: const Duration(minutes: 15),
                                   animationDuration:
-                                      Duration(milliseconds: 250),
+                                      const Duration(milliseconds: 250),
                                   mainButton: TextButton(
                                       onPressed: () {
                                         selectedCont.isSelectedMode = false;
@@ -182,8 +182,8 @@ class AlarmItem extends StatelessWidget {
                                         return Get.find<ColorController>().colorSet.deepMainColor;
                                       }),
                                         overlayColor: MaterialStateProperty.all(Colors.transparent),//splash 효과 없애는 코드
-                                        minimumSize: MaterialStateProperty.all(Size(40, 40)),
-                                        maximumSize: MaterialStateProperty.all(Size(200, 40))
+                                        minimumSize: MaterialStateProperty.all(const Size(40, 40)),
+                                        maximumSize: MaterialStateProperty.all(const Size(200, 40))
                                       ),
                                       child: AutoSizeText(
                                         LocaleKeys.turnOffEraseMode.tr(),
@@ -197,7 +197,7 @@ class AlarmItem extends StatelessWidget {
                             builder: (context, snapshot) {
                               if (snapshot.hasData) {
                                 return Container(
-                                  padding: EdgeInsets.fromLTRB(20, 10, 10, 10),
+                                  padding: const EdgeInsets.fromLTRB(20, 10, 10, 10),
                                   child: Row(
                                     children: [
                                       Expanded(
@@ -223,7 +223,7 @@ class AlarmItem extends StatelessWidget {
                                                     fontFamily: MyFontFamily.mainFontFamily
                                                   ),),
                                                 ),
-                                              Divider(height: 6.0, thickness: 1.0,),
+                                              const Divider(height: 6.0, thickness: 1.0,),
 
                                               //알람 시간 텍스트
                                               Padding(
@@ -240,7 +240,7 @@ class AlarmItem extends StatelessWidget {
                                                   fontWeight: FontWeight.bold
                                                 ),),
                                               ),
-                                              SizedBox(height: 2,),
+                                              const SizedBox(height: 5,),
                                               //alarmPoint 텍스트
                                               Padding(
                                                 padding: const EdgeInsets.only(left: 1),
@@ -253,7 +253,7 @@ class AlarmItem extends StatelessWidget {
                                                   fontFamily: MyFontFamily.mainFontFamily
                                                 ),),
                                               ),
-                                              SizedBox(height: 2,),
+                                              const SizedBox(height: 2,),
                                               Text(getTextOfAlarmPoint(
                                                   (snapshot
                                                       .data)!),
@@ -272,14 +272,14 @@ class AlarmItem extends StatelessWidget {
                                         thickness: 1,
                                         color: ColorValue.alarmItemDivider,
                                       ),
-                                      Container(
+                                      const SizedBox(
                                         width: 70,
                                       )
                                     ],
                                   ),
                                 );
                               }
-                              return Center(
+                              return const Center(
                                 child: Text(
                                   'Loading..',
                                   style: TextStyle(color: Colors.grey),
@@ -295,7 +295,7 @@ class AlarmItem extends StatelessWidget {
                     decoration: BoxDecoration(
                         color: Colors.transparent,
                         borderRadius: _alarmBorder),
-                    padding: EdgeInsets.fromLTRB(0, 20, 20, 20),
+                    padding: const EdgeInsets.fromLTRB(0, 20, 20, 20),
                     child: FutureBuilder<AlarmData>(
                         future: alarmProvider.getAlarmById(_id),
                         builder: (context, snapshot) {
@@ -321,7 +321,7 @@ class AlarmItem extends StatelessWidget {
                                       ]
                                   );
                                 }),
-                                SizedBox(height: 12,),
+                                const SizedBox(height: 12,),
 
                                 //이 페이지 볼 때마다
                                 //체크되어있나 아닌가 설정값 찾아서
@@ -338,7 +338,7 @@ class AlarmItem extends StatelessWidget {
                               ],
                             );
                           }
-                          return Center(
+                          return const Center(
                             child: Text(
                               'Loading..',
                               style: TextStyle(color: Colors.grey),

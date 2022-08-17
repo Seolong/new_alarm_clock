@@ -27,6 +27,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:new_alarm_clock/generated/locale_keys.g.dart';
 import 'package:new_alarm_clock/utils/values/my_font_family.dart';
 import 'package:new_alarm_clock/utils/values/string_value.dart';
+import '../../utils/values/size_value.dart';
 import '../global/color_controller.dart';
 
 class AddAlarmPage extends StatelessWidget {
@@ -190,20 +191,20 @@ class AddAlarmPage extends StatelessWidget {
         },
         child: Scaffold(
           appBar: AppBar(
-            leading: IconButton(
-              icon: Icon(Icons.arrow_back_ios_rounded),
-              onPressed: _onTouchAppBarBackButton,
+            leading: Padding(
+              padding: const EdgeInsets.only(left: SizeValue.appBarLeftPadding),
+              child: IconButton(
+                icon: Icon(Icons.arrow_back_ios_rounded),
+                onPressed: _onTouchAppBarBackButton,
+              ),
             ),
             actions: [
               Padding(
-                padding: const EdgeInsets.all(12.5),
-                child: FittedBox(
-                  fit: BoxFit.scaleDown,
-                  child: SaveButton(
-                    alarmId,
-                    mode,
-                    currentFolderName,
-                  ),
+                padding: const EdgeInsets.fromLTRB(0, 5, 12.5, 5),
+                child: SaveButton(
+                  alarmId,
+                  mode,
+                  currentFolderName,
                 ),
               )
             ],
@@ -314,13 +315,20 @@ class AddAlarmPage extends StatelessWidget {
                     Container(
                       decoration: BoxDecoration(
                         color: Get.find<ColorController>().colorSet.backgroundColor,
-                        border: Border.fromBorderSide(BorderSide(color: Color.fromARGB(255, 200, 200, 200))),
+                        //border: Border.fromBorderSide(BorderSide(color: Color.fromARGB(255, 200, 200, 200))),
                         borderRadius: BorderRadius.only(
-                      topRight: Radius.circular(40.0),
-                        topLeft: Radius.circular(40.0),
-                        )
+                      topRight: const Radius.circular(40.0),
+                        topLeft: const Radius.circular(40.0),
+                        ),
+                        boxShadow: [
+                          BoxShadow(
+                            blurRadius: 2,
+                              //spreadRadius: 5,
+                            color: Color.fromARGB(255, 200, 200, 200)
+                          )
+                        ]
                       ),
-                      padding: EdgeInsets.fromLTRB(20, 30, 20, 10),
+                      padding: const EdgeInsets.fromLTRB(20, 30, 20, 10),
                       child: Column(
                         children: [
                           Container(

@@ -27,9 +27,8 @@ class NextAlarmContainer extends StatelessWidget {
         left: 10.0,
         right: 10.0,
         child: GetBuilder<RecentAlarmDateStreamController>(builder: (context) {
-          print('build');
           return Container(
-              margin: EdgeInsets.symmetric(horizontal: 20),
+              margin: const EdgeInsets.symmetric(horizontal: 20),
               decoration: BoxDecoration(
                   color:
                       Get.find<ColorController>().colorSet.appBarContentColor,
@@ -57,11 +56,11 @@ class NextAlarmContainer extends StatelessWidget {
                               color: Colors.grey,
                             ),
                           ),
-                          VerticalDivider(
+                          const VerticalDivider(
                             thickness: 1.0,
                             width: 0.0,
                           ),
-                          SizedBox(
+                          const SizedBox(
                             width: 12.0,
                           ),
                           Expanded(
@@ -81,7 +80,7 @@ class NextAlarmContainer extends StatelessWidget {
                                   overflow: TextOverflow.ellipsis,
                                   textScaleFactor: 1.0,
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 2.5,
                                 ),
                                 Text(

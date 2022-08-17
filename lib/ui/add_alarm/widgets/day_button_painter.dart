@@ -42,17 +42,22 @@ class DayButtonPainter extends StatelessWidget {
     return GetBuilder<DayOfWeekController>(builder: (_) {
       return Padding(
         padding: const EdgeInsets.all(1.75),
-        child: Container(
-          padding: EdgeInsets.all(2.5),
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            border: Border.all(
-              color: _.getButtonStateColor(_.dayButtonStateMap[name]!),
-              width: 3
-            ),
+        child: ConstrainedBox(
+          constraints: BoxConstraints(
+            maxHeight: 40
           ),
-          child: AutoSizeText(convertName(name)!,
-              color: _.getButtonTextColor(controller.dayButtonStateMap[name]!)),
+          child: Container(
+            padding: EdgeInsets.all(2.5),
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              border: Border.all(
+                color: _.getButtonStateColor(_.dayButtonStateMap[name]!),
+                width: 3
+              ),
+            ),
+            child: AutoSizeText(convertName(name)!,
+                color: _.getButtonTextColor(controller.dayButtonStateMap[name]!)),
+          ),
         ),
       );
     });

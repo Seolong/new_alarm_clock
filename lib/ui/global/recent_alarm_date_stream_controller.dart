@@ -39,15 +39,22 @@ class RecentAlarmDateStreamController extends GetxController {
 
     dateStream =
         Stream<AlarmData>.periodic(Duration(seconds: 1), (_) => (alarm));
-    dateStreamController = StreamController<AlarmData>(onCancel: () {
+    dateStreamController = StreamController<AlarmData>(
+        onCancel: () {
       print('RADS controller canceled');
-    });
+    },
+      onPause: (){print('RADS controller paused');},
+      onResume: (){print('RADS controller resumed');},
+    );
     dateStreamController.addStream(dateStream);
     dateStreamSubscription = dateStreamController.stream.listen((event) {
       differenceTimeNowAndNextAlarm();
     }, onError: (error) {
       print('RecentAlarmDateStreamController: $error');
-    });
+    },onDone: (){
+      print('Done!');
+    }
+    );
     update();
   }
 

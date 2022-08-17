@@ -20,11 +20,14 @@ class RepeatPage extends StatelessWidget {
     Get.put(RepeatRadioListController());
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios_rounded),
-          onPressed: () {
-            Get.back();
-          },
+        leading: Padding(
+          padding: const EdgeInsets.only(left: SizeValue.appBarLeftPadding),
+          child: IconButton(
+            icon: Icon(Icons.arrow_back_ios_rounded),
+            onPressed: () {
+              Get.back();
+            },
+          ),
         ),
         title: Text(LocaleKeys.snooze.tr()),
       ),

@@ -27,8 +27,8 @@ class InnerHomePage extends StatelessWidget {
       body: CustomScrollView(
         slivers: [SliverAppBar(
           pinned: true,
-          expandedHeight: 60.0,
-          collapsedHeight: 60.0,
+          expandedHeight: 70.0,
+          collapsedHeight: 70.0,
           toolbarHeight: 60.0,
           centerTitle: true,
           titleTextStyle: Theme.of(context).textTheme.headlineSmall!.copyWith(
@@ -38,10 +38,13 @@ class InnerHomePage extends StatelessWidget {
           ),
           title: GetBuilder<FolderListController>(
               builder: (_) {
-                return Text(
-                  _.currentFolderName == StringValue.allAlarms
-                      ? LocaleKeys.allAlarms.tr()
-                      : _.currentFolderName,
+                return Padding(
+                  padding: const EdgeInsets.only(top: 25),
+                  child: Text(
+                    _.currentFolderName == StringValue.allAlarms
+                        ? LocaleKeys.allAlarms.tr()
+                        : _.currentFolderName,
+                  ),
                 );
               }
           ),

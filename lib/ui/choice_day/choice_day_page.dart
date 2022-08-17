@@ -11,6 +11,7 @@ import 'package:get/get.dart' hide Trans;
 import 'package:easy_localization/easy_localization.dart';
 import 'package:new_alarm_clock/generated/locale_keys.g.dart';
 import '../../utils/values/my_font_family.dart';
+import '../../utils/values/size_value.dart';
 import '../global/color_controller.dart';
 import 'controller/repeat_mode_controller.dart';
 import 'package:tab_indicator_styler/tab_indicator_styler.dart';
@@ -85,9 +86,12 @@ class ChoiceDayPage extends StatelessWidget {
               return Scaffold(
                 resizeToAvoidBottomInset : false,
                 appBar: AppBar(
-                  leading: IconButton(
-                    icon: Icon(Icons.arrow_back_ios_rounded),
-                    onPressed: _onTouchBackButton,
+                  leading: Padding(
+                    padding: const EdgeInsets.only(left: SizeValue.appBarLeftPadding),
+                    child: IconButton(
+                      icon: Icon(Icons.arrow_back_ios_rounded),
+                      onPressed: _onTouchBackButton,
+                    ),
                   ),
                   title: Text(
                       LocaleKeys.alarmType.tr()

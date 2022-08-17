@@ -20,6 +20,7 @@
   "language": "언어",
   "reset": "초기화",
 
+  "alarmOnce": "한번 울림",
   "repeatEveryDay": {
     "one": "매일 반복",
     "other": "{}일마다 반복"

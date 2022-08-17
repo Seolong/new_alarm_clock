@@ -4,7 +4,7 @@ class SizeValue{
   static final double dividerHeight = 20;
   static final double dividerThickness = 5;
 
-  static final double alarmItemHeight = 130;
+  static final double alarmItemHeight = 135;
   static final double alarmItemDividerPadding = 7;
   static final double alarmItemVerticalDividerPadding = 5;
   static final double alarmItemTextSize = 100;
@@ -30,6 +30,8 @@ class SizeValue{
   static final double alarmDetailPageHorizontalPadding = 17.5;
   static final double alarmDetailPageVerticalPadding = 10;
   static final double alarmDetailPagePowerPadding = 10;
+
+  static const double appBarLeftPadding = 5;
 }
 
 class ButtonSize{

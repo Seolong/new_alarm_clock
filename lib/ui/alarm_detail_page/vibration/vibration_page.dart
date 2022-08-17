@@ -23,11 +23,15 @@ class VibrationPage extends StatelessWidget {
       },
       child: Scaffold(
         appBar: AppBar(
-          leading: IconButton(
-            icon: Icon(Icons.arrow_back_ios_rounded),
-            onPressed: () {
-              Get.back();
-            },
+          leading: Padding(
+            padding: const EdgeInsets.only(left: SizeValue.appBarLeftPadding),
+            child: IconButton(
+              icon: Icon(Icons.arrow_back_ios_rounded),
+              onPressed: () {
+                Vibration.cancel();
+                Get.back();
+              },
+            ),
           ),
           title: Text(LocaleKeys.vibration.tr()),
         ),

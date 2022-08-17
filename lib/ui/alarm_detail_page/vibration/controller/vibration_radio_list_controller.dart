@@ -27,6 +27,9 @@ class VibrationRadioListController extends GetxController{
 
   set power(bool value){
     _power = value;
+    if(_power == false){
+      Vibration.cancel();
+    }
     //switch가 안 움직이면 대개 update()를 빼먹어서다.
     update();
   }

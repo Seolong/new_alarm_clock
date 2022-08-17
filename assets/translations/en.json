@@ -20,6 +20,7 @@
   "language": "Language",
   "reset": "Reset",
 
+  "alarmOnce": "Alarm once",
   "repeatEveryDay": {
     "one": "Repeat every day",
     "other": "Repeat every {} days"

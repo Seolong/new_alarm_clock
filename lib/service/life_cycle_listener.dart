@@ -13,6 +13,7 @@ class LifeCycleListener extends WidgetsBindingObserver {
     switch (state) {
       case AppLifecycleState.paused:
       case AppLifecycleState.inactive:
+        print(state);
         Vibration.cancel();
         _musicHandler.stopMusic();
         Get.find<RecentAlarmDateStreamController>().dateStreamSubscription.pause();
@@ -25,6 +26,9 @@ class LifeCycleListener extends WidgetsBindingObserver {
         await AwesomeNotifications().resetGlobalBadge();
         break;
       case AppLifecycleState.resumed:
+        print('resumed!');
+        //pause 2번했으면 resume도 2번 해야 한다.
+        Get.find<RecentAlarmDateStreamController>().dateStreamSubscription.resume();
         Get.find<RecentAlarmDateStreamController>().dateStreamSubscription.resume();
         break;
       default:
