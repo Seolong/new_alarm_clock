@@ -137,5 +137,11 @@
   "alarmWillGoOffSoon": "The alarm will go off soon",
   "skipOnce": "Skip once",
   "resetMusicList": "Do you want to reset this music list?",
-  "nextAlarmWillGoOff": "the next alarm will go off."
+  "nextAlarmWillGoOff": "the next alarm will go off.",
+
+  "batteryOptimizationIsOn": "Battery optimization is on. This feature sometimes prevents alarms from ringing. For normal operation, press the 'Set' button to turn off the optimization.",
+  "followTheStepsBelow": "Follow the steps below.",
+  "howToTurnOffBatteryOptimization": "1. Touch 'Apps not optimized'\n2. Touch 'All'\n3. Find 'Wekker'\n4. Touch 'Wekker'",
+  "set": "Set",
+  "dontShowMeAgain": "Don't show me again"
 }

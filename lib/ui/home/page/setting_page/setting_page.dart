@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:new_alarm_clock/ui/home/page/setting_page/widgets/align_button.dart';
+import 'package:new_alarm_clock/ui/home/page/setting_page/widgets/battery_optimization_button.dart';
 import 'package:new_alarm_clock/ui/home/page/setting_page/widgets/language_button.dart';
 import 'package:new_alarm_clock/ui/home/page/setting_page/widgets/reset_button.dart';
 import 'package:new_alarm_clock/ui/home/page/setting_page/widgets/set_home_folder_button.dart';
@@ -17,6 +18,7 @@ class SettingPage extends StatelessWidget {
     SetHomeFolderButton(),
     AlignButton(),
     LanguageButton(),
+    BatteryOptimizationButton(),
     ResetButton(),
   ];
 

@@ -13,7 +13,7 @@ import 'package:new_alarm_clock/ui/home/home_page.dart';
 class AppPages{
   static final pages = [
     GetPage(name: AppRoutes.home, page: () {
-        return (appState == 'alarm')? AlarmAlarmPage():HomePage();
+        return (appState == 'alarm')? AlarmAlarmPage():Home();
     }),
     GetPage(name: AppRoutes.addAlarmPage, page: () => AddAlarmPage()),
     GetPage(name: AppRoutes.ringPage, page: () => RingPage()),

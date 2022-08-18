@@ -109,5 +109,11 @@
   "alarmWillGoOffSoon": "곧 알람이 울립니다.",
   "skipOnce": "한 번 건너뛰기",
   "resetMusicList": "음악 목록을 초기화하시겠습니까?",
-  "nextAlarmWillGoOff": ""
+  "nextAlarmWillGoOff": "",
+
+  "batteryOptimizationIsOn": "배터리 최적화 기능이 켜져 있습니다. 이 기능은 종종 알람이 울리지 못하게 합니다. 정상적인 작동을 위해 '설정하기' 버튼을 눌러 최적화를 꺼주세요.",
+  "followTheStepsBelow": "다음을 따라해주세요.",
+  "howToTurnOffBatteryOptimization": "1. '최적화하지 않은 앱' 터치\n2. '전체' 터치\n3. Wekker 찾기\n4. Wekker 터치",
+  "set": "설정하기",
+  "dontShowMeAgain": "다시 보지 않기"
 }
