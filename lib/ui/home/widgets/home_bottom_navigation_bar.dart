@@ -3,7 +3,6 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:new_alarm_clock/ui/global/color_controller.dart';
 
-import '../../../utils/values/color_value.dart';
 import '../../../utils/values/size_value.dart';
 import '../controller/tab_page_controller.dart';
 
@@ -19,12 +18,14 @@ class HomeBottomNavigationBar extends StatelessWidget {
         highlightColor: Colors.transparent,
       ),
       child: BottomAppBar(
+        elevation: 15,
         shape: CircularNotchedRectangle(),
         notchMargin: 5,
         clipBehavior: Clip.antiAlias,
         child: GetBuilder<TabPageController>(
             builder:(_) {
               return BottomNavigationBar(
+                elevation: 15,
                 currentIndex: _.pageIndex,
                 showSelectedLabels: false,
                 showUnselectedLabels: false,
@@ -61,7 +62,7 @@ class HomeBottomNavigationBar extends StatelessWidget {
                             ? Get.find<ColorController>().colorSet.deepMainColor
                         : Colors.grey,
                       ),
-                      label: "성경"
+                      label: "명언"
                   ),
                   BottomNavigationBarItem(
                       icon: Icon(

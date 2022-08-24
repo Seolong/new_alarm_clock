@@ -19,7 +19,10 @@ class YearRepeatContainer extends RepeatContainer {
       builder: (_) {
         return Text(
           plural(LocaleKeys.year_args, _.getInterval()),
-          style: TextStyle(fontSize: SizeValue.intervalTypeTextSize),
+          style: TextStyle(
+              fontSize: SizeValue.intervalTypeTextSize,
+              color: Get.find<ColorController>().colorSet.mainTextColor
+          ),
         );
       }
     );
@@ -30,7 +33,10 @@ class YearRepeatContainer extends RepeatContainer {
           child: GetBuilder<YearRepeatDayController>(builder: (_) {
             return Text(
               '${_.getYearRepeatDay_monthDay()}',
-              style: TextStyle(fontSize: SizeValue.yearRepeatDayText),
+              style: TextStyle(
+                  fontSize: SizeValue.yearRepeatDayText,
+                  color: Get.find<ColorController>().colorSet.mainTextColor
+              ),
             );
           }),
         ),

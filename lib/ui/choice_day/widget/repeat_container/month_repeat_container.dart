@@ -18,7 +18,10 @@ class MonthRepeatContainer extends RepeatContainer {
       builder: (_) {
         return Text(
           plural(LocaleKeys.month_args, _.getInterval()),
-          style: TextStyle(fontSize: SizeValue.intervalTypeTextSize),
+          style: TextStyle(
+              fontSize: SizeValue.intervalTypeTextSize,
+              color: Get.find<ColorController>().colorSet.mainTextColor
+          ),
         );
       }
     );

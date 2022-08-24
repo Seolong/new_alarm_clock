@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart' hide Trans;
 import 'package:easy_localization/easy_localization.dart';
 import 'package:new_alarm_clock/generated/locale_keys.g.dart';
+import 'package:new_alarm_clock/ui/global/color_controller.dart';
 import '../../global/recent_alarm_date_stream_controller.dart';
 
 class GoingBackDialog extends StatelessWidget {
@@ -14,6 +15,7 @@ class GoingBackDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
+      backgroundColor: Get.find<ColorController>().colorSet.topBackgroundColor,
         contentPadding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
         content: Container(
           height: 120,

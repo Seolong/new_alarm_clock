@@ -10,6 +10,8 @@ import 'package:new_alarm_clock/ui/home/widgets/delete_dialog.dart';
 import 'package:new_alarm_clock/ui/home/widgets/set_folder_title_dialog.dart';
 import 'package:new_alarm_clock/utils/values/my_font_family.dart';
 
+import '../../../global/color_controller.dart';
+
 class FolderPage extends StatelessWidget {
   var folderNameTextFieldController = Get.put(FolderNameTextFieldController());
   var folderListController = Get.put(FolderListController());
@@ -23,6 +25,7 @@ class FolderPage extends StatelessWidget {
     int? folderCrossAxisCount = Get.width ~/ 100;
 
     return Scaffold(
+      backgroundColor: Get.find<ColorController>().colorSet.backgroundColor,
       body: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Column(
@@ -35,7 +38,9 @@ class FolderPage extends StatelessWidget {
                 style: TextStyle(
                     fontSize: 26,
                     fontWeight: FontWeight.bold,
-                    fontFamily: MyFontFamily.mainFontFamily),
+                    fontFamily: MyFontFamily.mainFontFamily,
+                  color: Get.find<ColorController>().colorSet.mainTextColor
+                ),
               ),
             ),
             Expanded(
@@ -82,6 +87,7 @@ class FolderPage extends StatelessWidget {
                                 height: 20,
                                 child: AutoSizeText(index == 0?LocaleKeys.allAlarms.tr():
                                   '${_.folderList[index].name}',
+                                  color: Get.find<ColorController>().colorSet.mainTextColor,
                                   bold: true,
                                 )),
                           ],
@@ -104,6 +110,7 @@ class FolderPage extends StatelessWidget {
                                 height: 20,
                                 child: AutoSizeText(
                                   LocaleKeys.addFolder.tr(),
+                                  color: Get.find<ColorController>().colorSet.mainTextColor,
                                   bold: true,
                                 )),
                           ],

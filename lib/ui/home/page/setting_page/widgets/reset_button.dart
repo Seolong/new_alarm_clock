@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart' hide Trans;
 import 'package:easy_localization/easy_localization.dart';
 import 'package:new_alarm_clock/generated/locale_keys.g.dart';
+import 'package:new_alarm_clock/utils/values/size_value.dart';
 import '../../../../../data/database/alarm_provider.dart';
 import '../../../../../service/alarm_scheduler.dart';
-import '../../../../global/auto_size_text.dart';
+import '../../../../../utils/values/my_font_family.dart';
 import '../../../../global/color_controller.dart';
 import '../../../controller/alarm_list_controller.dart';
 import '../../../controller/folder_list_controller.dart';
@@ -29,22 +30,17 @@ class ResetButton extends StatelessWidget {
           folderListController.onInit();
         }
       },
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(
+      child: ListTile(
+          leading: Icon(
             Icons.delete_forever,
-            size: 50,
+            size: ButtonSize.medium,
             color: Colors.red,
           ),
-          Container(
-              height: 20,
-              child: AutoSizeText(
-                LocaleKeys.reset.tr(),
-                bold: true,
-                color: Get.find<ColorController>().colorSet.mainTextColor,
-              )),
-        ],
+          title: Text(
+            LocaleKeys.reset.tr(),
+              style: Theme.of(context).textTheme.titleLarge,
+          ),
+
       ),
     );
   }

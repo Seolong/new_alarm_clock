@@ -18,4 +18,12 @@ class ColorValue{
   static final Color black = Colors.black;
   static final Color skyBlue = Colors.lightBlueAccent;
   static final Color magicMint = Color.fromARGB(255, 193, 240, 195);
+
+  static final Color lightBlue = Color.fromARGB(255, 187, 225, 250);
+  static final Color blue = Color.fromARGB(255, 50, 130, 184);
+  static final Color navy = Color.fromARGB(255, 15, 76, 117);
+
+  static final Color black87 = Color.fromARGB(255, 30, 30, 30);
+  static final Color black54 = Color.fromARGB(255, 60, 60, 60);
+  static final Color black26 = Color.fromARGB(255, 200, 200, 200);
 }

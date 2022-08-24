@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:new_alarm_clock/data/database/alarm_provider.dart';
 import 'package:new_alarm_clock/data/model/alarm_data.dart';
 import 'package:new_alarm_clock/data/model/alarm_week_repeat_data.dart';
@@ -176,10 +175,6 @@ class SaveButton extends StatelessWidget {
           } else {
             print('error in 저장 button in AddAlarmPage');
           }
-          SystemChrome.setSystemUIOverlayStyle(
-              SystemUiOverlayStyle.dark.copyWith(
-            statusBarColor: Get.find<ColorController>().colorSet.mainColor,
-          ));
           Get.back();
         },
         child: AutoSizeText(

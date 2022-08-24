@@ -4,6 +4,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:new_alarm_clock/generated/locale_keys.g.dart';
 import 'package:new_alarm_clock/data/shared_preferences/settings_shared_preferences.dart';
 import 'package:new_alarm_clock/ui/home/controller/alarm_list_controller.dart';
+import 'package:new_alarm_clock/utils/values/size_value.dart';
 import '../../../../global/auto_size_text.dart';
 import '../../../../global/color_controller.dart';
 
@@ -22,10 +23,10 @@ class AlignButton extends StatelessWidget {
       borderRadius: BorderRadius.all(Radius.circular(10)),
       onTap: () async {
         String currentAlign = await _settingsSharedPreferences.getAlignValue();
-        Color settingColor = Get.find<ColorController>().colorSet.backgroundColor;
-        Color settingBorderColor = Colors.black54;
-        Color dateColor = Get.find<ColorController>().colorSet.backgroundColor;
-        Color dateBorderColor = Colors.black54;
+        Color settingColor = Get.find<ColorController>().colorSet.topBackgroundColor;
+        Color settingBorderColor = Colors.grey;
+        Color dateColor = Get.find<ColorController>().colorSet.topBackgroundColor;
+        Color dateBorderColor = Colors.grey;
         if (currentAlign == _settingsSharedPreferences.alignBySetting) {
           settingColor = activeColor;
           settingBorderColor = activeColor;
@@ -35,6 +36,7 @@ class AlignButton extends StatelessWidget {
         }
         Get.dialog(
           Dialog(
+            backgroundColor: Get.find<ColorController>().colorSet.topBackgroundColor,
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(Radius.circular(10))),
             insetPadding: EdgeInsets.fromLTRB(10, 20, 10, 25),
@@ -63,6 +65,7 @@ class AlignButton extends StatelessWidget {
                             padding: EdgeInsets.all(buttonPadding),
                             child: AutoSizeText(
                               LocaleKeys.custom.tr(),
+                              color: Get.find<ColorController>().colorSet.mainTextColor,
                             )),
                         Container(height: 10,),
                         Stack(alignment: Alignment.center, children: [
@@ -104,6 +107,7 @@ class AlignButton extends StatelessWidget {
                             padding: EdgeInsets.all(buttonPadding),
                             child: AutoSizeText(
                               LocaleKeys.byDate.tr(),
+                              color: Get.find<ColorController>().colorSet.mainTextColor,
                             )),
                         Container(height: 10,),
                         Stack(alignment: Alignment.center, children: [
@@ -135,21 +139,16 @@ class AlignButton extends StatelessWidget {
         );
         //dayOffList.sort((a, b) => a.dayOffDate.compareTo(b.dayOffDate));
       },
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(
+      child: ListTile(
+          leading: Icon(
             Icons.subject_rounded,
-            size: 50,
-            color: Colors.black,
+            size: ButtonSize.medium,
+            color: Get.find<ColorController>().colorSet.mainTextColor,
           ),
-          Container(
-              height: 20,
-              child: AutoSizeText(
-                LocaleKeys.align.tr(),
-                bold: true,
-              )),
-        ],
+          title: Text(
+            LocaleKeys.align.tr(),
+            style: Theme.of(context).textTheme.titleLarge,
+          ),
       ),
     );
   }

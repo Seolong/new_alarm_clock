@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:new_alarm_clock/data/shared_preferences/settings_shared_preferences.dart';
 import 'package:new_alarm_clock/service/call_native_service.dart';
 import 'package:new_alarm_clock/service/music_handler.dart';
@@ -71,6 +72,8 @@ class HomePage extends StatelessWidget {
     Get.put(TabPageController());
     Get.put(SelectedAlarmController());
     _settingsSharedPreferences.init();
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+        statusBarColor: Get.find<ColorController>().colorSet.mainColor));
     return WillPopScope(
       onWillPop: () {
         //selectedMode면 selectedMode를 해제하고

@@ -8,6 +8,8 @@ import 'package:get/get.dart' hide Trans;
 import 'package:new_alarm_clock/generated/locale_keys.g.dart';
 import 'package:table_calendar/table_calendar.dart';
 
+import '../../../utils/values/my_font_family.dart';
+
 class OneAlarmContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -35,13 +37,14 @@ class OneAlarmContainer extends StatelessWidget {
             child: GetBuilder<StartEndDayController>(builder: (_) {
               int lastYear = 2045;
               void showDatePicker(context) {
-                DateTime result =
-                    _.start[_.dateTime];
+                DateTime result = _.start[_.dateTime];
                 showCupertinoModalPopup(
                     context: context,
                     builder: (__) => Container(
                           height: 250,
-                          color: Get.find<ColorController>().colorSet.backgroundColor,
+                          color: Get.find<ColorController>()
+                              .colorSet
+                              .backgroundColor,
                           child: Column(
                             children: [
                               // 확인 취소 만들기
@@ -73,14 +76,27 @@ class OneAlarmContainer extends StatelessWidget {
                               ),
                               SizedBox(
                                 height: 200,
-                                child: CupertinoDatePicker(
-                                    initialDateTime: result,
-                                    minimumYear: DateTime.now().year,
-                                    maximumYear: lastYear,
-                                    mode: CupertinoDatePickerMode.date,
-                                    onDateTimeChanged: (val) {
-                                      result = val;
-                                    }),
+                                child: CupertinoTheme(
+                                  data: CupertinoThemeData(
+                                    textTheme: CupertinoTextThemeData(
+                                      dateTimePickerTextStyle: TextStyle(
+                                        fontSize: 20,
+                                        fontFamily: MyFontFamily.mainFontFamily,
+                                        color: Get.find<ColorController>()
+                                            .colorSet
+                                            .mainTextColor,
+                                      ),
+                                    ),
+                                  ),
+                                  child: CupertinoDatePicker(
+                                      initialDateTime: result,
+                                      minimumYear: DateTime.now().year,
+                                      maximumYear: lastYear,
+                                      mode: CupertinoDatePickerMode.date,
+                                      onDateTimeChanged: (val) {
+                                        result = val;
+                                      }),
+                                ),
                               ),
                             ],
                           ),
@@ -88,12 +104,10 @@ class OneAlarmContainer extends StatelessWidget {
               }
 
               return TableCalendar(
-                focusedDay: DateTime.now()
-                        .isAfter(_.start['dateTime'])
+                focusedDay: DateTime.now().isAfter(_.start['dateTime'])
                     ? DateTime.now()
                     : _.start['dateTime'],
-                currentDay: DateTime.now()
-                        .isAfter(_.start['dateTime'])
+                currentDay: DateTime.now().isAfter(_.start['dateTime'])
                     ? DateTime.now()
                     : _.start['dateTime'],
                 firstDay: DateTime.now(),
@@ -152,7 +166,9 @@ class OneAlarmContainer extends StatelessWidget {
                   titleTextStyle: TextStyle(
                       fontSize: 20.0,
                       fontWeight: FontWeight.bold,
-                      color: Get.find<ColorController>().colorSet.calendarTitleColor),
+                      color: Get.find<ColorController>()
+                          .colorSet
+                          .calendarTitleColor),
                 ),
                 onHeaderTapped: (DateTime focusedDay) {
                   showDatePicker(context);
@@ -166,12 +182,17 @@ class OneAlarmContainer extends StatelessWidget {
                         fontWeight: FontWeight.bold)),
                 daysOfWeekHeight: 52,
                 calendarStyle: CalendarStyle(
-                    //selectedDecoration:
+                    defaultTextStyle: TextStyle(
+                        color:
+                            Get.find<ColorController>().colorSet.mainTextColor),
+                    weekendTextStyle: TextStyle(
+                        color:
+                            Get.find<ColorController>().colorSet.mainTextColor),
                     todayDecoration: BoxDecoration(
-                  color: Get.find<ColorController>().colorSet.mainColor,
-                  shape: BoxShape.circle,
-                  //borderRadius: BorderRadius.circular(100)
-                )),
+                      color: Get.find<ColorController>().colorSet.mainColor,
+                      shape: BoxShape.circle,
+                      //borderRadius: BorderRadius.circular(100)
+                    )),
                 locale: context.locale.toString(),
                 onDaySelected: (selectedDay, focusedDay) {
                   _.setStart(selectedDay);

@@ -10,6 +10,8 @@ import 'package:get/get.dart' hide Trans;
 import 'package:easy_localization/easy_localization.dart';
 import 'package:new_alarm_clock/generated/locale_keys.g.dart';
 
+import '../../../global/color_controller.dart';
+
 class WeekRepeatContainer extends RepeatContainer {
   dynamic intervalType;
 
@@ -19,7 +21,8 @@ class WeekRepeatContainer extends RepeatContainer {
         return Text(
             plural(LocaleKeys.week_args, _.getInterval()),
           style: TextStyle(
-              fontSize: SizeValue.intervalTypeTextSize
+              fontSize: SizeValue.intervalTypeTextSize,
+              color: Get.find<ColorController>().colorSet.mainTextColor
           ),
         );
       }

@@ -19,6 +19,7 @@
   "byDate": "By date",
   "language": "Language",
   "reset": "Reset",
+  "theme": "Theme",
 
   "alarmOnce": "Alarm once",
   "repeatEveryDay": {
@@ -109,7 +110,7 @@
 
   "alarmType": "Alarm Type",
   "chooseOne": "One",
-  "move": "move",
+  "move": "Move",
   "repeat": "Repeat",
   "endDateCannotBeforeStartDate": "The end date cannot be set before the start date.",
   "interval": "Interval",
@@ -139,6 +140,8 @@
   "resetMusicList": "Do you want to reset this music list?",
   "nextAlarmWillGoOff": "the next alarm will go off.",
 
+  "batteryOptimization": "Battery optimization",
+  "batteryOptimizationIsTurnedOff": "Battery optimization is turned off.",
   "batteryOptimizationIsOn": "Battery optimization is on. This feature sometimes prevents alarms from ringing. For normal operation, press the 'Set' button to turn off the optimization.",
   "followTheStepsBelow": "Follow the steps below.",
   "howToTurnOffBatteryOptimization": "1. Touch 'Apps not optimized'\n2. Touch 'All'\n3. Find 'Wekker'\n4. Touch 'Wekker'",

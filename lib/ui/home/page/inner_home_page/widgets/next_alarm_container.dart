@@ -31,10 +31,14 @@ class NextAlarmContainer extends StatelessWidget {
               margin: const EdgeInsets.symmetric(horizontal: 20),
               decoration: BoxDecoration(
                   color:
-                      Get.find<ColorController>().colorSet.appBarContentColor,
+                      Get.find<ColorController>().colorSet.backgroundColor,
                   borderRadius: BorderRadius.circular(10.0),
                   boxShadow: [
-                    BoxShadow(blurRadius: 4.0, color: Colors.grey[400]!)
+                    BoxShadow(
+                        blurRadius: 4.0,
+                        color: Colors.grey[400]!,
+                      offset: Offset(0, 1),
+                    )
                   ]),
               height: nextAlarmContainerHeight,
               child:
@@ -73,7 +77,7 @@ class NextAlarmContainer extends StatelessWidget {
                                   style: TextStyle(
                                     fontSize: 16,
                                     fontFamily: MyFontFamily.mainFontFamily,
-                                    color: Colors.grey[800]!,
+                                    color: Get.find<ColorController>().colorSet.mainTextColor,
                                     //letterSpacing: 0
                                   ),
                                   maxLines: 1,

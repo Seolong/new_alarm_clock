@@ -3,8 +3,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:new_alarm_clock/generated/locale_keys.g.dart';
 import 'package:new_alarm_clock/data/shared_preferences/settings_shared_preferences.dart';
 import 'package:new_alarm_clock/ui/global/color_controller.dart';
-
-import '../../../../../utils/values/color_value.dart';
+import 'package:new_alarm_clock/utils/values/size_value.dart';
 import '../../../../global/auto_size_text.dart';
 import '../../../controller/folder_list_controller.dart';
 
@@ -36,7 +35,7 @@ class SetHomeFolderButton extends StatelessWidget {
                   color: Get.find<ColorController>().colorSet.appBarContentColor,
                 )),
             titlePadding: EdgeInsets.fromLTRB(0, 0, 0, 0),
-            backgroundColor: Get.find<ColorController>().colorSet.backgroundColor,
+            backgroundColor: Get.find<ColorController>().colorSet.topBackgroundColor,
             content: GetBuilder<FolderListController>(builder: (_) {
               return Container(
                 //height: Get.height / 5 * 3,
@@ -103,22 +102,17 @@ class SetHomeFolderButton extends StatelessWidget {
           //barrierDismissible: false,
         );
       },
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(
+      child: ListTile(
+          leading: Icon(
             Icons.folder_special_rounded,
-            size: 50,
-            color: Colors.black87,
+            size: ButtonSize.medium,
+            color: Get.find<ColorController>().colorSet.mainTextColor,
           ),
-          Container(
-              height: 20,
-              child: AutoSizeText(
+          title: Text(
                 LocaleKeys.mainFolder.tr(),
-                bold: true,
-                color: Get.find<ColorController>().colorSet.mainTextColor,
-              )),
-        ],
+                style: Theme.of(context).textTheme.titleLarge,
+              ),
+
       ),
     );
   }

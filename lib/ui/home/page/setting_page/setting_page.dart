@@ -4,10 +4,12 @@ import 'package:new_alarm_clock/ui/home/page/setting_page/widgets/battery_optimi
 import 'package:new_alarm_clock/ui/home/page/setting_page/widgets/language_button.dart';
 import 'package:new_alarm_clock/ui/home/page/setting_page/widgets/reset_button.dart';
 import 'package:new_alarm_clock/ui/home/page/setting_page/widgets/set_home_folder_button.dart';
+import 'package:new_alarm_clock/ui/home/page/setting_page/widgets/theme_button.dart';
 import 'package:new_alarm_clock/utils/values/my_font_family.dart';
-import 'package:get/get.dart' hide Trans;
 import 'package:easy_localization/easy_localization.dart';
 import 'package:new_alarm_clock/generated/locale_keys.g.dart';
+import 'package:get/get.dart' hide Trans;
+import '../../../global/color_controller.dart';
 
 class SettingPage extends StatelessWidget {
   String nextAlarmTimeDifferenceText = LocaleKeys.allAlarmsAreOff.tr();
@@ -19,44 +21,52 @@ class SettingPage extends StatelessWidget {
     AlignButton(),
     LanguageButton(),
     BatteryOptimizationButton(),
+    ThemeButton(),
     ResetButton(),
   ];
 
   @override
   Widget build(BuildContext context) {
-    int? folderCrossAxisCount = Get.width ~/ 100;
-
-    return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.all(15.0),
-        child: Column(
-          children: [
-            Container(
-              height: 150,
-              alignment: Alignment.center,
-              child: Text(
-                LocaleKeys.moreOptions.tr(),
-                style: TextStyle(
-                    fontSize: 26,
-                    fontWeight: FontWeight.bold,
-                    fontFamily: MyFontFamily.mainFontFamily),
-              ),
-            ),
-            Expanded(
-              child: GridView.builder(
-                itemCount: settingButtons.length,
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: folderCrossAxisCount != 0
-                        ? folderCrossAxisCount
-                        : 1, //1 개의 행에 보여줄 item 개수
-                    mainAxisSpacing: 10, //수평 Padding
-                    crossAxisSpacing: 10, //수직 Padding
+    return Theme(
+      data: ThemeData(
+        textTheme: TextTheme(
+          titleLarge: Theme.of(context).textTheme.labelLarge!.copyWith(
+                  fontSize: 16,
+                  color: Get.find<ColorController>().colorSet.mainTextColor,
+                  fontFamily: MyFontFamily.mainFontFamily
+          )
+        )
+      ),
+      child: Scaffold(
+        backgroundColor: Get.find<ColorController>().colorSet.backgroundColor,
+        body: Padding(
+          padding: const EdgeInsets.all(15.0),
+          child: Column(
+            children: [
+              Container(
+                height: 150,
+                alignment: Alignment.center,
+                child: Text(
+                  LocaleKeys.moreOptions.tr(),
+                  style: TextStyle(
+                      fontSize: 26,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: MyFontFamily.mainFontFamily,
+                    color: Get.find<ColorController>().colorSet.mainTextColor
                   ),
-                  itemBuilder: (BuildContext context, int index) {
-                    return settingButtons[index];
-                  }),
-            )
-          ],
+                ),
+              ),
+              Expanded(
+                child: ListView.separated(
+                  itemCount: settingButtons.length,
+                    itemBuilder: (context, index){
+                  return settingButtons[index];
+                }, separatorBuilder: (BuildContext context, int index) {
+                    return SizedBox(height: 12.5,);
+                },),
+              )
+            ],
+          ),
         ),
       ),
     );

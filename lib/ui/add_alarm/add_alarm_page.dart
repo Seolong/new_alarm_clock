@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:new_alarm_clock/data/database/alarm_provider.dart';
 import 'package:new_alarm_clock/data/model/alarm_data.dart';
@@ -174,9 +173,6 @@ class AddAlarmPage extends StatelessWidget {
     Get.put(YearRepeatDayController());
     Get.put(DayOffListController());
 
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-        statusBarColor: Get.find<ColorController>().colorSet.mainColor));
-
     if (mode == StringValue.editMode) {
       initEditAlarm();
     }
@@ -261,7 +257,8 @@ class AddAlarmPage extends StatelessWidget {
                               style: TextStyle(
                                 fontSize: 22,
                                 //fontWeight: FontWeight.bold,
-                                fontFamily: MyFontFamily.mainFontFamily
+                                fontFamily: MyFontFamily.mainFontFamily,
+                                color: Get.find<ColorController>().colorSet.mainTextColor
                               ),
                             );
                           }),

@@ -17,31 +17,25 @@ class HomeFAB extends StatelessWidget {
   Widget build(BuildContext context) {
     var folderListController = Get.put(FolderListController());
     var requiredParameterToAddAlarmPageController = Get.put(RequiredParameterToAddAlarmPageController());
-    return Container(
-      width: ButtonSize.xlarge,
-      height: ButtonSize.xlarge,
-      child: FloatingActionButton( // addAlarmButton
-        //폴더 탭일 때 다른 색, 메뉴 탭일 땐 disable임을 나타내기 위해 회색
-        backgroundColor: Get.find<ColorController>().colorSet.accentColor,
-        child: FittedBox(
-          child: Icon(
-            Icons.add_rounded,
-            size: 1000,
-          ),
-        ),
-        onPressed: () async{
-          Get.closeAllSnackbars();
-          Get.find<SelectedAlarmController>().isSelectedMode = false;
-          int newId = await idSharedPreferences.getId();
-          requiredParameterToAddAlarmPageController.mode = StringValue.addMode;
-          requiredParameterToAddAlarmPageController.alarmId = newId;
-          requiredParameterToAddAlarmPageController.folderName = folderListController.currentFolderName;
-
-          Get.find<RecentAlarmDateStreamController>().dateStreamSubscription.pause();
-          idSharedPreferences.setId(++newId);
-          Get.toNamed(AppRoutes.addAlarmPage);
-        },
+    return FloatingActionButton( // addAlarmButton
+      //폴더 탭일 때 다른 색, 메뉴 탭일 땐 disable임을 나타내기 위해 회색
+      backgroundColor: Get.find<ColorController>().colorSet.accentColor,
+      child: Icon(
+        Icons.add_rounded,
+        size: ButtonSize.xlarge,
       ),
+      onPressed: () async{
+        Get.closeAllSnackbars();
+        Get.find<SelectedAlarmController>().isSelectedMode = false;
+        int newId = await idSharedPreferences.getId();
+        requiredParameterToAddAlarmPageController.mode = StringValue.addMode;
+        requiredParameterToAddAlarmPageController.alarmId = newId;
+        requiredParameterToAddAlarmPageController.folderName = folderListController.currentFolderName;
+
+        Get.find<RecentAlarmDateStreamController>().dateStreamSubscription.pause();
+        idSharedPreferences.setId(++newId);
+        Get.toNamed(AppRoutes.addAlarmPage);
+      },
     );
   }
 }

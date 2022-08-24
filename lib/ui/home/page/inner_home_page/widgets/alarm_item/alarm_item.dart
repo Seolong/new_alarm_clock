@@ -121,8 +121,8 @@ class AlarmItem extends StatelessWidget {
                 color: Get.find<ColorController>().colorSet.backgroundColor,
                 borderRadius: _alarmBorder,
                 boxShadow: [
-                  const BoxShadow(
-                    color: Colors.black26,
+                  BoxShadow(
+                    color: ColorValue.black26,
                     spreadRadius: 0.5,
                     blurRadius: 2.5,
                     offset: Offset(0, 1), // changes position of shadow
@@ -220,7 +220,8 @@ class AlarmItem extends StatelessWidget {
                                                   overflow: TextOverflow.ellipsis,
                                                   maxLines: 1,
                                                   style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                                                    fontFamily: MyFontFamily.mainFontFamily
+                                                    fontFamily: MyFontFamily.mainFontFamily,
+                                                    color: Get.find<ColorController>().colorSet.mainTextColor
                                                   ),),
                                                 ),
                                               const Divider(height: 6.0, thickness: 1.0,),
@@ -250,7 +251,8 @@ class AlarmItem extends StatelessWidget {
                                                             .data)!),
                                                 textScaleFactor: 1.0,
                                                 style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                                                  fontFamily: MyFontFamily.mainFontFamily
+                                                  fontFamily: MyFontFamily.mainFontFamily,
+                                                    color: Get.find<ColorController>().colorSet.mainTextColor
                                                 ),),
                                               ),
                                               const SizedBox(height: 2,),

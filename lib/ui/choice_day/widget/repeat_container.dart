@@ -53,7 +53,9 @@ class RepeatContainer extends StatelessWidget {
                                 child: Icon(
                                   Icons.today,
                                   size: ButtonSize.large,
-                                  color: Get.find<ColorController>().colorSet.accentColor,
+                                  color: Get.find<ColorController>()
+                                      .colorSet
+                                      .accentColor,
                                 ))),
                         Container(
                           height: ButtonSize.small - 4,
@@ -67,6 +69,7 @@ class RepeatContainer extends StatelessWidget {
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                     fontSize: 1000,
+                                    color: Get.find<ColorController>().colorSet.mainTextColor
                                   ),
                                 )),
                           ),
@@ -81,7 +84,10 @@ class RepeatContainer extends StatelessWidget {
                                 child: Text(
                                   _.start['year'],
                                   textAlign: TextAlign.center,
-                                  style: TextStyle(fontSize: 1000),
+                                  style: TextStyle(
+                                      fontSize: 1000,
+                                      color: Get.find<ColorController>().colorSet.mainTextColor
+                                  ),
                                 )),
                           ),
                         ),
@@ -107,12 +113,13 @@ class RepeatContainer extends StatelessWidget {
                                           ? // end를 아직 설정 안했을 때
                                           _.start['dateTime']
                                           : _.end['dateTime'])));
-                              if(dateTime == null){
+                              if (dateTime == null) {
                                 return;
                               }
                               if (dateTime.isBefore(_.start['dateTime'])) {
-                                ConvenienceMethod.showSimpleSnackBar(
-                                    LocaleKeys.endDateCannotBeforeStartDate.tr());
+                                ConvenienceMethod.showSimpleSnackBar(LocaleKeys
+                                    .endDateCannotBeforeStartDate
+                                    .tr());
                               } else {
                                 _.setEnd(dateTime);
                               }
@@ -122,7 +129,9 @@ class RepeatContainer extends StatelessWidget {
                                 child: Icon(
                                   Icons.event,
                                   size: ButtonSize.large,
-                                  color: Get.find<ColorController>().colorSet.accentColor,
+                                  color: Get.find<ColorController>()
+                                      .colorSet
+                                      .accentColor,
                                 ))),
                         Container(
                           height: ButtonSize.small - 4,
@@ -135,7 +144,10 @@ class RepeatContainer extends StatelessWidget {
                                   _.end['dateTime'] == null
                                       ? LocaleKeys.endDate.tr()
                                       : _.end['monthDay'],
-                                  style: TextStyle(fontSize: 1000),
+                                  style: TextStyle(
+                                      fontSize: 1000,
+                                      color: Get.find<ColorController>().colorSet.mainTextColor
+                                  ),
                                 )),
                           ),
                         ),
@@ -150,7 +162,10 @@ class RepeatContainer extends StatelessWidget {
                                   _.end['dateTime'] == null
                                       ? LocaleKeys.notSet.tr()
                                       : _.end['year'],
-                                  style: TextStyle(fontSize: 1000),
+                                  style: TextStyle(
+                                      fontSize: 1000,
+                                      color: Get.find<ColorController>().colorSet.mainTextColor
+                                  ),
                                 )),
                           ),
                         ),
@@ -173,7 +188,10 @@ class RepeatContainer extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(LocaleKeys.every.tr(),
-                  style: TextStyle(fontSize: SizeValue.intervalTypeTextSize)),
+                  style: TextStyle(
+                      fontSize: SizeValue.intervalTypeTextSize,
+                    color: Get.find<ColorController>().colorSet.mainTextColor
+                  )),
               Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.end,
@@ -194,12 +212,18 @@ class RepeatContainer extends StatelessWidget {
                         textAlign: TextAlign.end,
                         decoration: InputDecoration(
                           contentPadding: EdgeInsets.all(0),
+                          enabledBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(color: Colors.grey),
+                          ),
                           hintText: '1',
                           hintStyle: TextStyle(color: Colors.grey),
                           isDense: true,
                         ),
                         style: TextStyle(
-                            fontSize: SizeValue.repeatTextFieldTextSize),
+                            fontSize: SizeValue.repeatTextFieldTextSize,
+                            color: Get.find<ColorController>()
+                                .colorSet
+                                .mainTextColor),
                       );
                     }),
                   ),
@@ -231,7 +255,8 @@ class RepeatContainer extends StatelessWidget {
               ),
             )),
         Container(
-            height: 22.5, child: AutoSizeText(LocaleKeys.setDayOff.tr(), color: Colors.grey)),
+            height: 22.5,
+            child: AutoSizeText(LocaleKeys.setDayOff.tr(), color: Colors.grey)),
       ],
     );
   }

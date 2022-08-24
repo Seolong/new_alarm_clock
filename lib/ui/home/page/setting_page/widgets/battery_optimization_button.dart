@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart' hide Trans;
 import 'package:easy_localization/easy_localization.dart';
 import 'package:new_alarm_clock/generated/locale_keys.g.dart';
+import 'package:new_alarm_clock/utils/values/size_value.dart';
 import '../../../../../service/call_native_service.dart';
-import '../../../../global/auto_size_text.dart';
 import '../../../../global/color_controller.dart';
 import '../../../home_page.dart';
 import '../../../widgets/battery_optimization_dialog.dart';
@@ -26,12 +26,18 @@ class BatteryOptimizationButton extends StatelessWidget {
         CallNativeService().setBatteryOptimizations();
       }
     }else {
-      Get.dialog(AlertDialog(content: Row(
+      Get.dialog(AlertDialog(
+        backgroundColor: Get.find<ColorController>().colorSet.topBackgroundColor,
+        content: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(Icons.sentiment_satisfied_outlined),
-          SizedBox(width: 10,),
-          Text('최적화가 꺼져 있습니다.'),
+          Icon(Icons.sentiment_satisfied_outlined,
+            color: Get.find<ColorController>().colorSet.mainTextColor,
+          ),
+          SizedBox(width: 15,),
+          Expanded(child: Text(
+              LocaleKeys.batteryOptimizationIsTurnedOff.tr(),
+          )),
         ],
       ),));
     }
@@ -44,22 +50,16 @@ class BatteryOptimizationButton extends StatelessWidget {
       onTap: () async {
         setBatteryOptimizations();
       },
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(
+      child: ListTile(
+          leading: Icon(
             Icons.battery_saver_rounded,
-            size: 50,
+            size: ButtonSize.medium,
             color: Colors.green,
           ),
-          Container(
-              height: 20,
-              child: AutoSizeText(
-                '배터리 최적화\n끄기',
-                bold: true,
-                color: Get.find<ColorController>().colorSet.mainTextColor,
-              )),
-        ],
+          title: Text(
+            LocaleKeys.batteryOptimization.tr(),
+            style: Theme.of(context).textTheme.titleLarge,
+          ),
       ),
     );
   }

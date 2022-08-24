@@ -13,7 +13,18 @@ class ColorController extends GetxController {
     ColorValue.white, ColorValue.black, ColorValue.skyBlue,
     ColorValue.magicMint, ColorValue.white, ColorValue.cloudyWhite
   );
-
+  ColorSet _greenSet = ColorSet(
+      ColorValue.yellowGreen, ColorValue.green, ColorValue.teal,
+      ColorValue.yellow, ColorValue.orange, ColorValue.darkOrange,
+      ColorValue.white, ColorValue.black, ColorValue.skyBlue,
+      ColorValue.magicMint, ColorValue.white, ColorValue.cloudyWhite
+  );
+  ColorSet _darkSet = ColorSet(
+      ColorValue.lightBlue, ColorValue.blue, ColorValue.navy,
+      ColorValue.blue, ColorValue.lightBlue, ColorValue.navy,
+      ColorValue.white, ColorValue.white, ColorValue.skyBlue,
+      ColorValue.lightBlue, ColorValue.black, ColorValue.black87
+  );
   set colorTheme(String color) => _colorTheme = color;
 
   String get colorTheme => _colorTheme;
@@ -29,14 +40,21 @@ class ColorController extends GetxController {
 
   void setColorSet(String theme){
     if(theme == settingsSharedPreferences.green){
-      colorSet = ColorSet(
-        ColorValue.yellowGreen, ColorValue.green, ColorValue.teal,
-        ColorValue.yellow, ColorValue.orange, ColorValue.darkOrange,
-        ColorValue.white, ColorValue.black, ColorValue.skyBlue,
-        ColorValue.magicMint, ColorValue.white, ColorValue.cloudyWhite
-      );
+      colorSet = _greenSet;
+    }else if(theme == settingsSharedPreferences.dark){
+      colorSet = _darkSet;
+    }else{
+      assert(false, 'Color Controller: setColorSet error');
     }
     settingsSharedPreferences.setTheme(theme);
+  }
+
+  bool isDarkColor(){
+    if(_colorTheme == settingsSharedPreferences.dark){
+      return true;
+    }else{
+      return false;
+    }
   }
 }
 

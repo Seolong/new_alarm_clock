@@ -47,14 +47,10 @@ class RingPage extends StatelessWidget {
               GetBuilder<RingRadioListController>(
                 builder: (_) => CustomSwitchListTile(
                     title: AutoSizeText(
-                        _.power
-                            ? LocaleKeys.on.tr()
-                            : LocaleKeys.off.tr(),
+                        _.power ? LocaleKeys.on.tr() : LocaleKeys.off.tr(),
                         bold: true,
                         color: _.power
-                            ? Get.find<ColorController>()
-                            .colorSet
-                            .mainColor
+                            ? Get.find<ColorController>().colorSet.mainColor
                             : Colors.grey),
                     switchWidget: CustomSwitch(
                       touchAreaHeight: 55,
@@ -67,15 +63,13 @@ class RingPage extends StatelessWidget {
                         Get.find<ColorController>().colorSet.mainColor,
                         Get.find<ColorController>().colorSet.deepMainColor,
                       ],
-                      activeColor: Get.find<ColorController>()
-                          .colorSet
-                          .switchTrackColor,
+                      activeColor:
+                          Get.find<ColorController>().colorSet.switchTrackColor,
                     ),
                     value: _.power,
                     onChanged: (bool value) {
                       _.power = value;
-                    }
-                ),
+                    }),
               ),
               Divider(),
               Container(
@@ -84,17 +78,15 @@ class RingPage extends StatelessWidget {
                   child: Row(
                     children: [
                       //volume icon
-                      FittedBox(
-                        fit: BoxFit.scaleDown,
-                        child: ConstrainedBox(
-                          constraints:
-                              BoxConstraints(minWidth: 1, minHeight: 1),
-                          child: Icon(
-                            Icons.volume_up_rounded,
-                            size: ButtonSize.medium,
-                          ),
-                        ),
-                      ),
+                      GetBuilder<RingRadioListController>(builder: (_) {
+                        return Icon(
+                          Icons.volume_up_rounded,
+                          size: ButtonSize.medium,
+                          color: _.power == true
+                              ? Get.find<ColorController>().colorSet.mainTextColor
+                              : Colors.grey,
+                        );
+                      }),
                       Expanded(
                         child: VolumeSlider(),
                       ),
@@ -110,7 +102,8 @@ class RingPage extends StatelessWidget {
                   child: Container(
                     padding: EdgeInsets.only(top: 20),
                     decoration: BoxDecoration(
-                      color: Get.find<ColorController>().colorSet.backgroundColor,
+                      color:
+                          Get.find<ColorController>().colorSet.backgroundColor,
                       borderRadius: BorderRadius.circular(7.5),
                       boxShadow: [
                         BoxShadow(

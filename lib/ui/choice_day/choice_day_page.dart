@@ -105,16 +105,16 @@ class ChoiceDayPage extends StatelessWidget {
                         child: TabBar(
                             isScrollable: true,
                             indicator: MaterialIndicator(
-                              color: Get.find<ColorController>().colorSet.deepMainColor
+                              color: Get.find<ColorController>().colorSet.lightMainColor
                             ),
-                            indicatorColor: Get.find<ColorController>().colorSet.deepMainColor,
+                            indicatorColor: Get.find<ColorController>().colorSet.lightMainColor,
                             unselectedLabelColor: Colors.grey,
                             labelStyle: TextStyle(
                               fontFamily: MyFontFamily.mainFontFamily,
                               fontWeight: FontWeight.bold,
                               fontSize: 18
                             ),
-                            labelColor: Get.find<ColorController>().colorSet.deepMainColor,
+                            labelColor: Get.find<ColorController>().colorSet.lightMainColor,
                             tabs: [
                               Tab(
                                 text: LocaleKeys.chooseOne.tr(),
