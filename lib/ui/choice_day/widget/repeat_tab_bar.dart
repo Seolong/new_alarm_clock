@@ -30,8 +30,7 @@ class RepeatTabBar extends StatelessWidget {
               fontWeight: FontWeight.bold,
             ),
             indicator: MaterialIndicator(
-                color: Get.find<ColorController>().colorSet.lightMainColor
-            ),
+                color: Get.find<ColorController>().colorSet.lightMainColor),
             indicatorColor: Get.find<ColorController>().colorSet.lightMainColor,
             labelColor: Get.find<ColorController>().colorSet.lightMainColor,
             unselectedLabelColor: Colors.grey,
@@ -51,7 +50,9 @@ class RepeatTabBar extends StatelessWidget {
               ),
             ],
           ),
-          Expanded(child: RepeatTabBarView())
+          Expanded(child: GestureDetector(
+
+              child: RepeatTabBarView()))
         ]);
       }),
     );

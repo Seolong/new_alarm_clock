@@ -19,8 +19,10 @@ class CustomSwitchListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: (){
+    return MaterialButton(
+      minWidth: 0,
+      padding: EdgeInsets.zero,
+      onPressed: (){
         value == false
             ? onChanged(true)
             : onChanged(false);
