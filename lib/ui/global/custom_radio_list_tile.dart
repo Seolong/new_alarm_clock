@@ -1,26 +1,24 @@
 import 'package:flutter/material.dart';
-import 'auto_size_text.dart';
 
 class CustomRadioListTile<T> extends StatelessWidget {
-  final T radioValue;
-  final T radioGroupValue;
-  final ValueChanged<T?>? onPressed;
+  final T value;
+  final T groupValue;
+  final ValueChanged<T?>? onChanged;
   final String title;
   final Color activeColor;
-  final Color textColor;
   final double listHeight;
   final double titleFontSize;
+  final TextStyle titleTextStyle;
 
   const CustomRadioListTile(
-      {required this.radioValue,
-      required this.radioGroupValue,
-      required this.onPressed,
+      {required this.value,
+      required this.groupValue,
+      required this.onChanged,
       required this.title,
       required this.activeColor,
-      required this.textColor,
       this.listHeight = 50,
-        this.titleFontSize = 25
-      });
+      this.titleFontSize = 25,
+      this.titleTextStyle = const TextStyle(fontSize: 16)});
 
   @override
   Widget build(BuildContext context) {
@@ -29,9 +27,9 @@ class CustomRadioListTile<T> extends StatelessWidget {
       child: Row(
         children: [
           Radio<T>(
-            value: radioValue,
-            groupValue: radioGroupValue, //초기값
-            onChanged: onPressed,
+            value: value,
+            groupValue: groupValue, //초기값
+            onChanged: onChanged,
             fillColor: MaterialStateColor.resolveWith((states) {
               if (!states.contains(MaterialState.selected)) {
                 return Colors.grey;
@@ -45,17 +43,11 @@ class CustomRadioListTile<T> extends StatelessWidget {
               minWidth: 0,
               padding: EdgeInsets.zero,
               onPressed: () {
-                onPressed!(radioValue);
+                onChanged!(value);
               },
               child: Align(
                 alignment: Alignment.centerLeft,
-                child: SizedBox(
-                  height: titleFontSize,
-                  child: AutoSizeText(
-                    title,
-                    color: textColor,
-                  ),
-                ),
+                child: Text(title, style: titleTextStyle),
               ),
             ),
           ),

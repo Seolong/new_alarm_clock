@@ -6,6 +6,7 @@ import 'package:new_alarm_clock/utils/values/size_value.dart';
 import 'package:restart_app/restart_app.dart';
 import 'dart:developer';
 
+import '../../../../../utils/values/my_font_family.dart';
 import '../../../../global/color_controller.dart';
 import '../../../../global/custom_radio_list_tile.dart';
 
@@ -64,7 +65,7 @@ class LanguageButton extends StatelessWidget {
             insetPadding: EdgeInsets.fromLTRB(20, 20, 20, 25),
             child: Container(
               width: 100,
-              padding: EdgeInsets.all(10),
+              padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: getLanguageListTile(context),
@@ -94,24 +95,30 @@ class LanguageButton extends StatelessWidget {
     for (int i = 0; i < Language.values.length; i++) {
       result.add(CustomRadioListTile<Language>(
           title: Language.values[i].parseName(),
-          radioValue: Language.values[i],
-          radioGroupValue: language,
+          value: Language.values[i],
+          groupValue: language,
           activeColor: Get.find<ColorController>().colorSet.mainColor,
-          textColor: Get.find<ColorController>().colorSet.mainTextColor,
+          titleTextStyle: TextStyle(
+              color: Get.find<ColorController>().colorSet.mainTextColor,
+              fontSize: 18,
+              fontFamily: MyFontFamily.mainFontFamily
+          ),
           titleFontSize: 20,
-          listHeight: 50,
-          onPressed: (newValue) {
+          onChanged: (newValue) {
             log(newValue!.parseName());
             Get.dialog(Dialog(
+              backgroundColor: Get.find<ColorController>().colorSet.topBackgroundColor,
               child: Container(
-                padding: EdgeInsets.fromLTRB(15, 15, 15, 0),
+                padding: EdgeInsets.fromLTRB(22.5, 22.5, 22.5, 0),
                 height: 175,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                        'You need to restart the app for the changes to take effect.'
-                        'Do you want to restart now?'),
+                        LocaleKeys.doYouWantToRestart.tr(),
+                    style: TextStyle(
+                      color: Get.find<ColorController>().colorSet.mainTextColor
+                    ),),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [

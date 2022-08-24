@@ -5,15 +5,15 @@ import 'package:new_alarm_clock/generated/locale_keys.g.dart';
 import 'package:new_alarm_clock/utils/values/size_value.dart';
 import 'package:restart_app/restart_app.dart';
 import '../../../../../data/shared_preferences/settings_shared_preferences.dart';
+import '../../../../../utils/values/my_font_family.dart';
 import '../../../../global/color_controller.dart';
+import '../../../../global/custom_radio_list_tile.dart';
 
-enum ColorTheme{
-  green, dark
-}
+enum ColorTheme { green, dark }
 
-extension ColorThemeExtension on String{
-  ColorTheme getColorTheme(){
-    switch(this){
+extension ColorThemeExtension on String {
+  ColorTheme getColorTheme() {
+    switch (this) {
       case 'green':
         return ColorTheme.green;
       case 'dark':
@@ -32,7 +32,8 @@ class ThemeButton extends StatelessWidget {
   late double borderRadius = radioRadius + 7.5;
   double borderWidth = 2;
   ColorTheme theme = ColorTheme.green;
-  SettingsSharedPreferences settingsSharedPreferences = SettingsSharedPreferences();
+  SettingsSharedPreferences settingsSharedPreferences =
+      SettingsSharedPreferences();
 
   @override
   Widget build(BuildContext context) {
@@ -42,12 +43,14 @@ class ThemeButton extends StatelessWidget {
         theme = (await settingsSharedPreferences.getTheme()).getColorTheme();
         Get.dialog(
           Dialog(
-            backgroundColor: Get.find<ColorController>().colorSet.topBackgroundColor,
+            backgroundColor:
+                Get.find<ColorController>().colorSet.topBackgroundColor,
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(Radius.circular(10))),
-            insetPadding: EdgeInsets.fromLTRB(10, 20, 10, 25),
+            insetPadding: EdgeInsets.fromLTRB(20, 20, 20, 25),
             child: Container(
               width: 100,
+              padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: getLanguageListTile(context),
@@ -66,35 +69,41 @@ class ThemeButton extends StatelessWidget {
           LocaleKeys.theme.tr(),
           style: Theme.of(context).textTheme.titleLarge,
         ),
-
       ),
     );
   }
 
-  List<RadioListTile> getLanguageListTile(BuildContext context) {
-    List<RadioListTile<ColorTheme>> result = [];
+  List<CustomRadioListTile> getLanguageListTile(BuildContext context) {
+    List<CustomRadioListTile<ColorTheme>> result = [];
 
     for (int i = 0; i < ColorTheme.values.length; i++) {
-      result.add(RadioListTile<ColorTheme>(
-          title: Text(ColorTheme.values[i].name),
+      result.add(CustomRadioListTile<ColorTheme>(
+          title: ColorTheme.values[i].name,
+          titleFontSize: 20,
+          titleTextStyle: TextStyle(
+              color: Get.find<ColorController>().colorSet.mainTextColor,
+              fontSize: 18,
+              fontFamily: MyFontFamily.mainFontFamily
+          ),
           value: ColorTheme.values[i],
           groupValue: theme,
           activeColor: Get.find<ColorController>().colorSet.mainColor,
           onChanged: (newValue) {
             Get.dialog(Dialog(
-              backgroundColor: Get.find<ColorController>().colorSet.topBackgroundColor,
+              backgroundColor:
+                  Get.find<ColorController>().colorSet.topBackgroundColor,
               child: Container(
-                padding: EdgeInsets.fromLTRB(25, 25, 25, 0),
+                padding: EdgeInsets.fromLTRB(22.5, 22.5, 22.5, 0),
                 height: 175,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                        'You need to restart the app for the changes to take effect.'
-                            ' Do you want to restart now?',
+                      LocaleKeys.doYouWantToRestart.tr(),
                       style: TextStyle(
-                        color: Get.find<ColorController>().colorSet.mainTextColor
-                      ),
+                          color: Get.find<ColorController>()
+                              .colorSet
+                              .mainTextColor),
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
@@ -108,9 +117,10 @@ class ThemeButton extends StatelessWidget {
                               style: TextStyle(color: Colors.grey),
                             )),
                         TextButton(
-                            onPressed: () async{
+                            onPressed: () async {
                               theme = newValue!;
-                              await settingsSharedPreferences.setTheme(newValue.name);
+                              await settingsSharedPreferences
+                                  .setTheme(newValue.name);
                               Restart.restartApp();
                             },
                             child: Text('Restart')),

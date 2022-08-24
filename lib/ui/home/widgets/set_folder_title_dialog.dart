@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:new_alarm_clock/data/model/alarm_folder_data.dart';
+import 'package:new_alarm_clock/ui/global/color_controller.dart';
 import 'package:new_alarm_clock/ui/home/controller/folder_list_controller.dart';
 import 'package:new_alarm_clock/ui/home/controller/folder_name_text_field_controller.dart';
 import 'package:get/get.dart' hide Trans;
@@ -15,12 +16,19 @@ class SetFolderTitleDialog extends StatelessWidget {
 
     return GetBuilder<FolderNameTextFieldController>(builder: (_) {
       return AlertDialog(
-        title: Text(LocaleKeys.folderName.tr()),
+        backgroundColor: Get.find<ColorController>().colorSet.topBackgroundColor,
+        title: Text(
+            LocaleKeys.folderName.tr(),
+          style: TextStyle(
+            color: Get.find<ColorController>().colorSet.mainTextColor
+          ),
+        ),
         content: TextField(
           onChanged: (value) {},
           controller: _.textEditingController,
           decoration: InputDecoration(
             hintText: LocaleKeys.inputFolderName.tr(),
+            hintStyle: TextStyle(color: Colors.grey),
             suffixIcon: _.textEditingController.text.length > 0
                 ? IconButton(
                     icon: Icon(
@@ -31,6 +39,7 @@ class SetFolderTitleDialog extends StatelessWidget {
                   )
                 : null,
             errorText: _.getErrorText(),
+            errorMaxLines: 3
           ),
         ),
         actions: <Widget>[

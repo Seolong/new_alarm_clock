@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:new_alarm_clock/ui/global/custom_radio_list_tile.dart';
+import 'package:new_alarm_clock/utils/values/my_font_family.dart';
 
 import '../../../../utils/enum.dart';
 import '../../../global/auto_size_text.dart';
@@ -19,35 +20,43 @@ class RepeatContainer extends StatelessWidget {
     if (containerId == repeatInterval) {
       return GetBuilder<RepeatRadioListController>(
         builder: (_) => CustomRadioListTile(
-            radioValue: AlarmInterval.values[index],
-            radioGroupValue: _.alarmInterval,
-            onPressed: (AlarmInterval? value) {
-              if (_.power == true) {
-                _.alarmInterval = value!;
-              }
-            },
-            title: _.getIntervalAsString(AlarmInterval.values[index]),
-            activeColor: _.power? Get.find<ColorController>().colorSet.accentColor: Colors.grey,
-            textColor: _.power
-                ? _.textColor['active']!
-                : _.textColor['inactive']!
+          value: AlarmInterval.values[index],
+          groupValue: _.alarmInterval,
+          onChanged: (AlarmInterval? value) {
+            if (_.power == true) {
+              _.alarmInterval = value!;
+            }
+          },
+          title: _.getIntervalAsString(AlarmInterval.values[index]),
+          activeColor: _.power
+              ? Get.find<ColorController>().colorSet.accentColor
+              : Colors.grey,
+          titleTextStyle: TextStyle(
+              color:
+                  _.power ? _.textColor['active']! : _.textColor['inactive']!,
+              fontSize: 18,
+              fontFamily: MyFontFamily.mainFontFamily),
         ),
       );
     } else if (containerId == repeatNum) {
       return GetBuilder<RepeatRadioListController>(
         builder: (_) => CustomRadioListTile(
-            radioValue: RepeatNum.values[index],
-            radioGroupValue: _.repeatNum,
-            onPressed: (RepeatNum? value) {
-              if (_.power == true) {
-                _.repeatNum = value!;
-              }
-            },
-            title: _.getRepeatNumAsString(RepeatNum.values[index]),
-            activeColor: _.power? Get.find<ColorController>().colorSet.accentColor: Colors.grey,
-            textColor: _.power
-                ? _.textColor['active']!
-                : _.textColor['inactive']!
+          value: RepeatNum.values[index],
+          groupValue: _.repeatNum,
+          onChanged: (RepeatNum? value) {
+            if (_.power == true) {
+              _.repeatNum = value!;
+            }
+          },
+          title: _.getRepeatNumAsString(RepeatNum.values[index]),
+          activeColor: _.power
+              ? Get.find<ColorController>().colorSet.accentColor
+              : Colors.grey,
+          titleTextStyle: TextStyle(
+              color:
+                  _.power ? _.textColor['active']! : _.textColor['inactive']!,
+              fontSize: 18,
+              fontFamily: MyFontFamily.mainFontFamily),
         ),
       );
     } else {

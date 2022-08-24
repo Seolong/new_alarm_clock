@@ -133,6 +133,7 @@
   "theIntervalMustBeAtLeastOne": "The interval must be at least 1",
 
   "resetAll": "All data will be deleted. Do you want to reset?",
+  "doYouWantToRestart": "You need to restart the app for the changes to take effect. Do you want to restart now?",
   "notSave": "Do you want to leave without saving?",
   "notWeekMode": "It is not currently in 'weekly repeat mode'.",
   "alarmWillGoOffSoon": "The alarm will go off soon",

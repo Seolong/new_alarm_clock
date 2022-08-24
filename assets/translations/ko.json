@@ -105,6 +105,7 @@
   "theIntervalMustBeAtLeastOne": "주기는 1 이상이어야 합니다.",
 
   "resetAll": "모든 데이터가 삭제됩니다. 초기화하시겠습니까?",
+  "doYouWantToRestart": "변경 사항을 적용하려면 앱을 다시 시작해야 합니다. 지금 다시 시작하시겠습니까?",
   "notSave": "저장하지 않고 나가시겠습니까?",
   "notWeekMode": "현재 '주마다 반복 모드'가 아닙니다.",
   "alarmWillGoOffSoon": "곧 알람이 울립니다.",

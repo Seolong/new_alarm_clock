@@ -13,7 +13,9 @@ class DeleteDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-        contentPadding: EdgeInsets.fromLTRB(20, 10, 20, 0),
+        backgroundColor:
+            Get.find<ColorController>().colorSet.topBackgroundColor,
+        contentPadding: EdgeInsets.fromLTRB(22.5, 22.5, 22.5, 0),
         content: Container(
           height: 120,
           child: Column(
@@ -22,15 +24,16 @@ class DeleteDialog extends StatelessWidget {
               Text(
                 message,
                 style: TextStyle(
-                  color: Get.find<ColorController>().colorSet.mainTextColor
-                ),
+                    color: Get.find<ColorController>().colorSet.mainTextColor),
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   TextButton(
-                    child: Text(LocaleKeys.cancel.tr(),
-                      style: TextStyle(color:Colors.grey),),
+                    child: Text(
+                      LocaleKeys.cancel.tr(),
+                      style: TextStyle(color: Colors.grey),
+                    ),
                     onPressed: () {
                       Get.back(result: false);
                     },

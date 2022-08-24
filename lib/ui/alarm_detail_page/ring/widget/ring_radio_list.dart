@@ -4,10 +4,10 @@ import 'package:new_alarm_clock/ui/alarm_detail_page/ring/controller/ring_radio_
 import 'package:get/get.dart';
 import 'package:new_alarm_clock/ui/global/custom_radio_list_tile.dart';
 
+import '../../../../utils/values/my_font_family.dart';
 import '../../../global/color_controller.dart';
 
 class RingRadioList extends StatelessWidget {
-
   var ringListView = GetBuilder<RingRadioListController>(builder: (_) {
     return ListView.builder(
       shrinkWrap: true,
@@ -15,18 +15,22 @@ class RingRadioList extends StatelessWidget {
       itemCount: _.pathList.length,
       itemBuilder: (BuildContext context, int index) {
         return CustomRadioListTile(
-            radioValue: _.pathList[index].path,
-            radioGroupValue: _.selectedMusicPath,
-            onPressed: (String? value) {
-              if (_.power == true) {
-                _.selectedMusicPath = value!;
-              }
-            },
-            title: _.getNameOfSong(_.pathList[index].path),
-            activeColor: _.power? Get.find<ColorController>().colorSet.accentColor: Colors.grey,
-            textColor: _.power
-                ? _.textColor['active']!
-                : _.textColor['inactive']!
+          value: _.pathList[index].path,
+          groupValue: _.selectedMusicPath,
+          onChanged: (String? value) {
+            if (_.power == true) {
+              _.selectedMusicPath = value!;
+            }
+          },
+          title: _.getNameOfSong(_.pathList[index].path),
+          activeColor: _.power
+              ? Get.find<ColorController>().colorSet.accentColor
+              : Colors.grey,
+          titleTextStyle: TextStyle(
+              color:
+                  _.power ? _.textColor['active']! : _.textColor['inactive']!,
+              fontSize: 18,
+              fontFamily: MyFontFamily.mainFontFamily),
         );
       },
     );
