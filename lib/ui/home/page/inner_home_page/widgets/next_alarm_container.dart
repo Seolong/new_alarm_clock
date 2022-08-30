@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart' hide Trans;
 import 'package:new_alarm_clock/ui/global/recent_alarm_date_stream_controller.dart';
+import 'package:new_alarm_clock/utils/values/size_value.dart';
 import '../../../../../utils/values/my_font_family.dart';
 import '../../../../global/color_controller.dart';
 
 class NextAlarmContainer extends StatelessWidget {
   final double nextAlarmContainerHeight = 70.0;
+  Future<String> _calculation = Future<String>.delayed(
+    Duration(seconds: 2),
+    () => 'Data Loaded',
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -30,13 +35,12 @@ class NextAlarmContainer extends StatelessWidget {
           return Container(
               margin: const EdgeInsets.symmetric(horizontal: 20),
               decoration: BoxDecoration(
-                  color:
-                      Get.find<ColorController>().colorSet.backgroundColor,
+                  color: Get.find<ColorController>().colorSet.backgroundColor,
                   borderRadius: BorderRadius.circular(10.0),
                   boxShadow: [
                     BoxShadow(
-                        blurRadius: 4.0,
-                        color: Colors.grey[400]!,
+                      blurRadius: 4.0,
+                      color: Colors.grey[400]!,
                       offset: Offset(0, 1),
                     )
                   ]),
@@ -58,6 +62,7 @@ class NextAlarmContainer extends StatelessWidget {
                             child: Icon(
                               Icons.event_note_rounded,
                               color: Colors.grey,
+                              size: ButtonSize.small,
                             ),
                           ),
                           const VerticalDivider(
@@ -67,42 +72,71 @@ class NextAlarmContainer extends StatelessWidget {
                           const SizedBox(
                             width: 12.0,
                           ),
-                          Expanded(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  recentAlarmDateSC.nextAlarmTimeDifferenceText,
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    fontFamily: MyFontFamily.mainFontFamily,
-                                    color: Get.find<ColorController>().colorSet.mainTextColor,
-                                    //letterSpacing: 0
-                                  ),
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                  textScaleFactor: 1.0,
-                                ),
-                                const SizedBox(
-                                  height: 2.5,
-                                ),
-                                Text(
-                                  recentAlarmDateSC.nextAlarmTitle ?? '',
-                                  style: TextStyle(
-                                      fontSize:
-                                          recentAlarmDateSC.nextAlarmTitle != ''
-                                              ? 14
-                                              : 0,
-                                      fontFamily: MyFontFamily.mainFontFamily,
-                                      color: Colors.grey[600]!),
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                  textScaleFactor: 1.0,
-                                ),
-                              ],
-                            ),
-                          ),
+                          FutureBuilder(
+                              future: _calculation,
+                              builder: (context, snapshot) {
+                                if (snapshot.hasData) {
+                                  return Expanded(
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          recentAlarmDateSC
+                                              .nextAlarmTimeDifferenceText,
+                                          style: TextStyle(
+                                            fontSize: 16,
+                                            fontFamily:
+                                                MyFontFamily.mainFontFamily,
+                                            color: Get.find<ColorController>()
+                                                .colorSet
+                                                .mainTextColor,
+                                            //letterSpacing: 0
+                                          ),
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                          textScaleFactor: 1.0,
+                                        ),
+                                        recentAlarmDateSC.nextAlarmTitle != ''
+                                            ? const SizedBox(
+                                                height: 2.5,
+                                              )
+                                            : SizedBox.shrink(),
+                                        Text(
+                                          recentAlarmDateSC.nextAlarmTitle ??
+                                              '',
+                                          style: TextStyle(
+                                              fontSize: recentAlarmDateSC
+                                                          .nextAlarmTitle !=
+                                                      ''
+                                                  ? 14
+                                                  : 0,
+                                              fontFamily:
+                                                  MyFontFamily.mainFontFamily,
+                                              color: Colors.grey[600]!),
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                          textScaleFactor: 1.0,
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                } else {
+                                  return Expanded(
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        SizedBox(
+                                          width: 25,
+                                            height: 25,
+                                            child: CircularProgressIndicator()),
+                                      ],
+                                    ),
+                                  );
+                                }
+                              }),
                         ],
                       )));
         }),

@@ -9,6 +9,7 @@ class CustomRadioListTile<T> extends StatelessWidget {
   final double listHeight;
   final double titleFontSize;
   final TextStyle titleTextStyle;
+  final double spaceBetweenRadioAndTitle;
 
   const CustomRadioListTile(
       {required this.value,
@@ -18,7 +19,8 @@ class CustomRadioListTile<T> extends StatelessWidget {
       required this.activeColor,
       this.listHeight = 50,
       this.titleFontSize = 25,
-      this.titleTextStyle = const TextStyle(fontSize: 16)});
+      this.titleTextStyle = const TextStyle(fontSize: 16),
+      this.spaceBetweenRadioAndTitle = 5});
 
   @override
   Widget build(BuildContext context) {
@@ -43,6 +45,9 @@ class CustomRadioListTile<T> extends StatelessWidget {
                   return activeColor;
                 }
               }),
+            ),
+            SizedBox(
+              width: spaceBetweenRadioAndTitle,
             ),
             Align(
               alignment: Alignment.centerLeft,

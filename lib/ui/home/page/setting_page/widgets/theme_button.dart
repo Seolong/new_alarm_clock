@@ -9,18 +9,18 @@ import '../../../../../utils/values/my_font_family.dart';
 import '../../../../global/color_controller.dart';
 import '../../../../global/custom_radio_list_tile.dart';
 
-enum ColorTheme { green, dark }
+enum ColorTheme { Green, Dark }
 
 extension ColorThemeExtension on String {
   ColorTheme getColorTheme() {
     switch (this) {
       case 'green':
-        return ColorTheme.green;
+        return ColorTheme.Green;
       case 'dark':
-        return ColorTheme.dark;
+        return ColorTheme.Dark;
       default:
         assert(false, 'ColorThemeExtension Error');
-        return ColorTheme.green;
+        return ColorTheme.Green;
     }
   }
 }
@@ -31,7 +31,7 @@ class ThemeButton extends StatelessWidget {
   double radioRadius = 7.5;
   late double borderRadius = radioRadius + 7.5;
   double borderWidth = 2;
-  ColorTheme theme = ColorTheme.green;
+  ColorTheme theme = ColorTheme.Green;
   SettingsSharedPreferences settingsSharedPreferences =
       SettingsSharedPreferences();
 
@@ -79,10 +79,10 @@ class ThemeButton extends StatelessWidget {
     for (int i = 0; i < ColorTheme.values.length; i++) {
       result.add(CustomRadioListTile<ColorTheme>(
           title: ColorTheme.values[i].name,
-          titleFontSize: 20,
+          titleFontSize: 16,
           titleTextStyle: TextStyle(
               color: Get.find<ColorController>().colorSet.mainTextColor,
-              fontSize: 18,
+              fontSize: 16,
               fontFamily: MyFontFamily.mainFontFamily
           ),
           value: ColorTheme.values[i],

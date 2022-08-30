@@ -91,7 +91,7 @@ class AlignButton extends StatelessWidget {
                   ),
                   VerticalDivider(),
                   InkWell(
-                    borderRadius: BorderRadius.circular(100),
+                    borderRadius: BorderRadius.circular(10),
                     splashColor: Colors.grey,
                     onTap: () {
                       _settingsSharedPreferences.setAlignValue(

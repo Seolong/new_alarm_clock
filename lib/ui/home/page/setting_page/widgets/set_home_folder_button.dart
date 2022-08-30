@@ -57,39 +57,33 @@ class SetHomeFolderButton extends StatelessWidget {
                     //item 의 반목문 항목 형성
                     return Padding(
                       padding: const EdgeInsets.all(5.0),
-                      child: Ink(
-                        decoration: BoxDecoration(
-                          color: Get.find<ColorController>().colorSet.backgroundColor,
-                          //border: Border.all(width: 0.5),
-                          borderRadius: BorderRadius.all(Radius.circular(115)),
-                        ),
-                        child: InkWell(
-                          onTap: () async{
-                            await _settingsSharedPreferences
-                                .setMainFolderName(_.folderList[index].name);
-                            _.mainFolderName = _.folderList[index].name;
-                            Get.back();
-                          },
-                          child: Column(
-                            children: [
-                              Icon(
-                                _.mainFolderName !=
-                                    _.folderList[index].name
-                                    ? Icons.folder
-                                    : Icons.folder_special_rounded,
-                                size: 50,
-                                color: Color(0xffFFCE45),
-                              ),
-                              Container(
-                                  height: 17.5,
-                                  child: AutoSizeText(index==0
-                                      ? LocaleKeys.allAlarms.tr()
-                                      : '${_.folderList[index].name}',
-                                    bold: true,
-                                    color: Get.find<ColorController>().colorSet.mainTextColor,
-                                  )),
-                            ],
-                          ),
+                      child: InkWell(
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                        onTap: () async{
+                          await _settingsSharedPreferences
+                              .setMainFolderName(_.folderList[index].name);
+                          _.mainFolderName = _.folderList[index].name;
+                          Get.back();
+                        },
+                        child: Column(
+                          children: [
+                            Icon(
+                              _.mainFolderName !=
+                                  _.folderList[index].name
+                                  ? Icons.folder
+                                  : Icons.folder_special_rounded,
+                              size: 50,
+                              color: Color(0xffFFCE45),
+                            ),
+                            Container(
+                                height: 17.5,
+                                child: AutoSizeText(index==0
+                                    ? LocaleKeys.allAlarms.tr()
+                                    : '${_.folderList[index].name}',
+                                  bold: true,
+                                  color: Get.find<ColorController>().colorSet.mainTextColor,
+                                )),
+                          ],
                         ),
                       ),
                     );

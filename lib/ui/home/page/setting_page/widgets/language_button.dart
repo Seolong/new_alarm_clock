@@ -100,7 +100,7 @@ class LanguageButton extends StatelessWidget {
           activeColor: Get.find<ColorController>().colorSet.mainColor,
           titleTextStyle: TextStyle(
               color: Get.find<ColorController>().colorSet.mainTextColor,
-              fontSize: 18,
+              fontSize: 16,
               fontFamily: MyFontFamily.mainFontFamily
           ),
           titleFontSize: 20,
