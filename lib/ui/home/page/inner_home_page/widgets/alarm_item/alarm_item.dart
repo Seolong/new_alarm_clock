@@ -15,6 +15,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:new_alarm_clock/generated/locale_keys.g.dart';
 import 'package:new_alarm_clock/utils/values/string_value.dart';
 import '../../../../../global/color_controller.dart';
+import '../../../../../global/recent_alarm_date_stream_controller.dart';
 import '../../../../controller/required_parameter_to_add_alarm_page_controller.dart';
 import 'controller/alarm_switch_controller.dart';
 import 'controller/selected_alarm_controller.dart';
@@ -144,6 +145,7 @@ class AlarmItem extends StatelessWidget {
                         borderRadius: _alarmBorder,
                         splashColor: Colors.grey,
                         onTap: () async {
+                          Get.find<RecentAlarmDateStreamController>().dateStreamSubscription.pause();
                           requiredParameterToAddAlarmPageController.mode = StringValue.editMode;
                           requiredParameterToAddAlarmPageController.alarmId = _id;
                           requiredParameterToAddAlarmPageController.folderName = (await alarmProvider.getAlarmById(_id)).folderName;

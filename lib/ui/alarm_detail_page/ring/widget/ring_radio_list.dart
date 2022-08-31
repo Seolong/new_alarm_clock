@@ -10,7 +10,7 @@ import '../../../global/color_controller.dart';
 class RingRadioList extends StatelessWidget {
   var ringListView = GetBuilder<RingRadioListController>(builder: (_) {
     return ListView.builder(
-      shrinkWrap: true,
+      //shrinkWrap: true,
       padding: EdgeInsets.fromLTRB(0, 5, 0, 10),
       itemCount: _.pathList.length,
       itemBuilder: (BuildContext context, int index) {
