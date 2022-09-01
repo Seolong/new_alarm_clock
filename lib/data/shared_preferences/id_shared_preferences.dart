@@ -14,34 +14,34 @@ class IdSharedPreferences {
   Future<void> init() async {
     sharedPreferences = await SharedPreferences.getInstance();
     int toBeAddedId = sharedPreferences.getInt(toBeAddedIdName) ?? initialValue;
-    if(toBeAddedId == initialValue){
+    if (toBeAddedId == initialValue) {
       sharedPreferences.setInt(toBeAddedIdName, toBeAddedId);
     }
 
     int alarmedAlarmId = sharedPreferences.getInt(alarmedAlarmIdName) ?? -1;
-    if(alarmedAlarmId == -1){
+    if (alarmedAlarmId == -1) {
       sharedPreferences.setInt(alarmedAlarmIdName, alarmedAlarmId);
     }
   }
 
   IdSharedPreferences._internal();
 
-  Future<int> getId() async{
+  Future<int> getId() async {
     await init();
     return sharedPreferences.getInt(toBeAddedIdName)!;
   }
 
-  Future<void> setId(int id)async {
+  Future<void> setId(int id) async {
     await init();
     sharedPreferences.setInt(toBeAddedIdName, id);
   }
 
-  Future<int> getAlarmedId() async{
+  Future<int> getAlarmedId() async {
     await init();
     return sharedPreferences.getInt(alarmedAlarmIdName)!;
   }
 
-  Future<void> setAlarmedId(int id) async{
+  Future<void> setAlarmedId(int id) async {
     await init();
     sharedPreferences.setInt(alarmedAlarmIdName, id);
   }

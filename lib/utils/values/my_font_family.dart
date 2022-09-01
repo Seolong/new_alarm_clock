@@ -1,3 +1,3 @@
-class MyFontFamily{
-  static const String? mainFontFamily = 'TmoneyRoundWind';
+class MyFontFamily {
+  static const String mainFontFamily = 'TmoneyRoundWind';
 }

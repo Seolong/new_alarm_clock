@@ -27,7 +27,7 @@ class AlarmData {
   AlarmData({
     required this.id,
     required this.alarmType,
-    String? this.title,
+    this.title,
     required this.alarmDateTime,
     required this.endDay,
     required this.alarmState,

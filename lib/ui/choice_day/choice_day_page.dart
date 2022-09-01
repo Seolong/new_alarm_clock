@@ -19,48 +19,58 @@ import 'package:tab_indicator_styler/tab_indicator_styler.dart';
 class ChoiceDayPage extends StatelessWidget {
   final repeatModeController = Get.put(RepeatModeController());
 
-  bool isLessInterValThanZero(){
+  bool isLessInterValThanZero() {
     return isRepeat() &&
-        Get.find<IntervalTextFieldController>().textEditingController.text != '' &&
-        int.parse(Get.find<IntervalTextFieldController>().textEditingController.text) <= 0;
+        Get.find<IntervalTextFieldController>().textEditingController.text !=
+            '' &&
+        int.parse(Get.find<IntervalTextFieldController>()
+                .textEditingController
+                .text) <=
+            0;
   }
 
-  bool isRepeat(){
+  bool isRepeat() {
     return repeatModeController.repeatMode != RepeatMode.single &&
         repeatModeController.repeatMode != RepeatMode.off;
   }
 
   Future<bool> _onTouchBackButton() async {
-    if(repeatModeController.repeatMode == RepeatMode.month &&
-    Get.find<MonthRepeatDayController>().monthRepeatDay == null
-    ){
-      ConvenienceMethod.showSimpleSnackBar(LocaleKeys.youMustChooseRepeatDay.tr());
+    if (repeatModeController.repeatMode == RepeatMode.month &&
+        Get.find<MonthRepeatDayController>().monthRepeatDay == null) {
+      ConvenienceMethod.showSimpleSnackBar(
+          LocaleKeys.youMustChooseRepeatDay.tr());
       return Future.value(false);
     }
-    if(isLessInterValThanZero()){
-      ConvenienceMethod.showSimpleSnackBar(LocaleKeys.theIntervalMustBeAtLeastOne.tr());
+    if (isLessInterValThanZero()) {
+      ConvenienceMethod.showSimpleSnackBar(
+          LocaleKeys.theIntervalMustBeAtLeastOne.tr());
       return Future.value(false);
     }
-    if(repeatModeController.repeatMode != RepeatMode.week){
+    if (repeatModeController.repeatMode != RepeatMode.week) {
       Get.find<DayOfWeekController>().resetAllDayButtonStateToFalse();
-    }
-    else{ // RepeatMode.week
-      if(Get.find<DayOfWeekController>().dayButtonStateMap.containsValue(true) == false){
-        repeatModeController.repeatMode = RepeatMode.single; //off로 하면 시작일도 초기화해야 하고 귀찮아져
+    } else {
+      // RepeatMode.week
+      if (Get.find<DayOfWeekController>()
+              .dayButtonStateMap
+              .containsValue(true) ==
+          false) {
+        repeatModeController.repeatMode =
+            RepeatMode.single; //off로 하면 시작일도 초기화해야 하고 귀찮아져
         Get.find<IntervalTextFieldController>().textEditingController.text = '';
         Get.back();
         return Future.value(false);
       }
     }
-    if(!isRepeat()){
+    if (!isRepeat()) {
       Get.find<IntervalTextFieldController>().textEditingController.text = '';
       Get.back();
       return Future.value(false);
     }
-    Get.find<StartEndDayController>().setStartDayWithBackButton(
-        repeatModeController.repeatMode);
+    Get.find<StartEndDayController>()
+        .setStartDayWithBackButton(repeatModeController.repeatMode);
     //Get.find<StartEndDayController>().setEndDayWithBackButton(repeatModeController.repeatMode);
-    if(Get.find<IntervalTextFieldController>().textEditingController.text == ''){
+    if (Get.find<IntervalTextFieldController>().textEditingController.text ==
+        '') {
       Get.find<IntervalTextFieldController>().textEditingController.text = '1';
     }
     Get.back();
@@ -74,75 +84,72 @@ class ChoiceDayPage extends StatelessWidget {
       child: DefaultTabController(
         length: 2,
         initialIndex: repeatModeController.getMainIndex(),
-        child: Builder(
-            builder: (context) {
-              final tabController = DefaultTabController.of(context)!;
-              repeatModeController.setRepeatMode(tabController.index, 0);
-              print(repeatModeController.getRepeatMode());
-              tabController.addListener(() {
-                repeatModeController.setRepeatMode(tabController.index, 0);
-                print(repeatModeController.getRepeatMode());
-              });
-              return Scaffold(
-                resizeToAvoidBottomInset : false,
-                appBar: AppBar(
-                  leading: Padding(
-                    padding: const EdgeInsets.only(left: SizeValue.appBarLeftPadding),
-                    child: IconButton(
-                      icon: Icon(Icons.arrow_back_ios_rounded),
-                      onPressed: _onTouchBackButton,
-                    ),
-                  ),
-                  title: Text(
-                      LocaleKeys.alarmType.tr()
-                  ),
+        child: Builder(builder: (context) {
+          final tabController = DefaultTabController.of(context)!;
+          repeatModeController.setRepeatMode(tabController.index, 0);
+          tabController.addListener(() {
+            repeatModeController.setRepeatMode(tabController.index, 0);
+          });
+          return Scaffold(
+            resizeToAvoidBottomInset: false,
+            appBar: AppBar(
+              leading: Padding(
+                padding:
+                    const EdgeInsets.only(left: SizeValue.appBarLeftPadding),
+                child: IconButton(
+                  icon: const Icon(Icons.arrow_back_ios_rounded),
+                  onPressed: _onTouchBackButton,
                 ),
-                body: SafeArea(
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(0, 5, 0, 0),
-                        child: TabBar(
-                            isScrollable: true,
-                            indicator: MaterialIndicator(
-                              color: Get.find<ColorController>().colorSet.lightMainColor
-                            ),
-                            indicatorColor: Get.find<ColorController>().colorSet.lightMainColor,
-                            unselectedLabelColor: Colors.grey,
-                            labelStyle: TextStyle(
-                              fontFamily: MyFontFamily.mainFontFamily,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 18
-                            ),
-                            labelColor: Get.find<ColorController>().colorSet.lightMainColor,
-                            tabs: [
-                              Tab(
-                                text: LocaleKeys.chooseOne.tr(),
-                                height: 50,
-                              ),
-                              Tab(
-                                text: LocaleKeys.repeat.tr(),
-                                height: 50,
-                              ),
-                            ]),
-                      ),
-                      Divider(
-                        height: 5,
-                        color: Get.find<ColorController>().colorSet.backgroundColor,
-                      ),
-                      Flexible(
-                        flex: 1,
-                        child: TabBarView(children: [
-                          OneAlarmContainer(),
-                          RepeatTabBar(),
+              ),
+              title: Text(LocaleKeys.alarmType.tr()),
+            ),
+            body: SafeArea(
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(0, 5, 0, 0),
+                    child: TabBar(
+                        isScrollable: true,
+                        indicator: MaterialIndicator(
+                            color: Get.find<ColorController>()
+                                .colorSet
+                                .lightMainColor),
+                        indicatorColor:
+                            Get.find<ColorController>().colorSet.lightMainColor,
+                        unselectedLabelColor: Colors.grey,
+                        labelStyle: const TextStyle(
+                            fontFamily: MyFontFamily.mainFontFamily,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18),
+                        labelColor:
+                            Get.find<ColorController>().colorSet.lightMainColor,
+                        tabs: [
+                          Tab(
+                            text: LocaleKeys.chooseOne.tr(),
+                            height: 50,
+                          ),
+                          Tab(
+                            text: LocaleKeys.repeat.tr(),
+                            height: 50,
+                          ),
                         ]),
-                      )
-                    ],
                   ),
-                ),
-              );
-            }
-        ),
+                  Divider(
+                    height: 5,
+                    color: Get.find<ColorController>().colorSet.backgroundColor,
+                  ),
+                  Flexible(
+                    flex: 1,
+                    child: TabBarView(children: [
+                      const OneAlarmContainer(),
+                      RepeatTabBar(),
+                    ]),
+                  )
+                ],
+              ),
+            ),
+          );
+        }),
       ),
     );
   }

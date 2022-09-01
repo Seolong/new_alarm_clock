@@ -31,14 +31,16 @@ class _DraggableDismissButtonState extends State<DraggableDismissButton>
   late Animation<Alignment> _animation;
   Alignment _dragAlignment = Alignment.center;
   final AppStateSharedPreferences _appStateSharedPreferences =
-  AppStateSharedPreferences();
+      AppStateSharedPreferences();
   final IdSharedPreferences _idSharedPreferences = IdSharedPreferences();
-  final RepeatCountSharedPreferences _repeatCountSharedPreferences = RepeatCountSharedPreferences();
+  final RepeatCountSharedPreferences _repeatCountSharedPreferences =
+      RepeatCountSharedPreferences();
   Color buttonColor = Get.find<ColorController>().colorSet.mainColor;
-  Color buttonOutsideColor = Get.find<ColorController>().colorSet.backgroundColor;
+  Color buttonOutsideColor =
+      Get.find<ColorController>().colorSet.backgroundColor;
   int alarmId = -1;
-  AlarmProvider _alarmProvider = AlarmProvider();
-  MusicHandler _musicHandler = MusicHandler();
+  final AlarmProvider _alarmProvider = AlarmProvider();
+  final MusicHandler _musicHandler = MusicHandler();
   bool isDismissed = false; // 드래그나 꾹 눌렀으면 true
   bool isLongPressOrDrag = false;
   AlarmScheduler alarmScheduler = AlarmScheduler();
@@ -74,7 +76,7 @@ class _DraggableDismissButtonState extends State<DraggableDismissButton>
     final unitsPerSecond = Offset(unitsPerSecondX, unitsPerSecondY);
     final unitVelocity = unitsPerSecond.distance;
 
-    final spring = SpringDescription(mass: 30, stiffness: 1, damping: 1);
+    const spring = SpringDescription(mass: 30, stiffness: 1, damping: 1);
 
     final simulation = SpringSimulation(spring, 0, 1, -unitVelocity);
 
@@ -84,31 +86,33 @@ class _DraggableDismissButtonState extends State<DraggableDismissButton>
   //삭제가 아닌 state를 off
   Future<void> offAlarm() async {
     //드래그하면 자꾸 중복호출돼서 만든 궁여지책
-    if(isDismissed == false){
+    if (isDismissed == false) {
       isDismissed = true;
       alarmId = await _idSharedPreferences.getAlarmedId();
       AlarmData alarmData = await _alarmProvider.getAlarmById(alarmId);
 
-      if(isLongPressOrDrag == false){//1분 지나서 꺼졌을 경우
-        if(alarmData.repeatBool == false){
+      if (isLongPressOrDrag == false) {
+        //1분 지나서 꺼졌을 경우
+        if (alarmData.repeatBool == false) {
           await _repeatCountSharedPreferences.resetRepeatCount();
           await alarmScheduler.updateToNextAlarm(alarmData);
-        }else{
+        } else {
           await _repeatCountSharedPreferences.setRepeatCount();
-          int repeatCount = await _repeatCountSharedPreferences.getRepeatCount();
+          int repeatCount =
+              await _repeatCountSharedPreferences.getRepeatCount();
           int repeatInterval = alarmData.repeatInterval;
           int repeatNum = alarmData.repeatNum;
           if (repeatCount < repeatNum) {
-            DateTime nextAlarmTime = alarmData.alarmDateTime.add(Duration(minutes: (repeatCount * repeatInterval)));
+            DateTime nextAlarmTime = alarmData.alarmDateTime
+                .add(Duration(minutes: (repeatCount * repeatInterval)));
             alarmScheduler.newShot(nextAlarmTime, alarmData.id);
-          }
-          else{
+          } else {
             await _repeatCountSharedPreferences.resetRepeatCount();
             await alarmScheduler.updateToNextAlarm(alarmData);
           }
         }
-      }
-      else{//버튼 드래그, 롱프레스로 알람을 껐을 경우
+      } else {
+        //버튼 드래그, 롱프레스로 알람을 껐을 경우
         await _repeatCountSharedPreferences.resetRepeatCount();
         await alarmScheduler.updateToNextAlarm(alarmData);
       }
@@ -121,17 +125,15 @@ class _DraggableDismissButtonState extends State<DraggableDismissButton>
       //SystemNavigator.pop()하니까 안 될 때가 있더라
       if (Platform.isAndroid) {
         await SystemChannels.platform.invokeMethod('SystemNavigator.pop');
-      } else if(Platform.isIOS){
-
-      }
+      } else if (Platform.isIOS) {}
     }
   }
 
-  void changeButtonColor(bool isPressedOrDragged){
-    if(isPressedOrDragged){
+  void changeButtonColor(bool isPressedOrDragged) {
+    if (isPressedOrDragged) {
       buttonColor = Colors.grey;
       buttonOutsideColor = Colors.white12;
-    }else{
+    } else {
       buttonColor = Get.find<ColorController>().colorSet.mainColor;
       buttonOutsideColor = Get.find<ColorController>().colorSet.backgroundColor;
     }
@@ -144,10 +146,10 @@ class _DraggableDismissButtonState extends State<DraggableDismissButton>
       Container(
         width: 250,
         height: 250,
-        padding: EdgeInsets.all(50),
+        padding: const EdgeInsets.all(50),
         decoration: BoxDecoration(
           color: buttonOutsideColor,
-          borderRadius: BorderRadius.all(Radius.circular(250)),
+          borderRadius: const BorderRadius.all(Radius.circular(250)),
         ),
       ),
       GestureDetector(
@@ -155,7 +157,7 @@ class _DraggableDismissButtonState extends State<DraggableDismissButton>
           //_controller.stop();
           changeButtonColor(true);
         },
-        onPanUpdate: (details) async{
+        onPanUpdate: (details) async {
           if (details.localPosition.dx < 130 ||
               details.localPosition.dx > 270 ||
               details.localPosition.dy < 30 ||
@@ -176,7 +178,7 @@ class _DraggableDismissButtonState extends State<DraggableDismissButton>
             changeButtonColor(false);
           });
         },
-        onLongPress: () async{
+        onLongPress: () async {
           isLongPressOrDrag = true;
           await offAlarm();
         },
@@ -193,11 +195,11 @@ class _DraggableDismissButtonState extends State<DraggableDismissButton>
         child: Align(
           alignment: _dragAlignment,
           child: Container(
-            padding: EdgeInsets.all(10),
+            padding: const EdgeInsets.all(10),
             decoration: BoxDecoration(
               color: buttonColor,
-              borderRadius: BorderRadius.all(Radius.circular(100)),
-              boxShadow: [
+              borderRadius: const BorderRadius.all(Radius.circular(100)),
+              boxShadow: const [
                 BoxShadow(
                   color: Colors.grey,
                   spreadRadius: 0.5,

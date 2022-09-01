@@ -7,18 +7,18 @@ import '../../../../generated/locale_keys.g.dart';
 import '../../../global/color_controller.dart';
 
 class DeleteMusicButton extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     return IconButton(
       iconSize: 1150,
       icon: Icon(
-          Icons.refresh_rounded,
+        Icons.refresh_rounded,
         color: Get.find<ColorController>().colorSet.mainTextColor,
       ),
       onPressed: () async {
-        bool? isDelete = await Get.dialog(DeleteDialog(LocaleKeys.resetMusicList.tr()));
-        if(isDelete == true){
+        bool? isDelete =
+            await Get.dialog(DeleteDialog(LocaleKeys.resetMusicList.tr()));
+        if (isDelete == true) {
           Get.find<RingRadioListController>().resetMusic();
         }
       },

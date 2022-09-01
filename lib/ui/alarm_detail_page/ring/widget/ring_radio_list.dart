@@ -11,7 +11,7 @@ class RingRadioList extends StatelessWidget {
   var ringListView = GetBuilder<RingRadioListController>(builder: (_) {
     return ListView.builder(
       //shrinkWrap: true,
-      padding: EdgeInsets.fromLTRB(0, 5, 0, 10),
+      padding: const EdgeInsets.fromLTRB(0, 5, 0, 10),
       itemCount: _.pathList.length,
       itemBuilder: (BuildContext context, int index) {
         return CustomRadioListTile(
@@ -46,8 +46,8 @@ class RingRadioList extends StatelessWidget {
           if (snapshot.hasData) {
             return ringListView;
           }
-          return Center(
-            child: Container(child: Text('Error!')),
+          return const Center(
+            child: Text('Error!'),
           );
         });
   }

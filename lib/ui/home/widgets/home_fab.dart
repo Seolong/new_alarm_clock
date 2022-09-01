@@ -13,26 +13,33 @@ import '../page/inner_home_page/widgets/alarm_item/controller/selected_alarm_con
 class HomeFAB extends StatelessWidget {
   final IdSharedPreferences idSharedPreferences = IdSharedPreferences();
 
+  HomeFAB({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     var folderListController = Get.put(FolderListController());
-    var requiredParameterToAddAlarmPageController = Get.put(RequiredParameterToAddAlarmPageController());
-    return FloatingActionButton( // addAlarmButton
+    var requiredParameterToAddAlarmPageController =
+        Get.put(RequiredParameterToAddAlarmPageController());
+    return FloatingActionButton(
+      // addAlarmButton
       //폴더 탭일 때 다른 색, 메뉴 탭일 땐 disable임을 나타내기 위해 회색
       backgroundColor: Get.find<ColorController>().colorSet.accentColor,
       child: Icon(
         Icons.add_rounded,
         size: ButtonSize.xlarge,
       ),
-      onPressed: () async{
+      onPressed: () async {
         Get.closeAllSnackbars();
         Get.find<SelectedAlarmController>().isSelectedMode = false;
         int newId = await idSharedPreferences.getId();
         requiredParameterToAddAlarmPageController.mode = StringValue.addMode;
         requiredParameterToAddAlarmPageController.alarmId = newId;
-        requiredParameterToAddAlarmPageController.folderName = folderListController.currentFolderName;
+        requiredParameterToAddAlarmPageController.folderName =
+            folderListController.currentFolderName;
 
-        Get.find<RecentAlarmDateStreamController>().dateStreamSubscription.pause();
+        Get.find<RecentAlarmDateStreamController>()
+            .dateStreamSubscription
+            .pause();
         idSharedPreferences.setId(++newId);
         Get.toNamed(AppRoutes.addAlarmPage);
       },

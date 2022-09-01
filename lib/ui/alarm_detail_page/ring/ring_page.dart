@@ -29,7 +29,7 @@ class RingPage extends StatelessWidget {
           leading: Padding(
             padding: const EdgeInsets.only(left: SizeValue.appBarLeftPadding),
             child: IconButton(
-              icon: Icon(Icons.arrow_back_ios_rounded),
+              icon: const Icon(Icons.arrow_back_ios_rounded),
               onPressed: () {
                 ringRadioListController.musicHandler.stopMusic();
                 Get.back();
@@ -71,10 +71,10 @@ class RingPage extends StatelessWidget {
                       _.power = value;
                     }),
               ),
-              Divider(),
+              const Divider(),
               Container(
                   height: 55,
-                  padding: EdgeInsets.only(left: 10),
+                  padding: const EdgeInsets.only(left: 10),
                   child: Row(
                     children: [
                       //volume icon
@@ -83,7 +83,9 @@ class RingPage extends StatelessWidget {
                           Icons.volume_up_rounded,
                           size: ButtonSize.medium,
                           color: _.power == true
-                              ? Get.find<ColorController>().colorSet.mainTextColor
+                              ? Get.find<ColorController>()
+                                  .colorSet
+                                  .mainTextColor
                               : Colors.grey,
                         );
                       }),
@@ -92,7 +94,7 @@ class RingPage extends StatelessWidget {
                       ),
                     ],
                   )),
-              Divider(
+              const Divider(
                 thickness: 2,
               ),
               Expanded(
@@ -100,12 +102,12 @@ class RingPage extends StatelessWidget {
                   padding:
                       const EdgeInsets.symmetric(horizontal: 10, vertical: 25),
                   child: Container(
-                    padding: EdgeInsets.only(top: 20),
+                    padding: const EdgeInsets.only(top: 20),
                     decoration: BoxDecoration(
                       color:
                           Get.find<ColorController>().colorSet.backgroundColor,
                       borderRadius: BorderRadius.circular(7.5),
-                      boxShadow: [
+                      boxShadow: const [
                         BoxShadow(
                           color: Color.fromRGBO(175, 175, 175, 100),
                           spreadRadius: 0,
@@ -118,7 +120,7 @@ class RingPage extends StatelessWidget {
                       children: [
                         Padding(
                           padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-                          child: Container(
+                          child: SizedBox(
                               height: 55,
                               child: Row(
                                 children: [
@@ -130,7 +132,7 @@ class RingPage extends StatelessWidget {
                                       child: FittedBox(
                                         fit: BoxFit.scaleDown,
                                         child: ConstrainedBox(
-                                          constraints: BoxConstraints(
+                                          constraints: const BoxConstraints(
                                               minWidth: 1, minHeight: 1),
                                           child: GetBuilder<
                                                   RingRadioListController>(
@@ -157,12 +159,12 @@ class RingPage extends StatelessWidget {
                                           0, 10, 0, 10),
                                       child: Container(
                                         height: 30,
-                                        padding: EdgeInsets.only(left: 5),
+                                        padding: const EdgeInsets.only(left: 5),
                                         alignment: Alignment.bottomLeft,
                                         child: FittedBox(
                                           fit: BoxFit.scaleDown,
                                           child: ConstrainedBox(
-                                            constraints: BoxConstraints(
+                                            constraints: const BoxConstraints(
                                                 minWidth: 1, minHeight: 1),
                                             child: GetBuilder<
                                                     RingRadioListController>(
@@ -191,7 +193,7 @@ class RingPage extends StatelessWidget {
                                       child: FittedBox(
                                         fit: BoxFit.scaleDown,
                                         child: ConstrainedBox(
-                                            constraints: BoxConstraints(
+                                            constraints: const BoxConstraints(
                                                 minWidth: 1, minHeight: 1),
                                             child: DeleteMusicButton()),
                                       ),
@@ -203,7 +205,7 @@ class RingPage extends StatelessWidget {
                                       child: FittedBox(
                                         fit: BoxFit.scaleDown,
                                         child: ConstrainedBox(
-                                            constraints: BoxConstraints(
+                                            constraints: const BoxConstraints(
                                                 minWidth: 1, minHeight: 1),
                                             child: AddMusicButton()),
                                       ),
@@ -212,10 +214,10 @@ class RingPage extends StatelessWidget {
                                 ],
                               )),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 7.5,
                         ),
-                        Divider(),
+                        const Divider(),
                         Expanded(
                             child: Padding(
                           padding: const EdgeInsets.fromLTRB(8, 0, 8, 8),

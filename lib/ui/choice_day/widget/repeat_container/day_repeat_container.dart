@@ -9,20 +9,15 @@ import 'package:new_alarm_clock/generated/locale_keys.g.dart';
 import '../../../global/color_controller.dart';
 
 class DayRepeatContainer extends RepeatContainer {
-  dynamic intervalType;
-
-  DayRepeatContainer(){
-    intervalType = GetBuilder<IntervalTextFieldController>(
-      builder: (_) {
-        return Text(
-            plural(LocaleKeys.day_args, _.getInterval()),
-          style: TextStyle(
-              fontSize: SizeValue.intervalTypeTextSize,
-            color: Get.find<ColorController>().colorSet.mainTextColor
-          ),
-        );
-      }
-    );
+  DayRepeatContainer({Key? key}) : super(key: key) {
+    intervalType = GetBuilder<IntervalTextFieldController>(builder: (_) {
+      return Text(
+        plural(LocaleKeys.day_args, _.getInterval()),
+        style: TextStyle(
+            fontSize: SizeValue.intervalTypeTextSize,
+            color: Get.find<ColorController>().colorSet.mainTextColor),
+      );
+    });
     bottomColumn = Column();
   }
 }

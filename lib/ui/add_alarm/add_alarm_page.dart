@@ -33,7 +33,7 @@ class AddAlarmPage extends StatelessWidget {
   String mode = '';
   int alarmId = -1;
   String currentFolderName = '';
-  AlarmProvider _alarmProvider = AlarmProvider();
+  final AlarmProvider _alarmProvider = AlarmProvider();
   late AlarmData alarmData;
   final AlarmDetailListTileFactory _alarmDetailListTileFactory =
       AlarmDetailListTileFactory();
@@ -121,22 +121,21 @@ class AddAlarmPage extends StatelessWidget {
   }
 
   //editMode일 때 initEditAlarm()를 쓰기 위함
-  FutureBuilder getInitializedWidget(Widget widget){
+  FutureBuilder getInitializedWidget(Widget widget) {
     return FutureBuilder(
         future: mode == StringValue.editMode
             ? initEditAlarm()
             : Future<String>.value(StringValue.addMode),
-        builder: (BuildContext context, AsyncSnapshot snapshot){
-          if(snapshot.hasData){
-            if (snapshot.data == StringValue.editMode
-                || snapshot.data == StringValue.addMode) {
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          if (snapshot.hasData) {
+            if (snapshot.data == StringValue.editMode ||
+                snapshot.data == StringValue.addMode) {
               return widget;
+            } else {
+              return const Text('Loading..');
             }
-            else{
-              return Text('Loading..');
-            }
-          }else{
-            return Text('Loading..');
+          } else {
+            return const Text('Loading..');
           }
         });
   }
@@ -190,7 +189,7 @@ class AddAlarmPage extends StatelessWidget {
             leading: Padding(
               padding: const EdgeInsets.only(left: SizeValue.appBarLeftPadding),
               child: IconButton(
-                icon: Icon(Icons.arrow_back_ios_rounded),
+                icon: const Icon(Icons.arrow_back_ios_rounded),
                 onPressed: _onTouchAppBarBackButton,
               ),
             ),
@@ -214,12 +213,13 @@ class AddAlarmPage extends StatelessWidget {
                     //spinner
                     Container(
                       height: 250,
-                      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 20, vertical: 10),
                       child: TimeSpinner(
                           alarmId: alarmId, fontSize: 22, mode: mode),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 17.5),
+                    const Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 17.5),
                       child: Divider(),
                     ),
                     Padding(
@@ -235,19 +235,21 @@ class AddAlarmPage extends StatelessWidget {
                                     RepeatMode.month) {
                                   startEndDayController
                                       .resetDateWhenMonthRepeat(
-                                      alarmData.alarmDateTime);
+                                          alarmData.alarmDateTime);
                                 } else if (mode == StringValue.editMode &&
                                     isRepeat()) {
                                   startEndDayController
                                       .setStart(alarmData.alarmDateTime);
                                 }
                               },
-                              icon: Icon(Icons.refresh_rounded),
+                              icon: const Icon(Icons.refresh_rounded),
                               //tooltip: '초기화',
                               color:
-                              (mode == StringValue.editMode && isRepeat())
-                                  ? Get.find<ColorController>().colorSet.mainTextColor
-                                  : Colors.transparent,
+                                  (mode == StringValue.editMode && isRepeat())
+                                      ? Get.find<ColorController>()
+                                          .colorSet
+                                          .mainTextColor
+                                      : Colors.transparent,
                             );
                           }),
                           //NextYearMonthDayText
@@ -255,11 +257,12 @@ class AddAlarmPage extends StatelessWidget {
                             return Text(
                               convertAlarmDateTime(),
                               style: TextStyle(
-                                fontSize: 22,
-                                //fontWeight: FontWeight.bold,
-                                fontFamily: MyFontFamily.mainFontFamily,
-                                color: Get.find<ColorController>().colorSet.mainTextColor
-                              ),
+                                  fontSize: 22,
+                                  //fontWeight: FontWeight.bold,
+                                  fontFamily: MyFontFamily.mainFontFamily,
+                                  color: Get.find<ColorController>()
+                                      .colorSet
+                                      .mainTextColor),
                             );
                           }),
                           //SkipNextAlarmDayButton
@@ -272,12 +275,14 @@ class AddAlarmPage extends StatelessWidget {
                                       .skipNextAlarmDate(alarmId);
                                 }
                               },
-                              icon: Icon(Icons.arrow_forward_ios_rounded),
+                              icon: const Icon(Icons.arrow_forward_ios_rounded),
                               //tooltip: '이번 알람 건너뛰기',
                               color:
-                              (mode == StringValue.editMode && isRepeat())
-                                  ? Get.find<ColorController>().colorSet.mainTextColor
-                                  : Colors.transparent,
+                                  (mode == StringValue.editMode && isRepeat())
+                                      ? Get.find<ColorController>()
+                                          .colorSet
+                                          .mainTextColor
+                                      : Colors.transparent,
                             );
                           }),
                         ],
@@ -287,48 +292,47 @@ class AddAlarmPage extends StatelessWidget {
                     //IntervalInfoText
                     Padding(
                       padding: const EdgeInsets.fromLTRB(0, 0, 0, 30),
-                      child: GetBuilder<IntervalTextFieldController>(builder: (_) {
+                      child:
+                          GetBuilder<IntervalTextFieldController>(builder: (_) {
                         return GetBuilder<RepeatModeController>(
                             builder: (repeatCont) {
-                              return GetBuilder<MonthRepeatDayController>(
-                                  builder: (monthCont) {
-                                    return Text(
-                                      getIntervalInfoText(
-                                          _.getInterval(),
-                                          repeatCont.repeatMode,
-                                          monthCont.monthRepeatDay),
-                                      style: TextStyle(
-                                        color: Colors.grey,
-                                        fontSize: 16,
-                                        fontFamily: MyFontFamily.mainFontFamily
-                                      ),
-                                    );
-                                  });
-                            });
+                          return GetBuilder<MonthRepeatDayController>(
+                              builder: (monthCont) {
+                            return Text(
+                              getIntervalInfoText(
+                                  _.getInterval(),
+                                  repeatCont.repeatMode,
+                                  monthCont.monthRepeatDay),
+                              style: const TextStyle(
+                                  color: Colors.grey,
+                                  fontSize: 16,
+                                  fontFamily: MyFontFamily.mainFontFamily),
+                            );
+                          });
+                        });
                       }),
                     ),
 
-
                     Container(
                       decoration: BoxDecoration(
-                        color: Get.find<ColorController>().colorSet.backgroundColor,
-                        //border: Border.fromBorderSide(BorderSide(color: Color.fromARGB(255, 200, 200, 200))),
-                        borderRadius: BorderRadius.only(
-                      topRight: const Radius.circular(40.0),
-                        topLeft: const Radius.circular(40.0),
-                        ),
-                        boxShadow: [
-                          BoxShadow(
-                            blurRadius: 2,
-                              //spreadRadius: 5,
-                            color: Color.fromARGB(255, 200, 200, 200)
-                          )
-                        ]
-                      ),
+                          color: Get.find<ColorController>()
+                              .colorSet
+                              .backgroundColor,
+                          //border: Border.fromBorderSide(BorderSide(color: Color.fromARGB(255, 200, 200, 200))),
+                          borderRadius: const BorderRadius.only(
+                            topRight: Radius.circular(40.0),
+                            topLeft: Radius.circular(40.0),
+                          ),
+                          boxShadow: const [
+                            BoxShadow(
+                                blurRadius: 2,
+                                //spreadRadius: 5,
+                                color: Color.fromARGB(255, 200, 200, 200))
+                          ]),
                       padding: const EdgeInsets.fromLTRB(20, 30, 20, 10),
                       child: Column(
                         children: [
-                          Container(
+                          SizedBox(
                             height: 50,
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -346,11 +350,14 @@ class AddAlarmPage extends StatelessWidget {
                                     child: GestureDetector(
                                       child: Icon(
                                         Icons.today,
-                                        color: Get.find<ColorController>().colorSet.accentColor,
+                                        color: Get.find<ColorController>()
+                                            .colorSet
+                                            .accentColor,
                                         size: 1000,
                                       ),
                                       onTap: () {
-                                        repeatModeController.previousRepeatMode =
+                                        repeatModeController
+                                                .previousRepeatMode =
                                             repeatModeController.repeatMode;
                                         Get.toNamed(AppRoutes.choiceDayPage);
                                       },
@@ -358,9 +365,7 @@ class AddAlarmPage extends StatelessWidget {
                               ],
                             ),
                           ),
-
                           TitleTextField(mode, alarmId),
-
                           getInitializedWidget(_alarmDetailListTileFactory
                               .getDetailListTile(DetailTileName.ring)),
                           getInitializedWidget(_alarmDetailListTileFactory

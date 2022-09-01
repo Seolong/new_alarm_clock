@@ -15,7 +15,11 @@ class TimeSpinner extends StatelessWidget {
   String mode;
 
   TimeSpinner(
-      {required this.alarmId, required this.fontSize, required this.mode});
+      {Key? key,
+      required this.alarmId,
+      required this.fontSize,
+      required this.mode})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +28,7 @@ class TimeSpinner extends StatelessWidget {
       data: CupertinoThemeData(
         textTheme: CupertinoTextThemeData(
           dateTimePickerTextStyle: TextStyle(
-            fontSize: this.fontSize,
+            fontSize: fontSize,
             fontFamily: MyFontFamily.mainFontFamily,
             color: Get.find<ColorController>().colorSet.mainTextColor,
           ),
@@ -43,15 +47,16 @@ class TimeSpinner extends StatelessWidget {
                       initialDateTime: timeSpinnerController.alarmDateTime,
                       mode: CupertinoDatePickerMode.time,
                       onDateTimeChanged: (DateTime value) {
-                        if (Get.find<RepeatModeController>().repeatMode == RepeatMode.off) {
+                        if (Get.find<RepeatModeController>().repeatMode ==
+                            RepeatMode.off) {
                           _.setDayInRepeatOff(value);
                         }
                         _.alarmDateTime = value;
                       },
                     );
                   }
-                  return Center(
-                    child: Container(
+                  return const Center(
+                    child: SizedBox(
                       height: 50,
                       width: 50,
                       child: CircularProgressIndicator(

@@ -18,20 +18,17 @@ class RepeatTabBar extends StatelessWidget {
       child: Builder(builder: (context) {
         final tabController = DefaultTabController.of(context)!;
         repeatModeController.setRepeatMode(1, tabController.index);
-        print(repeatModeController.getRepeatMode());
         tabController.addListener(() {
           repeatModeController.setRepeatMode(1, tabController.index);
-          print(repeatModeController.getRepeatMode());
         });
         return Column(children: [
           TabBar(
-            labelStyle: TextStyle(
+            labelStyle: const TextStyle(
               fontFamily: MyFontFamily.mainFontFamily,
               fontWeight: FontWeight.bold,
             ),
             indicator: MaterialIndicator(
-                color: Get.find<ColorController>().colorSet.lightMainColor
-            ),
+                color: Get.find<ColorController>().colorSet.lightMainColor),
             indicatorColor: Get.find<ColorController>().colorSet.lightMainColor,
             labelColor: Get.find<ColorController>().colorSet.lightMainColor,
             unselectedLabelColor: Colors.grey,

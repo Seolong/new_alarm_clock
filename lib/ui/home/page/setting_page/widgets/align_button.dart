@@ -10,22 +10,26 @@ import '../../../../global/color_controller.dart';
 
 class AlignButton extends StatelessWidget {
   final _settingsSharedPreferences = SettingsSharedPreferences();
-  double buttonHeight = 37.5;
-  double buttonPadding = 7.5;
-  double radioRadius = 7.5;
-  late double borderRadius = radioRadius + 7.5;
-  double borderWidth = 2;
-  Color activeColor = Get.find<ColorController>().colorSet.mainColor;
+  final double buttonHeight = 37.5;
+  final double buttonPadding = 7.5;
+  final double radioRadius = 7.5;
+  late final double borderRadius = radioRadius + 7.5;
+  final double borderWidth = 2;
+  final Color activeColor = Get.find<ColorController>().colorSet.mainColor;
+
+  AlignButton({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      borderRadius: BorderRadius.all(Radius.circular(10)),
+      borderRadius: const BorderRadius.all(Radius.circular(10)),
       onTap: () async {
         String currentAlign = await _settingsSharedPreferences.getAlignValue();
-        Color settingColor = Get.find<ColorController>().colorSet.topBackgroundColor;
+        Color settingColor =
+            Get.find<ColorController>().colorSet.topBackgroundColor;
         Color settingBorderColor = Colors.grey;
-        Color dateColor = Get.find<ColorController>().colorSet.topBackgroundColor;
+        Color dateColor =
+            Get.find<ColorController>().colorSet.topBackgroundColor;
         Color dateBorderColor = Colors.grey;
         if (currentAlign == _settingsSharedPreferences.alignBySetting) {
           settingColor = activeColor;
@@ -36,15 +40,15 @@ class AlignButton extends StatelessWidget {
         }
         Get.dialog(
           Dialog(
-            backgroundColor: Get.find<ColorController>().colorSet.topBackgroundColor,
-            shape: RoundedRectangleBorder(
+            backgroundColor:
+                Get.find<ColorController>().colorSet.topBackgroundColor,
+            shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(Radius.circular(10))),
-            insetPadding: EdgeInsets.fromLTRB(10, 20, 10, 25),
-
+            insetPadding: const EdgeInsets.fromLTRB(10, 20, 10, 25),
             child: Container(
               height: 100,
               width: 80,
-              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -65,9 +69,13 @@ class AlignButton extends StatelessWidget {
                             padding: EdgeInsets.all(buttonPadding),
                             child: AutoSizeText(
                               LocaleKeys.custom.tr(),
-                              color: Get.find<ColorController>().colorSet.mainTextColor,
+                              color: Get.find<ColorController>()
+                                  .colorSet
+                                  .mainTextColor,
                             )),
-                        Container(height: 10,),
+                        Container(
+                          height: 10,
+                        ),
                         Stack(alignment: Alignment.center, children: [
                           Container(
                             height: borderRadius,
@@ -82,14 +90,13 @@ class AlignButton extends StatelessWidget {
                             height: radioRadius,
                             width: radioRadius,
                             decoration: BoxDecoration(
-                                color: settingColor,
-                                shape: BoxShape.circle),
+                                color: settingColor, shape: BoxShape.circle),
                           ),
                         ])
                       ],
                     ),
                   ),
-                  VerticalDivider(),
+                  const VerticalDivider(),
                   InkWell(
                     borderRadius: BorderRadius.circular(10),
                     splashColor: Colors.grey,
@@ -107,17 +114,20 @@ class AlignButton extends StatelessWidget {
                             padding: EdgeInsets.all(buttonPadding),
                             child: AutoSizeText(
                               LocaleKeys.byDate.tr(),
-                              color: Get.find<ColorController>().colorSet.mainTextColor,
+                              color: Get.find<ColorController>()
+                                  .colorSet
+                                  .mainTextColor,
                             )),
-                        Container(height: 10,),
+                        Container(
+                          height: 10,
+                        ),
                         Stack(alignment: Alignment.center, children: [
                           Container(
                             height: borderRadius,
                             width: borderRadius,
                             decoration: BoxDecoration(
                                 border: Border.all(
-                                    width: borderWidth,
-                                    color: dateBorderColor),
+                                    width: borderWidth, color: dateBorderColor),
                                 shape: BoxShape.circle),
                           ),
                           Container(
@@ -140,15 +150,15 @@ class AlignButton extends StatelessWidget {
         //dayOffList.sort((a, b) => a.dayOffDate.compareTo(b.dayOffDate));
       },
       child: ListTile(
-          leading: Icon(
-            Icons.subject_rounded,
-            size: ButtonSize.medium,
-            color: Get.find<ColorController>().colorSet.mainTextColor,
-          ),
-          title: Text(
-            LocaleKeys.align.tr(),
-            style: Theme.of(context).textTheme.titleLarge,
-          ),
+        leading: Icon(
+          Icons.subject_rounded,
+          size: ButtonSize.medium,
+          color: Get.find<ColorController>().colorSet.mainTextColor,
+        ),
+        title: Text(
+          LocaleKeys.align.tr(),
+          style: Theme.of(context).textTheme.titleLarge,
+        ),
       ),
     );
   }

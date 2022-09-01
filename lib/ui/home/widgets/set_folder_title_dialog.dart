@@ -8,6 +8,8 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:new_alarm_clock/generated/locale_keys.g.dart';
 
 class SetFolderTitleDialog extends StatelessWidget {
+  const SetFolderTitleDialog({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     var folderNameTextFieldController =
@@ -16,31 +18,30 @@ class SetFolderTitleDialog extends StatelessWidget {
 
     return GetBuilder<FolderNameTextFieldController>(builder: (_) {
       return AlertDialog(
-        backgroundColor: Get.find<ColorController>().colorSet.topBackgroundColor,
+        backgroundColor:
+            Get.find<ColorController>().colorSet.topBackgroundColor,
         title: Text(
-            LocaleKeys.folderName.tr(),
+          LocaleKeys.folderName.tr(),
           style: TextStyle(
-            color: Get.find<ColorController>().colorSet.mainTextColor
-          ),
+              color: Get.find<ColorController>().colorSet.mainTextColor),
         ),
         content: TextField(
           onChanged: (value) {},
           controller: _.textEditingController,
           decoration: InputDecoration(
-            hintText: LocaleKeys.inputFolderName.tr(),
-            hintStyle: TextStyle(color: Colors.grey),
-            suffixIcon: _.textEditingController.text.length > 0
-                ? IconButton(
-                    icon: Icon(
-                      Icons.clear,
-                      color: Colors.grey,
-                    ),
-                    onPressed: () => _.resetField(),
-                  )
-                : null,
-            errorText: _.getErrorText(),
-            errorMaxLines: 3
-          ),
+              hintText: LocaleKeys.inputFolderName.tr(),
+              hintStyle: const TextStyle(color: Colors.grey),
+              suffixIcon: _.textEditingController.text.isNotEmpty
+                  ? IconButton(
+                      icon: const Icon(
+                        Icons.clear,
+                        color: Colors.grey,
+                      ),
+                      onPressed: () => _.resetField(),
+                    )
+                  : null,
+              errorText: _.getErrorText(),
+              errorMaxLines: 3),
         ),
         actions: <Widget>[
           TextButton(
@@ -60,7 +61,8 @@ class SetFolderTitleDialog extends StatelessWidget {
             child: Text(LocaleKeys.done.tr()),
             onPressed: () {
               if (folderListController.folderList.any((e) =>
-                  e.name == folderNameTextFieldController.textEditingController.text)) {
+                  e.name ==
+                  folderNameTextFieldController.textEditingController.text)) {
                 _.isError = true;
                 //Get.back();
               } else {

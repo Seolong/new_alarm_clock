@@ -7,27 +7,28 @@ import 'package:table_calendar/table_calendar.dart';
 import '../../../../../utils/values/size_value.dart';
 import '../../../../global/color_controller.dart';
 
-class SelectedDayController extends GetxController{
+class SelectedDayController extends GetxController {
   DateTime _selectedDay = DateTime.now();
 
   set selectedDay(DateTime date) {
     _selectedDay = date;
     update();
   }
+
   DateTime get selectedDay => _selectedDay;
 }
 
 class CalendarContainer extends StatelessWidget {
   DateTime initialDate;
 
-  CalendarContainer(this.initialDate){
+  CalendarContainer(this.initialDate, {Key? key}) : super(key: key) {
     Get.put(SelectedDayController());
     Get.find<SelectedDayController>().selectedDay = initialDate;
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: 400,
       height: 485,
       child: GetBuilder<SelectedDayController>(builder: (_) {
@@ -37,51 +38,50 @@ class CalendarContainer extends StatelessWidget {
           showCupertinoModalPopup(
               context: context,
               builder: (__) => Container(
-                height: 250,
-                color: Get.find<ColorController>().colorSet.backgroundColor,
-                child: Column(
-                  children: [
-                    // 확인 취소 만들기
-                    Container(
-                      height: 50,
-                      child: Row(
-                        mainAxisAlignment:
-                        MainAxisAlignment.spaceBetween,
-                        children: [
-                          // 확인 취소 만들기
-                          CupertinoButton(
-                            child: Text(
-                              LocaleKeys.cancel.tr(),
-                              style: TextStyle(color: Colors.grey),
-                            ),
-                            onPressed: () {
-                              Get.back();
-                            },
+                    height: 250,
+                    color: Get.find<ColorController>().colorSet.backgroundColor,
+                    child: Column(
+                      children: [
+                        // 확인 취소 만들기
+                        SizedBox(
+                          height: 50,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              // 확인 취소 만들기
+                              CupertinoButton(
+                                child: Text(
+                                  LocaleKeys.cancel.tr(),
+                                  style: const TextStyle(color: Colors.grey),
+                                ),
+                                onPressed: () {
+                                  Get.back();
+                                },
+                              ),
+                              CupertinoButton(
+                                child: Text(LocaleKeys.move.tr()),
+                                onPressed: () {
+                                  _.selectedDay = initialDate;
+                                  Get.back();
+                                },
+                              ),
+                            ],
                           ),
-                          CupertinoButton(
-                            child: Text(LocaleKeys.move.tr()),
-                            onPressed: () {
-                              _.selectedDay = initialDate;
-                              Get.back();
-                            },
-                          ),
-                        ],
-                      ),
+                        ),
+                        SizedBox(
+                          height: 200,
+                          child: CupertinoDatePicker(
+                              initialDateTime: _.selectedDay,
+                              minimumYear: DateTime.now().year,
+                              maximumYear: lastYear,
+                              mode: CupertinoDatePickerMode.date,
+                              onDateTimeChanged: (val) {
+                                initialDate = val;
+                              }),
+                        ),
+                      ],
                     ),
-                    SizedBox(
-                      height: 200,
-                      child: CupertinoDatePicker(
-                          initialDateTime: _.selectedDay,
-                          minimumYear: DateTime.now().year,
-                          maximumYear: lastYear,
-                          mode: CupertinoDatePickerMode.date,
-                          onDateTimeChanged: (val) {
-                            initialDate = val;
-                          }),
-                    ),
-                  ],
-                ),
-              ));
+                  ));
         }
 
         return Column(
@@ -91,16 +91,16 @@ class CalendarContainer extends StatelessWidget {
               child: TableCalendar(
                 focusedDay: _.selectedDay.isAfter(DateTime.now())
                     ? _.selectedDay
-                    : DateTime.now().add(Duration(minutes: 15)),
+                    : DateTime.now().add(const Duration(minutes: 15)),
                 currentDay: _.selectedDay.isAfter(DateTime.now())
                     ? _.selectedDay
-                    : DateTime.now().add(Duration(minutes: 15)),
+                    : DateTime.now().add(const Duration(minutes: 15)),
                 firstDay: DateTime.now(),
                 lastDay: DateTime(lastYear, 12, 31),
                 //onHeaderTapped: _onHeaderTapped,
                 headerStyle: HeaderStyle(
-                  headerMargin:
-                  EdgeInsets.only(left: 5, top: 5, right: 5, bottom: 5),
+                  headerMargin: const EdgeInsets.only(
+                      left: 5, top: 5, right: 5, bottom: 5),
                   titleCentered: true,
                   formatButtonVisible: false,
                   leftChevronIcon: Container(
@@ -151,7 +151,9 @@ class CalendarContainer extends StatelessWidget {
                   titleTextStyle: TextStyle(
                       fontSize: 20.0,
                       fontWeight: FontWeight.bold,
-                      color: Get.find<ColorController>().colorSet.calendarTitleColor),
+                      color: Get.find<ColorController>()
+                          .colorSet
+                          .calendarTitleColor),
                 ),
                 onHeaderTapped: (DateTime focusedDay) {
                   showDatePicker(context);
@@ -165,17 +167,15 @@ class CalendarContainer extends StatelessWidget {
                         fontWeight: FontWeight.bold)),
                 daysOfWeekHeight: 40,
                 calendarStyle: CalendarStyle(
-                  //selectedDecoration:
+                    //selectedDecoration:
                     todayDecoration: BoxDecoration(
-                      color: Get.find<ColorController>().colorSet.mainColor,
-                      shape: BoxShape.circle,
-                      //borderRadius: BorderRadius.circular(100)
-                    )),
+                  color: Get.find<ColorController>().colorSet.mainColor,
+                  shape: BoxShape.circle,
+                  //borderRadius: BorderRadius.circular(100)
+                )),
                 locale: context.locale.toString(),
                 onDaySelected: (selectedDay, focusedDay) {
                   _.selectedDay = selectedDay;
-                  print(selectedDay);
-                  print(focusedDay);
                 },
               ),
             ),
@@ -183,14 +183,15 @@ class CalendarContainer extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 TextButton(
-                    onPressed: (){
+                    onPressed: () {
                       Get.back();
                     },
-                    child: Text(LocaleKeys.cancel.tr(),
-                    style: TextStyle(color: Colors.grey),)),
+                    child: Text(
+                      LocaleKeys.cancel.tr(),
+                      style: const TextStyle(color: Colors.grey),
+                    )),
                 TextButton(
-                    onPressed: (){
-                      print(_.selectedDay);
+                    onPressed: () {
                       Get.back(result: _.selectedDay);
                     },
                     child: Text(LocaleKeys.done.tr())),

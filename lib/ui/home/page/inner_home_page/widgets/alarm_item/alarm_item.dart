@@ -21,14 +21,12 @@ import 'controller/alarm_switch_controller.dart';
 import 'controller/selected_alarm_controller.dart';
 
 class AlarmItem extends StatelessWidget {
-  Color _swapButtonColor;
-  late int _id;
+  late final int _id;
   int index;
   final AlarmProvider alarmProvider = AlarmProvider();
 
   AlarmItem({required int id, required Key key, required this.index})
       : _id = id,
-        _swapButtonColor = Colors.grey,
         super(key: key);
 
   String convertAlarmDateTime(AlarmData alarmData) {
@@ -83,14 +81,16 @@ class AlarmItem extends StatelessWidget {
 //color들 싹 조정하기
   @override
   Widget build(BuildContext context) {
-    BorderRadius _alarmBorder = BorderRadius.all(Radius.circular(10));
+    BorderRadius alarmBorder = const BorderRadius.all(Radius.circular(10));
     final switchCont = Get.put(AlarmSwitchController());
     Get.put(SelectedAlarmController());
     Get.put(AlarmListController());
-    var requiredParameterToAddAlarmPageController = Get.put(RequiredParameterToAddAlarmPageController());
+    var requiredParameterToAddAlarmPageController =
+        Get.put(RequiredParameterToAddAlarmPageController());
 
     //나중에 LongPress했을 때 회색도 추가
-    Get.find<SelectedAlarmController>().colorMap[_id] = Get.find<ColorController>().colorSet.backgroundColor;
+    Get.find<SelectedAlarmController>().colorMap[_id] =
+        Get.find<ColorController>().colorSet.backgroundColor;
 
     return GetBuilder<SelectedAlarmController>(builder: (selectedCont) {
       return Stack(
@@ -120,35 +120,41 @@ class AlarmItem extends StatelessWidget {
               height: SizeValue.alarmItemHeight,
               decoration: BoxDecoration(
                 color: Get.find<ColorController>().colorSet.backgroundColor,
-                borderRadius: _alarmBorder,
+                borderRadius: alarmBorder,
                 boxShadow: [
                   BoxShadow(
                     color: ColorValue.black26,
                     spreadRadius: 0.5,
                     blurRadius: 2.5,
-                    offset: Offset(0, 1), // changes position of shadow
+                    offset: const Offset(0, 1), // changes position of shadow
                   ),
                 ],
               ),
               //안된다면 Material로 감싸봐
               child: Stack(children: [
                 Material(
-                  borderRadius: _alarmBorder,
+                  borderRadius: alarmBorder,
                   child: Ink(
                       height: SizeValue.alarmItemHeight,
                       decoration: BoxDecoration(
-                        borderRadius: _alarmBorder,
+                        borderRadius: alarmBorder,
                         color:
                             Get.find<SelectedAlarmController>().colorMap[_id],
                       ),
                       child: InkWell(
-                        borderRadius: _alarmBorder,
+                        borderRadius: alarmBorder,
                         splashColor: Colors.grey,
                         onTap: () async {
-                          Get.find<RecentAlarmDateStreamController>().dateStreamSubscription.pause();
-                          requiredParameterToAddAlarmPageController.mode = StringValue.editMode;
-                          requiredParameterToAddAlarmPageController.alarmId = _id;
-                          requiredParameterToAddAlarmPageController.folderName = (await alarmProvider.getAlarmById(_id)).folderName;
+                          Get.find<RecentAlarmDateStreamController>()
+                              .dateStreamSubscription
+                              .pause();
+                          requiredParameterToAddAlarmPageController.mode =
+                              StringValue.editMode;
+                          requiredParameterToAddAlarmPageController.alarmId =
+                              _id;
+                          requiredParameterToAddAlarmPageController.folderName =
+                              (await alarmProvider.getAlarmById(_id))
+                                  .folderName;
                           Get.closeAllSnackbars();
                           Get.find<SelectedAlarmController>().isSelectedMode =
                               false;
@@ -163,7 +169,9 @@ class AlarmItem extends StatelessWidget {
                                   isDismissible: false,
                                   margin: EdgeInsets.zero,
                                   snackStyle: SnackStyle.GROUNDED,
-                                  backgroundColor: Get.find<ColorController>().colorSet.mainColor,
+                                  backgroundColor: Get.find<ColorController>()
+                                      .colorSet
+                                      .mainColor,
                                   duration: const Duration(minutes: 15),
                                   animationDuration:
                                       const Duration(milliseconds: 250),
@@ -173,23 +181,32 @@ class AlarmItem extends StatelessWidget {
                                         Get.back();
                                       },
                                       style: ButtonStyle(
-                                        backgroundColor:
-                                          MaterialStateProperty.resolveWith<
-                                                  Color>(
-                                              (Set<MaterialState> states) {
-                                        if (states
-                                            .contains(MaterialState.pressed)) {
-                                          return Colors.black26;
-                                        }
-                                        return Get.find<ColorController>().colorSet.deepMainColor;
-                                      }),
-                                        overlayColor: MaterialStateProperty.all(Colors.transparent),//splash 효과 없애는 코드
-                                        minimumSize: MaterialStateProperty.all(const Size(40, 40)),
-                                        maximumSize: MaterialStateProperty.all(const Size(200, 40))
-                                      ),
+                                          backgroundColor: MaterialStateProperty
+                                              .resolveWith<Color>(
+                                                  (Set<MaterialState> states) {
+                                            if (states.contains(
+                                                MaterialState.pressed)) {
+                                              return Colors.black26;
+                                            }
+                                            return Get.find<ColorController>()
+                                                .colorSet
+                                                .deepMainColor;
+                                          }),
+                                          overlayColor:
+                                              MaterialStateProperty.all(
+                                                  Colors.transparent),
+                                          //splash 효과 없애는 코드
+                                          minimumSize:
+                                              MaterialStateProperty.all(
+                                                  const Size(40, 40)),
+                                          maximumSize:
+                                              MaterialStateProperty.all(
+                                                  const Size(200, 40))),
                                       child: AutoSizeText(
                                         LocaleKeys.turnOffEraseMode.tr(),
-                                        color: Get.find<ColorController>().colorSet.appBarContentColor,
+                                        color: Get.find<ColorController>()
+                                            .colorSet
+                                            .appBarContentColor,
                                       )));
                             }
                           }
@@ -199,7 +216,8 @@ class AlarmItem extends StatelessWidget {
                             builder: (context, snapshot) {
                               if (snapshot.hasData) {
                                 return Container(
-                                  padding: const EdgeInsets.fromLTRB(20, 10, 10, 10),
+                                  padding:
+                                      const EdgeInsets.fromLTRB(20, 10, 10, 10),
                                   child: Row(
                                     children: [
                                       Expanded(
@@ -208,64 +226,99 @@ class AlarmItem extends StatelessWidget {
                                           padding: const EdgeInsets.fromLTRB(
                                               3, 3, 0, 3),
                                           child: Column(
-                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,
                                             children: [
                                               //알람 제목 텍스트
                                               Padding(
-                                                padding: const EdgeInsets.all(2.0),
+                                                padding:
+                                                    const EdgeInsets.all(2.0),
                                                 child: Text(
-                                                    (snapshot.data)!
-                                                        .title!,
+                                                  (snapshot.data)!.title!,
                                                   textScaleFactor: 1.0,
-                                                  overflow: TextOverflow.ellipsis,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
                                                   maxLines: 1,
-                                                  style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                                                    fontFamily: MyFontFamily.mainFontFamily,
-                                                    color: Get.find<ColorController>().colorSet.mainTextColor
-                                                  ),),
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .titleMedium!
+                                                      .copyWith(
+                                                          fontFamily: MyFontFamily
+                                                              .mainFontFamily,
+                                                          color: Get.find<
+                                                                  ColorController>()
+                                                              .colorSet
+                                                              .mainTextColor),
                                                 ),
-                                              const Divider(height: 6.0, thickness: 1.0,),
+                                              ),
+                                              const Divider(
+                                                height: 6.0,
+                                                thickness: 1.0,
+                                              ),
 
                                               //알람 시간 텍스트
                                               Padding(
-                                                padding: const EdgeInsets.all(1.0),
-                                                child: Text(DateFormat('hh:mm a', 'en')
-                                                            .format((snapshot
-                                                                    .data)!
-                                                                .alarmDateTime)
-                                                            .toLowerCase(),
-                                                textScaleFactor: 1.0,
-                                                style: Theme.of(context).textTheme.headlineSmall!.copyWith(
-                                                    fontFamily: MyFontFamily.mainFontFamily,
-                                                  color: Get.find<ColorController>().colorSet.mainColor,
-                                                  fontWeight: FontWeight.bold
-                                                ),),
+                                                padding:
+                                                    const EdgeInsets.all(1.0),
+                                                child: Text(
+                                                  DateFormat('hh:mm a', 'en')
+                                                      .format((snapshot.data)!
+                                                          .alarmDateTime)
+                                                      .toLowerCase(),
+                                                  textScaleFactor: 1.0,
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .headlineSmall!
+                                                      .copyWith(
+                                                          fontFamily: MyFontFamily
+                                                              .mainFontFamily,
+                                                          color: Get.find<
+                                                                  ColorController>()
+                                                              .colorSet
+                                                              .mainColor,
+                                                          fontWeight:
+                                                              FontWeight.bold),
+                                                ),
                                               ),
-                                              const SizedBox(height: 5,),
+                                              const SizedBox(
+                                                height: 5,
+                                              ),
                                               //alarmPoint 텍스트
                                               Padding(
-                                                padding: const EdgeInsets.only(left: 1),
+                                                padding: const EdgeInsets.only(
+                                                    left: 1),
                                                 child: Text(
-                                                    convertAlarmDateTime(
-                                                        (snapshot
-                                                            .data)!),
-                                                textScaleFactor: 1.0,
-                                                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                                                  fontFamily: MyFontFamily.mainFontFamily,
-                                                    color: Get.find<ColorController>().colorSet.mainTextColor
-                                                ),),
-                                              ),
-                                              const SizedBox(height: 2,),
-                                              Text(getTextOfAlarmPoint(
-                                                  (snapshot
-                                                      .data)!),
-                                                textScaleFactor: 1.0,
-                                                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                                                    fontFamily: MyFontFamily.mainFontFamily,
-                                                    color: Colors.grey
+                                                  convertAlarmDateTime(
+                                                      (snapshot.data)!),
+                                                  textScaleFactor: 1.0,
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .bodyMedium!
+                                                      .copyWith(
+                                                          fontFamily: MyFontFamily
+                                                              .mainFontFamily,
+                                                          color: Get.find<
+                                                                  ColorController>()
+                                                              .colorSet
+                                                              .mainTextColor),
                                                 ),
+                                              ),
+                                              const SizedBox(
+                                                height: 2,
+                                              ),
+                                              Text(
+                                                getTextOfAlarmPoint(
+                                                    (snapshot.data)!),
+                                                textScaleFactor: 1.0,
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .bodyMedium!
+                                                    .copyWith(
+                                                        fontFamily: MyFontFamily
+                                                            .mainFontFamily,
+                                                        color: Colors.grey),
                                               ),
                                               //Spacer(),
                                             ],
@@ -297,8 +350,7 @@ class AlarmItem extends StatelessWidget {
                   child: Container(
                     width: 70,
                     decoration: BoxDecoration(
-                        color: Colors.transparent,
-                        borderRadius: _alarmBorder),
+                        color: Colors.transparent, borderRadius: alarmBorder),
                     padding: const EdgeInsets.fromLTRB(0, 20, 20, 20),
                     child: FutureBuilder<AlarmData>(
                         future: alarmProvider.getAlarmById(_id),
@@ -308,36 +360,43 @@ class AlarmItem extends StatelessWidget {
                                 snapshot.data!.alarmState;
                             return Column(
                               children: [
-                                GetBuilder<AlarmSwitchController>(
-                                    builder: (_) {
+                                GetBuilder<AlarmSwitchController>(builder: (_) {
                                   return CustomSwitch(
-                                    touchAreaHeight: 40,
+                                      touchAreaHeight: 40,
                                       switchHeight: 22,
                                       value: _.switchBoolMap[_id]!,
                                       onChanged: (value) {
                                         _.setSwitchBool(_id);
                                       },
-                                      activeColor: Get.find<ColorController>().colorSet.switchTrackColor,
+                                      activeColor: Get.find<ColorController>()
+                                          .colorSet
+                                          .switchTrackColor,
                                       thumbColor: [
-                                        Get.find<ColorController>().colorSet.lightMainColor,
-                                        Get.find<ColorController>().colorSet.mainColor,
-                                        Get.find<ColorController>().colorSet.deepMainColor,
-                                      ]
-                                  );
+                                        Get.find<ColorController>()
+                                            .colorSet
+                                            .lightMainColor,
+                                        Get.find<ColorController>()
+                                            .colorSet
+                                            .mainColor,
+                                        Get.find<ColorController>()
+                                            .colorSet
+                                            .deepMainColor,
+                                      ]);
                                 }),
-                                const SizedBox(height: 12,),
+                                const SizedBox(
+                                  height: 12,
+                                ),
 
                                 //이 페이지 볼 때마다
                                 //체크되어있나 아닌가 설정값 찾아서
                                 //체크/미체크 표시하기기
                                 ReorderableDragStartListener(
                                   index: index,
-                                  child: Icon(
-                                      Icons.swap_vert_rounded,
-                                      size: 37.5,
-                                      color: _swapButtonColor,
-                                    ),
-
+                                  child: const Icon(
+                                    Icons.swap_vert_rounded,
+                                    size: 37.5,
+                                    color: Colors.grey,
+                                  ),
                                 ),
                               ],
                             );

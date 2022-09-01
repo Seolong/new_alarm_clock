@@ -113,6 +113,7 @@
   "resetMusicList": "음악 목록을 초기화하시겠습니까?",
   "nextAlarmWillGoOff": "",
 
+  "warning": "주의",
   "batteryOptimization": "배터리 최적화",
   "batteryOptimizationIsTurnedOff": "배터리 최적화가 꺼져 있습니다.",
   "batteryOptimizationIsOn": "배터리 최적화 기능이 켜져 있습니다. 이 기능은 종종 알람이 울리지 못하게 합니다. 정상적인 작동을 위해 '설정하기' 버튼을 눌러 최적화를 꺼주세요.",

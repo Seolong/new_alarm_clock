@@ -4,9 +4,9 @@ import 'package:new_alarm_clock/ui/add_alarm/widgets/list_tile/ring_list_tile.da
 import 'package:new_alarm_clock/ui/add_alarm/widgets/list_tile/vibration_list_tile.dart';
 import 'package:new_alarm_clock/utils/enum.dart';
 
-class AlarmDetailListTileFactory{
-  AlarmDetailListTile getDetailListTile(DetailTileName name){
-    switch(name){
+class AlarmDetailListTileFactory {
+  AlarmDetailListTile getDetailListTile(DetailTileName name) {
+    switch (name) {
       case DetailTileName.ring:
         return RingListTile();
       case DetailTileName.vibration:

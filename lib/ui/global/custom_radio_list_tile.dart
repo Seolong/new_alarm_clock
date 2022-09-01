@@ -12,7 +12,8 @@ class CustomRadioListTile<T> extends StatelessWidget {
   final double spaceBetweenRadioAndTitle;
 
   const CustomRadioListTile(
-      {required this.value,
+      {Key? key,
+      required this.value,
       required this.groupValue,
       required this.onChanged,
       required this.title,
@@ -20,7 +21,8 @@ class CustomRadioListTile<T> extends StatelessWidget {
       this.listHeight = 50,
       this.titleFontSize = 25,
       this.titleTextStyle = const TextStyle(fontSize: 16),
-      this.spaceBetweenRadioAndTitle = 5});
+      this.spaceBetweenRadioAndTitle = 5})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {

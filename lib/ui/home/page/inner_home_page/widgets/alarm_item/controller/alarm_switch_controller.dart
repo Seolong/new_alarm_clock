@@ -8,8 +8,8 @@ import 'package:new_alarm_clock/ui/home/controller/alarm_list_controller.dart';
 import 'package:new_alarm_clock/utils/enum.dart';
 
 class AlarmSwitchController extends GetxController {
-  Map<int, bool> switchBoolMap = Map<int, bool>();
-  AlarmProvider _alarmProvider = AlarmProvider();
+  Map<int, bool> switchBoolMap = <int, bool>{};
+  final AlarmProvider _alarmProvider = AlarmProvider();
 
   void setSwitchBool(int id) async {
     AlarmData thisAlarmData = await _alarmProvider.getAlarmById(id);
@@ -38,20 +38,21 @@ class AlarmSwitchController extends GetxController {
           weekBool.add(thisAlarmWeekData.friday);
           weekBool.add(thisAlarmWeekData.saturday);
         }
-        if(thisAlarmData.alarmType != RepeatMode.off && thisAlarmData.alarmType != RepeatMode.single){
+        if (thisAlarmData.alarmType != RepeatMode.off &&
+            thisAlarmData.alarmType != RepeatMode.single) {
           while (thisAlarmData.alarmDateTime.isBefore(DateTime.now())) {
             thisAlarmData.alarmDateTime =
-                thisAlarmData.alarmDateTime.add(Duration(days: 1));
+                thisAlarmData.alarmDateTime.add(const Duration(days: 1));
             thisAlarmData.alarmDateTime = DateTimeCalculator().getStartNearDay(
                 thisAlarmData.alarmType, thisAlarmData.alarmDateTime,
                 weekBool: weekBool,
                 monthRepeatDay: thisAlarmData.monthRepeatDay,
                 yearRepeatDay: thisAlarmData.alarmDateTime);
           }
-        } else{
-          while(thisAlarmData.alarmDateTime.isBefore(DateTime.now())){
+        } else {
+          while (thisAlarmData.alarmDateTime.isBefore(DateTime.now())) {
             thisAlarmData.alarmDateTime =
-                thisAlarmData.alarmDateTime.add(Duration(days: 1));
+                thisAlarmData.alarmDateTime.add(const Duration(days: 1));
           }
         }
       }

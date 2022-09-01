@@ -141,6 +141,7 @@
   "resetMusicList": "Do you want to reset this music list?",
   "nextAlarmWillGoOff": "the next alarm will go off.",
 
+  "warning": "Warning",
   "batteryOptimization": "Battery optimization",
   "batteryOptimizationIsTurnedOff": "Battery optimization is turned off.",
   "batteryOptimizationIsOn": "Battery optimization is on. This feature sometimes prevents alarms from ringing. For normal operation, press the 'Set' button to turn off the optimization.",

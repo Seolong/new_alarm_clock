@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:new_alarm_clock/data/database/alarm_provider.dart';
@@ -12,18 +13,19 @@ import 'package:intl/intl.dart';
 import 'package:new_alarm_clock/utils/values/vibration_pack.dart';
 import 'package:wakelock/wakelock.dart';
 
-
 class AlarmAlarmPage extends StatelessWidget {
   int alarmId = -1;
-  Future<AlarmData>? alarmData = null;
-  AlarmProvider _alarmProvider = AlarmProvider();
+  Future<AlarmData>? alarmData;
+  final AlarmProvider _alarmProvider = AlarmProvider();
   final IdSharedPreferences _idSharedPreferences = IdSharedPreferences();
-  VibrationPack _vibrationPack = VibrationPack();
-  MusicHandler _musicHandler = MusicHandler();
+  final VibrationPack _vibrationPack = VibrationPack();
+  final MusicHandler _musicHandler = MusicHandler();
 
   Future<AlarmData> getAlarmData() async {
     alarmId = await _idSharedPreferences.getAlarmedId();
-    print('alarming alarm id = $alarmId');
+    if (kDebugMode) {
+      print('alarming alarm id = $alarmId');
+    }
     return _alarmProvider.getAlarmById(alarmId);
   }
 
@@ -41,39 +43,47 @@ class AlarmAlarmPage extends StatelessWidget {
                 future: alarmData,
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
-                    if(snapshot.data!.musicBool == true){
+                    if (snapshot.data!.musicBool == true) {
                       _musicHandler.initOriginalVolume();
-                      _musicHandler.playMusic(snapshot.data!.musicVolume, snapshot.data!.musicPath);
+                      _musicHandler.playMusic(
+                          snapshot.data!.musicVolume, snapshot.data!.musicPath);
                     }
-                    if(snapshot.data!.vibrationBool == true){
-                      _vibrationPack.vibrateByVibrationName(snapshot.data!.vibrationName);
+                    if (snapshot.data!.vibrationBool == true) {
+                      _vibrationPack
+                          .vibrateByVibrationName(snapshot.data!.vibrationName);
                     }
                     return Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Container(height: 100,),
+                        Container(
+                          height: 100,
+                        ),
                         Text(
                           DateFormat('HH:mm')
                               .format((snapshot.data)!.alarmDateTime)
                               .toLowerCase(),
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
-                              color: Get.find<ColorController>().colorSet.mainTextColor,
+                              color: Get.find<ColorController>()
+                                  .colorSet
+                                  .mainTextColor,
                               fontSize: 70,
                               fontFamily: MyFontFamily.mainFontFamily),
                         ),
                         Text(
                           snapshot.data!.title ?? '',
                           style: TextStyle(
-                              color: Get.find<ColorController>().colorSet.mainTextColor,
+                              color: Get.find<ColorController>()
+                                  .colorSet
+                                  .mainTextColor,
                               fontSize: 50,
                               fontFamily: MyFontFamily.mainFontFamily),
                         )
                       ],
                     );
                   }
-                  return Center(
-                    child: Container(
+                  return const Center(
+                    child: SizedBox(
                       height: 50,
                       width: 50,
                       child: CircularProgressIndicator(),

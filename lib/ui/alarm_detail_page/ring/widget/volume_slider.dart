@@ -7,29 +7,32 @@ class VolumeSlider extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<RingRadioListController>(builder: (_) {
-      Color deepColor = _.power ? Get.find<ColorController>().colorSet.deepMainColor : Colors.grey;
-      Color lightColor = _.power ? Get.find<ColorController>().colorSet.lightMainColor : Colors.grey;
+      Color deepColor = _.power
+          ? Get.find<ColorController>().colorSet.deepMainColor
+          : Colors.grey;
+      Color lightColor = _.power
+          ? Get.find<ColorController>().colorSet.lightMainColor
+          : Colors.grey;
       return SliderTheme(
         data: SliderThemeData(
-          thumbShape: GradientSliderThumbShape(
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: [
-                  deepColor,
-                  lightColor,
-                ],
-              )
-          ),
+            thumbShape: GradientSliderThumbShape(
+                gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [
+                deepColor,
+                lightColor,
+              ],
+            )),
             trackShape: GradientRectSliderTrackShape(
                 gradient: LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: [
-            lightColor,
-            deepColor,
-          ],
-        ))),
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [
+                lightColor,
+                deepColor,
+              ],
+            ))),
         child: Slider(
           value: _.volume, //초기값
           onChanged: (value) {
@@ -88,7 +91,7 @@ class GradientSliderThumbShape extends RoundSliderThumbShape {
     );
 
     final Color color = colorTween.evaluate(enableAnimation)!;
-    final double radius = 7.75;
+    const double radius = 7.75;
 
     final Tween<double> elevationTween = Tween<double>(
       begin: elevation,
@@ -109,8 +112,8 @@ class GradientSliderThumbShape extends RoundSliderThumbShape {
       center,
       radius,
       Paint()
-      ..shader = gradient.createShader(Rect.fromCenter(
-          center: center, width: 2 * radius, height: 2 * radius))
+        ..shader = gradient.createShader(Rect.fromCenter(
+            center: center, width: 2 * radius, height: 2 * radius))
         ..color = color,
     );
   }

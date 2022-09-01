@@ -18,13 +18,13 @@ class StartEndDayController extends GetxController {
   final String monthDay = 'monthDay';
   final String year = 'year';
 
-  Map<String, dynamic> _start = {
-    'dateTime' : DateTime.now(),
+  final Map<String, dynamic> _start = {
+    'dateTime': DateTime.now(),
     'monthDay': '',
     'year': ''
   };
 
-  Map<String, dynamic> _end = {
+  final Map<String, dynamic> _end = {
     'dateTime': true ? null : DateTime(1), //이게 DateTime이란 걸 알려주는 얄팍한 속임수
     'monthDay': '',
     'year': ''
@@ -34,7 +34,8 @@ class StartEndDayController extends GetxController {
   @override
   void onInit() {
     _start[monthDay] = Jiffy(_start[dateTime]).MMMMd;
-    _start[year] = DateFormat(LocaleKeys.yearFormat.tr()).format(_start[dateTime]);
+    _start[year] =
+        DateFormat(LocaleKeys.yearFormat.tr()).format(_start[dateTime]);
     super.onInit();
   }
 
@@ -50,17 +51,18 @@ class StartEndDayController extends GetxController {
             startDateTime.day <= endTime.day)) {
       _start[dateTime] = startDateTime;
       _start[monthDay] = Jiffy(_start[dateTime]).MMMMd;
-      _start[year] = DateFormat(LocaleKeys.yearFormat.tr()).format(_start[dateTime]);
+      _start[year] =
+          DateFormat(LocaleKeys.yearFormat.tr()).format(_start[dateTime]);
       update();
     }
   }
 
   void setEnd(DateTime? endDateTime) {
     _end[dateTime] = endDateTime;
-    _end[monthDay] =
-        endDateTime == null ? '' : Jiffy(_end[dateTime]).MMMMd;
-    _end[year] =
-        endDateTime == null ? '' : DateFormat(LocaleKeys.yearFormat.tr()).format(_end[dateTime]);
+    _end[monthDay] = endDateTime == null ? '' : Jiffy(_end[dateTime]).MMMMd;
+    _end[year] = endDateTime == null
+        ? ''
+        : DateFormat(LocaleKeys.yearFormat.tr()).format(_end[dateTime]);
     update();
   }
 
@@ -68,17 +70,17 @@ class StartEndDayController extends GetxController {
     if (repeatMode == RepeatMode.week) {
       List<bool> weekBool = [];
       for (var weekDayBool in DayWeek.values) {
-        weekBool.add(Get.find<DayOfWeekController>().dayButtonStateMap[weekDayBool]!);
+        weekBool.add(
+            Get.find<DayOfWeekController>().dayButtonStateMap[weekDayBool]!);
       }
-      setStart(dateTimeCalculator
-          .getStartNearDay(repeatMode, _start[dateTime], weekBool: weekBool));
+      setStart(dateTimeCalculator.getStartNearDay(repeatMode, _start[dateTime],
+          weekBool: weekBool));
     } else if (repeatMode == RepeatMode.month) {
-      setStart(dateTimeCalculator.getStartNearDay(
-          repeatMode, _start[dateTime],
-          monthRepeatDay: Get.find<MonthRepeatDayController>().monthRepeatDay!));
+      setStart(dateTimeCalculator.getStartNearDay(repeatMode, _start[dateTime],
+          monthRepeatDay:
+              Get.find<MonthRepeatDayController>().monthRepeatDay!));
     } else if (repeatMode == RepeatMode.year) {
-      setStart(dateTimeCalculator.getStartNearDay(
-          repeatMode, _start[dateTime],
+      setStart(dateTimeCalculator.getStartNearDay(repeatMode, _start[dateTime],
           yearRepeatDay: Get.find<YearRepeatDayController>().yearRepeatDay));
     } else {
       setStart(
@@ -86,59 +88,64 @@ class StartEndDayController extends GetxController {
     }
   }
 
-  void skipNextAlarmDate(int alarmId) async{
+  void skipNextAlarmDate(int alarmId) async {
     bool isLastDay() {
       return Get.find<MonthRepeatDayController>().monthRepeatDay == 29;
     }
-    bool isSameDate(DateTime day1, DateTime day2){
-      return (day1.year == day2.year && day1.month == day2.month
-      && day1.day == day2.day);
+
+    bool isSameDate(DateTime day1, DateTime day2) {
+      return (day1.year == day2.year &&
+          day1.month == day2.month &&
+          day1.day == day2.day);
     }
+
     AlarmProvider alarmProvider = AlarmProvider();
     List<DayOffData> dayOffList = await alarmProvider.getDayOffsById(alarmId);
 
     List<bool> weekBool = [];
     for (var weekDayBool in DayWeek.values) {
-      weekBool.add(Get.find<DayOfWeekController>().dayButtonStateMap[weekDayBool]!);
+      weekBool
+          .add(Get.find<DayOfWeekController>().dayButtonStateMap[weekDayBool]!);
     }
     DateTimeCalculator dateTimeCalculator = DateTimeCalculator();
-    DateTime nextDate =
-      dateTimeCalculator.addDateTime(
+    DateTime nextDate = dateTimeCalculator.addDateTime(
+        Get.find<RepeatModeController>().repeatMode,
+        start['dateTime'],
+        Get.find<IntervalTextFieldController>().getInterval(),
+        weekBool: weekBool,
+        lastDay: isLastDay());
+    while (
+        dayOffList.any((element) => isSameDate(element.dayOffDate, nextDate))) {
+      nextDate = dateTimeCalculator.addDateTime(
           Get.find<RepeatModeController>().repeatMode,
-          start['dateTime'],
+          nextDate,
           Get.find<IntervalTextFieldController>().getInterval(),
           weekBool: weekBool,
-          lastDay: isLastDay()
-      );
-    while(dayOffList.any((element) => isSameDate(element.dayOffDate, nextDate))){
-      nextDate =
-          dateTimeCalculator.addDateTime(
-              Get.find<RepeatModeController>().repeatMode,
-              nextDate,
-              Get.find<IntervalTextFieldController>().getInterval(),
-              weekBool: weekBool,
-              lastDay: isLastDay()
-          );
+          lastDay: isLastDay());
     }
     setStart(nextDate);
   }
 
-  void resetDateWhenMonthRepeat(DateTime alarmTime){
+  void resetDateWhenMonthRepeat(DateTime alarmTime) {
     // 예를 들어 오늘이 6월 28일인데
     // 설정은 13일로 하면
     // 다음 알람일이 6월 13일이 돼버린다
     // 그거 해결
-    alarmTime = DateTime(alarmTime.year, alarmTime.month,
+    alarmTime = DateTime(
+        alarmTime.year,
+        alarmTime.month,
         Get.find<MonthRepeatDayController>().monthRepeatDay!,
-        alarmTime.hour, alarmTime.minute);
-    if(alarmTime.isBefore(DateTime.now())){
+        alarmTime.hour,
+        alarmTime.minute);
+    if (alarmTime.isBefore(DateTime.now())) {
       DateTimeCalculator dateTimeCalculator = DateTimeCalculator();
-      if(Get.find<MonthRepeatDayController>().monthRepeatDay!
-          == Get.find<MonthRepeatDayController>().lastDay){
-        alarmTime = dateTimeCalculator.addDateTime(RepeatMode.month, alarmTime, 1, lastDay: true);
-      }
-      else{
-        alarmTime = dateTimeCalculator.addDateTime(RepeatMode.month, alarmTime, 1, lastDay: false);
+      if (Get.find<MonthRepeatDayController>().monthRepeatDay! ==
+          Get.find<MonthRepeatDayController>().lastDay) {
+        alarmTime = dateTimeCalculator
+            .addDateTime(RepeatMode.month, alarmTime, 1, lastDay: true);
+      } else {
+        alarmTime = dateTimeCalculator
+            .addDateTime(RepeatMode.month, alarmTime, 1, lastDay: false);
       }
     }
     setStart(alarmTime);

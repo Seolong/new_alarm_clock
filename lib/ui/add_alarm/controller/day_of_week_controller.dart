@@ -1,4 +1,3 @@
-import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:new_alarm_clock/data/database/alarm_provider.dart';
@@ -7,23 +6,24 @@ import 'package:new_alarm_clock/ui/choice_day/controller/repeat_mode_controller.
 import 'package:new_alarm_clock/ui/global/color_controller.dart';
 import 'package:new_alarm_clock/utils/enum.dart';
 
-class DayOfWeekController extends GetxController{
-  Map<DayWeek, bool> dayButtonStateMap = Map<DayWeek, bool>();
-  AlarmProvider _alarmProvider = AlarmProvider();
+class DayOfWeekController extends GetxController {
+  Map<DayWeek, bool> dayButtonStateMap = <DayWeek, bool>{};
+  final AlarmProvider _alarmProvider = AlarmProvider();
 
   @override
   void onInit() {
-    for(var value in DayWeek.values){
+    for (var value in DayWeek.values) {
       dayButtonStateMap[value] = false; //추가면 다 false, 수정이면 DB에서
     }
 
     super.onInit();
   }
 
-  Future<void> initWhenEditMode(int alarmId) async{
-    AlarmWeekRepeatData? weekRepeatData = await _alarmProvider.getAlarmWeekDataById(alarmId);
+  Future<void> initWhenEditMode(int alarmId) async {
+    AlarmWeekRepeatData? weekRepeatData =
+        await _alarmProvider.getAlarmWeekDataById(alarmId);
 
-    if(weekRepeatData != null) {
+    if (weekRepeatData != null) {
       dayButtonStateMap[DayWeek.Sun] = weekRepeatData.sunday;
       dayButtonStateMap[DayWeek.Mon] = weekRepeatData.monday;
       dayButtonStateMap[DayWeek.Tue] = weekRepeatData.tuesday;
@@ -36,36 +36,37 @@ class DayOfWeekController extends GetxController{
     update();
   }
 
-  bool getDayButtonState(DayWeek day){
+  bool getDayButtonState(DayWeek day) {
     return dayButtonStateMap[day]!;
   }
 
-  void reverseDayButtonState(DayWeek day){
+  void reverseDayButtonState(DayWeek day) {
     dayButtonStateMap[day] = !dayButtonStateMap[day]!;
     update();
   }
 
-  void resetAllDayButtonStateToFalse(){
-    dayButtonStateMap.forEach((key, value) {dayButtonStateMap[key] = false;});
+  void resetAllDayButtonStateToFalse() {
+    dayButtonStateMap.forEach((key, value) {
+      dayButtonStateMap[key] = false;
+    });
     update();
   }
 
-  Color getButtonStateColor(bool state){
+  Color getButtonStateColor(bool state) {
     return state
         ? Get.find<ColorController>().colorSet.mainColor
         : Get.find<ColorController>().colorSet.backgroundColor;
   }
 
-  Color getButtonTextColor(bool state){
-    if(Get.find<RepeatModeController>().repeatMode == RepeatMode.single ||
-    Get.find<RepeatModeController>().repeatMode == RepeatMode.day ||
+  Color getButtonTextColor(bool state) {
+    if (Get.find<RepeatModeController>().repeatMode == RepeatMode.single ||
+        Get.find<RepeatModeController>().repeatMode == RepeatMode.day ||
         Get.find<RepeatModeController>().repeatMode == RepeatMode.month ||
-        Get.find<RepeatModeController>().repeatMode == RepeatMode.year){
+        Get.find<RepeatModeController>().repeatMode == RepeatMode.year) {
       return Colors.black12;
     }
     return state
         ? Get.find<ColorController>().colorSet.mainColor
         : Get.find<ColorController>().colorSet.mainTextColor;
   }
-
 }

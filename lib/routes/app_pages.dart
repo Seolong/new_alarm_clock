@@ -10,11 +10,13 @@ import 'package:new_alarm_clock/ui/choice_day/choice_day_page.dart';
 import 'package:new_alarm_clock/ui/day_off/day_off_page.dart';
 import 'package:new_alarm_clock/ui/home/home_page.dart';
 
-class AppPages{
+class AppPages {
   static final pages = [
-    GetPage(name: AppRoutes.home, page: () {
-        return (appState == 'alarm')? AlarmAlarmPage():Home();
-    }),
+    GetPage(
+        name: AppRoutes.home,
+        page: () {
+          return (appState == 'alarm') ? AlarmAlarmPage() : const Home();
+        }),
     GetPage(name: AppRoutes.addAlarmPage, page: () => AddAlarmPage()),
     GetPage(name: AppRoutes.ringPage, page: () => RingPage()),
     GetPage(name: AppRoutes.vibrationPage, page: () => VibrationPage()),

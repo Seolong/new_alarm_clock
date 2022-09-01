@@ -39,8 +39,7 @@ class FolderPage extends StatelessWidget {
                     fontSize: 26,
                     fontWeight: FontWeight.bold,
                     fontFamily: MyFontFamily.mainFontFamily,
-                  color: Get.find<ColorController>().colorSet.mainTextColor
-                ),
+                    color: Get.find<ColorController>().colorSet.mainTextColor),
               ),
             ),
             Expanded(
@@ -58,12 +57,13 @@ class FolderPage extends StatelessWidget {
                     //item 의 반목문 항목 형성
                     if (_.folderList.length != index) {
                       return InkWell(
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(10)),
                         onLongPress: () async {
                           if (index != 0) {
                             // 전체 알람 폴더는 삭제 불가
-                            bool isDelete = await Get.dialog(DeleteDialog(
-                                LocaleKeys.deleteFolder.tr()));
+                            bool isDelete = await Get.dialog(
+                                DeleteDialog(LocaleKeys.deleteFolder.tr()));
                             if (isDelete == true) {
                               _.deleteFolder(_.folderList[index].name);
                             }
@@ -76,18 +76,21 @@ class FolderPage extends StatelessWidget {
                         child: Column(
                           children: [
                             Icon(
-                              _.mainFolderName !=
-                                      _.folderList[index].name
+                              _.mainFolderName != _.folderList[index].name
                                   ? Icons.folder
                                   : Icons.folder_special_rounded,
                               size: 65,
-                              color: Color(0xffFFCE45),
+                              color: const Color(0xffFFCE45),
                             ),
-                            Container(
+                            SizedBox(
                                 height: 20,
-                                child: AutoSizeText(index == 0?LocaleKeys.allAlarms.tr():
-                                  '${_.folderList[index].name}',
-                                  color: Get.find<ColorController>().colorSet.mainTextColor,
+                                child: AutoSizeText(
+                                  index == 0
+                                      ? LocaleKeys.allAlarms.tr()
+                                      : _.folderList[index].name,
+                                  color: Get.find<ColorController>()
+                                      .colorSet
+                                      .mainTextColor,
                                   bold: true,
                                 )),
                           ],
@@ -96,21 +99,22 @@ class FolderPage extends StatelessWidget {
                     } else {
                       return GestureDetector(
                         onTap: () {
-                          print('$index');
                           _displaySetFolderTitleDialog();
                         },
                         child: Column(
                           children: [
-                            Icon(
+                            const Icon(
                               Icons.create_new_folder_rounded,
                               size: 65,
                               color: Colors.lime,
                             ),
-                            Container(
+                            SizedBox(
                                 height: 20,
                                 child: AutoSizeText(
                                   LocaleKeys.addFolder.tr(),
-                                  color: Get.find<ColorController>().colorSet.mainTextColor,
+                                  color: Get.find<ColorController>()
+                                      .colorSet
+                                      .mainTextColor,
                                   bold: true,
                                 )),
                           ],

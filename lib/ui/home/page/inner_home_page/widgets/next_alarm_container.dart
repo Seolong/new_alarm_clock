@@ -7,10 +7,12 @@ import '../../../../global/color_controller.dart';
 
 class NextAlarmContainer extends StatelessWidget {
   final double nextAlarmContainerHeight = 70.0;
-  Future<String> _calculation = Future<String>.delayed(
-    Duration(seconds: 2),
+  final Future<String> _calculation = Future<String>.delayed(
+    const Duration(seconds: 2),
     () => 'Data Loaded',
   );
+
+  NextAlarmContainer({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +43,7 @@ class NextAlarmContainer extends StatelessWidget {
                     BoxShadow(
                       blurRadius: 4.0,
                       color: Colors.grey[400]!,
-                      offset: Offset(0, 1),
+                      offset: const Offset(0, 1),
                     )
                   ]),
               height: nextAlarmContainerHeight,
@@ -103,7 +105,7 @@ class NextAlarmContainer extends StatelessWidget {
                                             ? const SizedBox(
                                                 height: 2.5,
                                               )
-                                            : SizedBox.shrink(),
+                                            : const SizedBox.shrink(),
                                         Text(
                                           recentAlarmDateSC.nextAlarmTitle ??
                                               '',
@@ -126,10 +128,11 @@ class NextAlarmContainer extends StatelessWidget {
                                 } else {
                                   return Expanded(
                                     child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      children: [
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: const [
                                         SizedBox(
-                                          width: 25,
+                                            width: 25,
                                             height: 25,
                                             child: CircularProgressIndicator()),
                                       ],

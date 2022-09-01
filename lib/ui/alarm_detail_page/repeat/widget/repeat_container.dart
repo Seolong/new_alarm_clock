@@ -14,7 +14,8 @@ class RepeatContainer extends StatelessWidget {
   String containerId = '';
   String containerName = '';
 
-  RepeatContainer(this.containerId, this.containerName);
+  RepeatContainer(this.containerId, this.containerName, {Key? key})
+      : super(key: key);
 
   Widget getRadioListTile(BuildContext context, int index) {
     if (containerId == repeatInterval) {
@@ -68,24 +69,25 @@ class RepeatContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 0, vertical: 20),
+      padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 20),
       decoration: BoxDecoration(
           border: Border.all(
             color: Get.find<ColorController>().colorSet.mainColor,
           ),
-          borderRadius: BorderRadius.all(Radius.circular(7.5))),
+          borderRadius: const BorderRadius.all(Radius.circular(7.5))),
       child: Column(
         children: [
           Padding(
             padding: const EdgeInsets.fromLTRB(15, 5, 0, 15),
             child: Row(
               children: [
-                Container(
+                SizedBox(
                   height: 30,
                   child: FittedBox(
                     fit: BoxFit.scaleDown,
                     child: ConstrainedBox(
-                      constraints: BoxConstraints(minWidth: 1, minHeight: 1),
+                      constraints:
+                          const BoxConstraints(minWidth: 1, minHeight: 1),
                       child:
                           GetBuilder<RepeatRadioListController>(builder: (_) {
                         return Icon(
@@ -99,7 +101,7 @@ class RepeatContainer extends StatelessWidget {
                     ),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 5,
                 ),
                 Container(

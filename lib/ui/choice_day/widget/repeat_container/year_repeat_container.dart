@@ -11,32 +11,26 @@ import 'package:new_alarm_clock/generated/locale_keys.g.dart';
 import '../../../global/color_controller.dart';
 
 class YearRepeatContainer extends RepeatContainer {
-  dynamic intervalType;
-
-  YearRepeatContainer() {
+  YearRepeatContainer({Key? key}) : super(key: key) {
     Get.put(YearRepeatDayController());
-    intervalType = GetBuilder<IntervalTextFieldController>(
-      builder: (_) {
-        return Text(
-          plural(LocaleKeys.year_args, _.getInterval()),
-          style: TextStyle(
-              fontSize: SizeValue.intervalTypeTextSize,
-              color: Get.find<ColorController>().colorSet.mainTextColor
-          ),
-        );
-      }
-    );
+    intervalType = GetBuilder<IntervalTextFieldController>(builder: (_) {
+      return Text(
+        plural(LocaleKeys.year_args, _.getInterval()),
+        style: TextStyle(
+            fontSize: SizeValue.intervalTypeTextSize,
+            color: Get.find<ColorController>().colorSet.mainTextColor),
+      );
+    });
     bottomColumn = Column(
       children: [
         Padding(
           padding: const EdgeInsets.only(top: 20),
           child: GetBuilder<YearRepeatDayController>(builder: (_) {
             return Text(
-              '${_.getYearRepeatDay_monthDay()}',
+              _.getYearRepeatDay_monthDay(),
               style: TextStyle(
                   fontSize: SizeValue.yearRepeatDayText,
-                  color: Get.find<ColorController>().colorSet.mainTextColor
-              ),
+                  color: Get.find<ColorController>().colorSet.mainTextColor),
             );
           }),
         ),
@@ -45,7 +39,7 @@ class YearRepeatContainer extends RepeatContainer {
         ),
         GetBuilder<YearRepeatDayController>(builder: (_) {
           return InkWell(
-              borderRadius: BorderRadius.all(Radius.circular(20)),
+              borderRadius: const BorderRadius.all(Radius.circular(20)),
               onTap: () async {
                 var dateTime = await Get.dialog(AlertDialog(
                     contentPadding: EdgeInsets.zero,
@@ -53,7 +47,7 @@ class YearRepeatContainer extends RepeatContainer {
                 _.yearRepeatDay = dateTime;
               },
               child: Padding(
-                  padding: EdgeInsets.all(2.0),
+                  padding: const EdgeInsets.all(2.0),
                   child: Icon(
                     Icons.today,
                     size: ButtonSize.large,
@@ -61,15 +55,15 @@ class YearRepeatContainer extends RepeatContainer {
                   )));
         }),
         Container(
-          padding: EdgeInsets.fromLTRB(0, 0, 0, 7.5),
+          padding: const EdgeInsets.fromLTRB(0, 0, 0, 7.5),
           height: ButtonSize.medium * 2 - 15,
           child: FittedBox(
             fit: BoxFit.scaleDown,
             child: ConstrainedBox(
-              constraints: BoxConstraints(minWidth: 1, minHeight: 1),
+              constraints: const BoxConstraints(minWidth: 1, minHeight: 1),
               child: Text(
                 '${LocaleKeys.chooseRepeatDay.tr()}\n${LocaleKeys.monthAndDay.tr()}',
-                style: TextStyle(color: Colors.grey, fontSize: 1000),
+                style: const TextStyle(color: Colors.grey, fontSize: 1000),
                 textAlign: TextAlign.center,
               ),
             ),

@@ -21,19 +21,22 @@ class DateTimeCalculator {
   // newShot은 알람해제 버튼에서
   // 왜냐하면 alarmEndDay 고려하려고
   DateTime _addWeeks(DateTime currentDateTime, int weeks, List<bool> weekBool) {
-    int getLastTrue(){
+    int getLastTrue() {
       int lastTrueIndex = 0;
-      for(int i=1; i<=weekBool.length-1; i++){ //list에서 true인 애들 중 마지막 요일
-        if(weekBool[i] == true){
+      for (int i = 1; i <= weekBool.length - 1; i++) {
+        //list에서 true인 애들 중 마지막 요일
+        if (weekBool[i] == true) {
           lastTrueIndex = i;
         }
       }
       return lastTrueIndex;
     }
-    int getFirstTrue(){
-      int firstTrueIndex = weekBool.length-1;
-      for(int i=weekBool.length-2; i>=0; i--){ //list에서 true인 애들 중 첫 요일
-        if(weekBool[i] == true){
+
+    int getFirstTrue() {
+      int firstTrueIndex = weekBool.length - 1;
+      for (int i = weekBool.length - 2; i >= 0; i--) {
+        //list에서 true인 애들 중 첫 요일
+        if (weekBool[i] == true) {
           firstTrueIndex = i;
         }
       }
@@ -42,27 +45,30 @@ class DateTimeCalculator {
 
     DateTime resultDateTime;
     int weekday = currentDateTime.weekday;
-    if(weekday == DateTime.sunday){ // 0을 sunday로 6 == saturday
+    if (weekday == DateTime.sunday) {
+      // 0을 sunday로 6 == saturday
       weekday = 0;
     }
     int lastWeekday = getLastTrue();
-    if(lastWeekday != weekday){
-      int nextWeekDay = weekday+1;
-      for(int i=weekday+1; i<=lastWeekday; i++){// 다음 요일은?
-        if(weekBool[i] == true){
+    if (lastWeekday != weekday) {
+      int nextWeekDay = weekday + 1;
+      for (int i = weekday + 1; i <= lastWeekday; i++) {
+        // 다음 요일은?
+        if (weekBool[i] == true) {
           nextWeekDay = i;
           break;
         }
       }
       int difference = nextWeekDay - weekday;
       resultDateTime = Jiffy(currentDateTime).add(days: difference).dateTime;
-    }
-    else{//지금 알람이 마지막 요일이라면
+    } else {
+      //지금 알람이 마지막 요일이라면
       resultDateTime = Jiffy(currentDateTime).add(weeks: weeks).dateTime;
       int firstWeekDay = getFirstTrue();
       int difference = weekday - firstWeekDay;
       //첫 요일까지 빼기
-      resultDateTime = Jiffy(resultDateTime).subtract(days: difference).dateTime;
+      resultDateTime =
+          Jiffy(resultDateTime).subtract(days: difference).dateTime;
     }
 
     return resultDateTime;
@@ -101,10 +107,11 @@ class DateTimeCalculator {
     }
   }
 
-  DateTime _getStartNearWeekDay(DateTime currentStartDateTime, List<bool> weekBool){
-    int getDifferenceBetweenCurrentDayAndNextNearDay(int currentWeekDay){
-      for(int difference=1; difference<=6; difference++){
-        if(weekBool[(currentWeekDay+difference)%7] == true){
+  DateTime _getStartNearWeekDay(
+      DateTime currentStartDateTime, List<bool> weekBool) {
+    int getDifferenceBetweenCurrentDayAndNextNearDay(int currentWeekDay) {
+      for (int difference = 1; difference <= 6; difference++) {
+        if (weekBool[(currentWeekDay + difference) % 7] == true) {
           return difference;
         }
       }
@@ -113,60 +120,64 @@ class DateTimeCalculator {
     }
 
     int currentWeekDay = currentStartDateTime.weekday;
-    if(currentWeekDay == DateTime.sunday){ //일요일을 0으로
+    if (currentWeekDay == DateTime.sunday) {
+      //일요일을 0으로
       currentWeekDay = 0;
     }
-    if(weekBool[currentWeekDay] == false){
-      int difference = getDifferenceBetweenCurrentDayAndNextNearDay(currentWeekDay);
+    if (weekBool[currentWeekDay] == false) {
+      int difference =
+          getDifferenceBetweenCurrentDayAndNextNearDay(currentWeekDay);
       return Jiffy(currentStartDateTime).add(days: difference).dateTime;
-    }
-    else{
+    } else {
       return currentStartDateTime;
     }
   }
 
-  DateTime _getStartNearMonthDay(DateTime currentStartDateTime, int monthRepeatDay){
-    if(monthRepeatDay == 29){
-      if(currentStartDateTime.isBefore(DateTime.now())){
-        return Jiffy(currentStartDateTime).add(months: 1).endOf(Units.MONTH).dateTime;
+  DateTime _getStartNearMonthDay(
+      DateTime currentStartDateTime, int monthRepeatDay) {
+    if (monthRepeatDay == 29) {
+      if (currentStartDateTime.isBefore(DateTime.now())) {
+        return Jiffy(currentStartDateTime)
+            .add(months: 1)
+            .endOf(Units.MONTH)
+            .dateTime;
       }
       return Jiffy(currentStartDateTime).endOf(Units.MONTH).dateTime;
     }
-    if(currentStartDateTime.day < monthRepeatDay){
+    if (currentStartDateTime.day < monthRepeatDay) {
       int difference = monthRepeatDay - currentStartDateTime.day;
       return currentStartDateTime.add(Duration(days: difference));
-    }
-    else if(currentStartDateTime.day > monthRepeatDay){
+    } else if (currentStartDateTime.day > monthRepeatDay) {
       int difference = currentStartDateTime.day - monthRepeatDay;
       return currentStartDateTime.subtract(Duration(days: difference));
-    }
-    else{ //currentStartDateTime.day == monthDay
+    } else {
+      //currentStartDateTime.day == monthDay
       return currentStartDateTime;
     }
   }
 
-  DateTime _getStartNearYearDay(DateTime currentStartDateTime, DateTime yearRepeatDay){
+  DateTime _getStartNearYearDay(
+      DateTime currentStartDateTime, DateTime yearRepeatDay) {
     DateTime now = DateTime.now();
-    DateTime thisYearRepeatDay = DateTime(now.year, yearRepeatDay.month,
-      yearRepeatDay.day);
-    DateTime thisYearStartDay = DateTime(now.year, currentStartDateTime.month,
-      currentStartDateTime.day);
+    DateTime thisYearRepeatDay =
+        DateTime(now.year, yearRepeatDay.month, yearRepeatDay.day);
+    DateTime thisYearStartDay = DateTime(
+        now.year, currentStartDateTime.month, currentStartDateTime.day);
     //DateTime yearRepeatDay
     //서로 연도 맞춘 다음에 비교해라
-    if(thisYearStartDay.isBefore(thisYearRepeatDay)){
+    if (thisYearStartDay.isBefore(thisYearRepeatDay)) {
       return yearRepeatDay;
-    }
-    else if(thisYearStartDay.isAfter(thisYearRepeatDay)){
+    } else if (thisYearStartDay.isAfter(thisYearRepeatDay)) {
       return Jiffy(yearRepeatDay).add(years: 1).dateTime;
-    }
-    else{ // currentStartDateTime == yearRepeatDay
+    } else {
+      // currentStartDateTime == yearRepeatDay
       return currentStartDateTime;
     }
   }
 
   DateTime getStartNearDay(RepeatMode repeatMode, DateTime currentStartDateTime,
-  {List<bool>? weekBool, int? monthRepeatDay, DateTime? yearRepeatDay}){
-    switch(repeatMode){
+      {List<bool>? weekBool, int? monthRepeatDay, DateTime? yearRepeatDay}) {
+    switch (repeatMode) {
       case RepeatMode.off:
         return DateTime.now();
       case RepeatMode.day:

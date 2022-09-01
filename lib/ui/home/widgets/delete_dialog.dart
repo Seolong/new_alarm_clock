@@ -8,15 +8,15 @@ import '../../global/color_controller.dart';
 class DeleteDialog extends StatelessWidget {
   String message;
 
-  DeleteDialog(this.message);
+  DeleteDialog(this.message, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
         backgroundColor:
             Get.find<ColorController>().colorSet.topBackgroundColor,
-        contentPadding: EdgeInsets.fromLTRB(22.5, 22.5, 22.5, 0),
-        content: Container(
+        contentPadding: const EdgeInsets.fromLTRB(22.5, 22.5, 22.5, 0),
+        content: SizedBox(
           height: 120,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -32,7 +32,7 @@ class DeleteDialog extends StatelessWidget {
                   TextButton(
                     child: Text(
                       LocaleKeys.cancel.tr(),
-                      style: TextStyle(color: Colors.grey),
+                      style: const TextStyle(color: Colors.grey),
                     ),
                     onPressed: () {
                       Get.back(result: false);

@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:android_alarm_manager_plus/android_alarm_manager_plus.dart';
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:bringtoforeground/bringtoforeground.dart';
+import 'package:flutter/foundation.dart';
 import 'package:new_alarm_clock/data/database/alarm_provider.dart';
 import 'package:new_alarm_clock/data/model/alarm_data.dart';
 import 'package:new_alarm_clock/data/model/alarm_week_repeat_data.dart';
@@ -17,10 +18,11 @@ import 'date_time_calculator.dart';
 
 class AlarmScheduler {
   String getTimeWithTwoLetter(int time) {
-    if (time < 10)
+    if (time < 10) {
       return '0$time';
-    else
+    } else {
       return '$time';
+    }
   }
 
   void notifyBeforeAlarm(int alarmId) async {
@@ -35,21 +37,22 @@ class AlarmScheduler {
       //show notification
       AwesomeNotifications().createNotification(
           content: NotificationContent(
-              //simple notification
-              id: alarmId,
-              channelKey: StringValue.notificationChannelKey,
-              //set configuration with key "basic"
-              title: SystemMessage.alarmWillGoOffSoon,
-              body: '${alarmData.title} '
-                  '${getTimeWithTwoLetter(alarmData.alarmDateTime.hour)}:'
-                  '${getTimeWithTwoLetter(alarmData.alarmDateTime.minute)}',
-              payload: {StringValue.id: '$alarmId'},
-              autoDismissible: false,
-              //actionType: ActionType.SilentBackgroundAction,
-              //category: NotificationCategory.Alarm
+            //simple notification
+            id: alarmId,
+            channelKey: StringValue.notificationChannelKey,
+            //set configuration with key "basic"
+            title: SystemMessage.alarmWillGoOffSoon,
+            body: '${alarmData.title} '
+                '${getTimeWithTwoLetter(alarmData.alarmDateTime.hour)}:'
+                '${getTimeWithTwoLetter(alarmData.alarmDateTime.minute)}',
+            payload: {StringValue.id: '$alarmId'},
+            autoDismissible: false,
+            //actionType: ActionType.SilentBackgroundAction,
+            //category: NotificationCategory.Alarm
           ),
           schedule: NotificationCalendar.fromDate(
-              date: alarmData.alarmDateTime.subtract(Duration(minutes: 30))),
+              date: alarmData.alarmDateTime
+                  .subtract(const Duration(minutes: 30))),
           actionButtons: [
             NotificationActionButton(
               key: StringValue.skipButtonKey,
@@ -85,8 +88,8 @@ class AlarmScheduler {
               actionType: ActionType.SilentBackgroundAction,
               category: NotificationCategory.Alarm),
           schedule: NotificationCalendar.fromDate(
-            allowWhileIdle: true,
-              date: alarmData.alarmDateTime.add(Duration(days: 100000))),
+              allowWhileIdle: true,
+              date: alarmData.alarmDateTime.add(const Duration(days: 100000))),
           actionButtons: [
             NotificationActionButton(
                 key: StringValue.skipButtonKey,
@@ -96,26 +99,28 @@ class AlarmScheduler {
     }
   }
 
-  void cancelAlarm(int id) async{
+  void cancelAlarm(int id) async {
     await AwesomeNotifications().cancel(id);
     await AndroidAlarmManager.cancel(id);
   }
 
   static void removeAlarm(int alarmId) {
     AlarmProvider alarmProvider = AlarmProvider();
-    print('removed Alarm id in AlarmManager: $alarmId');
+    if (kDebugMode) {
+      print('removed Alarm id in AlarmManager: $alarmId');
+    }
     alarmProvider.deleteAlarm(alarmId);
     AwesomeNotifications().cancel(alarmId);
     AndroidAlarmManager.cancel(alarmId);
   }
 
-  static Future<void> removeAllAlarm() async{
+  static Future<void> removeAllAlarm() async {
     AlarmProvider alarmProvider = AlarmProvider();
     List<AlarmData> alarmList = await alarmProvider.getAllAlarms();
-    alarmList.forEach((element) {
+    for (var element in alarmList) {
       AndroidAlarmManager.cancel(element.id);
       alarmProvider.deleteAlarm(element.id);
-    });
+    }
     AwesomeNotifications().cancelAll();
   }
 
@@ -126,7 +131,9 @@ class AlarmScheduler {
   */
 
   static void callback(int alarmId) async {
-    print('Creating a new alarm flag for ID $alarmId');
+    if (kDebugMode) {
+      print('Creating a new alarm flag for ID $alarmId');
+    }
     createAlarmFlag(alarmId);
   }
 
@@ -134,20 +141,20 @@ class AlarmScheduler {
   /// For now just abusing the FileProxy class for testing
   static void createAlarmFlag(int id) async {
     //print('Creating a new alarm flag for ID $id');
-    AlarmProvider _alarmProvider = AlarmProvider();
-    AlarmData alarm = await _alarmProvider.getAlarmById(id);
+    AlarmProvider alarmProvider = AlarmProvider();
+    AlarmData alarm = await alarmProvider.getAlarmById(id);
 
     if (alarm.alarmState && Platform.isAndroid) {
-      final AppStateSharedPreferences _appStateSharedPreferences =
+      final AppStateSharedPreferences appStateSharedPreferences =
           AppStateSharedPreferences();
-      await _appStateSharedPreferences.setAppStateToAlarm();
+      await appStateSharedPreferences.setAppStateToAlarm();
 
       //딱 이거 넣으니까 wakelock에서 예외 메시지 뜨는데
       //작동은 잘만 함
-      appState = await _appStateSharedPreferences.getAppState();
+      appState = await appStateSharedPreferences.getAppState();
 
-      final IdSharedPreferences _idSharedPreferences = IdSharedPreferences();
-      await _idSharedPreferences.setAlarmedId(id);
+      final IdSharedPreferences idSharedPreferences = IdSharedPreferences();
+      await idSharedPreferences.setAlarmedId(id);
 
       Restart.restartApp();
       Bringtoforeground.bringAppToForeground();
@@ -155,8 +162,10 @@ class AlarmScheduler {
   }
 
   Future<void> newShot(DateTime targetDateTime, int id) async {
-    print('insert Alarm with Scheduler');
-    print(targetDateTime);
+    if (kDebugMode) {
+      print('insert Alarm with Scheduler');
+      print(targetDateTime);
+    }
     notifyBeforeAlarm(id);
     await AndroidAlarmManager.oneShotAt(targetDateTime, id, callback,
         alarmClock: true,
@@ -195,8 +204,10 @@ class AlarmScheduler {
       alarmData.alarmDateTime = dateTimeCalculator.addDateTime(
           alarmData.alarmType, alarmData.alarmDateTime, alarmData.alarmInterval,
           weekBool: weekBool, lastDay: lastDay);
-      print('print ${alarmData.alarmInterval} in alarm scheduler');
-      print(alarmData.alarmDateTime);
+      if (kDebugMode) {
+        print('print ${alarmData.alarmInterval} in alarm scheduler');
+        print(alarmData.alarmDateTime);
+      }
 
       if (alarmData.endDay != null) {
         if (alarmData.alarmDateTime.isAfter(alarmData.endDay!)) {
@@ -218,7 +229,7 @@ class AlarmScheduler {
       int hours = alarmData.alarmDateTime.hour;
       int minutes = alarmData.alarmDateTime.minute;
 
-      void deleteFirstDayOff(){
+      void deleteFirstDayOff() {
         var deletedDayOff = dayOffList.removeAt(0);
         //AlarmData.dayOff의 값으로 되돌리는 것
         deletedDayOff.dayOffDate = deletedDayOff.dayOffDate
@@ -226,13 +237,12 @@ class AlarmScheduler {
         alarmProvider.deleteDayOff(deletedDayOff.id, deletedDayOff.dayOffDate);
       }
 
-      void deleteDayOffsBeforeCurrentAlarm(){
+      void deleteDayOffsBeforeCurrentAlarm() {
         while (dayOffList.isNotEmpty &&
             dayOffList[0].dayOffDate.isBefore(alarmData.alarmDateTime)) {
           deleteFirstDayOff();
         }
       }
-
 
       //AlarmData.dayOff는 ~년 ~월 ~일까지만 나온다. ~시 ~분은 안 쓰여있다.
       for (int i = 0; i < dayOffList.length; i++) {
@@ -259,7 +269,9 @@ class AlarmScheduler {
 
     alarmData = await updateAlarmWhenAlarmed(alarmData);
     alarmData = await skipDayOff(alarmData);
-    print('AlarmScheduler: alarm to ${alarmData.alarmDateTime}');
+    if (kDebugMode) {
+      print('AlarmScheduler: alarm to ${alarmData.alarmDateTime}');
+    }
     await alarmProvider.updateAlarm(alarmData);
     cancelAlarm(alarmData.id);
     await newShot(alarmData.alarmDateTime, alarmData.id);

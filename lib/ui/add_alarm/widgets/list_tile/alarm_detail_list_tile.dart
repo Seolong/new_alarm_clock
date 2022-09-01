@@ -3,15 +3,16 @@ import 'package:new_alarm_clock/ui/add_alarm/widgets/list_tile/alarm_detail_page
 import 'package:new_alarm_clock/utils/values/my_font_family.dart';
 
 class AlarmDetailListTile extends StatelessWidget {
-  Text tileTitle =
-      Text('Title', style: TextStyle(fontFamily: MyFontFamily.mainFontFamily));
-  Widget tileSubTitle = Text('SubTitle');
-  dynamic stateSwitch = Switch(value: true, onChanged: null);
-  final AlarmDetailPageFactory alarmDetailPageFactory = AlarmDetailPageFactory();
+  Text tileTitle = const Text('Title',
+      style: TextStyle(fontFamily: MyFontFamily.mainFontFamily));
+  Widget tileSubTitle = const Text('SubTitle');
+  dynamic stateSwitch = const Switch(value: true, onChanged: null);
+  final AlarmDetailPageFactory alarmDetailPageFactory =
+      AlarmDetailPageFactory();
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: 77.5,
       child: InkWell(
         onTap: () {
@@ -35,7 +36,7 @@ class AlarmDetailListTile extends StatelessWidget {
                         Row(
                           children: [
                             tileSubTitle,
-                            Icon(
+                            const Icon(
                               Icons.arrow_forward_ios_rounded,
                               size: 12,
                               color: Colors.grey,
@@ -54,7 +55,7 @@ class AlarmDetailListTile extends StatelessWidget {
                 ],
               ),
             ),
-            Divider(
+            const Divider(
               thickness: 1,
             )
           ],

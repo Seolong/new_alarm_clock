@@ -24,7 +24,6 @@ class MusicHandler {
       StringValue.beepBeep: beepBeepPath,
       StringValue.ringRing: ringRingPath
     };
-    print('current volume is $_originalVolume');
   }
 
   /// This function initializes the music player with a sound path and

@@ -23,7 +23,7 @@ class RepeatPage extends StatelessWidget {
         leading: Padding(
           padding: const EdgeInsets.only(left: SizeValue.appBarLeftPadding),
           child: IconButton(
-            icon: Icon(Icons.arrow_back_ios_rounded),
+            icon: const Icon(Icons.arrow_back_ios_rounded),
             onPressed: () {
               Get.back();
             },
@@ -34,8 +34,7 @@ class RepeatPage extends StatelessWidget {
       body: SafeArea(
         minimum: EdgeInsets.symmetric(
             horizontal: SizeValue.alarmDetailPageHorizontalPadding,
-            vertical: SizeValue.alarmDetailPageVerticalPadding
-        ),
+            vertical: SizeValue.alarmDetailPageVerticalPadding),
         child: Column(
           children: [
             GetBuilder<RepeatRadioListController>(
@@ -59,18 +58,19 @@ class RepeatPage extends StatelessWidget {
                     Get.find<ColorController>().colorSet.deepMainColor,
                   ],
                   activeColor:
-                  Get.find<ColorController>().colorSet.switchTrackColor,
+                      Get.find<ColorController>().colorSet.switchTrackColor,
                 ),
                 onChanged: (bool value) {
                   _.power = value;
                 },
               ),
             ),
-            Divider(),
+            const Divider(),
             //주기 박스
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 18),
-              child: RepeatContainer(repeatInterval, LocaleKeys.repeatInterval.tr()),
+              child: RepeatContainer(
+                  repeatInterval, LocaleKeys.repeatInterval.tr()),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 18),

@@ -7,24 +7,24 @@ import 'package:vibration/vibration.dart';
 
 import '../../../global/color_controller.dart';
 
-class RepeatRadioListController extends GetxController{
+class RepeatRadioListController extends GetxController {
   AlarmInterval _alarmInterval = AlarmInterval.five;
   RepeatNum _repeatNum = RepeatNum.three;
-  RxBool _power = false.obs;//DB에서 가져오기
+  bool _power = false; //DB에서 가져오기
   Map<String, Color> textColor = {
     'active': Get.find<ColorController>().colorSet.mainTextColor,
     'inactive': Colors.grey
   };
 
-
-  set alarmInterval(AlarmInterval alarmInterval){
+  set alarmInterval(AlarmInterval alarmInterval) {
     _alarmInterval = alarmInterval;
     update();
   }
+
   AlarmInterval get alarmInterval => _alarmInterval;
 
-  void setAlarmIntervalWithInt(int value){
-    switch(value){
+  void setAlarmIntervalWithInt(int value) {
+    switch (value) {
       case 5:
         _alarmInterval = AlarmInterval.five;
         break;
@@ -35,13 +35,14 @@ class RepeatRadioListController extends GetxController{
         _alarmInterval = AlarmInterval.fifteen;
         break;
       default:
-        assert(false, 'setAlarmIntervalWithInt error in RepeatRadioListController');
+        assert(false,
+            'setAlarmIntervalWithInt error in RepeatRadioListController');
     }
     update();
   }
 
-  void setRepeatNumWithInt(int value){
-    switch(value){
+  void setRepeatNumWithInt(int value) {
+    switch (value) {
       case 2:
         _repeatNum = RepeatNum.two;
         break;
@@ -57,21 +58,20 @@ class RepeatRadioListController extends GetxController{
     update();
   }
 
-
-
-  set repeatNum(RepeatNum repeatNum){
+  set repeatNum(RepeatNum repeatNum) {
     _repeatNum = repeatNum;
     update();
   }
+
   RepeatNum get repeatNum => _repeatNum;
 
-  set power(bool value){
-    _power(value);
+  set power(bool value) {
+    _power = value;
     //switch가 안 움직이면 대개 update()를 빼먹어서다.
     update();
   }
 
-  bool get power => _power.value;
+  bool get power => _power;
 
   @override
   void onClose() {
@@ -80,9 +80,10 @@ class RepeatRadioListController extends GetxController{
     super.onClose();
   }
 
-  String getIntervalAsString(AlarmInterval interval){//radio에 text 표시용
+  String getIntervalAsString(AlarmInterval interval) {
+    //radio에 text 표시용
     String result;
-    switch(interval){
+    switch (interval) {
       case AlarmInterval.five:
         result = '5';
         break;
@@ -96,8 +97,9 @@ class RepeatRadioListController extends GetxController{
     return result;
   }
 
-  int getIntervalAsInt(){//DB 저장용
-    switch(_alarmInterval){
+  int getIntervalAsInt() {
+    //DB 저장용
+    switch (_alarmInterval) {
       case AlarmInterval.five:
         return 5;
       case AlarmInterval.ten:
@@ -107,9 +109,9 @@ class RepeatRadioListController extends GetxController{
     }
   }
 
-  String getRepeatNumAsString(RepeatNum num){
+  String getRepeatNumAsString(RepeatNum num) {
     String result;
-    switch(num){
+    switch (num) {
       case RepeatNum.two:
         result = '2';
         break;
@@ -123,8 +125,8 @@ class RepeatRadioListController extends GetxController{
     return result;
   }
 
-  int getRepeatNumAsInt(){
-    switch(_repeatNum){
+  int getRepeatNumAsInt() {
+    switch (_repeatNum) {
       case RepeatNum.two:
         return 2;
       case RepeatNum.three:

@@ -13,7 +13,7 @@ class DayButtonPainter extends StatelessWidget {
   DayWeek name;
   DayOfWeekController controller;
 
-  DayButtonPainter(this.name, this.controller);
+  DayButtonPainter(this.name, this.controller, {Key? key}) : super(key: key);
 
   String? convertName(DayWeek dayName) {
     switch (dayName) {
@@ -43,20 +43,18 @@ class DayButtonPainter extends StatelessWidget {
       return Padding(
         padding: const EdgeInsets.all(1.75),
         child: ConstrainedBox(
-          constraints: BoxConstraints(
-            maxHeight: 40
-          ),
+          constraints: const BoxConstraints(maxHeight: 40),
           child: Container(
-            padding: EdgeInsets.all(2.5),
+            padding: const EdgeInsets.all(2.5),
             decoration: BoxDecoration(
               shape: BoxShape.circle,
               border: Border.all(
-                color: _.getButtonStateColor(_.dayButtonStateMap[name]!),
-                width: 3
-              ),
+                  color: _.getButtonStateColor(_.dayButtonStateMap[name]!),
+                  width: 3),
             ),
             child: AutoSizeText(convertName(name)!,
-                color: _.getButtonTextColor(controller.dayButtonStateMap[name]!)),
+                color:
+                    _.getButtonTextColor(controller.dayButtonStateMap[name]!)),
           ),
         ),
       );

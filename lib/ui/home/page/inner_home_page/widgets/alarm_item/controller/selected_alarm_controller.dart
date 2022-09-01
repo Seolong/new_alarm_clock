@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class SelectedAlarmController extends GetxController{
-  Map<int, Color> colorMap = Map<int, Color>();
-  RxBool _isSelectedMode = false.obs;
+class SelectedAlarmController extends GetxController {
+  Map<int, Color> colorMap = <int, Color>{};
+  bool _isSelectedMode = false;
 
-  set isSelectedMode(bool value){
-    _isSelectedMode.value = value;
+  set isSelectedMode(bool value) {
+    _isSelectedMode = value;
     update();
   }
-  bool get isSelectedMode => _isSelectedMode.value;
+
+  bool get isSelectedMode => _isSelectedMode;
 }

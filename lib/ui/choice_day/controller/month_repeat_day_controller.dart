@@ -5,21 +5,19 @@ import 'package:jiffy/jiffy.dart';
 
 class MonthRepeatDayController extends GetxController {
   //29일은 말일
-  int lastDay = 29;
-  int? _monthRepeatDay = null;
+  final int lastDay = 29;
+  int? _monthRepeatDay;
   String monthRepeatDayText = '';
 
   set monthRepeatDay(int? value) {
     _monthRepeatDay = value;
-    if(_monthRepeatDay == null){
+    if (_monthRepeatDay == null) {
       monthRepeatDayText = '';
-    }
-    else {
+    } else {
       if (value != 29) {
-        monthRepeatDayText =
-            LocaleKeys.prefixOnThe.tr()
-            +Jiffy([2000, 01, _monthRepeatDay]).format('do')
-            +LocaleKeys.suffixOnThe.tr();
+        monthRepeatDayText = LocaleKeys.prefixOnThe.tr() +
+            Jiffy([2000, 01, _monthRepeatDay]).format('do') +
+            LocaleKeys.suffixOnThe.tr();
       } else {
         monthRepeatDayText = '말일에';
       }

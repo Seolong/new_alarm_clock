@@ -5,14 +5,13 @@ import 'package:new_alarm_clock/data/model/alarm_data.dart';
 
 class AlarmTitleTextFieldController extends GetxController {
   TextEditingController textEditingController = TextEditingController();
-  AlarmProvider _alarmProvider = AlarmProvider();
+  final AlarmProvider _alarmProvider = AlarmProvider();
 
   @override
   void onClose() {
     textEditingController.dispose();
     super.onClose();
   }
-
 
   @override
   void onInit() {

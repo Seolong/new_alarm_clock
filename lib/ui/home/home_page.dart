@@ -16,7 +16,8 @@ import 'package:new_alarm_clock/ui/home/widgets/home_fab.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class Home extends StatelessWidget{
+class Home extends StatelessWidget {
+  const Home({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -33,36 +34,39 @@ class Home extends StatelessWidget{
 }
 
 class HomePage extends StatelessWidget {
-  final SettingsSharedPreferences _settingsSharedPreferences = SettingsSharedPreferences();
-  final DialogStateSharedPreference dialogStateSharedPreference = DialogStateSharedPreference();
+  final SettingsSharedPreferences _settingsSharedPreferences =
+      SettingsSharedPreferences();
+  final DialogStateSharedPreference dialogStateSharedPreference =
+      DialogStateSharedPreference();
   final MusicHandler _musicHandler = MusicHandler();
 
-  Future<bool> checkBatteryOptimizations()async{
+  Future<bool> checkBatteryOptimizations() async {
     return await CallNativeService().checkBatteryOptimizations();
   }
 
-  Future<void> setBatteryOptimizations()async{
-    if((await checkBatteryOptimizations())==false){
+  Future<void> setBatteryOptimizations() async {
+    if ((await checkBatteryOptimizations()) == false) {
       bool isDontAsk = await dialogStateSharedPreference.getIsDontAskValue();
-      if(isDontAsk){
+      if (isDontAsk) {
         return;
       }
 
       bool isOpen = await dialogStateSharedPreference.getIsOpenValue();
-      if(isOpen){
+      if (isOpen) {
         return;
       }
       await dialogStateSharedPreference.setIsOpenValue(true);
 
-      bool? isSet = await Get.dialog(BatteryOptimizationDialog(dialogStateSharedPreference));
+      bool? isSet = await Get.dialog(
+          BatteryOptimizationDialog(dialogStateSharedPreference));
       await dialogStateSharedPreference.setIsOpenValue(false);
-      if(isSet == true){
+      if (isSet == true) {
         CallNativeService().setBatteryOptimizations();
       }
     }
   }
 
-  HomePage(){
+  HomePage({Key? key}) : super(key: key) {
     setBatteryOptimizations();
   }
 
@@ -77,47 +81,47 @@ class HomePage extends StatelessWidget {
     return WillPopScope(
       onWillPop: () {
         //selectedMode면 selectedMode를 해제하고
-        if(Get.find<SelectedAlarmController>().isSelectedMode){
+        if (Get.find<SelectedAlarmController>().isSelectedMode) {
           Get.find<SelectedAlarmController>().isSelectedMode = false;
           Get.closeAllSnackbars();
           return Future.value(false);
         }
         //아니면 앱을 끈다.
-        else{
+        else {
           return Future.value(true);
         }
       },
       child: Scaffold(
-        extendBody: true, //FAB 배경이 투명해지기 위함
+        extendBody: true,
+        //FAB 배경이 투명해지기 위함
         resizeToAvoidBottomInset: false,
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         floatingActionButton: HomeFAB(),
-        bottomNavigationBar: HomeBottomNavigationBar(),
+        bottomNavigationBar: const HomeBottomNavigationBar(),
         body: SafeArea(
           bottom: false,
-          child: GetBuilder<TabPageController>(
-              builder: (controller) {
-                //setBatteryOptimizations();
-                return IndexedStack(
-                  index: controller.pageIndex,
-                  children: [
-                    InnerHomePage(),
-                    FolderPage(),
-                    FolderPage(),
-                    BookPage(),
-                    SettingPage(),
-                  ],
-                );
-              }
-          ),
+          child: GetBuilder<TabPageController>(builder: (controller) {
+            //setBatteryOptimizations();
+            return IndexedStack(
+              index: controller.pageIndex,
+              children: [
+                InnerHomePage(),
+                FolderPage(),
+                FolderPage(),
+                BookPage(),
+                SettingPage(),
+              ],
+            );
+          }),
         ),
       ),
     );
   }
 }
 
-class DialogStateSharedPreference{
-  static final DialogStateSharedPreference _instance = DialogStateSharedPreference._internal();
+class DialogStateSharedPreference {
+  static final DialogStateSharedPreference _instance =
+      DialogStateSharedPreference._internal();
   late SharedPreferences sharedPreferences;
   final String isOpen = 'isOpen';
   final String isDontAsk = 'dontAsk';
@@ -130,31 +134,33 @@ class DialogStateSharedPreference{
     sharedPreferences = await SharedPreferences.getInstance();
 
     bool? isOpenValue = sharedPreferences.getBool(isOpen);
-    if(isOpenValue == null){
+    if (isOpenValue == null) {
       sharedPreferences.setBool(isOpen, false);
     }
     bool? isDontAskValue = sharedPreferences.getBool(isDontAsk);
-    if(isDontAskValue == null){
+    if (isDontAskValue == null) {
       sharedPreferences.setBool(isDontAsk, false);
     }
   }
 
   DialogStateSharedPreference._internal();
 
-  Future<bool> getIsOpenValue() async{
+  Future<bool> getIsOpenValue() async {
     await init();
     return sharedPreferences.getBool(isOpen)!;
   }
-  Future<void> setIsOpenValue(bool isOpenValue)async {
+
+  Future<void> setIsOpenValue(bool isOpenValue) async {
     await init();
     sharedPreferences.setBool(isOpen, isOpenValue);
   }
 
-  Future<bool> getIsDontAskValue() async{
+  Future<bool> getIsDontAskValue() async {
     await init();
     return sharedPreferences.getBool(isDontAsk)!;
   }
-  Future<void> setIsDontAskValue(bool isDontAskValue)async {
+
+  Future<void> setIsDontAskValue(bool isDontAskValue) async {
     await init();
     sharedPreferences.setBool(isDontAsk, isDontAskValue);
   }

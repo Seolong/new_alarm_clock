@@ -7,6 +7,7 @@ import '../../../utils/values/size_value.dart';
 import '../controller/tab_page_controller.dart';
 
 class HomeBottomNavigationBar extends StatelessWidget {
+  const HomeBottomNavigationBar({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -19,60 +20,56 @@ class HomeBottomNavigationBar extends StatelessWidget {
       ),
       child: BottomAppBar(
         elevation: 15,
-        shape: CircularNotchedRectangle(),
+        shape: const CircularNotchedRectangle(),
         notchMargin: 5,
         clipBehavior: Clip.antiAlias,
-        child: GetBuilder<TabPageController>(
-            builder:(_) {
-              return BottomNavigationBar(
-                elevation: 15,
-                currentIndex: _.pageIndex,
-                showSelectedLabels: false,
-                showUnselectedLabels: false,
-                selectedFontSize: 0,
-                unselectedFontSize: 0,
-                iconSize: ButtonSize.medium,
-                onTap: _.setPageIndex,
-                type: BottomNavigationBarType.fixed,
-                selectedItemColor: Get.find<ColorController>().colorSet.deepMainColor,
-                unselectedItemColor: Colors.grey,
-                items: [
-                  BottomNavigationBarItem(
-                      icon: Icon(
-                        Icons.home_rounded,
-                      ),
-                      label: "홈"
+        child: GetBuilder<TabPageController>(builder: (_) {
+          return BottomNavigationBar(
+            elevation: 15,
+            currentIndex: _.pageIndex,
+            showSelectedLabels: false,
+            showUnselectedLabels: false,
+            selectedFontSize: 0,
+            unselectedFontSize: 0,
+            iconSize: ButtonSize.medium,
+            onTap: _.setPageIndex,
+            type: BottomNavigationBarType.fixed,
+            selectedItemColor:
+                Get.find<ColorController>().colorSet.deepMainColor,
+            unselectedItemColor: Colors.grey,
+            items: [
+              const BottomNavigationBarItem(
+                  icon: Icon(
+                    Icons.home_rounded,
                   ),
-                  BottomNavigationBarItem(
-                      icon: Icon(
-                        Icons.folder,
-                      ),
-                      label: "폴더"
+                  label: "홈"),
+              const BottomNavigationBarItem(
+                  icon: Icon(
+                    Icons.folder,
                   ),
-                  BottomNavigationBarItem(//더미
-                      icon: Icon(null),
-                      label: "홈"
-                  ),
-                  BottomNavigationBarItem(
-                      icon: SvgPicture.asset(
-                        'assets/icons/book.svg',
-                        width: 30,
-                        height: 30,
-                        color:_.pageIndex==3
-                            ? Get.find<ColorController>().colorSet.deepMainColor
+                  label: "폴더"),
+              const BottomNavigationBarItem(
+                  //더미
+                  icon: Icon(null),
+                  label: "홈"),
+              BottomNavigationBarItem(
+                  icon: SvgPicture.asset(
+                    'assets/icons/book.svg',
+                    width: 30,
+                    height: 30,
+                    color: _.pageIndex == 3
+                        ? Get.find<ColorController>().colorSet.deepMainColor
                         : Colors.grey,
-                      ),
-                      label: "명언"
                   ),
-                  BottomNavigationBarItem(
-                      icon: Icon(
-                        Icons.more_horiz,
-                      ),
-                      label: "더보기"
+                  label: "명언"),
+              const BottomNavigationBarItem(
+                  icon: Icon(
+                    Icons.more_horiz,
                   ),
-                ],
-              );}
-        ),
+                  label: "더보기"),
+            ],
+          );
+        }),
       ),
     );
   }

@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:new_alarm_clock/data/model/alarm_data.dart';
 import 'package:new_alarm_clock/data/model/alarm_folder_data.dart';
 import 'package:new_alarm_clock/data/model/alarm_week_repeat_data.dart';
@@ -14,16 +15,15 @@ class AlarmProvider {
   AlarmProvider._createInstance();
 
   factory AlarmProvider() {
-    if (_alarmProvider == null) {
-      _alarmProvider = AlarmProvider._createInstance();
-    }
+    // if (_alarmProvider == null) {
+    //   _alarmProvider = AlarmProvider._createInstance();
+    // }
+    _alarmProvider ??= AlarmProvider._createInstance();
     return _alarmProvider!;
   }
 
   Future<Database> get database async {
-    if (_database == null) {
-      _database = await initializeDatabase();
-    }
+    _database ??= await initializeDatabase();
     return _database!;
   }
 
@@ -80,16 +80,16 @@ class AlarmProvider {
         primary key (${DatabaseString.columnId}, ${DatabaseString.columnDayOffDate}))
     ''');
 
-    await db.insert(
-        DatabaseString.musicPathTableName, {DatabaseString.columnPath: StringValue.beepBeep});
-    await db.insert(
-        DatabaseString.musicPathTableName, {DatabaseString.columnPath: StringValue.ringRing});
+    await db.insert(DatabaseString.musicPathTableName,
+        {DatabaseString.columnPath: StringValue.beepBeep});
+    await db.insert(DatabaseString.musicPathTableName,
+        {DatabaseString.columnPath: StringValue.ringRing});
     await db.insert(DatabaseString.alarmFolderTableName,
         {DatabaseString.columnFolderName: '전체 알람'});
   }
 
   Future<void> resetAllTable() async {
-    Database db = await this.database;
+    Database db = await database;
     await db.execute("DROP TABLE IF EXISTS ${DatabaseString.tableName}");
     await db
         .execute("DROP TABLE IF EXISTS ${DatabaseString.alarmFolderTableName}");
@@ -115,52 +115,59 @@ class AlarmProvider {
 
   Future<List<AlarmData>> getAllAlarms() async {
     List<AlarmData> alarmList = [];
-    final Database db = await this.database;
+    final Database db = await database;
     //final List<Map<String, dynamic>> alarmMaps = await db.query(tableName);
     final List<Map<String, dynamic>> alarmMaps = await db.rawQuery(
         'select * from ${DatabaseString.tableName} order by ${DatabaseString.columnAlarmOrder} asc');
 
-    alarmMaps.forEach((element) {
+    for (var element in alarmMaps) {
       var alarmData = AlarmData.fromMap(element);
       alarmList.add(alarmData);
-    });
+    }
 
-    return await alarmList;
+    return alarmList;
   }
 
   Future<AlarmData> getAlarmById(int id) async {
     AlarmData alarmData;
-    Database db = await this.database;
+    Database db = await database;
     var result = await db.rawQuery(
         'select * from ${DatabaseString.tableName} where ${DatabaseString.columnId} = ?',
         [id]);
     alarmData = AlarmData.fromMap(result.first);
 
-    return await alarmData;
+    return alarmData;
   }
 
   Future<int> insertAlarm(AlarmData alarmData) async {
-    Database db = await this.database;
+    Database db = await database;
     var insertId = await db.insert(
       DatabaseString.tableName,
       alarmData.toMap(),
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
-    print('insert $insertId');
+    if (kDebugMode) {
+      print('insert $insertId');
+    }
 
     return insertId;
   }
 
   Future<int> deleteAlarm(int id) async {
-    Database db = await this.database;
+    Database db = await database;
     var countOfDeletedItems = await db
         .delete(DatabaseString.tableName, where: 'id = ?', whereArgs: [id]);
-    print('Count of deleted Items is $countOfDeletedItems');
+
+    if (kDebugMode) {
+      print('Count of deleted Items is $countOfDeletedItems');
+    }
 
     AlarmWeekRepeatData? currentAlarmWeekData = await getAlarmWeekDataById(id);
     if (currentAlarmWeekData != null) {
       deleteAlarmWeekData(id);
-      print('id: $id WeekData is deleted.');
+      if (kDebugMode) {
+        print('id: $id WeekData is deleted.');
+      }
     }
 
     List<DayOffData> dayOffList = await getDayOffsById(id);
@@ -176,91 +183,100 @@ class AlarmProvider {
   }
 
   Future<void> updateAlarm(AlarmData alarmData) async {
-    Database db = await this.database;
+    Database db = await database;
     await db.update(DatabaseString.tableName, alarmData.toMap(),
         where: 'id = ?', whereArgs: [alarmData.id]);
   }
 
   Future<int> insertAlarmWeekData(AlarmWeekRepeatData data) async {
-    Database db = await this.database;
+    Database db = await database;
     var insertId = await db.insert(
       DatabaseString.weekRepeatTableName,
       data.toMap(),
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
-    print('insert WeekRepeatData of $insertId');
+    if (kDebugMode) {
+      print('insert WeekRepeatData of $insertId');
+    }
 
     return insertId;
   }
 
   Future<AlarmWeekRepeatData?>? getAlarmWeekDataById(int id) async {
     AlarmWeekRepeatData? alarmData;
-    Database db = await this.database;
+    Database db = await database;
     var result = await db.rawQuery(
         'select * from ${DatabaseString.weekRepeatTableName} where ${DatabaseString.columnId} = ?',
         [id]);
-    if (result.isNotEmpty)
+    if (result.isNotEmpty) {
       alarmData = AlarmWeekRepeatData.fromMap(result.first);
+    }
 
-    print('$alarmData in getAlarmWeekDataById method of AlarmProvider');
-    return await alarmData;
+    if (kDebugMode) {
+      print('$alarmData in getAlarmWeekDataById method of AlarmProvider');
+    }
+    return alarmData;
   }
 
   Future<int> deleteAlarmWeekData(int id) async {
-    Database db = await this.database;
+    Database db = await database;
     var countOfDeletedItems = await db.delete(
         DatabaseString.weekRepeatTableName,
         where: 'id = ?',
         whereArgs: [id]);
-    print('Count of deleted Items is $countOfDeletedItems');
+    if (kDebugMode) {
+      print('Count of deleted Items is $countOfDeletedItems');
+    }
     return countOfDeletedItems;
   }
 
   Future<void> updateAlarmWeekData(AlarmWeekRepeatData data) async {
-    Database db = await this.database;
+    Database db = await database;
     await db.update(DatabaseString.weekRepeatTableName, data.toMap(),
         where: 'id = ?', whereArgs: [data.id]);
   }
 
   Future<int> insertMusicPath(MusicPathData data) async {
-    Database db = await this.database;
+    Database db = await database;
     var insertId = await db.insert(
       DatabaseString.musicPathTableName,
       data.toMap(),
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
-    print('insert MusicPathData of $insertId');
+    if (kDebugMode) {
+      print('insert MusicPathData of $insertId');
+    }
 
     return insertId;
   }
 
   Future<List<MusicPathData>> getAllMusicPath() async {
     List<MusicPathData> musicPathList = [];
-    final Database db = await this.database;
+    final Database db = await database;
     final List<Map<String, dynamic>> musicPathMaps =
         await db.query(DatabaseString.musicPathTableName);
 
-    musicPathMaps.forEach((element) {
+    for (var element in musicPathMaps) {
       var musicPathData = MusicPathData.fromMap(element);
       musicPathList.add(musicPathData);
-    });
+    }
 
-    return await musicPathList;
+    return musicPathList;
   }
 
   Future<MusicPathData> getMusicPathByName(String path) async {
     MusicPathData musicPathData;
-    Database db = await this.database;
+    Database db = await database;
     var result = await db.rawQuery(
         'select * from ${DatabaseString.musicPathTableName} where ${DatabaseString.columnMusicPath} = ?',
         [path]);
     musicPathData = MusicPathData.fromMap(result.first);
 
-    return await musicPathData;
+    return musicPathData;
   }
 
   Future<void> deleteAllMusicPath() async {
-    Database db = await this.database;
+    Database db = await database;
     db.rawDelete(
         'delete from ${DatabaseString.musicPathTableName} '
         'where ${DatabaseString.columnPath} != ? and ${DatabaseString.columnPath} != ?',
@@ -269,58 +285,62 @@ class AlarmProvider {
 
   Future<List<AlarmFolderData>> getAllAlarmFolders() async {
     List<AlarmFolderData> alarmFolderList = [];
-    final Database db = await this.database;
+    final Database db = await database;
     final List<Map<String, dynamic>> alarmFolderMaps =
         await db.query(DatabaseString.alarmFolderTableName);
 
-    alarmFolderMaps.forEach((element) {
+    for (var element in alarmFolderMaps) {
       var alarmFolderData = AlarmFolderData.fromMap(element);
       alarmFolderList.add(alarmFolderData);
-    });
+    }
 
-    return await alarmFolderList;
+    return alarmFolderList;
   }
 
   Future<AlarmFolderData> getAlarmFolderByName(String name) async {
     AlarmFolderData alarmFolderData;
-    Database db = await this.database;
+    Database db = await database;
     var result = await db.rawQuery(
         'select * from ${DatabaseString.alarmFolderTableName} where ${DatabaseString.columnFolderName} = ?',
         [name]);
     alarmFolderData = AlarmFolderData.fromMap(result.first);
 
-    return await alarmFolderData;
+    return alarmFolderData;
   }
 
   Future<int> insertAlarmFolder(AlarmFolderData alarmFolderDataData) async {
-    Database db = await this.database;
+    Database db = await database;
     var insertId = await db.insert(
       DatabaseString.alarmFolderTableName,
       alarmFolderDataData.toMap(),
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
-    print('insert $insertId');
+    if (kDebugMode) {
+      print('insert $insertId');
+    }
 
     return insertId;
   }
 
   //folder 내부 알람까지 삭제
   Future<int> deleteAlarmFolder(String name) async {
-    Database db = await this.database;
+    Database db = await database;
     var countOfDeletedAlarmItems = await db.delete(DatabaseString.tableName,
         where: '${DatabaseString.columnFolderName} = ?', whereArgs: [name]);
     var countOfDeletedFolderItems = await db.delete(
         DatabaseString.alarmFolderTableName,
         where: '${DatabaseString.columnFolderName} = ?',
         whereArgs: [name]);
-    print('Count of deleted Folder Items is $countOfDeletedFolderItems'
-        '\nCount of deleted Alarm Items is $countOfDeletedAlarmItems');
+    if (kDebugMode) {
+      print('Count of deleted Folder Items is $countOfDeletedFolderItems'
+          '\nCount of deleted Alarm Items is $countOfDeletedAlarmItems');
+    }
 
     return countOfDeletedFolderItems;
   }
 
   Future<void> updateAlarmFolder(AlarmFolderData alarmFolderData) async {
-    Database db = await this.database;
+    Database db = await database;
     await db.update(DatabaseString.tableName, alarmFolderData.toMap(),
         where: '${DatabaseString.columnFolderName} = ?',
         whereArgs: [alarmFolderData.name]);
@@ -328,53 +348,57 @@ class AlarmProvider {
 
   Future<List<DayOffData>> getAllDayOff() async {
     List<DayOffData> dayOffDataList = [];
-    final Database db = await this.database;
+    final Database db = await database;
     final List<Map<String, dynamic>> dayOffDataMaps =
         await db.query(DatabaseString.dayOffTableName);
 
-    dayOffDataMaps.forEach((element) {
+    for (var element in dayOffDataMaps) {
       var dayOffData = DayOffData.fromMap(element);
       dayOffDataList.add(dayOffData);
-    });
+    }
 
-    return await dayOffDataList;
+    return dayOffDataList;
   }
 
   Future<List<DayOffData>> getDayOffsById(int id) async {
     List<DayOffData> dayOffDataList = [];
-    final Database db = await this.database;
+    final Database db = await database;
     final List<Map<String, dynamic>> dayOffDataMaps =
         await db.query(DatabaseString.dayOffTableName);
 
-    dayOffDataMaps.forEach((element) {
+    for (var element in dayOffDataMaps) {
       var dayOffData = DayOffData.fromMap(element);
       if (dayOffData.id == id) {
         dayOffDataList.add(dayOffData);
       }
-    });
+    }
 
-    return await dayOffDataList;
+    return dayOffDataList;
   }
 
   Future<int> insertDayOff(DayOffData dayOffData) async {
-    Database db = await this.database;
+    Database db = await database;
     var insertId = await db.insert(
       DatabaseString.dayOffTableName,
       dayOffData.toMap(),
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
-    print('insert $insertId');
+    if (kDebugMode) {
+      print('insert $insertId');
+    }
 
     return insertId;
   }
 
   Future<int> deleteDayOff(int id, DateTime dayOff) async {
-    Database db = await this.database;
+    Database db = await database;
     String dayOffString = dayOff.toIso8601String();
     var countOfDeletedItems = await db.rawDelete(
         'delete from ${DatabaseString.dayOffTableName} where ${DatabaseString.columnId} = ? and ${DatabaseString.columnDayOffDate} = ?',
         [id, dayOffString]);
-    print('Count of deleted Items is $countOfDeletedItems');
+    if (kDebugMode) {
+      print('Count of deleted Items is $countOfDeletedItems');
+    }
     return countOfDeletedItems;
   }
 }

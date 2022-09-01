@@ -1,5 +1,6 @@
 import 'package:android_alarm_manager_plus/android_alarm_manager_plus.dart';
 import 'package:awesome_notifications/awesome_notifications.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -47,17 +48,19 @@ void main() async {
 
   Get.put(ColorController());
   runApp(EasyLocalization(
-      supportedLocales: [Locale('ko'), Locale('en')],
+      supportedLocales: const [Locale('ko'), Locale('en')],
       path: 'assets/translations',
       // <-- change the path of the translation files
-      fallbackLocale: Locale('ko'),
-      startLocale: Locale('ko'),
-      child: MyApp()));
+      fallbackLocale: const Locale('ko'),
+      startLocale: const Locale('ko'),
+      child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
   static final GlobalKey<NavigatorState> navigatorKey =
       GlobalKey<NavigatorState>();
+
+  const MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -68,7 +71,9 @@ class MyApp extends StatelessWidget {
           onActionReceivedMethod:
               NotificationController.onActionReceivedMethod);
     } catch (e) {
-      print('Say! eeeeee $e');
+      if (kDebugMode) {
+        print('Say! eeeeee $e');
+      }
     }
 
     return GetMaterialApp(
@@ -98,13 +103,9 @@ class MyApp extends StatelessWidget {
                   .textTheme
                   .titleLarge!
                   .copyWith(fontFamily: MyFontFamily.mainFontFamily),
-              titleMedium: Theme.of(context)
-                  .textTheme
-                  .titleMedium!
-                  .copyWith(
+              titleMedium: Theme.of(context).textTheme.titleMedium!.copyWith(
                   fontFamily: MyFontFamily.mainFontFamily,
-                color: Get.find<ColorController>().colorSet.mainTextColor
-              ),
+                  color: Get.find<ColorController>().colorSet.mainTextColor),
               bodyLarge: Theme.of(context)
                   .textTheme
                   .bodyLarge!
@@ -118,7 +119,7 @@ class MyApp extends StatelessWidget {
       localizationsDelegates: context.localizationDelegates,
       supportedLocales: context.supportedLocales,
       locale: context.locale,
-      home: appState == 'alarm' ? AlarmAlarmPage() : Home(),
+      home: appState == 'alarm' ? AlarmAlarmPage() : const Home(),
     );
   }
 }

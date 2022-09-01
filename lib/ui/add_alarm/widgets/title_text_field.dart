@@ -9,7 +9,7 @@ class TitleTextField extends StatelessWidget {
   String mode;
   int alarmId;
 
-  TitleTextField(this.mode, this.alarmId);
+  TitleTextField(this.mode, this.alarmId, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -25,21 +25,22 @@ class TitleTextField extends StatelessWidget {
           controller: _.textEditingController,
           style: Theme.of(Get.context!).textTheme.titleMedium!,
           decoration: InputDecoration(
-            enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.grey, width: 0.5),
-              borderRadius: const BorderRadius.all(Radius.circular(8.0)),
-            ),
-              border: OutlineInputBorder(
+              enabledBorder: const OutlineInputBorder(
+                borderSide: BorderSide(color: Colors.grey, width: 0.5),
+                borderRadius: BorderRadius.all(Radius.circular(8.0)),
+              ),
+              border: const OutlineInputBorder(
                 borderSide: BorderSide(color: Colors.grey, width: 2),
-                borderRadius: const BorderRadius.all(Radius.circular(8.0)),
+                borderRadius: BorderRadius.all(Radius.circular(8.0)),
               ),
               labelText: LocaleKeys.alarmName.tr(),
-              labelStyle: Theme.of(Get.context!).textTheme.titleMedium!.copyWith(
-                color: Colors.grey
-              ),
-              suffixIcon: _.textEditingController.text.length > 0
+              labelStyle: Theme.of(Get.context!)
+                  .textTheme
+                  .titleMedium!
+                  .copyWith(color: Colors.grey),
+              suffixIcon: _.textEditingController.text.isNotEmpty
                   ? IconButton(
-                      icon: Icon(
+                      icon: const Icon(
                         Icons.clear,
                         color: Colors.grey,
                       ),

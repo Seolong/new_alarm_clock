@@ -26,7 +26,7 @@ class VibrationPage extends StatelessWidget {
           leading: Padding(
             padding: const EdgeInsets.only(left: SizeValue.appBarLeftPadding),
             child: IconButton(
-              icon: Icon(Icons.arrow_back_ios_rounded),
+              icon: const Icon(Icons.arrow_back_ios_rounded),
               onPressed: () {
                 Vibration.cancel();
                 Get.back();
@@ -70,18 +70,19 @@ class VibrationPage extends StatelessWidget {
                 ),
               ),
 
-              Divider(),
+              const Divider(),
               //진동 리스트
               Expanded(
                   child: Padding(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 10, vertical: 25),
                 child: Container(
-                    padding: EdgeInsets.only(top: 20),
+                    padding: const EdgeInsets.only(top: 20),
                     decoration: BoxDecoration(
-                      color: Get.find<ColorController>().colorSet.backgroundColor,
+                      color:
+                          Get.find<ColorController>().colorSet.backgroundColor,
                       borderRadius: BorderRadius.circular(7.5),
-                      boxShadow: [
+                      boxShadow: const [
                         BoxShadow(
                           color: Color.fromRGBO(175, 175, 175, 100),
                           spreadRadius: 0,

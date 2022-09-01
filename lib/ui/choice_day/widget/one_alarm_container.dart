@@ -11,6 +11,8 @@ import 'package:table_calendar/table_calendar.dart';
 import '../../../utils/values/my_font_family.dart';
 
 class OneAlarmContainer extends StatelessWidget {
+  const OneAlarmContainer({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     Get.put(StartEndDayController());
@@ -21,11 +23,11 @@ class OneAlarmContainer extends StatelessWidget {
           child: Container(
             height: 500,
             width: 400,
-            padding: EdgeInsets.all(15),
+            padding: const EdgeInsets.all(15),
             decoration: BoxDecoration(
               color: Get.find<ColorController>().colorSet.backgroundColor,
               borderRadius: BorderRadius.circular(7.5),
-              boxShadow: [
+              boxShadow: const [
                 BoxShadow(
                   color: Color.fromRGBO(175, 175, 175, 100),
                   spreadRadius: 0,
@@ -56,7 +58,8 @@ class OneAlarmContainer extends StatelessWidget {
                                   CupertinoButton(
                                     child: Text(
                                       LocaleKeys.cancel.tr(),
-                                      style: TextStyle(color: Colors.grey),
+                                      style:
+                                          const TextStyle(color: Colors.grey),
                                     ),
                                     onPressed: () {
                                       Get.back();
@@ -111,8 +114,8 @@ class OneAlarmContainer extends StatelessWidget {
                 lastDay: DateTime(lastYear, 12, 31),
                 //onHeaderTapped: _onHeaderTapped,
                 headerStyle: HeaderStyle(
-                  headerMargin:
-                      EdgeInsets.only(left: 5, top: 5, right: 5, bottom: 5),
+                  headerMargin: const EdgeInsets.only(
+                      left: 5, top: 5, right: 5, bottom: 5),
                   titleCentered: true,
                   formatButtonVisible: false,
                   leftChevronIcon: Container(

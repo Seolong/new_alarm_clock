@@ -7,34 +7,24 @@ import 'package:get/get.dart';
 
 import '../../../global/color_controller.dart';
 
-
 class AddMusicButton extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     return IconButton(
       iconSize: 1150,
       icon: Icon(
-          Icons.add_rounded,
+        Icons.add_rounded,
         color: Get.find<ColorController>().colorSet.mainTextColor,
       ),
       onPressed: () async {
         FilePickerResult? result =
-        await FilePicker.platform
-            .pickFiles(
-            type: FileType.audio);
+            await FilePicker.platform.pickFiles(type: FileType.audio);
 
         if (result != null) {
-          PlatformFile file =
-              result.files.single;
+          PlatformFile file = result.files.single;
           if (file.path != null) {
-            Get.find<RingRadioListController>()
-                .inputMusicPath(
-                MusicPathData(
-                    path:
-                    File(file.path!)
-                        .absolute
-                        .path));
+            Get.find<RingRadioListController>().inputMusicPath(
+                MusicPathData(path: File(file.path!).absolute.path));
           }
         } else {
           // User canceled the picker

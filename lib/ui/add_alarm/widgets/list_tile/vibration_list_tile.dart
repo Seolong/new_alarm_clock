@@ -15,31 +15,28 @@ class VibrationListTile extends AlarmDetailListTile {
       textAlign: TextAlign.start,
       style: Theme.of(Get.context!).textTheme.titleMedium!,
     );
-    tileSubTitle = GetBuilder<VibrationRadioListController>(
-      builder: (_) {
-        return Text(
-          VibrationPack().convertVibrationNameToRadioName(_.selectedVibration)!, //알람음 설정
-          style: Theme.of(Get.context!).textTheme.bodyMedium!.copyWith(
-            color: Get.find<ColorController>().colorSet.mainColor,
-          ),
-        );
-      }
-    );
-    stateSwitch = GetBuilder<VibrationRadioListController>(
-      builder: (_) {
-        return CustomSwitch(
-            value: _.power,
-            onChanged: (value) {
-              _.power = value;
-            },
-          thumbColor: [
-            Get.find<ColorController>().colorSet.lightMainColor,
-            Get.find<ColorController>().colorSet.mainColor,
-            Get.find<ColorController>().colorSet.deepMainColor,
-          ],
-          activeColor: Get.find<ColorController>().colorSet.switchTrackColor,
-        );
-      }
-    );
+    tileSubTitle = GetBuilder<VibrationRadioListController>(builder: (_) {
+      return Text(
+        VibrationPack()
+            .convertVibrationNameToRadioName(_.selectedVibration)!, //알람음 설정
+        style: Theme.of(Get.context!).textTheme.bodyMedium!.copyWith(
+              color: Get.find<ColorController>().colorSet.mainColor,
+            ),
+      );
+    });
+    stateSwitch = GetBuilder<VibrationRadioListController>(builder: (_) {
+      return CustomSwitch(
+        value: _.power,
+        onChanged: (value) {
+          _.power = value;
+        },
+        thumbColor: [
+          Get.find<ColorController>().colorSet.lightMainColor,
+          Get.find<ColorController>().colorSet.mainColor,
+          Get.find<ColorController>().colorSet.deepMainColor,
+        ],
+        activeColor: Get.find<ColorController>().colorSet.switchTrackColor,
+      );
+    });
   }
 }

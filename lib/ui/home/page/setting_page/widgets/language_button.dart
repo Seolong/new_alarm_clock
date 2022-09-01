@@ -23,7 +23,7 @@ extension LanguageExtention on Language {
   }
 
   String parseString() {
-    return this.toString().split('.')[1];
+    return toString().split('.')[1];
   }
 }
 
@@ -42,30 +42,28 @@ extension StringLanguageExtension on String {
 }
 
 class LanguageButton extends StatelessWidget {
-  double buttonHeight = 37.5;
-  double buttonPadding = 7.5;
-  double radioRadius = 7.5;
-  late double borderRadius = radioRadius + 7.5;
-  double borderWidth = 2;
   Language language = Language.ko;
+
+  LanguageButton({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     Locale currentLocale = context.locale;
     return InkWell(
-      borderRadius: BorderRadius.all(Radius.circular(10)),
+      borderRadius: const BorderRadius.all(Radius.circular(10)),
       onTap: () async {
         log(currentLocale.languageCode);
         language = currentLocale.languageCode.parseLanguage();
         Get.dialog(
           Dialog(
-            backgroundColor: Get.find<ColorController>().colorSet.topBackgroundColor,
-            shape: RoundedRectangleBorder(
+            backgroundColor:
+                Get.find<ColorController>().colorSet.topBackgroundColor,
+            shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(Radius.circular(10))),
-            insetPadding: EdgeInsets.fromLTRB(20, 20, 20, 25),
+            insetPadding: const EdgeInsets.fromLTRB(20, 20, 20, 25),
             child: Container(
               width: 100,
-              padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: getLanguageListTile(context),
@@ -75,16 +73,13 @@ class LanguageButton extends StatelessWidget {
         );
       },
       child: ListTile(
-          leading: Icon(
-            Icons.language,
-            size: ButtonSize.medium,
-            color: Colors.lightBlueAccent,
-          ),
-          title: Text(
-            LocaleKeys.language.tr(),
-            style: Theme.of(context).textTheme.titleLarge
-          ),
-
+        leading: Icon(
+          Icons.language,
+          size: ButtonSize.medium,
+          color: Colors.lightBlueAccent,
+        ),
+        title: Text(LocaleKeys.language.tr(),
+            style: Theme.of(context).textTheme.titleLarge),
       ),
     );
   }
@@ -101,24 +96,26 @@ class LanguageButton extends StatelessWidget {
           titleTextStyle: TextStyle(
               color: Get.find<ColorController>().colorSet.mainTextColor,
               fontSize: 16,
-              fontFamily: MyFontFamily.mainFontFamily
-          ),
+              fontFamily: MyFontFamily.mainFontFamily),
           titleFontSize: 20,
           onChanged: (newValue) {
             log(newValue!.parseName());
             Get.dialog(Dialog(
-              backgroundColor: Get.find<ColorController>().colorSet.topBackgroundColor,
+              backgroundColor:
+                  Get.find<ColorController>().colorSet.topBackgroundColor,
               child: Container(
-                padding: EdgeInsets.fromLTRB(22.5, 22.5, 22.5, 0),
+                padding: const EdgeInsets.fromLTRB(22.5, 22.5, 22.5, 0),
                 height: 175,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                        LocaleKeys.doYouWantToRestart.tr(),
-                    style: TextStyle(
-                      color: Get.find<ColorController>().colorSet.mainTextColor
-                    ),),
+                      LocaleKeys.doYouWantToRestart.tr(),
+                      style: TextStyle(
+                          color: Get.find<ColorController>()
+                              .colorSet
+                              .mainTextColor),
+                    ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
@@ -126,17 +123,18 @@ class LanguageButton extends StatelessWidget {
                             onPressed: () {
                               Get.back();
                             },
-                            child: Text(
+                            child: const Text(
                               'Cancel',
                               style: TextStyle(color: Colors.grey),
                             )),
                         TextButton(
-                            onPressed: () async{
+                            onPressed: () async {
                               language = newValue;
-                              await context.setLocale(Locale(newValue.parseString()));
+                              await context
+                                  .setLocale(Locale(newValue.parseString()));
                               Restart.restartApp();
                             },
-                            child: Text('Restart')),
+                            child: const Text('Restart')),
                       ],
                     )
                   ],

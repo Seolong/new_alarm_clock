@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:new_alarm_clock/utils/enum.dart';
 
@@ -53,7 +54,9 @@ class RepeatModeController extends GetxController {
       case RepeatMode.year:
         return 3;
       default:
-        print(_repeatMode);
+        if (kDebugMode) {
+          print(_repeatMode);
+        }
         assert(false, 'getSubIndex error in RepeatModeController');
         return -1;
     }
@@ -89,10 +92,14 @@ class RepeatModeController extends GetxController {
           repeatMode = RepeatMode.year;
           break;
         default:
-          print('error in switch in setRepeatMode in RepeatModeController');
+          if (kDebugMode) {
+            print('error in switch in setRepeatMode in RepeatModeController');
+          }
       }
     } else {
-      print('error in setRepeatMode in RepeatModeController');
+      if (kDebugMode) {
+        print('error in setRepeatMode in RepeatModeController');
+      }
     }
   }
 
@@ -110,8 +117,8 @@ class RepeatModeController extends GetxController {
         return interval == '1' ? '주 반복' : '주마다 반복';
       case RepeatMode.month:
         return interval == '1'
-            ? '달 ${monthRepeatDay}일에 반복'
-            : '달마다 ${monthRepeatDay}일에 반복';
+            ? '달 $monthRepeatDay일에 반복'
+            : '달마다 $monthRepeatDay일에 반복';
       case RepeatMode.year:
         return interval == '1' ? '년 반복' : '년마다 반복';
       default:

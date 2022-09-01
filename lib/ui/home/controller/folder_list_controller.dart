@@ -6,7 +6,7 @@ import 'package:new_alarm_clock/ui/home/controller/alarm_list_controller.dart';
 import 'package:new_alarm_clock/utils/values/string_value.dart';
 
 class FolderListController extends GetxController {
-  AlarmProvider _alarmProvider = AlarmProvider();
+  final AlarmProvider _alarmProvider = AlarmProvider();
   List<AlarmFolderData> folderList = [];
   SettingsSharedPreferences settingsSharedPreferences =
       SettingsSharedPreferences();

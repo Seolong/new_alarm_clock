@@ -21,33 +21,35 @@ class ChoiceDayButton extends StatelessWidget {
         //height까지 설정해야 생성되길래 Get.dialog로 함.
         Get.dialog(
           AlertDialog(
-            shape: RoundedRectangleBorder(
+            shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(Radius.circular(10))),
             contentPadding: EdgeInsets.zero,
             title: Container(
                 decoration: BoxDecoration(
                   color: Get.find<ColorController>().colorSet.mainColor,
-                  borderRadius: BorderRadius.vertical(top: Radius.circular(10)),
+                  borderRadius:
+                      const BorderRadius.vertical(top: Radius.circular(10)),
                 ),
-                padding: EdgeInsets.fromLTRB(0, 15, 0, 15),
+                padding: const EdgeInsets.fromLTRB(0, 15, 0, 15),
                 height: 60,
                 child: AutoSizeText(
                   LocaleKeys.chooseRepeatDay.tr(),
                   bold: true,
-                  color: Get.find<ColorController>().colorSet.appBarContentColor,
+                  color:
+                      Get.find<ColorController>().colorSet.appBarContentColor,
                 )),
-            titlePadding: EdgeInsets.fromLTRB(0, 0, 0, 0),
-            backgroundColor: Get.find<ColorController>().colorSet.backgroundColor,
-
+            titlePadding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+            backgroundColor:
+                Get.find<ColorController>().colorSet.backgroundColor,
             content: Container(
               width: Get.width / 5 * 3,
-              padding: EdgeInsets.fromLTRB(17.5, 10, 17.5, 15),
+              padding: const EdgeInsets.fromLTRB(17.5, 10, 17.5, 15),
               child: GridView.builder(
                 shrinkWrap: true,
-                padding: EdgeInsets.all(7.5),
+                padding: const EdgeInsets.all(7.5),
                 itemCount: 29,
                 //item 개수
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 5, //1 개의 행에 보여줄 item 개수
                   //childAspectRatio: 1 / 2, //item 의 가로 1, 세로 2 의 비율
                   mainAxisSpacing: 7.5, //수평 Padding
@@ -55,62 +57,72 @@ class ChoiceDayButton extends StatelessWidget {
                 ),
                 itemBuilder: (BuildContext context, int index) {
                   //item 의 반목문 항목 형성
-                  return GetBuilder<MonthRepeatDayController>(
-                    builder: (_) {
-                      return Padding(
-                        padding: const EdgeInsets.all(5.0),
-                        child: Ink(
-                          decoration: BoxDecoration(
-                            color: Get.find<ColorController>().colorSet.backgroundColor,
-                            //border: Border.all(width: 0.5),
-                            borderRadius: BorderRadius.all(Radius.circular(115)),
-                          ),
-                          child: InkWell(
-                            splashColor: Colors.grey,
-                            borderRadius: BorderRadius.all(Radius.circular(115)),
-                            onTap: () {
-                              print(index + 1);
-                              _.monthRepeatDay =
-                                  index + 1;
-                              DateTime startDay = startEndDayController.start['dateTime'];
-                              if(startDay.month == DateTime.now().month){
-                                startEndDayController.setStart(
-                                    Jiffy(startDay).add(months: 1).dateTime);
-                              }
-                              Get.back();
-                            },
-                            child: Container(
-                              alignment: Alignment.center,
-                              padding: EdgeInsets.all(7.5),
-                              decoration: BoxDecoration(
-                                color: _.monthRepeatDay != index+1
-                                    ? null
-                                    : Get.find<ColorController>().colorSet.mainColor,
-                                borderRadius: BorderRadius.all(Radius.circular(110)),
-                              ),
-                              child: FittedBox(
-                                fit: BoxFit.scaleDown,
-                                child: ConstrainedBox(
-                                  constraints:
-                                      BoxConstraints(minWidth: 1, minHeight: 1),
-                                  child: Text(
-                                    index != 28 ? '${index + 1}' : LocaleKeys.lastDay.tr(),
-                                    style: TextStyle(
-                                      color: _.monthRepeatDay != index+1
-                                          ? Colors.grey
-                                          : Get.find<ColorController>().colorSet.mainTextColor,
-                                      fontWeight: _.monthRepeatDay != index+1 ? null: FontWeight.bold,
-                                      fontSize: 1000,
-                                    ),
+                  return GetBuilder<MonthRepeatDayController>(builder: (_) {
+                    return Padding(
+                      padding: const EdgeInsets.all(5.0),
+                      child: Ink(
+                        decoration: BoxDecoration(
+                          color: Get.find<ColorController>()
+                              .colorSet
+                              .backgroundColor,
+                          //border: Border.all(width: 0.5),
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(115)),
+                        ),
+                        child: InkWell(
+                          splashColor: Colors.grey,
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(115)),
+                          onTap: () {
+                            _.monthRepeatDay = index + 1;
+                            DateTime startDay =
+                                startEndDayController.start['dateTime'];
+                            if (startDay.month == DateTime.now().month) {
+                              startEndDayController.setStart(
+                                  Jiffy(startDay).add(months: 1).dateTime);
+                            }
+                            Get.back();
+                          },
+                          child: Container(
+                            alignment: Alignment.center,
+                            padding: const EdgeInsets.all(7.5),
+                            decoration: BoxDecoration(
+                              color: _.monthRepeatDay != index + 1
+                                  ? null
+                                  : Get.find<ColorController>()
+                                      .colorSet
+                                      .mainColor,
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(110)),
+                            ),
+                            child: FittedBox(
+                              fit: BoxFit.scaleDown,
+                              child: ConstrainedBox(
+                                constraints: const BoxConstraints(
+                                    minWidth: 1, minHeight: 1),
+                                child: Text(
+                                  index != 28
+                                      ? '${index + 1}'
+                                      : LocaleKeys.lastDay.tr(),
+                                  style: TextStyle(
+                                    color: _.monthRepeatDay != index + 1
+                                        ? Colors.grey
+                                        : Get.find<ColorController>()
+                                            .colorSet
+                                            .mainTextColor,
+                                    fontWeight: _.monthRepeatDay != index + 1
+                                        ? null
+                                        : FontWeight.bold,
+                                    fontSize: 1000,
                                   ),
                                 ),
                               ),
                             ),
                           ),
                         ),
-                      );
-                    }
-                  );
+                      ),
+                    );
+                  });
                 },
               ),
             ),

@@ -5,13 +5,14 @@ class IntervalTextFieldController extends GetxController {
   TextEditingController textEditingController = TextEditingController();
 
   int getInterval() {
-    if(textEditingController.text == ''){
+    if (textEditingController.text == '') {
       return 1;
     }
     return int.parse(textEditingController.text);
   }
 
-  String getIntervalText() => textEditingController.text == '1' ? '매' : textEditingController.text;
+  String getIntervalText() =>
+      textEditingController.text == '1' ? '매' : textEditingController.text;
 
   @override
   void onInit() {
@@ -29,7 +30,6 @@ class IntervalTextFieldController extends GetxController {
   }
 
   void initTextFieldInEditRepeat(int intervalValue) {
-    textEditingController.text =
-      intervalValue != 0 ? '${intervalValue}' : '';
+    textEditingController.text = intervalValue != 0 ? '$intervalValue' : '';
   }
 }

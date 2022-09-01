@@ -1,6 +1,7 @@
 import 'dart:core';
 import 'package:android_alarm_manager_plus/android_alarm_manager_plus.dart';
 import 'package:awesome_notifications/awesome_notifications.dart';
+import 'package:flutter/foundation.dart';
 import 'package:get/get.dart' hide Trans;
 import 'package:easy_localization/easy_localization.dart';
 import 'package:new_alarm_clock/generated/locale_keys.g.dart';
@@ -18,10 +19,10 @@ class AlarmListController extends GetxController {
   AlarmProvider alarmProvider = AlarmProvider();
   late Future<List<AlarmData>> alarmFutureList;
   List<AlarmData> alarmList = [];
-  AlarmProvider _alarmProvider = AlarmProvider();
-  SettingsSharedPreferences _settingsSharedPreferences =
+  final AlarmProvider _alarmProvider = AlarmProvider();
+  final SettingsSharedPreferences _settingsSharedPreferences =
       SettingsSharedPreferences();
-  AlarmScheduler _alarmScheduler = AlarmScheduler();
+  final AlarmScheduler _alarmScheduler = AlarmScheduler();
 
   @override
   void onInit() async {
@@ -49,7 +50,7 @@ class AlarmListController extends GetxController {
           }
           while (alarmData.alarmDateTime.isBefore(DateTime.now())) {
             alarmData.alarmDateTime =
-                alarmData.alarmDateTime.add(Duration(days: 1));
+                alarmData.alarmDateTime.add(const Duration(days: 1));
             alarmData.alarmDateTime = DateTimeCalculator().getStartNearDay(
                 alarmData.alarmType, alarmData.alarmDateTime,
                 weekBool: weekBool,
@@ -81,26 +82,26 @@ class AlarmListController extends GetxController {
   void inputAlarm(AlarmData alarmData) async {
     await alarmProvider.insertAlarm(alarmData);
     AlarmScheduler().newShot(alarmData.alarmDateTime, alarmData.id);
-    String alignValue =  await _settingsSharedPreferences.getAlignValue();
+    String alignValue = await _settingsSharedPreferences.getAlignValue();
     //List에 없을 때만 List에 넣는다
     if (alignValue == _settingsSharedPreferences.alignBySetting) {
       if (!alarmList.any((e) => e.id == alarmData.id)) {
         alarmList.add(alarmData);
       }
-    }
-    else {
+    } else {
       if (alarmList.any((e) => e.id == alarmData.id)) {
         return;
       }
       int i;
-      for(i=0; i<alarmList.length; i++){
-        if (alarmData.alarmDateTime.isBefore(alarmList[i].alarmDateTime)
-        || alarmData.alarmDateTime.isAtSameMomentAs(alarmList[i].alarmDateTime)) {
+      for (i = 0; i < alarmList.length; i++) {
+        if (alarmData.alarmDateTime.isBefore(alarmList[i].alarmDateTime) ||
+            alarmData.alarmDateTime
+                .isAtSameMomentAs(alarmList[i].alarmDateTime)) {
           alarmList.insert(i, alarmData);
           break;
         }
       }
-      if(i>=alarmList.length){
+      if (i >= alarmList.length) {
         alarmList.add(alarmData);
       }
     }
@@ -121,7 +122,6 @@ class AlarmListController extends GetxController {
     await AlarmScheduler().newShot(alarmData.alarmDateTime, alarmData.id);
     alarmList[alarmList.indexWhere((element) => alarmData.id == element.id)] =
         alarmData;
-    print('AlarmListController: updateAlarm');
     update();
   }
 
@@ -162,7 +162,9 @@ class AlarmListController extends GetxController {
 
   void reorderItem(int oldIndex, int newIndex) async {
     if (oldIndex == newIndex - 1) {
-      print('AlarmListController: no index change in alarm order');
+      if (kDebugMode) {
+        print('AlarmListController: no index change in alarm order');
+      }
       return;
     }
 
@@ -173,7 +175,9 @@ class AlarmListController extends GetxController {
     }
 
     if (newIndex > alarmList.length) {
-      print('AlarmListController: 옮긴 위치가 alarmList 길이보다 클 수 없습니다.');
+      if (kDebugMode) {
+        print('AlarmListController: 옮긴 위치가 alarmList 길이보다 클 수 없습니다.');
+      }
       newIndex = alarmList.length;
     }
     if (oldIndex < newIndex) {

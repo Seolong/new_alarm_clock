@@ -13,7 +13,7 @@ class DaysOfWeekRow extends StatelessWidget {
   String mode;
   int alarmId;
 
-  DaysOfWeekRow(this.mode, this.alarmId);
+  DaysOfWeekRow(this.mode, this.alarmId, {Key? key}) : super(key: key);
 
   bool _isAbsorb(RepeatModeController repeatModeController) {
     if (repeatModeController.repeatMode == RepeatMode.off ||
@@ -33,48 +33,32 @@ class DaysOfWeekRow extends StatelessWidget {
           ? Get.find<DayOfWeekController>().initWhenEditMode(alarmId)
           : null,
       builder: (_) => LayoutBuilder(
-        builder: (BuildContext context,
-            BoxConstraints constraints) =>
-            GetBuilder<RepeatModeController>(
-                builder: (repeatCont) {
-                  // off나 week이 아니면 터치 막아버림
-                  return GestureDetector(
-                    onTap: () {
-                      if (_isAbsorb(repeatCont)) {
-                        ConvenienceMethod.showSimpleSnackBar(
-                            LocaleKeys.notWeekMode.tr());
-                      }
-                    },
-                    child: AbsorbPointer(
-                      absorbing: _isAbsorb(repeatCont),
-                      child: Row(
-                        children: [
-                          Expanded(
-                              child: DayButton(constraints,
-                                  DayWeek.Sun, _)),
-                          Expanded(
-                              child: DayButton(constraints,
-                                  DayWeek.Mon, _)),
-                          Expanded(
-                              child: DayButton(constraints,
-                                  DayWeek.Tue, _)),
-                          Expanded(
-                              child: DayButton(constraints,
-                                  DayWeek.Wed, _)),
-                          Expanded(
-                              child: DayButton(constraints,
-                                  DayWeek.Thu, _)),
-                          Expanded(
-                              child: DayButton(constraints,
-                                  DayWeek.Fri, _)),
-                          Expanded(
-                              child: DayButton(constraints,
-                                  DayWeek.Sat, _)),
-                        ],
-                      ),
-                    ),
-                  );
-                }),
+        builder: (BuildContext context, BoxConstraints constraints) =>
+            GetBuilder<RepeatModeController>(builder: (repeatCont) {
+          // off나 week이 아니면 터치 막아버림
+          return GestureDetector(
+            onTap: () {
+              if (_isAbsorb(repeatCont)) {
+                ConvenienceMethod.showSimpleSnackBar(
+                    LocaleKeys.notWeekMode.tr());
+              }
+            },
+            child: AbsorbPointer(
+              absorbing: _isAbsorb(repeatCont),
+              child: Row(
+                children: [
+                  Expanded(child: DayButton(constraints, DayWeek.Sun, _)),
+                  Expanded(child: DayButton(constraints, DayWeek.Mon, _)),
+                  Expanded(child: DayButton(constraints, DayWeek.Tue, _)),
+                  Expanded(child: DayButton(constraints, DayWeek.Wed, _)),
+                  Expanded(child: DayButton(constraints, DayWeek.Thu, _)),
+                  Expanded(child: DayButton(constraints, DayWeek.Fri, _)),
+                  Expanded(child: DayButton(constraints, DayWeek.Sat, _)),
+                ],
+              ),
+            ),
+          );
+        }),
       ),
     );
   }

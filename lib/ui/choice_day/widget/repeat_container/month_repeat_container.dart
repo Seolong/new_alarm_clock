@@ -11,20 +11,15 @@ import 'package:new_alarm_clock/generated/locale_keys.g.dart';
 import '../../../global/color_controller.dart';
 
 class MonthRepeatContainer extends RepeatContainer {
-  dynamic intervalType;
-
   MonthRepeatContainer() {
-    intervalType = GetBuilder<IntervalTextFieldController>(
-      builder: (_) {
-        return Text(
-          plural(LocaleKeys.month_args, _.getInterval()),
-          style: TextStyle(
-              fontSize: SizeValue.intervalTypeTextSize,
-              color: Get.find<ColorController>().colorSet.mainTextColor
-          ),
-        );
-      }
-    );
+    intervalType = GetBuilder<IntervalTextFieldController>(builder: (_) {
+      return Text(
+        plural(LocaleKeys.month_args, _.getInterval()),
+        style: TextStyle(
+            fontSize: SizeValue.intervalTypeTextSize,
+            color: Get.find<ColorController>().colorSet.mainTextColor),
+      );
+    });
     bottomColumn = Column(
       children: [
         Padding(

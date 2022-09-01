@@ -25,18 +25,17 @@ class SettingPage extends StatelessWidget {
     ResetButton(),
   ];
 
+  SettingPage({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Theme(
       data: ThemeData(
-        textTheme: TextTheme(
-          titleLarge: Theme.of(context).textTheme.labelLarge!.copyWith(
+          textTheme: TextTheme(
+              titleLarge: Theme.of(context).textTheme.labelLarge!.copyWith(
                   fontSize: 16,
                   color: Get.find<ColorController>().colorSet.mainTextColor,
-                  fontFamily: MyFontFamily.mainFontFamily
-          )
-        )
-      ),
+                  fontFamily: MyFontFamily.mainFontFamily))),
       child: Scaffold(
         backgroundColor: Get.find<ColorController>().colorSet.backgroundColor,
         body: Padding(
@@ -52,18 +51,22 @@ class SettingPage extends StatelessWidget {
                       fontSize: 26,
                       fontWeight: FontWeight.bold,
                       fontFamily: MyFontFamily.mainFontFamily,
-                    color: Get.find<ColorController>().colorSet.mainTextColor
-                  ),
+                      color:
+                          Get.find<ColorController>().colorSet.mainTextColor),
                 ),
               ),
               Expanded(
                 child: ListView.separated(
                   itemCount: settingButtons.length,
-                    itemBuilder: (context, index){
-                  return settingButtons[index];
-                }, separatorBuilder: (BuildContext context, int index) {
-                    return SizedBox(height: 12.5,);
-                },),
+                  itemBuilder: (context, index) {
+                    return settingButtons[index];
+                  },
+                  separatorBuilder: (BuildContext context, int index) {
+                    return const SizedBox(
+                      height: 12.5,
+                    );
+                  },
+                ),
               )
             ],
           ),

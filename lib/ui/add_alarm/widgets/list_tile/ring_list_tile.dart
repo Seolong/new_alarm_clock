@@ -18,8 +18,8 @@ class RingListTile extends AlarmDetailListTile {
       return Text(
         _.getNameOfSong(_.selectedMusicPath), //알람음 설정
         style: Theme.of(Get.context!).textTheme.bodyMedium!.copyWith(
-            color: Get.find<ColorController>().colorSet.mainColor,
-        ),
+              color: Get.find<ColorController>().colorSet.mainColor,
+            ),
       );
     });
     stateSwitch = GetBuilder<RingRadioListController>(builder: (_) {

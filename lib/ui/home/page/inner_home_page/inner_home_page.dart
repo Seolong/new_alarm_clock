@@ -14,18 +14,17 @@ import '../../../../utils/values/string_value.dart';
 class InnerHomePage extends StatelessWidget {
   final AlarmProvider _alarmProvider = AlarmProvider();
 
-  InnerHomePage() {
+  InnerHomePage({Key? key}) : super(key: key) {
     _alarmProvider.initializeDatabase();
   }
-
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       extendBody: true,
       backgroundColor: Get.find<ColorController>().colorSet.backgroundColor,
-      body: CustomScrollView(
-        slivers: [SliverAppBar(
+      body: CustomScrollView(slivers: [
+        SliverAppBar(
           pinned: true,
           expandedHeight: 70.0,
           collapsedHeight: 70.0,
@@ -34,37 +33,30 @@ class InnerHomePage extends StatelessWidget {
           titleTextStyle: Theme.of(context).textTheme.headlineSmall!.copyWith(
               color: Get.find<ColorController>().colorSet.appBarContentColor,
               fontFamily: MyFontFamily.mainFontFamily,
-              fontWeight: FontWeight.bold
-          ),
-          title: GetBuilder<FolderListController>(
-              builder: (_) {
-                return Padding(
-                  padding: const EdgeInsets.only(top: 25),
-                  child: Text(
-                    _.currentFolderName == StringValue.allAlarms
-                        ? LocaleKeys.allAlarms.tr()
-                        : _.currentFolderName,
-                  ),
-                );
-              }
-          ),
-          ),
+              fontWeight: FontWeight.bold),
+          title: GetBuilder<FolderListController>(builder: (_) {
+            return Padding(
+              padding: const EdgeInsets.only(top: 25),
+              child: Text(
+                _.currentFolderName == StringValue.allAlarms
+                    ? LocaleKeys.allAlarms.tr()
+                    : _.currentFolderName,
+              ),
+            );
+          }),
+        ),
         SliverToBoxAdapter(
           child: NextAlarmContainer(),
         ),
         SliverList(
-          delegate: SliverChildBuilderDelegate(
-              (context, index){
-                return Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 0),
-                  child: AlarmListView(),
-                );
-              },
-            childCount: 1
-          ),
+          delegate: SliverChildBuilderDelegate((context, index) {
+            return const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 0),
+              child: AlarmListView(),
+            );
+          }, childCount: 1),
         ),
-        ]
-      ),
+      ]),
     );
   }
 }

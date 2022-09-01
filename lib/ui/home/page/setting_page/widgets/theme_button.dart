@@ -35,25 +35,27 @@ class ThemeButton extends StatelessWidget {
   SettingsSharedPreferences settingsSharedPreferences =
       SettingsSharedPreferences();
 
+  ThemeButton({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      borderRadius: BorderRadius.all(Radius.circular(10)),
+      borderRadius: const BorderRadius.all(Radius.circular(10)),
       onTap: () async {
         theme = (await settingsSharedPreferences.getTheme()).getColorTheme();
         Get.dialog(
           Dialog(
             backgroundColor:
                 Get.find<ColorController>().colorSet.topBackgroundColor,
-            shape: RoundedRectangleBorder(
+            shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(Radius.circular(10))),
-            insetPadding: EdgeInsets.fromLTRB(20, 20, 20, 25),
+            insetPadding: const EdgeInsets.fromLTRB(20, 20, 20, 25),
             child: Container(
               width: 100,
-              padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
-                children: getLanguageListTile(context),
+                children: getLanguageListTile(),
               ),
             ),
           ),
@@ -73,7 +75,7 @@ class ThemeButton extends StatelessWidget {
     );
   }
 
-  List<CustomRadioListTile> getLanguageListTile(BuildContext context) {
+  List<CustomRadioListTile> getLanguageListTile() {
     List<CustomRadioListTile<ColorTheme>> result = [];
 
     for (int i = 0; i < ColorTheme.values.length; i++) {
@@ -83,8 +85,7 @@ class ThemeButton extends StatelessWidget {
           titleTextStyle: TextStyle(
               color: Get.find<ColorController>().colorSet.mainTextColor,
               fontSize: 16,
-              fontFamily: MyFontFamily.mainFontFamily
-          ),
+              fontFamily: MyFontFamily.mainFontFamily),
           value: ColorTheme.values[i],
           groupValue: theme,
           activeColor: Get.find<ColorController>().colorSet.mainColor,
@@ -93,7 +94,7 @@ class ThemeButton extends StatelessWidget {
               backgroundColor:
                   Get.find<ColorController>().colorSet.topBackgroundColor,
               child: Container(
-                padding: EdgeInsets.fromLTRB(22.5, 22.5, 22.5, 0),
+                padding: const EdgeInsets.fromLTRB(22.5, 22.5, 22.5, 0),
                 height: 175,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -112,7 +113,7 @@ class ThemeButton extends StatelessWidget {
                             onPressed: () {
                               Get.back();
                             },
-                            child: Text(
+                            child: const Text(
                               'Cancel',
                               style: TextStyle(color: Colors.grey),
                             )),
@@ -123,7 +124,7 @@ class ThemeButton extends StatelessWidget {
                                   .setTheme(newValue.name);
                               Restart.restartApp();
                             },
-                            child: Text('Restart')),
+                            child: const Text('Restart')),
                       ],
                     )
                   ],

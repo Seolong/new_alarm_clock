@@ -16,13 +16,15 @@ class RepeatContainer extends StatelessWidget {
   dynamic intervalType;
   late Column bottomColumn;
 
+  RepeatContainer({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     Get.put(StartEndDayController());
     Get.put(IntervalTextFieldController());
     return ListView(
       children: [
-        Divider(
+        const Divider(
           height: 0.5,
           thickness: 1,
         ),
@@ -37,7 +39,8 @@ class RepeatContainer extends StatelessWidget {
                     builder: (_) => Column(
                       children: [
                         InkWell(
-                            borderRadius: BorderRadius.all(Radius.circular(20)),
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(20)),
                             onTap: () async {
                               var dateTime = await Get.dialog(AlertDialog(
                                   contentPadding: EdgeInsets.zero,
@@ -49,7 +52,7 @@ class RepeatContainer extends StatelessWidget {
                               }
                             },
                             child: Padding(
-                                padding: EdgeInsets.all(2.0),
+                                padding: const EdgeInsets.all(2.0),
                                 child: Icon(
                                   Icons.today,
                                   size: ButtonSize.large,
@@ -57,37 +60,39 @@ class RepeatContainer extends StatelessWidget {
                                       .colorSet
                                       .accentColor,
                                 ))),
-                        Container(
+                        SizedBox(
                           height: ButtonSize.small - 4,
                           child: FittedBox(
                             fit: BoxFit.scaleDown,
                             child: ConstrainedBox(
-                                constraints:
-                                    BoxConstraints(minHeight: 1, minWidth: 1),
+                                constraints: const BoxConstraints(
+                                    minHeight: 1, minWidth: 1),
                                 child: Text(
                                   _.start['monthDay'],
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
-                                    fontSize: 1000,
-                                    color: Get.find<ColorController>().colorSet.mainTextColor
-                                  ),
+                                      fontSize: 1000,
+                                      color: Get.find<ColorController>()
+                                          .colorSet
+                                          .mainTextColor),
                                 )),
                           ),
                         ),
-                        Container(
+                        SizedBox(
                           height: ButtonSize.small - 8,
                           child: FittedBox(
                             fit: BoxFit.scaleDown,
                             child: ConstrainedBox(
-                                constraints:
-                                    BoxConstraints(minHeight: 1, minWidth: 1),
+                                constraints: const BoxConstraints(
+                                    minHeight: 1, minWidth: 1),
                                 child: Text(
                                   _.start['year'],
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                       fontSize: 1000,
-                                      color: Get.find<ColorController>().colorSet.mainTextColor
-                                  ),
+                                      color: Get.find<ColorController>()
+                                          .colorSet
+                                          .mainTextColor),
                                 )),
                           ),
                         ),
@@ -95,7 +100,7 @@ class RepeatContainer extends StatelessWidget {
                     ),
                   ),
                 ),
-                VerticalDivider(
+                const VerticalDivider(
                   width: 3,
                   thickness: 1,
                 ),
@@ -104,15 +109,14 @@ class RepeatContainer extends StatelessWidget {
                     builder: (_) => Column(
                       children: [
                         InkWell(
-                            borderRadius: BorderRadius.all(Radius.circular(20)),
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(20)),
                             onTap: () async {
                               DateTime? dateTime = await Get.dialog(AlertDialog(
                                   contentPadding: EdgeInsets.zero,
                                   content: CalendarContainer(
-                                      _.end['dateTime'] == null
-                                          ? // end를 아직 설정 안했을 때
-                                          _.start['dateTime']
-                                          : _.end['dateTime'])));
+                                      _.end['dateTime'] ??
+                                          _.start['dateTime'])));
                               if (dateTime == null) {
                                 return;
                               }
@@ -125,7 +129,7 @@ class RepeatContainer extends StatelessWidget {
                               }
                             },
                             child: Padding(
-                                padding: EdgeInsets.all(2.0),
+                                padding: const EdgeInsets.all(2.0),
                                 child: Icon(
                                   Icons.event,
                                   size: ButtonSize.large,
@@ -133,39 +137,41 @@ class RepeatContainer extends StatelessWidget {
                                       .colorSet
                                       .accentColor,
                                 ))),
-                        Container(
+                        SizedBox(
                           height: ButtonSize.small - 4,
                           child: FittedBox(
                             fit: BoxFit.scaleDown,
                             child: ConstrainedBox(
-                                constraints:
-                                    BoxConstraints(minHeight: 1, minWidth: 1),
+                                constraints: const BoxConstraints(
+                                    minHeight: 1, minWidth: 1),
                                 child: Text(
                                   _.end['dateTime'] == null
                                       ? LocaleKeys.endDate.tr()
                                       : _.end['monthDay'],
                                   style: TextStyle(
                                       fontSize: 1000,
-                                      color: Get.find<ColorController>().colorSet.mainTextColor
-                                  ),
+                                      color: Get.find<ColorController>()
+                                          .colorSet
+                                          .mainTextColor),
                                 )),
                           ),
                         ),
-                        Container(
+                        SizedBox(
                           height: ButtonSize.small - 8,
                           child: FittedBox(
                             fit: BoxFit.scaleDown,
                             child: ConstrainedBox(
-                                constraints:
-                                    BoxConstraints(minHeight: 1, minWidth: 1),
+                                constraints: const BoxConstraints(
+                                    minHeight: 1, minWidth: 1),
                                 child: Text(
                                   _.end['dateTime'] == null
                                       ? LocaleKeys.notSet.tr()
                                       : _.end['year'],
                                   style: TextStyle(
                                       fontSize: 1000,
-                                      color: Get.find<ColorController>().colorSet.mainTextColor
-                                  ),
+                                      color: Get.find<ColorController>()
+                                          .colorSet
+                                          .mainTextColor),
                                 )),
                           ),
                         ),
@@ -177,7 +183,7 @@ class RepeatContainer extends StatelessWidget {
             ),
           ),
         ),
-        Divider(
+        const Divider(
           thickness: 1,
         ),
         Padding(
@@ -190,15 +196,15 @@ class RepeatContainer extends StatelessWidget {
               Text(LocaleKeys.every.tr(),
                   style: TextStyle(
                       fontSize: SizeValue.intervalTypeTextSize,
-                    color: Get.find<ColorController>().colorSet.mainTextColor
-                  )),
+                      color:
+                          Get.find<ColorController>().colorSet.mainTextColor)),
               Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   Container(
                     width: SizeValue.repeatTextFieldSize,
-                    padding: EdgeInsets.fromLTRB(0, 0, 10, 0),
+                    padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
                     child:
                         GetBuilder<IntervalTextFieldController>(builder: (_) {
                       return TextField(
@@ -210,7 +216,7 @@ class RepeatContainer extends StatelessWidget {
                           FilteringTextInputFormatter.digitsOnly //숫자만 입력
                         ],
                         textAlign: TextAlign.end,
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           contentPadding: EdgeInsets.all(0),
                           enabledBorder: UnderlineInputBorder(
                             borderSide: BorderSide(color: Colors.grey),
@@ -232,7 +238,7 @@ class RepeatContainer extends StatelessWidget {
                     child: Text(
                       LocaleKeys.interval.tr(),
                       textAlign: TextAlign.end,
-                      style: TextStyle(fontSize: 14, color: Colors.grey),
+                      style: const TextStyle(fontSize: 14, color: Colors.grey),
                     ),
                   ),
                 ],
@@ -243,7 +249,7 @@ class RepeatContainer extends StatelessWidget {
         ),
         bottomColumn,
         Padding(
-            padding: EdgeInsets.only(top: 25),
+            padding: const EdgeInsets.only(top: 25),
             child: GestureDetector(
               onTap: () {
                 Get.toNamed(AppRoutes.dayOffPage);
@@ -254,7 +260,7 @@ class RepeatContainer extends StatelessWidget {
                 color: Colors.grey,
               ),
             )),
-        Container(
+        SizedBox(
             height: 22.5,
             child: AutoSizeText(LocaleKeys.setDayOff.tr(), color: Colors.grey)),
       ],

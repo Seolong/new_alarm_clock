@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:new_alarm_clock/data/database/alarm_provider.dart';
 import 'package:new_alarm_clock/data/model/alarm_data.dart';
@@ -23,12 +24,13 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:new_alarm_clock/generated/locale_keys.g.dart';
 
 class SaveButton extends StatelessWidget {
-  AlarmProvider _alarmProvider = AlarmProvider();
+  final AlarmProvider _alarmProvider = AlarmProvider();
   String mode;
   int alarmId;
   String currentFolderName;
 
-  SaveButton(this.alarmId, this.mode, this.currentFolderName);
+  SaveButton(this.alarmId, this.mode, this.currentFolderName, {Key? key})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +41,9 @@ class SaveButton extends StatelessWidget {
               .format(Get.find<TimeSpinnerController>().alarmDateTime)
               .toString();
           hourMinute += ':00.000';
-          print(hourMinute);
+          if (kDebugMode) {
+            print(hourMinute);
+          }
 
           setStartDay(hourMinute);
 
@@ -153,7 +157,7 @@ class SaveButton extends StatelessWidget {
               }
               while (alarmData.alarmDateTime.isBefore(DateTime.now())) {
                 alarmData.alarmDateTime =
-                    alarmData.alarmDateTime.add(Duration(days: 1));
+                    alarmData.alarmDateTime.add(const Duration(days: 1));
                 alarmData.alarmDateTime = DateTimeCalculator().getStartNearDay(
                     alarmData.alarmType, alarmData.alarmDateTime,
                     weekBool: weekBool,
@@ -168,12 +172,14 @@ class SaveButton extends StatelessWidget {
             } else {
               while (alarmData.alarmDateTime.isBefore(DateTime.now())) {
                 alarmData.alarmDateTime =
-                    alarmData.alarmDateTime.add(Duration(days: 1));
+                    alarmData.alarmDateTime.add(const Duration(days: 1));
               }
             }
             Get.find<AlarmListController>().updateAlarm(alarmData);
           } else {
-            print('error in 저장 button in AddAlarmPage');
+            if (kDebugMode) {
+              print('error in 저장 button in AddAlarmPage');
+            }
           }
           Get.back();
         },
@@ -187,8 +193,10 @@ class SaveButton extends StatelessWidget {
   void setStartDay(String hourMinute) {
     String yearMonthDay = DateFormat('yyyy-MM-dd')
         .format(Get.find<StartEndDayController>().start['dateTime']);
-    String alarmDateTime = yearMonthDay + 'T' + hourMinute;
-    print('SaveButton: $alarmDateTime');
+    String alarmDateTime = '${yearMonthDay}T$hourMinute';
+    if (kDebugMode) {
+      print('SaveButton: $alarmDateTime');
+    }
     Get.find<TimeSpinnerController>().alarmDateTime =
         DateTime.parse(alarmDateTime);
 
@@ -198,14 +206,14 @@ class SaveButton extends StatelessWidget {
       Get.find<TimeSpinnerController>().alarmDateTime =
           Get.find<TimeSpinnerController>()
               .alarmDateTime
-              .add(Duration(days: 1));
+              .add(const Duration(days: 1));
     }
   }
 
   DateTime getEndDay(String hourMinute) {
-    String yearMonthDay_end = DateFormat('yyyy-MM-dd')
+    String yearMonthDayEnd = DateFormat('yyyy-MM-dd')
         .format(Get.find<StartEndDayController>().end['dateTime']);
-    String endDateTime = yearMonthDay_end + 'T' + hourMinute;
+    String endDateTime = '${yearMonthDayEnd}T$hourMinute';
     return DateTime.parse(endDateTime);
   }
 }

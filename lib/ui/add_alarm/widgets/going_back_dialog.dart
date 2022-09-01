@@ -10,14 +10,15 @@ class GoingBackDialog extends StatelessWidget {
   String system = 'system';
   String appBar = 'appBar';
 
-  GoingBackDialog(this.buttonName);
+  GoingBackDialog(this.buttonName, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      backgroundColor: Get.find<ColorController>().colorSet.topBackgroundColor,
+        backgroundColor:
+            Get.find<ColorController>().colorSet.topBackgroundColor,
         contentPadding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
-        content: Container(
+        content: SizedBox(
           height: 120,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -27,8 +28,10 @@ class GoingBackDialog extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   TextButton(
-                    child: Text(LocaleKeys.cancel.tr(),
-                    style: TextStyle(color:Colors.grey),),
+                    child: Text(
+                      LocaleKeys.cancel.tr(),
+                      style: const TextStyle(color: Colors.grey),
+                    ),
                     onPressed: () {
                       Get.back(result: false);
                     },
@@ -42,7 +45,9 @@ class GoingBackDialog extends StatelessWidget {
                   TextButton(
                     child: Text(LocaleKeys.okay.tr()),
                     onPressed: () {
-                      Get.find<RecentAlarmDateStreamController>().dateStreamSubscription.resume();
+                      Get.find<RecentAlarmDateStreamController>()
+                          .dateStreamSubscription
+                          .resume();
                       if (buttonName == system) {
                         Get.back(result: true);
                       } else if (buttonName == appBar) {

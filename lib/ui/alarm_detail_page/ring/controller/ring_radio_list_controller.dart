@@ -10,14 +10,14 @@ import '../../../global/color_controller.dart';
 
 class RingRadioListController extends GetxController {
   MusicHandler musicHandler = MusicHandler();
-  AlarmProvider _alarmProvider = AlarmProvider();
+  final AlarmProvider _alarmProvider = AlarmProvider();
   String _selectedMusicPath = StringValue.beepBeep; //절대경로
   bool _power = false; //DB에서 가져오기
   Map<String, Color> textColor = {
     'active': Get.find<ColorController>().colorSet.mainTextColor,
     'inactive': Colors.grey
   };
-  Future<List<MusicPathData>>? pathFutureList = null;
+  Future<List<MusicPathData>>? pathFutureList;
   RxList<MusicPathData> pathList = RxList<MusicPathData>();
   double _volume = 0.7; //addalarmpage에서 edit이면 db에서 받아오기
 
