@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/physics.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 import 'package:new_alarm_clock/data/database/alarm_provider.dart';
 import 'package:new_alarm_clock/data/model/alarm_data.dart';
 import 'package:new_alarm_clock/data/shared_preferences/app_state_shared_preferences.dart';
@@ -9,7 +10,7 @@ import 'package:new_alarm_clock/data/shared_preferences/id_shared_preferences.da
 import 'package:new_alarm_clock/data/shared_preferences/repeat_count_shared_preferences.dart';
 import 'package:new_alarm_clock/service/alarm_scheduler.dart';
 import 'package:new_alarm_clock/service/music_handler.dart';
-import 'package:new_alarm_clock/utils/values/color_value.dart';
+import 'package:new_alarm_clock/ui/global/color_controller.dart';
 import 'package:new_alarm_clock/utils/values/my_font_family.dart';
 import 'package:vibration/vibration.dart';
 import 'package:wakelock/wakelock.dart';
@@ -33,8 +34,8 @@ class _DraggableDismissButtonState extends State<DraggableDismissButton>
   AppStateSharedPreferences();
   final IdSharedPreferences _idSharedPreferences = IdSharedPreferences();
   final RepeatCountSharedPreferences _repeatCountSharedPreferences = RepeatCountSharedPreferences();
-  Color buttonColor = ColorValue.dismissAlarmButton;
-  Color buttonOutsideColor = ColorValue.mainBackground;
+  Color buttonColor = Get.find<ColorController>().colorSet.mainColor;
+  Color buttonOutsideColor = Get.find<ColorController>().colorSet.backgroundColor;
   int alarmId = -1;
   AlarmProvider _alarmProvider = AlarmProvider();
   MusicHandler _musicHandler = MusicHandler();
@@ -131,8 +132,8 @@ class _DraggableDismissButtonState extends State<DraggableDismissButton>
       buttonColor = Colors.grey;
       buttonOutsideColor = Colors.white12;
     }else{
-      buttonColor = ColorValue.dismissAlarmButton;
-      buttonOutsideColor = ColorValue.mainBackground;
+      buttonColor = Get.find<ColorController>().colorSet.mainColor;
+      buttonOutsideColor = Get.find<ColorController>().colorSet.backgroundColor;
     }
   }
 
@@ -214,7 +215,7 @@ class _DraggableDismissButtonState extends State<DraggableDismissButton>
           child: Text(
             '버튼을 꾹 누르거나 드래그 해서 알람 끄기',
             style: TextStyle(
-                color: ColorValue.alarmText,
+                color: Get.find<ColorController>().colorSet.mainTextColor,
                 fontWeight: FontWeight.bold,
                 fontFamily: MyFontFamily.mainFontFamily),
           ))

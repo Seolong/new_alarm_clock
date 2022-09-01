@@ -7,8 +7,8 @@ class SettingsSharedPreferences {
   final String alignByDate = 'byDate';
   final String alignBySetting = 'bySetting';
   final String mainFolderName = 'mainFolder';
-  final String green = 'green';
-  final String dark = 'dark';
+  final String green = 'Green';
+  final String dark = 'Dark';
   final String theme = 'theme';
 
   factory SettingsSharedPreferences() {

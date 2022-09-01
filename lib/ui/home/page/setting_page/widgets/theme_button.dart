@@ -14,9 +14,9 @@ enum ColorTheme { Green, Dark }
 extension ColorThemeExtension on String {
   ColorTheme getColorTheme() {
     switch (this) {
-      case 'green':
+      case 'Green':
         return ColorTheme.Green;
-      case 'dark':
+      case 'Dark':
         return ColorTheme.Dark;
       default:
         assert(false, 'ColorThemeExtension Error');

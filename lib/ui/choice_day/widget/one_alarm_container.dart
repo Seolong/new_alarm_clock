@@ -41,38 +41,35 @@ class OneAlarmContainer extends StatelessWidget {
                 showCupertinoModalPopup(
                     context: context,
                     builder: (__) => Container(
-                          height: 250,
+                          height: 300,
                           color: Get.find<ColorController>()
                               .colorSet
                               .backgroundColor,
                           child: Column(
                             children: [
                               // 확인 취소 만들기
-                              Container(
-                                height: 50,
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    // 확인 취소 만들기
-                                    CupertinoButton(
-                                      child: Text(
-                                        LocaleKeys.cancel.tr(),
-                                        style: TextStyle(color: Colors.grey),
-                                      ),
-                                      onPressed: () {
-                                        Get.back();
-                                      },
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  // 확인 취소 만들기
+                                  CupertinoButton(
+                                    child: Text(
+                                      LocaleKeys.cancel.tr(),
+                                      style: TextStyle(color: Colors.grey),
                                     ),
-                                    CupertinoButton(
-                                      child: Text(LocaleKeys.move.tr()),
-                                      onPressed: () {
-                                        _.setStart(result);
-                                        Get.back();
-                                      },
-                                    ),
-                                  ],
-                                ),
+                                    onPressed: () {
+                                      Get.back();
+                                    },
+                                  ),
+                                  CupertinoButton(
+                                    child: Text(LocaleKeys.move.tr()),
+                                    onPressed: () {
+                                      _.setStart(result);
+                                      Get.back();
+                                    },
+                                  ),
+                                ],
                               ),
                               SizedBox(
                                 height: 200,

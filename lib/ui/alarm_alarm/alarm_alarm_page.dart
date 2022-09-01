@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:new_alarm_clock/data/database/alarm_provider.dart';
 import 'package:new_alarm_clock/data/model/alarm_data.dart';
 import 'package:new_alarm_clock/data/shared_preferences/id_shared_preferences.dart';
 import 'package:new_alarm_clock/service/music_handler.dart';
 import 'package:new_alarm_clock/ui/alarm_alarm/widget/draggable_dismiss_button.dart';
-import 'package:new_alarm_clock/utils/values/color_value.dart';
+import 'package:new_alarm_clock/ui/global/color_controller.dart';
 import 'package:new_alarm_clock/utils/values/my_font_family.dart';
 import 'package:new_alarm_clock/utils/values/size_value.dart';
 import 'package:intl/intl.dart';
@@ -29,9 +30,10 @@ class AlarmAlarmPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Wakelock.enable();
+    Get.put(ColorController());
     alarmData = getAlarmData();
     return Scaffold(
-      backgroundColor: ColorValue.mainBackground,
+      backgroundColor: Get.find<ColorController>().colorSet.backgroundColor,
       body: Column(
         children: [
           Expanded(
@@ -56,14 +58,14 @@ class AlarmAlarmPage extends StatelessWidget {
                               .toLowerCase(),
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
-                              color: ColorValue.alarmText,
+                              color: Get.find<ColorController>().colorSet.mainTextColor,
                               fontSize: 70,
                               fontFamily: MyFontFamily.mainFontFamily),
                         ),
                         Text(
                           snapshot.data!.title ?? '',
                           style: TextStyle(
-                              color: ColorValue.alarmText,
+                              color: Get.find<ColorController>().colorSet.mainTextColor,
                               fontSize: 50,
                               fontFamily: MyFontFamily.mainFontFamily),
                         )
@@ -74,10 +76,7 @@ class AlarmAlarmPage extends StatelessWidget {
                     child: Container(
                       height: 50,
                       width: 50,
-                      child: CircularProgressIndicator(
-                        valueColor:
-                        AlwaysStoppedAnimation<Color>(ColorValue.fab),
-                      ),
+                      child: CircularProgressIndicator(),
                     ),
                   );
                 }),
