@@ -11,6 +11,7 @@ import 'package:new_alarm_clock/ui/home/page/inner_home_page/inner_home_page.dar
 import 'package:new_alarm_clock/ui/home/page/inner_home_page/widgets/alarm_item/controller/selected_alarm_controller.dart';
 import 'package:new_alarm_clock/ui/home/page/setting_page/setting_page.dart';
 import 'package:new_alarm_clock/ui/home/widgets/battery_optimization_dialog.dart';
+import 'package:new_alarm_clock/ui/home/widgets/display_over_dialog.dart';
 import 'package:new_alarm_clock/ui/home/widgets/home_bottom_navigation_bar.dart';
 import 'package:new_alarm_clock/ui/home/widgets/home_fab.dart';
 import 'package:get/get.dart';
@@ -40,12 +41,8 @@ class HomePage extends StatelessWidget {
       DialogStateSharedPreference();
   final MusicHandler _musicHandler = MusicHandler();
 
-  Future<bool> checkBatteryOptimizations() async {
-    return await CallNativeService().checkBatteryOptimizations();
-  }
-
   Future<void> setBatteryOptimizations() async {
-    if ((await checkBatteryOptimizations()) == false) {
+    if ((await CallNativeService().checkBatteryOptimizations()) == false) {
       bool isDontAsk = await dialogStateSharedPreference.getIsDontAskValue();
       if (isDontAsk) {
         return;
@@ -66,8 +63,27 @@ class HomePage extends StatelessWidget {
     }
   }
 
+  // TODO: 다이얼로그 떠있을 때 바깥영역 터치, 혹은 앱 끄기 등의 행동을 할 때
+  // isOpen 같은 애들이 true인 채로 멈춘다.
+  Future<void> setDisplayOverPermission() async {
+    if ((await CallNativeService().checkDisplayOverPermission()) == false) {
+      if (await (dialogStateSharedPreference
+              .getIsDisplayOverDialogOpenValue()) ==
+          false) {
+        await dialogStateSharedPreference.setIsDisplayOverDialogOpenValue(true);
+        bool? isSet =
+            await Get.dialog(DisplayOverDialog(dialogStateSharedPreference));
+        await dialogStateSharedPreference.setIsDisplayOverDialogOpenValue(false);
+        if (isSet == true) {
+          CallNativeService().setDisplayOverPermission();
+        }
+      }
+    }
+  }
+
   HomePage({Key? key}) : super(key: key) {
-    setBatteryOptimizations();
+    //setBatteryOptimizations();
+    //setDisplayOverPermission();
   }
 
   @override
@@ -124,6 +140,7 @@ class DialogStateSharedPreference {
       DialogStateSharedPreference._internal();
   late SharedPreferences sharedPreferences;
   final String isOpen = 'isOpen';
+  final String isDisplayOverDialogOpen = 'isDisplayOverDialogOpen';
   final String isDontAsk = 'dontAsk';
 
   factory DialogStateSharedPreference() {
@@ -136,6 +153,11 @@ class DialogStateSharedPreference {
     bool? isOpenValue = sharedPreferences.getBool(isOpen);
     if (isOpenValue == null) {
       sharedPreferences.setBool(isOpen, false);
+    }
+    bool? isDisplayOverDialogOpenValue =
+        sharedPreferences.getBool(isDisplayOverDialogOpen);
+    if (isDisplayOverDialogOpenValue == null) {
+      sharedPreferences.setBool(isDisplayOverDialogOpen, false);
     }
     bool? isDontAskValue = sharedPreferences.getBool(isDontAsk);
     if (isDontAskValue == null) {
@@ -153,6 +175,18 @@ class DialogStateSharedPreference {
   Future<void> setIsOpenValue(bool isOpenValue) async {
     await init();
     sharedPreferences.setBool(isOpen, isOpenValue);
+  }
+
+  Future<bool> getIsDisplayOverDialogOpenValue() async {
+    await init();
+    return sharedPreferences.getBool(isDisplayOverDialogOpen)!;
+  }
+
+  Future<void> setIsDisplayOverDialogOpenValue(
+      bool isSetOverlayDialogOpenValue) async {
+    await init();
+    sharedPreferences.setBool(
+        isDisplayOverDialogOpen, isSetOverlayDialogOpenValue);
   }
 
   Future<bool> getIsDontAskValue() async {

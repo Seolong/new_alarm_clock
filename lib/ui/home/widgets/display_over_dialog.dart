@@ -5,11 +5,11 @@ import 'package:new_alarm_clock/generated/locale_keys.g.dart';
 import '../../global/color_controller.dart';
 import '../home_page.dart';
 
-class BatteryOptimizationDialog extends StatelessWidget {
+class DisplayOverDialog extends StatelessWidget {
   DialogStateSharedPreference dialogStateSharedPreference;
   bool isFromButton;
 
-  BatteryOptimizationDialog(this.dialogStateSharedPreference,
+  DisplayOverDialog(this.dialogStateSharedPreference,
       {Key? key, this.isFromButton = false})
       : super(key: key);
 
@@ -17,11 +17,11 @@ class BatteryOptimizationDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return AlertDialog(
         backgroundColor:
-            Get.find<ColorController>().colorSet.appBarContentColor,
+        Get.find<ColorController>().colorSet.appBarContentColor,
         contentPadding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
         title: Text(LocaleKeys.warning.tr()),
         titleTextStyle: TextStyle(
-            //컬러 테마별로 설정하기!!!
+          //컬러 테마별로 설정하기!!!
             color: Get.find<ColorController>().colorSet.mainTextColor,
             fontSize: 20),
         content: Container(
@@ -32,32 +32,14 @@ class BatteryOptimizationDialog extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                LocaleKeys.batteryOptimizationIsOn.tr(),
+                '앱이 꺼져있을 때에도 알람 시간이 되면 알람을 울리기 위해, '
+                    '\'다른 앱 위에 표시\' 권한을 허용해야 합니다. \'설정하기\' 버튼을 누르고'
+                    ' 권한을 허용해주세요',
                 style: TextStyle(
                     height: 1.5,
                     color: Get.find<ColorController>().colorSet.mainTextColor,
                     fontSize: 14),
               ),
-              // const SizedBox(
-              //   height: 20,
-              // ),
-              // Text(
-              //   LocaleKeys.followTheStepsBelow.tr(),
-              //   style: TextStyle(
-              //       height: 1.5,
-              //       color: Get.find<ColorController>().colorSet.mainTextColor,
-              //       fontSize: 15),
-              // ),
-              // const SizedBox(
-              //   height: 5,
-              // ),
-              // Text(
-              //   LocaleKeys.howToTurnOffBatteryOptimization.tr(),
-              //   style: TextStyle(
-              //       height: 1.5,
-              //       color: Get.find<ColorController>().colorSet.mainTextColor,
-              //       fontSize: 14),
-              // ),
               const SizedBox(
                 height: 24,
               ),

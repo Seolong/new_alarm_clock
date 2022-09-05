@@ -51,6 +51,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   flutter_svg: ^1.1.3
   tab_indicator_styler: ^2.0.0
+  flutter_dnd: ^0.1.4+1
 
 dev_dependencies:
   flutter_test:

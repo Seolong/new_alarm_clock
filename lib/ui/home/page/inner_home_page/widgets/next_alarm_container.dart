@@ -58,9 +58,9 @@ class NextAlarmContainer extends StatelessWidget {
                       padding: const EdgeInsets.all(8.0),
                       child: Row(
                         children: [
-                          Padding(
+                          const Padding(
                             padding:
-                                const EdgeInsets.fromLTRB(6.0, 0.0, 12.0, 0.0),
+                                EdgeInsets.fromLTRB(6.0, 0.0, 12.0, 0.0),
                             child: Icon(
                               Icons.event_note_rounded,
                               color: Colors.grey,

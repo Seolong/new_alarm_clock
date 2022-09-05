@@ -4,6 +4,7 @@ import 'package:new_alarm_clock/ui/global/color_controller.dart';
 import 'package:new_alarm_clock/ui/home/controller/folder_list_controller.dart';
 import 'package:new_alarm_clock/ui/home/page/inner_home_page/widgets/alarm_list_view.dart';
 import 'package:new_alarm_clock/ui/home/page/inner_home_page/widgets/next_alarm_container.dart';
+import 'package:new_alarm_clock/ui/home/page/inner_home_page/widgets/stabilization_button.dart';
 import 'package:new_alarm_clock/utils/values/my_font_family.dart';
 import 'package:get/get.dart' hide Trans;
 import 'package:easy_localization/easy_localization.dart';
@@ -50,11 +51,14 @@ class InnerHomePage extends StatelessWidget {
         ),
         SliverList(
           delegate: SliverChildBuilderDelegate((context, index) {
+            if(index == 0){
+              return StabilizationButton();
+            }
             return const Padding(
               padding: EdgeInsets.symmetric(horizontal: 20, vertical: 0),
               child: AlarmListView(),
             );
-          }, childCount: 1),
+          }, childCount: 2),
         ),
       ]),
     );

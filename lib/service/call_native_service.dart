@@ -11,6 +11,10 @@ class CallNativeService {
     await androidChannel.invokeMethod('setBatteryOptimizations');
   }
 
+  Future<bool> checkDisplayOverPermission() async {
+    return await androidChannel.invokeMethod('checkDisplayOverPermission');
+  }
+
   Future<void> setDisplayOverPermission() async {
     await androidChannel.invokeMethod('setDisplayOverPermission');
   }

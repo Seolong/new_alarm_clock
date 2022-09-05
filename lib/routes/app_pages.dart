@@ -9,6 +9,7 @@ import 'package:new_alarm_clock/ui/alarm_detail_page/vibration/vibration_page.da
 import 'package:new_alarm_clock/ui/choice_day/choice_day_page.dart';
 import 'package:new_alarm_clock/ui/day_off/day_off_page.dart';
 import 'package:new_alarm_clock/ui/home/home_page.dart';
+import 'package:new_alarm_clock/ui/stabilization/stabilization_page.dart';
 
 class AppPages {
   static final pages = [
@@ -24,5 +25,6 @@ class AppPages {
     GetPage(name: AppRoutes.choiceDayPage, page: () => ChoiceDayPage()),
     GetPage(name: AppRoutes.dayOffPage, page: () => DayOffPage()),
     GetPage(name: AppRoutes.alarmAlarmPage, page: () => AlarmAlarmPage()),
+    GetPage(name: AppRoutes.stabilizationPage, page: () => StabilizationPage()),
   ];
 }
