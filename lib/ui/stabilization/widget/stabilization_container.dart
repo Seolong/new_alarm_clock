@@ -7,14 +7,14 @@ import '../../../generated/locale_keys.g.dart';
 class StabilizationContainer extends StatelessWidget {
   StabilizationContainer(
       {Key? key,
+      required this.code,
       required this.title,
-      required this.content,
-      required this.onSetPressed})
+      required this.content})
       : super(key: key);
 
+  String code;
   String title;
   String content;
-  final VoidCallback? onSetPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -41,18 +41,19 @@ class StabilizationContainer extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              GetBuilder<PermissionController>(
-                builder: (_) {
-                  return MaterialButton(
-                    onPressed: onSetPressed,
-                    color: Colors.green,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(5.0),
-                    ),
-                    child: Text(LocaleKeys.set.tr()),
-                  );
-                }
-              ),
+              GetBuilder<PermissionController>(builder: (_) {
+                return MaterialButton(
+                  onPressed: _.getOnSetPressedByName(code),
+                  color: Colors.green,
+                  disabledColor: Colors.grey.shade400,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(5.0),
+                  ),
+                  child: Text(_.getBoolByName(code) == false
+                      ? LocaleKeys.set.tr()
+                      : LocaleKeys.resolved.tr()),
+                );
+              }),
             ],
           )
         ],

@@ -4,6 +4,7 @@ import 'package:new_alarm_clock/ui/home/page/setting_page/widgets/battery_optimi
 import 'package:new_alarm_clock/ui/home/page/setting_page/widgets/language_button.dart';
 import 'package:new_alarm_clock/ui/home/page/setting_page/widgets/reset_button.dart';
 import 'package:new_alarm_clock/ui/home/page/setting_page/widgets/set_home_folder_button.dart';
+import 'package:new_alarm_clock/ui/home/page/setting_page/widgets/stabilization_button.dart';
 import 'package:new_alarm_clock/ui/home/page/setting_page/widgets/theme_button.dart';
 import 'package:new_alarm_clock/utils/values/my_font_family.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -17,6 +18,7 @@ class SettingPage extends StatelessWidget {
   String? nextAlarmTitle;
 
   List<Widget> settingButtons = [
+    StabilizationButton(),
     SetHomeFolderButton(),
     AlignButton(),
     LanguageButton(),

@@ -5,6 +5,7 @@ import 'package:new_alarm_clock/service/music_handler.dart';
 import 'package:vibration/vibration.dart';
 import 'package:get/get.dart';
 import '../ui/global/recent_alarm_date_stream_controller.dart';
+import '../ui/stabilization/controller/permission_controller.dart';
 
 class LifeCycleListener extends WidgetsBindingObserver {
   final MusicHandler _musicHandler = MusicHandler();
@@ -37,12 +38,19 @@ class LifeCycleListener extends WidgetsBindingObserver {
           print('resumed!');
         }
         //pause 2번했으면 resume도 2번 해야 한다.
-        Get.find<RecentAlarmDateStreamController>()
-            .dateStreamSubscription
-            .resume();
-        Get.find<RecentAlarmDateStreamController>()
-            .dateStreamSubscription
-            .resume();
+        try {
+          Get.find<RecentAlarmDateStreamController>()
+              .dateStreamSubscription
+              .resume();
+          Get.find<RecentAlarmDateStreamController>()
+              .dateStreamSubscription
+              .resume();
+          Get.find<PermissionController>().checkPermission();
+        } catch (e) {
+          if (kDebugMode) {
+            print(e);
+          }
+        }
         break;
       default:
         if (kDebugMode) {

@@ -54,12 +54,25 @@ class PermissionController extends GetxController {
     }
   }
 
-  VoidCallback getOnSetPressedByName(String name) {
+  VoidCallback? getOnSetPressedByName(String name) {
     if (name == displayOver) {
-      return () {};
+      if(_isDisplayOverOn == true){
+        return null;
+      }
+      return () {
+        CallNativeService().setDisplayOverPermission();
+      };
     } else if (name == batteryOptimization) {
-      return () {};
+      if(_isBatteryOptimizationOff == true){
+        return null;
+      }
+      return () {
+        CallNativeService().setBatteryOptimizations();
+      };
     } else if (name == doNotDisturb) {
+      if(_isDoNotDisturb == true){
+        return null;
+      }
       return () {
         FlutterDnd.gotoPolicySettings();
       };

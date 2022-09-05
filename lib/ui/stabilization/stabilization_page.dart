@@ -7,38 +7,53 @@ import 'package:new_alarm_clock/ui/stabilization/widget/stabilization_container.
 import '../../generated/locale_keys.g.dart';
 
 class StabilizationPage extends StatelessWidget {
-  const StabilizationPage({Key? key}) : super(key: key);
+  StabilizationPage({Key? key, this.beforePage}) : super(key: key);
+
+  String? beforePage;
+  final String setting = 'setting';
 
   @override
   Widget build(BuildContext context) {
-    Get.put(PermissionController());
     return SafeArea(
       child: Scaffold(
         body: Column(
           children: [
-            const SizedBox(height: 16,),
-           OutlinedButton(
-              onPressed: () {},
-              child: Text(
-                '경고 무시하기',
-                style: TextStyle(color: Colors.grey),
-              ),
+            const SizedBox(
+              height: 16,
             ),
-            const SizedBox(height: 16,),
+            beforePage == setting
+                ? const SizedBox.shrink()
+                : OutlinedButton(
+                    onPressed: () {
+                      Get.find<PermissionController>()
+                          .warningSharedPreference
+                          .setIsIgnoreValue(true);
+                      Get.find<PermissionController>().update();
+                      Get.back();
+                    },
+                    child: Text(
+                      LocaleKeys.ignoreThisWarning.tr(),
+                      style: const TextStyle(color: Colors.grey),
+                    ),
+                  ),
+            const SizedBox(
+              height: 16,
+            ),
             StabilizationContainer(
-                title: '다른 앱 위에 표시',
-                content: '앱이 꺼져있을 때에도 알람 시간이 되면 알람을 울리기 위해, '
-                    '\'다른 앱 위에 표시\' 권한을 허용해야 합니다. \'설정하기\' 버튼을 누르고'
-                    ' 권한을 허용해주세요.',
-                onSetPressed: () {}),
+              code: Get.find<PermissionController>().displayOver,
+              title: LocaleKeys.displayOverOtherApps.tr(),
+              content: LocaleKeys.displayOverRequest.tr(),
+            ),
             StabilizationContainer(
-                title: LocaleKeys.batteryOptimization.tr(),
-                content: LocaleKeys.batteryOptimizationIsOn.tr(),
-                onSetPressed: () {}),
+              code: Get.find<PermissionController>().batteryOptimization,
+              title: LocaleKeys.batteryOptimization.tr(),
+              content: LocaleKeys.batteryOptimizationIsOn.tr(),
+            ),
             StabilizationContainer(
-                title: '방해 금지 모드',
-                content: '라라라라재라ㅐㅐㅔㄹ잘데ㅐ',
-                onSetPressed: () {}),
+              code: Get.find<PermissionController>().doNotDisturb,
+              title: LocaleKeys.doNotDisturbMode.tr(),
+              content: LocaleKeys.doNotDisturbModeRequest.tr(),
+            ),
           ],
         ),
       ),

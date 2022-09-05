@@ -120,5 +120,13 @@
   "followTheStepsBelow": "다음을 따라해주세요.",
   "howToTurnOffBatteryOptimization": "1. '최적화하지 않은 앱' 터치\n2. '전체' 터치\n3. Wekker 찾기\n4. Wekker 터치",
   "set": "설정하기",
-  "dontShowMeAgain": "다시 보지 않기"
+  "dontShowMeAgain": "다시 보지 않기",
+
+  "stabilizeTheAlarm": "알람 안정화시키기",
+  "ignoreThisWarning": "이 경고 무시하기",
+  "displayOverOtherApps": "다른 앱 위에 표시",
+  "displayOverRequest": "알람 화면을 띄우기 위해, '다른 앱 위에 표시' 권한을 허용해야 합니다. '설정하기' 버튼을 누르고 권한을 허용해주세요.",
+  "doNotDisturbMode": "방해 금지 모드",
+  "doNotDisturbModeRequest": "방해 금지 모드에 알람을 울리려면 접근 권한을 허용해야 합니다. '설정하기' 버튼을 누르고 권한을 허용해주세요.",
+  "resolved": "해결됨"
 }

@@ -148,5 +148,13 @@
   "followTheStepsBelow": "Follow the steps below.",
   "howToTurnOffBatteryOptimization": "1. Touch 'Apps not optimized'\n2. Touch 'All'\n3. Find 'Wekker'\n4. Touch 'Wekker'",
   "set": "Set",
-  "dontShowMeAgain": "Don't show me again"
+  "dontShowMeAgain": "Don't show me again",
+
+  "stabilizeTheAlarm": "Stabilize the alarm",
+  "ignoreThisWarning": "Ignore this warning",
+  "displayOverOtherApps": "Display over other apps",
+  "displayOverRequest": "To display the alarm screen, you must allow the 'Display over other apps' permission. Please press the 'Set' button and allow the permission.",
+  "doNotDisturbMode": "Do not disturb mode",
+  "doNotDisturbModeRequest": "You must allow the access permission to sound the alarm in Do Not Disturb mode. Please press the 'Set' button and allow the permission.",
+  "resolved": "Resolved"
 }
