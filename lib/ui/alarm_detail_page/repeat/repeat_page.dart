@@ -32,51 +32,53 @@ class RepeatPage extends StatelessWidget {
         title: Text(LocaleKeys.snooze.tr()),
       ),
       body: SafeArea(
-        minimum: EdgeInsets.symmetric(
+        minimum: const EdgeInsets.symmetric(
             horizontal: SizeValue.alarmDetailPageHorizontalPadding,
             vertical: SizeValue.alarmDetailPageVerticalPadding),
-        child: Column(
-          children: [
-            GetBuilder<RepeatRadioListController>(
-              builder: (_) => CustomSwitchListTile(
-                title: AutoSizeText(
-                    _.power ? LocaleKeys.on.tr() : LocaleKeys.off.tr(),
-                    bold: true,
-                    color: _.power
-                        ? Get.find<ColorController>().colorSet.mainColor
-                        : Colors.grey),
-                value: _.power,
-                switchWidget: CustomSwitch(
-                  touchAreaHeight: 55,
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              GetBuilder<RepeatRadioListController>(
+                builder: (_) => CustomSwitchListTile(
+                  title: AutoSizeText(
+                      _.power ? LocaleKeys.on.tr() : LocaleKeys.off.tr(),
+                      bold: true,
+                      color: _.power
+                          ? Get.find<ColorController>().colorSet.mainColor
+                          : Colors.grey),
                   value: _.power,
-                  onChanged: (value) {
+                  switchWidget: CustomSwitch(
+                    touchAreaHeight: 55,
+                    value: _.power,
+                    onChanged: (value) {
+                      _.power = value;
+                    },
+                    thumbColor: [
+                      Get.find<ColorController>().colorSet.lightMainColor,
+                      Get.find<ColorController>().colorSet.mainColor,
+                      Get.find<ColorController>().colorSet.deepMainColor,
+                    ],
+                    activeColor:
+                        Get.find<ColorController>().colorSet.switchTrackColor,
+                  ),
+                  onChanged: (bool value) {
                     _.power = value;
                   },
-                  thumbColor: [
-                    Get.find<ColorController>().colorSet.lightMainColor,
-                    Get.find<ColorController>().colorSet.mainColor,
-                    Get.find<ColorController>().colorSet.deepMainColor,
-                  ],
-                  activeColor:
-                      Get.find<ColorController>().colorSet.switchTrackColor,
                 ),
-                onChanged: (bool value) {
-                  _.power = value;
-                },
               ),
-            ),
-            const Divider(),
-            //주기 박스
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 18),
-              child: RepeatContainer(
-                  repeatInterval, LocaleKeys.repeatInterval.tr()),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 18),
-              child: RepeatContainer(repeatNum, LocaleKeys.repeatNum.tr()),
-            ),
-          ],
+              const Divider(),
+              //주기 박스
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 18),
+                child: RepeatContainer(
+                    repeatInterval, LocaleKeys.repeatInterval.tr()),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 18),
+                child: RepeatContainer(repeatNum, LocaleKeys.repeatNum.tr()),
+              ),
+            ],
+          ),
         ),
       ),
     );

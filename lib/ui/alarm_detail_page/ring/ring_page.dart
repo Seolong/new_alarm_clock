@@ -39,7 +39,7 @@ class RingPage extends StatelessWidget {
           title: Text(LocaleKeys.sound.tr()),
         ),
         body: SafeArea(
-          minimum: EdgeInsets.symmetric(
+          minimum: const EdgeInsets.symmetric(
               horizontal: SizeValue.alarmDetailPageHorizontalPadding,
               vertical: SizeValue.alarmDetailPageVerticalPadding),
           child: Column(

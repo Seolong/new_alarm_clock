@@ -70,12 +70,14 @@ class RepeatContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 20),
+      height: 250,
       decoration: BoxDecoration(
           border: Border.all(
             color: Get.find<ColorController>().colorSet.mainColor,
           ),
           borderRadius: const BorderRadius.all(Radius.circular(7.5))),
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
           Padding(
             padding: const EdgeInsets.fromLTRB(15, 5, 0, 15),
@@ -120,12 +122,16 @@ class RepeatContainer extends StatelessWidget {
           ),
 
           //주기 리스트
-          ListView.builder(
-            shrinkWrap: true,
-            itemCount: AlarmInterval.values.length,
-            itemBuilder: (BuildContext context, int index) {
-              return getRadioListTile(context, index);
-            },
+          SizedBox(
+            height: 150,
+            child: ListView.builder(
+              //shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: AlarmInterval.values.length,
+              itemBuilder: (BuildContext context, int index) {
+                return getRadioListTile(context, index);
+              },
+            ),
           ),
         ],
       ),

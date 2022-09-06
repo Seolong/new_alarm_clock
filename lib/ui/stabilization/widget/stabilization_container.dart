@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart' hide Trans;
 import 'package:new_alarm_clock/ui/stabilization/controller/permission_controller.dart';
 import '../../../generated/locale_keys.g.dart';
+import '../../global/color_controller.dart';
 
 class StabilizationContainer extends StatelessWidget {
   StabilizationContainer(
@@ -18,6 +19,7 @@ class StabilizationContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var colorController = Get.find<ColorController>();
     return Padding(
       padding: const EdgeInsets.all(32.0),
       child: Column(
@@ -26,14 +28,18 @@ class StabilizationContainer extends StatelessWidget {
         children: [
           Text(
             title,
-            style: const TextStyle(fontSize: 20),
+            style: TextStyle(
+                fontSize: 20, color: colorController.colorSet.mainTextColor),
           ),
           const SizedBox(
             height: 16,
           ),
           Text(
             content,
-            style: const TextStyle(fontSize: 15, height: 1.5),
+            style: TextStyle(
+                fontSize: 15,
+                height: 1.5,
+                color: colorController.colorSet.mainTextColor),
           ),
           const SizedBox(
             height: 16,
@@ -44,14 +50,18 @@ class StabilizationContainer extends StatelessWidget {
               GetBuilder<PermissionController>(builder: (_) {
                 return MaterialButton(
                   onPressed: _.getOnSetPressedByName(code),
-                  color: Colors.green,
+                  color: colorController.colorSet.lightMainColor,
                   disabledColor: Colors.grey.shade400,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(5.0),
                   ),
-                  child: Text(_.getBoolByName(code) == false
-                      ? LocaleKeys.set.tr()
-                      : LocaleKeys.resolved.tr()),
+                  child: Text(
+                    _.getBoolByName(code) == false
+                        ? LocaleKeys.set.tr()
+                        : LocaleKeys.resolved.tr(),
+                    style: const TextStyle(
+                        color: Colors.black),
+                  ),
                 );
               }),
             ],

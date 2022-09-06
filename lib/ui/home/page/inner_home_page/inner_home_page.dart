@@ -11,6 +11,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:new_alarm_clock/generated/locale_keys.g.dart';
 
 import '../../../../utils/values/string_value.dart';
+import '../../../stabilization/controller/permission_controller.dart';
 
 class InnerHomePage extends StatelessWidget {
   final AlarmProvider _alarmProvider = AlarmProvider();
@@ -21,6 +22,7 @@ class InnerHomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Get.put(PermissionController());
     return Scaffold(
       extendBody: true,
       backgroundColor: Get.find<ColorController>().colorSet.backgroundColor,
@@ -52,7 +54,19 @@ class InnerHomePage extends StatelessWidget {
         SliverList(
           delegate: SliverChildBuilderDelegate((context, index) {
             if(index == 0){
-              return StabilizationButton();
+              return FutureBuilder(
+                future: Get.find<PermissionController>().warningSharedPreference.getIsIgnoreValue(),
+                builder: (context, snapshot) {
+                  if(!snapshot.hasData){
+                    return const SizedBox.shrink();
+                  }else if(snapshot.data == true){
+                    return const SizedBox.shrink();
+                  }else if(snapshot.data == false){
+                    return const StabilizationButton();
+                  }
+                  return const Text('Error!');
+                }
+              );
             }
             return const Padding(
               padding: EdgeInsets.symmetric(horizontal: 20, vertical: 0),

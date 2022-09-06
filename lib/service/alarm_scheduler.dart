@@ -9,9 +9,11 @@ import 'package:new_alarm_clock/data/model/alarm_data.dart';
 import 'package:new_alarm_clock/data/model/alarm_week_repeat_data.dart';
 import 'package:new_alarm_clock/data/shared_preferences/app_state_shared_preferences.dart';
 import 'package:new_alarm_clock/data/shared_preferences/id_shared_preferences.dart';
+import 'package:new_alarm_clock/generated/locale_keys.g.dart';
 import 'package:new_alarm_clock/utils/enum.dart';
 import 'package:new_alarm_clock/utils/values/string_value.dart';
 import 'package:restart_app/restart_app.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 import '../main.dart';
 import 'date_time_calculator.dart';
@@ -41,7 +43,7 @@ class AlarmScheduler {
             id: alarmId,
             channelKey: StringValue.notificationChannelKey,
             //set configuration with key "basic"
-            title: SystemMessage.alarmWillGoOffSoon,
+            title: LocaleKeys.alarmWillGoOffSoon.tr(),
             body: '${alarmData.title} '
                 '${getTimeWithTwoLetter(alarmData.alarmDateTime.hour)}:'
                 '${getTimeWithTwoLetter(alarmData.alarmDateTime.minute)}',
@@ -56,7 +58,7 @@ class AlarmScheduler {
           actionButtons: [
             NotificationActionButton(
               key: StringValue.skipButtonKey,
-              label: SystemMessage.skipOnce,
+              label: LocaleKeys.skipOnce.tr(),
               actionType: ActionType.SilentBackgroundAction,
             )
           ]);
@@ -79,10 +81,8 @@ class AlarmScheduler {
               id: alarmId,
               channelKey: StringValue.notificationChannelKey,
               //set configuration with key "basic"
-              title: SystemMessage.alarmWillGoOffSoon,
-              body: '${alarmData.title} '
-                  '${getTimeWithTwoLetter(alarmData.alarmDateTime.hour)}:'
-                  '${getTimeWithTwoLetter(alarmData.alarmDateTime.minute)}',
+              title: '',
+              body: '',
               payload: {StringValue.id: '$alarmId'},
               autoDismissible: false,
               actionType: ActionType.SilentBackgroundAction,
@@ -93,7 +93,7 @@ class AlarmScheduler {
           actionButtons: [
             NotificationActionButton(
                 key: StringValue.skipButtonKey,
-                label: SystemMessage.skipOnce,
+                label: '',
                 actionType: ActionType.KeepOnTop)
           ]);
     }

@@ -26,37 +26,35 @@ class CustomRadioListTile<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
+    return MaterialButton(
+      minWidth: 0,
       height: listHeight,
-      child: MaterialButton(
-        minWidth: 0,
-        padding: EdgeInsets.zero,
-        onPressed: () {
-          onChanged!(value);
-        },
-        child: Row(
-          children: [
-            Radio<T>(
-              value: value,
-              groupValue: groupValue, //초기값
-              onChanged: onChanged,
-              fillColor: MaterialStateColor.resolveWith((states) {
-                if (!states.contains(MaterialState.selected)) {
-                  return Colors.grey;
-                } else {
-                  return activeColor;
-                }
-              }),
-            ),
-            SizedBox(
-              width: spaceBetweenRadioAndTitle,
-            ),
-            Align(
-              alignment: Alignment.centerLeft,
-              child: Text(title, style: titleTextStyle),
-            ),
-          ],
-        ),
+      padding: EdgeInsets.zero,
+      onPressed: () {
+        onChanged!(value);
+      },
+      child: Row(
+        children: [
+          Radio<T>(
+            value: value,
+            groupValue: groupValue, //초기값
+            onChanged: onChanged,
+            fillColor: MaterialStateColor.resolveWith((states) {
+              if (!states.contains(MaterialState.selected)) {
+                return Colors.grey;
+              } else {
+                return activeColor;
+              }
+            }),
+          ),
+          SizedBox(
+            width: spaceBetweenRadioAndTitle,
+          ),
+          Align(
+            alignment: Alignment.centerLeft,
+            child: Text(title, style: titleTextStyle),
+          ),
+        ],
       ),
     );
   }

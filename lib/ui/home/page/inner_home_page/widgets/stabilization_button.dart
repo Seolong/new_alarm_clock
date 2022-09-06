@@ -10,8 +10,10 @@ class StabilizationButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Get.put(PermissionController());
     return GetBuilder<PermissionController>(builder: (_) {
+      if(_.isAllTrue){
+        return const SizedBox.shrink();
+      }
       return FutureBuilder(
           future: _.warningSharedPreference.getIsIgnoreValue(),
           builder: (context, snapshot) {

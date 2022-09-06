@@ -20,6 +20,9 @@ class PermissionController extends GetxController {
     super.onInit();
   }
 
+  bool get isAllTrue =>
+      _isDisplayOverOn && _isBatteryOptimizationOff && _isDoNotDisturb;
+
   bool get isDisplayOverOn => _isDisplayOverOn;
 
   set isDisplayOverOn(bool value) {
@@ -56,21 +59,21 @@ class PermissionController extends GetxController {
 
   VoidCallback? getOnSetPressedByName(String name) {
     if (name == displayOver) {
-      if(_isDisplayOverOn == true){
+      if (_isDisplayOverOn == true) {
         return null;
       }
       return () {
         CallNativeService().setDisplayOverPermission();
       };
     } else if (name == batteryOptimization) {
-      if(_isBatteryOptimizationOff == true){
+      if (_isBatteryOptimizationOff == true) {
         return null;
       }
       return () {
         CallNativeService().setBatteryOptimizations();
       };
     } else if (name == doNotDisturb) {
-      if(_isDoNotDisturb == true){
+      if (_isDoNotDisturb == true) {
         return null;
       }
       return () {
