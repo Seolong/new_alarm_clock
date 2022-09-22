@@ -7,20 +7,18 @@ import 'package:get/get.dart' hide Trans;
 import 'package:easy_localization/easy_localization.dart';
 import 'package:new_alarm_clock/generated/locale_keys.g.dart';
 
-import '../../../data/shared_preferences/id_shared_preferences.dart';
+class EditFolderTitleDialog extends StatelessWidget {
+  final AlarmFolderData alarmFolderData;
 
-class SetFolderTitleDialog extends StatelessWidget {
-  final IdSharedPreferences idSharedPreferences = IdSharedPreferences();
-
-  SetFolderTitleDialog({Key? key}) : super(key: key);
+  const EditFolderTitleDialog({Key? key, required this.alarmFolderData})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    var folderNameTextFieldController =
-        Get.put(FolderNameTextFieldController());
+    var folderNameController = Get.put(FolderNameTextFieldController());
     var folderListController = Get.put(FolderListController());
 
-    folderNameTextFieldController.textEditingController.text = '';
+    folderNameController.textEditingController.text = alarmFolderData.name;
 
     return GetBuilder<FolderNameTextFieldController>(builder: (_) {
       return AlertDialog(
@@ -56,7 +54,7 @@ class SetFolderTitleDialog extends StatelessWidget {
             ),
             child: Text(LocaleKeys.cancel.tr()),
             onPressed: () {
-              folderNameTextFieldController.textEditingController.text = '';
+              _.textEditingController.text = '';
               Get.back();
             },
           ),
@@ -67,17 +65,14 @@ class SetFolderTitleDialog extends StatelessWidget {
             child: Text(LocaleKeys.done.tr()),
             onPressed: () async {
               if (folderListController.folderList.any((e) =>
-                  e.name ==
-                  folderNameTextFieldController.textEditingController.text)) {
+                  e.name == _.textEditingController.text &&
+                  alarmFolderData.name != _.textEditingController.text)) {
                 _.isError = true;
                 //Get.back();
               } else {
-                int newId = await idSharedPreferences.getId();
-                folderListController.inputFolder(AlarmFolderData(
-                    name: folderNameTextFieldController
-                        .textEditingController.text, id: newId));
-                folderNameTextFieldController.textEditingController.text = '';
-                idSharedPreferences.setId(++newId);
+                folderListController.changeFolderName(
+                    alarmFolderData, _.textEditingController.text);
+                _.textEditingController.text = '';
                 Get.back();
               }
             },

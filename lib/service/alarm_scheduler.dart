@@ -93,7 +93,7 @@ class AlarmScheduler {
           actionButtons: [
             NotificationActionButton(
                 key: StringValue.skipButtonKey,
-                label: '',
+                label: 'null',
                 actionType: ActionType.KeepOnTop)
           ]);
     }

@@ -156,5 +156,8 @@
   "displayOverRequest": "To display the alarm screen, you must allow the 'Display over other apps' permission. Please press the 'Set' button and allow the permission.",
   "doNotDisturbMode": "Do not disturb mode",
   "doNotDisturbModeRequest": "You must allow the access permission to sound the alarm in Do Not Disturb mode. Please press the 'Set' button and allow the permission.",
-  "resolved": "Resolved"
+  "resolved": "Resolved",
+
+  "edit": "Edit",
+  "delete": "Delete"
 }

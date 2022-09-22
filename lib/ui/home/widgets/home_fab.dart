@@ -24,7 +24,7 @@ class HomeFAB extends StatelessWidget {
       // addAlarmButton
       //폴더 탭일 때 다른 색, 메뉴 탭일 땐 disable임을 나타내기 위해 회색
       backgroundColor: Get.find<ColorController>().colorSet.accentColor,
-      child: Icon(
+      child: const Icon(
         Icons.add_rounded,
         size: ButtonSize.xlarge,
       ),
@@ -34,8 +34,8 @@ class HomeFAB extends StatelessWidget {
         int newId = await idSharedPreferences.getId();
         requiredParameterToAddAlarmPageController.mode = StringValue.addMode;
         requiredParameterToAddAlarmPageController.alarmId = newId;
-        requiredParameterToAddAlarmPageController.folderName =
-            folderListController.currentFolderName;
+        requiredParameterToAddAlarmPageController.folderId =
+            folderListController.currentFolderId;
 
         Get.find<RecentAlarmDateStreamController>()
             .dateStreamSubscription

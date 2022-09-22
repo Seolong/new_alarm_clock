@@ -4,7 +4,7 @@ import 'package:new_alarm_clock/utils/values/string_value.dart';
 class RequiredParameterToAddAlarmPageController extends GetxController {
   String _mode = StringValue.addMode;
   int _alarmId = -1;
-  String _folderName = '';
+  int _folderId = 0;
   bool isFirstInit = false;
 
   set mode(String modeValue) {
@@ -33,10 +33,10 @@ class RequiredParameterToAddAlarmPageController extends GetxController {
 
   int get alarmId => _alarmId;
 
-  set folderName(String name) {
-    _folderName = name;
+  set folderId(int id) {
+    _folderId = id;
     update();
   }
 
-  String get folderName => _folderName;
+  int get folderId => _folderId;
 }

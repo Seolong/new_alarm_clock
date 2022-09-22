@@ -38,7 +38,7 @@ class AlarmProvider {
           ${DatabaseString.columnEndDay} text,
           ${DatabaseString.columnAlarmState} integer not null,
           ${DatabaseString.columnAlarmOrder} integer not null,
-          ${DatabaseString.columnFolderName} text not null,
+          ${DatabaseString.columnFolderId} integer not null,
           ${DatabaseString.columnAlarmInterval} integer not null,
           ${DatabaseString.columnMonthRepeatDay} integer,
           ${DatabaseString.columnMusicBool} integer not null,
@@ -70,7 +70,8 @@ class AlarmProvider {
 
     await db.execute('''
       create table ${DatabaseString.alarmFolderTableName}(
-        ${DatabaseString.columnFolderName} text primary key)
+        ${DatabaseString.columnId} integer primary key,
+        ${DatabaseString.columnFolderName} text not null)
     ''');
 
     await db.execute('''
@@ -85,7 +86,7 @@ class AlarmProvider {
     await db.insert(DatabaseString.musicPathTableName,
         {DatabaseString.columnPath: StringValue.ringRing});
     await db.insert(DatabaseString.alarmFolderTableName,
-        {DatabaseString.columnFolderName: '전체 알람'});
+        {DatabaseString.columnId: 0, DatabaseString.columnFolderName: '전체 알람'});
   }
 
   Future<void> resetAllTable() async {
@@ -297,12 +298,12 @@ class AlarmProvider {
     return alarmFolderList;
   }
 
-  Future<AlarmFolderData> getAlarmFolderByName(String name) async {
+  Future<AlarmFolderData> getAlarmFolderById(int id) async {
     AlarmFolderData alarmFolderData;
     Database db = await database;
     var result = await db.rawQuery(
-        'select * from ${DatabaseString.alarmFolderTableName} where ${DatabaseString.columnFolderName} = ?',
-        [name]);
+        'select * from ${DatabaseString.columnId} where ${DatabaseString.columnId} = ?',
+        [id]);
     alarmFolderData = AlarmFolderData.fromMap(result.first);
 
     return alarmFolderData;
@@ -323,14 +324,14 @@ class AlarmProvider {
   }
 
   //folder 내부 알람까지 삭제
-  Future<int> deleteAlarmFolder(String name) async {
+  Future<int> deleteAlarmFolder(int id) async {
     Database db = await database;
     var countOfDeletedAlarmItems = await db.delete(DatabaseString.tableName,
-        where: '${DatabaseString.columnFolderName} = ?', whereArgs: [name]);
+        where: '${DatabaseString.columnFolderId} = ?', whereArgs: [id]);
     var countOfDeletedFolderItems = await db.delete(
         DatabaseString.alarmFolderTableName,
-        where: '${DatabaseString.columnFolderName} = ?',
-        whereArgs: [name]);
+        where: '${DatabaseString.columnId} = ?',
+        whereArgs: [id]);
     if (kDebugMode) {
       print('Count of deleted Folder Items is $countOfDeletedFolderItems'
           '\nCount of deleted Alarm Items is $countOfDeletedAlarmItems');
@@ -341,9 +342,10 @@ class AlarmProvider {
 
   Future<void> updateAlarmFolder(AlarmFolderData alarmFolderData) async {
     Database db = await database;
-    await db.update(DatabaseString.tableName, alarmFolderData.toMap(),
-        where: '${DatabaseString.columnFolderName} = ?',
-        whereArgs: [alarmFolderData.name]);
+    await db.update(
+        DatabaseString.alarmFolderTableName, alarmFolderData.toMap(),
+        where: '${DatabaseString.columnId} = ?',
+        whereArgs: [alarmFolderData.id]);
   }
 
   Future<List<DayOffData>> getAllDayOff() async {

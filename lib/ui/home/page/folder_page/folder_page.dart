@@ -6,7 +6,9 @@ import 'package:new_alarm_clock/ui/global/auto_size_text.dart';
 import 'package:new_alarm_clock/ui/home/controller/folder_list_controller.dart';
 import 'package:new_alarm_clock/ui/home/controller/folder_name_text_field_controller.dart';
 import 'package:new_alarm_clock/ui/home/controller/tab_page_controller.dart';
+import 'package:new_alarm_clock/ui/home/widgets/choose_action_dialog.dart';
 import 'package:new_alarm_clock/ui/home/widgets/delete_dialog.dart';
+import 'package:new_alarm_clock/ui/home/widgets/edit_folder_title_dialog.dart';
 import 'package:new_alarm_clock/ui/home/widgets/set_folder_title_dialog.dart';
 import 'package:new_alarm_clock/utils/values/my_font_family.dart';
 
@@ -61,11 +63,21 @@ class FolderPage extends StatelessWidget {
                             const BorderRadius.all(Radius.circular(10)),
                         onLongPress: () async {
                           if (index != 0) {
+                            bool? isEditButtonPressed = await Get.dialog(
+                              const ChooseActionDialog()
+                            );
+                            if(isEditButtonPressed == null){
+                              return;
+                            }
+                            if(isEditButtonPressed){
+                              Get.dialog(EditFolderTitleDialog(alarmFolderData: _.folderList[index],));
+                              return;
+                            }
                             // 전체 알람 폴더는 삭제 불가
                             bool isDelete = await Get.dialog(
                                 DeleteDialog(LocaleKeys.deleteFolder.tr()));
                             if (isDelete == true) {
-                              _.deleteFolder(_.folderList[index].name);
+                              _.deleteFolder(_.folderList[index].id, _.folderList[index].name);
                             }
                           }
                         },
@@ -74,6 +86,7 @@ class FolderPage extends StatelessWidget {
                           Get.find<TabPageController>().pageIndex = 0;
                         },
                         child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Icon(
                               _.mainFolderName != _.folderList[index].name
@@ -102,6 +115,7 @@ class FolderPage extends StatelessWidget {
                           _displaySetFolderTitleDialog();
                         },
                         child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             const Icon(
                               Icons.create_new_folder_rounded,

@@ -18,7 +18,7 @@ class RecentAlarmDateStreamController extends GetxController {
       endDay: null,
       alarmState: false,
       alarmOrder: -1,
-      folderName: '',
+      folderId: 0,
       alarmInterval: 1,
       monthRepeatDay: 0,
       musicBool: false,

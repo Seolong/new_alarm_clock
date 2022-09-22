@@ -27,9 +27,9 @@ class SaveButton extends StatelessWidget {
   final AlarmProvider _alarmProvider = AlarmProvider();
   String mode;
   int alarmId;
-  String currentFolderName;
+  int currentFolderId;
 
-  SaveButton(this.alarmId, this.mode, this.currentFolderName, {Key? key})
+  SaveButton(this.alarmId, this.mode, this.currentFolderId, {Key? key})
       : super(key: key);
 
   @override
@@ -62,7 +62,7 @@ class SaveButton extends StatelessWidget {
             endDay: endDay,
             alarmState: true,
             alarmOrder: alarmId,
-            folderName: currentFolderName,
+            folderId: currentFolderId,
             alarmInterval: Get.find<IntervalTextFieldController>()
                         .textEditingController
                         .text ==

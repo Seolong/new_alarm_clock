@@ -103,7 +103,7 @@ class AlarmItem extends StatelessWidget {
               onTap: () {
                 Get.find<AlarmListController>().deleteAlarm(_id);
               },
-              child: Icon(
+              child: const Icon(
                 Icons.delete,
                 size: ButtonSize.medium + 6,
                 color: Colors.redAccent,
@@ -121,12 +121,12 @@ class AlarmItem extends StatelessWidget {
               decoration: BoxDecoration(
                 color: Get.find<ColorController>().colorSet.backgroundColor,
                 borderRadius: alarmBorder,
-                boxShadow: [
+                boxShadow: const [
                   BoxShadow(
                     color: ColorValue.black26,
                     spreadRadius: 0.5,
                     blurRadius: 2.5,
-                    offset: const Offset(0, 1), // changes position of shadow
+                    offset: Offset(0, 1), // changes position of shadow
                   ),
                 ],
               ),
@@ -152,9 +152,9 @@ class AlarmItem extends StatelessWidget {
                               StringValue.editMode;
                           requiredParameterToAddAlarmPageController.alarmId =
                               _id;
-                          requiredParameterToAddAlarmPageController.folderName =
+                          requiredParameterToAddAlarmPageController.folderId =
                               (await alarmProvider.getAlarmById(_id))
-                                  .folderName;
+                                  .folderId;
                           Get.closeAllSnackbars();
                           Get.find<SelectedAlarmController>().isSelectedMode =
                               false;

@@ -10,7 +10,7 @@ class AlarmData {
   late DateTime? endDay;
   late bool alarmState;
   late int alarmOrder;
-  late String folderName;
+  late int folderId;
   late int alarmInterval;
   late DateTime dayOff;
   late int? monthRepeatDay; //29일은 말일
@@ -32,7 +32,7 @@ class AlarmData {
     required this.endDay,
     required this.alarmState,
     required this.alarmOrder,
-    required this.folderName,
+    required this.folderId,
     required this.alarmInterval,
     required this.monthRepeatDay,
     required this.musicBool,
@@ -57,7 +57,7 @@ class AlarmData {
         alarmState: TypeConverter.convertIntToBool(
             json[DatabaseString.columnAlarmState]),
         alarmOrder: json[DatabaseString.columnAlarmOrder],
-        folderName: json[DatabaseString.columnFolderName],
+        folderId: json[DatabaseString.columnFolderId],
         alarmInterval: json[DatabaseString.columnAlarmInterval],
         monthRepeatDay: json[DatabaseString.columnMonthRepeatDay],
         musicBool: TypeConverter.convertIntToBool(
@@ -84,7 +84,7 @@ class AlarmData {
         DatabaseString.columnAlarmState:
             TypeConverter.convertBoolToInt(alarmState),
         DatabaseString.columnAlarmOrder: alarmOrder,
-        DatabaseString.columnFolderName: folderName,
+        DatabaseString.columnFolderId: folderId,
         DatabaseString.columnAlarmInterval: alarmInterval,
         DatabaseString.columnMonthRepeatDay: monthRepeatDay,
         DatabaseString.columnMusicBool:

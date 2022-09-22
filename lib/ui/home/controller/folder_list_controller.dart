@@ -1,7 +1,9 @@
-import 'package:get/get.dart';
+import 'package:easy_localization/easy_localization.dart';
+import 'package:get/get.dart' hide Trans;
 import 'package:new_alarm_clock/data/database/alarm_provider.dart';
 import 'package:new_alarm_clock/data/model/alarm_folder_data.dart';
 import 'package:new_alarm_clock/data/shared_preferences/settings_shared_preferences.dart';
+import 'package:new_alarm_clock/generated/locale_keys.g.dart';
 import 'package:new_alarm_clock/ui/home/controller/alarm_list_controller.dart';
 import 'package:new_alarm_clock/utils/values/string_value.dart';
 
@@ -12,9 +14,19 @@ class FolderListController extends GetxController {
       SettingsSharedPreferences();
   String _currentFolderName = StringValue.allAlarms;
   String _mainFolderName = StringValue.allAlarms;
+  int _currentFolderId = 0;
+
+  int get currentFolderId => _currentFolderId;
+
+  set currentFolderId(int value) {
+    _currentFolderId = value;
+    update();
+  }
 
   set currentFolderName(String name) {
     _currentFolderName = name;
+    var folder = folderList.where((e) => e.name == name).first;
+    _currentFolderId = folder.id;
     update();
   }
 
@@ -47,20 +59,27 @@ class FolderListController extends GetxController {
     update();
   }
 
-  void deleteFolder(String name) {
-    _alarmProvider.deleteAlarmFolder(name);
-    folderList.removeWhere((element) => element.name == name);
+  void deleteFolder(int id, String name) async {
+    _alarmProvider.deleteAlarmFolder(id);
+    var prefMainFolderName = await settingsSharedPreferences.getMainFolderName();
+    if(prefMainFolderName == name){
+      settingsSharedPreferences.setMainFolderName(LocaleKeys.allAlarms.tr());
+      _mainFolderName = LocaleKeys.allAlarms.tr();
+    }
+    folderList.removeWhere((element) => element.id == id);
     Get.find<AlarmListController>()
         .alarmList
-        .removeWhere((element) => element.folderName == name);
+        .removeWhere((element) => element.folderId == id);
     currentFolderName = StringValue.allAlarms;
     update();
   }
 
-  void updateAlarm(AlarmFolderData alarmFolderData) {
-    _alarmProvider.updateAlarmFolder(alarmFolderData);
+  void changeFolderName(AlarmFolderData alarmFolderData, String newName) {
+    var newData = AlarmFolderData(id: alarmFolderData.id, name: newName);
+    _alarmProvider.updateAlarmFolder(newData);
     folderList[folderList.indexWhere(
-        (element) => alarmFolderData.name == element.name)] = alarmFolderData;
+        (element) => alarmFolderData.id == element.id)] = newData;
+    _currentFolderName = newName;
     update();
   }
 }

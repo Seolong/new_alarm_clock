@@ -5,7 +5,7 @@ class IdSharedPreferences {
   late SharedPreferences sharedPreferences;
   final String toBeAddedIdName = 'toBeAddedId';
   final String alarmedAlarmIdName = 'alarmedAlarmId';
-  final int initialValue = 0;
+  final int initialValue = 1;
 
   factory IdSharedPreferences() {
     return _instance;

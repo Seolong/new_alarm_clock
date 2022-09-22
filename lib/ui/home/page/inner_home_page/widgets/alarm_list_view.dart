@@ -37,8 +37,8 @@ class AlarmListView extends StatelessWidget {
                     key: ValueKey(_.alarmList[index].id),
                     index: index,
                   );
-                } else if (folderListController.currentFolderName ==
-                    _.alarmList[index].folderName) {
+                } else if (folderListController.currentFolderId ==
+                    _.alarmList[index].folderId) {
                   return AlarmItem(
                     id: _.alarmList[index].id,
                     key: ValueKey(_.alarmList[index].id),

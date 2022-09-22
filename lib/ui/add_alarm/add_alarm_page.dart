@@ -32,7 +32,7 @@ import '../global/color_controller.dart';
 class AddAlarmPage extends StatelessWidget {
   String mode = '';
   int alarmId = -1;
-  String currentFolderName = '';
+  int currentFolderId = 0;
   final AlarmProvider _alarmProvider = AlarmProvider();
   late AlarmData alarmData;
   final AlarmDetailListTileFactory _alarmDetailListTileFactory =
@@ -159,8 +159,8 @@ class AddAlarmPage extends StatelessWidget {
     mode = Get.find<RequiredParameterToAddAlarmPageController>()
         .mode; //add or edit
     alarmId = Get.find<RequiredParameterToAddAlarmPageController>().alarmId;
-    currentFolderName =
-        Get.find<RequiredParameterToAddAlarmPageController>().folderName;
+    currentFolderId =
+        Get.find<RequiredParameterToAddAlarmPageController>().folderId;
 
     final repeatModeController = Get.put(RepeatModeController());
     final startEndDayController = Get.put(StartEndDayController());
@@ -199,7 +199,7 @@ class AddAlarmPage extends StatelessWidget {
                 child: SaveButton(
                   alarmId,
                   mode,
-                  currentFolderName,
+                  currentFolderId,
                 ),
               )
             ],

@@ -128,5 +128,8 @@
   "displayOverRequest": "알람 화면을 띄우기 위해, '다른 앱 위에 표시' 권한을 허용해야 합니다. '설정하기' 버튼을 누르고 권한을 허용해주세요.",
   "doNotDisturbMode": "방해 금지 모드",
   "doNotDisturbModeRequest": "방해 금지 모드에 알람을 울리려면 접근 권한을 허용해야 합니다. '설정하기' 버튼을 누르고 권한을 허용해주세요.",
-  "resolved": "해결됨"
+  "resolved": "해결됨",
+
+  "edit": "수정",
+  "delete": "삭제"
 }

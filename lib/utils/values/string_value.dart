@@ -31,6 +31,7 @@ class DatabaseString {
   static const String columnEndDay = 'endDay';
   static const String columnAlarmState = 'alarmState';
   static const String columnAlarmOrder = 'alarmOrder';
+  static const String columnFolderId = 'folderId';
   static const String columnFolderName = 'folderName';
   static const String columnAlarmInterval = 'alarmInterval';
   static const String columnMonthRepeatDay = 'monthRepeatDay';
