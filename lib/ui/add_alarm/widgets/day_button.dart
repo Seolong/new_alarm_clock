@@ -34,8 +34,6 @@ class DayButton extends StatelessWidget {
         //일월화수목금토 다 off면 repeatMode가 off로 변경
         else {
           Get.find<RepeatModeController>().setRepeatModeOff();
-          Get.find<IntervalTextFieldController>().textEditingController.text =
-              '';
         }
         if (kDebugMode) {
           print(repeatModeController.getRepeatMode());

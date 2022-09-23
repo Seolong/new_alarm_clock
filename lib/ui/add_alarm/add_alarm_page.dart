@@ -28,6 +28,7 @@ import 'package:new_alarm_clock/utils/values/my_font_family.dart';
 import 'package:new_alarm_clock/utils/values/string_value.dart';
 import '../../utils/values/size_value.dart';
 import '../global/color_controller.dart';
+import '../global/gradient_icon.dart';
 
 class AddAlarmPage extends StatelessWidget {
   String mode = '';
@@ -345,23 +346,25 @@ class AddAlarmPage extends StatelessWidget {
                                 ),
 
                                 //ChoiceDayButton
-                                FittedBox(
-                                    fit: BoxFit.scaleDown,
-                                    child: GestureDetector(
-                                      child: Icon(
-                                        Icons.today,
-                                        color: Get.find<ColorController>()
-                                            .colorSet
-                                            .accentColor,
-                                        size: 1000,
-                                      ),
-                                      onTap: () {
-                                        repeatModeController
-                                                .previousRepeatMode =
-                                            repeatModeController.repeatMode;
-                                        Get.toNamed(AppRoutes.choiceDayPage);
-                                      },
-                                    )),
+                                GestureDetector(
+                                  child: GradientIcon(
+                                    icon: Icons.today,
+                                    size: ButtonSize.large,
+                                    gradient: LinearGradient(colors: [
+                                      Get.find<ColorController>()
+                                          .colorSet
+                                          .lightMainColor,
+                                      Get.find<ColorController>()
+                                          .colorSet
+                                          .deepMainColor,
+                                    ]),
+                                  ),
+                                  onTap: () {
+                                    repeatModeController.previousRepeatMode =
+                                        repeatModeController.repeatMode;
+                                    Get.toNamed(AppRoutes.choiceDayPage);
+                                  },
+                                ),
                               ],
                             ),
                           ),

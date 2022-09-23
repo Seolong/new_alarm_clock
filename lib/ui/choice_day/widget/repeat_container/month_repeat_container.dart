@@ -11,7 +11,7 @@ import 'package:new_alarm_clock/generated/locale_keys.g.dart';
 import '../../../global/color_controller.dart';
 
 class MonthRepeatContainer extends RepeatContainer {
-  MonthRepeatContainer() {
+  MonthRepeatContainer({Key? key}) : super(key: key) {
     intervalType = GetBuilder<IntervalTextFieldController>(builder: (_) {
       return Text(
         plural(LocaleKeys.month_args, _.getInterval()),
@@ -23,30 +23,40 @@ class MonthRepeatContainer extends RepeatContainer {
     bottomColumn = Column(
       children: [
         Padding(
-          padding: const EdgeInsets.only(top: 15),
-          child: GetBuilder<MonthRepeatDayController>(builder: (_) {
-            return Text(
-              _.monthRepeatDayText,
-              style: TextStyle(
-                  color: Get.find<ColorController>().colorSet.mainTextColor,
-                  fontSize: SizeValue.monthRepeatDayText),
-            );
-          }),
-        ),
-        Container(
-          height: 50,
-        ),
-        ChoiceDayButton(),
-        Container(
-          padding: EdgeInsets.fromLTRB(0, 0, 0, 7.5),
-          height: ButtonSize.medium - 4,
-          child: FittedBox(
-            fit: BoxFit.scaleDown,
-            child: ConstrainedBox(
-              constraints: BoxConstraints(minWidth: 1, minHeight: 1),
-              child: Text(
-                LocaleKeys.chooseRepeatDay.tr(),
-                style: TextStyle(color: Colors.grey, fontSize: 1000),
+          padding: const EdgeInsets.all(20.0),
+          child: Material(
+            elevation: 1.5,
+            color: Get.find<ColorController>().colorSet.backgroundColor,
+            borderRadius: const BorderRadius.all(Radius.circular(20)),
+            child: Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Expanded(
+                    child: GetBuilder<MonthRepeatDayController>(builder: (_) {
+                      return Text(
+                        _.monthRepeatDayText,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            color: Get.find<ColorController>()
+                                .colorSet
+                                .mainTextColor,
+                            fontSize: 24),
+                      );
+                    }),
+                  ),
+                  Column(
+                    children: [
+                      ChoiceDayButton(),
+                      Text(
+                        LocaleKeys.chooseRepeatDay.tr(),
+                        style:
+                            const TextStyle(color: Colors.grey, fontSize: 15),
+                      ),
+                    ],
+                  ),
+                ],
               ),
             ),
           ),

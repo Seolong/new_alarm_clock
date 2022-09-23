@@ -4,6 +4,9 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:new_alarm_clock/generated/locale_keys.g.dart';
 import 'package:new_alarm_clock/ui/day_off/controller/day_off_list_controller.dart';
+import 'package:new_alarm_clock/ui/global/color_controller.dart';
+
+import '../../utils/values/size_value.dart';
 
 class DayOffPage extends StatelessWidget {
   @override
@@ -11,22 +14,25 @@ class DayOffPage extends StatelessWidget {
     final dayOffListController = Get.put(DayOffListController());
     dayOffListController.initDayOffDataList();
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          dayOffListController.insertDayOff();
+        },
+        backgroundColor: Get.find<ColorController>().colorSet.lightMainColor,
+        child: const Icon(
+          Icons.add_rounded,
+          size: ButtonSize.xlarge,
+        ),
+      ),
       appBar: AppBar(
-          leading: IconButton(
-            icon: const Icon(Icons.arrow_back_ios_rounded),
-            onPressed: () {
-              Get.back();
-            },
-          ),
-          title: Text(LocaleKeys.daysOff.tr()),
-          actions: [
-            IconButton(
-              icon: const Icon(Icons.add),
-              onPressed: () {
-                dayOffListController.insertDayOff();
-              },
-            ),
-          ]),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back_ios_rounded),
+          onPressed: () {
+            Get.back();
+          },
+        ),
+        title: Text(LocaleKeys.daysOff.tr()),
+      ),
       body: SafeArea(
         child: GetBuilder<DayOffListController>(builder: (_) {
           return ListView.separated(

@@ -13,6 +13,8 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:new_alarm_clock/generated/locale_keys.g.dart';
 import 'package:new_alarm_clock/utils/values/size_value.dart';
 
+import '../../global/gradient_icon.dart';
+
 class RingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -60,7 +62,6 @@ class RingPage extends StatelessWidget {
                       },
                       thumbColor: [
                         Get.find<ColorController>().colorSet.lightMainColor,
-                        Get.find<ColorController>().colorSet.mainColor,
                         Get.find<ColorController>().colorSet.deepMainColor,
                       ],
                       activeColor:
@@ -79,15 +80,28 @@ class RingPage extends StatelessWidget {
                     children: [
                       //volume icon
                       GetBuilder<RingRadioListController>(builder: (_) {
-                        return Icon(
-                          Icons.volume_up_rounded,
-                          size: ButtonSize.medium,
-                          color: _.power == true
-                              ? Get.find<ColorController>()
-                                  .colorSet
-                                  .mainTextColor
-                              : Colors.grey,
-                        );
+                        return _.power == true
+                            ? GradientIcon(
+                                icon: Icons.volume_up_rounded,
+                                size: ButtonSize.medium,
+                                gradient: LinearGradient(
+                                  colors: <Color>[
+                                    Get.find<ColorController>()
+                                        .colorSet
+                                        .lightMainColor,
+                                    Get.find<ColorController>()
+                                        .colorSet
+                                        .deepMainColor,
+                                  ],
+                                  begin: Alignment.topLeft,
+                                  end: Alignment.bottomRight,
+                                ),
+                              )
+                            : const Icon(
+                                Icons.volume_up_rounded,
+                                size: ButtonSize.medium,
+                                color: Colors.grey,
+                              );
                       }),
                       Expanded(
                         child: VolumeSlider(),
@@ -137,15 +151,31 @@ class RingPage extends StatelessWidget {
                                           child: GetBuilder<
                                                   RingRadioListController>(
                                               builder: (_) {
-                                            return Icon(
-                                              Icons.music_note,
-                                              size: 1150,
-                                              color: _.power
-                                                  ? Get.find<ColorController>()
-                                                      .colorSet
-                                                      .mainColor
-                                                  : Colors.grey,
-                                            );
+                                            return _.power
+                                                ? GradientIcon(
+                                                    icon: Icons.music_note,
+                                                    size: ButtonSize.medium,
+                                                    gradient: LinearGradient(
+                                                      colors: <Color>[
+                                                        Get.find<
+                                                                ColorController>()
+                                                            .colorSet
+                                                            .lightMainColor,
+                                                        Get.find<
+                                                                ColorController>()
+                                                            .colorSet
+                                                            .deepMainColor,
+                                                      ],
+                                                      begin: Alignment.topLeft,
+                                                      end:
+                                                          Alignment.bottomRight,
+                                                    ),
+                                                  )
+                                                : const Icon(
+                                                    Icons.music_note,
+                                                    size: ButtonSize.medium,
+                                                    color: Colors.grey,
+                                                  );
                                           }),
                                         ),
                                       ),

@@ -23,7 +23,7 @@ class HomeFAB extends StatelessWidget {
     return FloatingActionButton(
       // addAlarmButton
       //폴더 탭일 때 다른 색, 메뉴 탭일 땐 disable임을 나타내기 위해 회색
-      backgroundColor: Get.find<ColorController>().colorSet.accentColor,
+      backgroundColor: Get.find<ColorController>().colorSet.lightMainColor,
       child: const Icon(
         Icons.add_rounded,
         size: ButtonSize.xlarge,

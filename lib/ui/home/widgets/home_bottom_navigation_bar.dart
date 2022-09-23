@@ -2,12 +2,28 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:new_alarm_clock/ui/global/color_controller.dart';
+import 'package:new_alarm_clock/ui/global/gradient_icon.dart';
 
 import '../../../utils/values/size_value.dart';
 import '../controller/tab_page_controller.dart';
 
 class HomeBottomNavigationBar extends StatelessWidget {
   const HomeBottomNavigationBar({Key? key}) : super(key: key);
+
+  GradientIcon getBottomNavigationActiveIcon(IconData icon) {
+    return GradientIcon(
+      icon: icon,
+      size: ButtonSize.medium,
+      gradient: LinearGradient(
+        colors: <Color>[
+          Get.find<ColorController>().colorSet.lightMainColor,
+          Get.find<ColorController>().colorSet.deepMainColor,
+        ],
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,13 +54,15 @@ class HomeBottomNavigationBar extends StatelessWidget {
                 Get.find<ColorController>().colorSet.deepMainColor,
             unselectedItemColor: Colors.grey,
             items: [
-              const BottomNavigationBarItem(
-                  icon: Icon(
+              BottomNavigationBarItem(
+                  activeIcon: getBottomNavigationActiveIcon(Icons.home_rounded),
+                  icon: const Icon(
                     Icons.home_rounded,
                   ),
                   label: "홈"),
-              const BottomNavigationBarItem(
-                  icon: Icon(
+              BottomNavigationBarItem(
+                  activeIcon: getBottomNavigationActiveIcon(Icons.folder),
+                  icon: const Icon(
                     Icons.folder,
                   ),
                   label: "폴더"),
@@ -53,17 +71,35 @@ class HomeBottomNavigationBar extends StatelessWidget {
                   icon: Icon(null),
                   label: "홈"),
               BottomNavigationBarItem(
+                  activeIcon: ShaderMask(
+                    child: SvgPicture.asset(
+                      'assets/icons/book.svg',
+                      width: 30,
+                      height: 30,
+                      color: Colors.white
+                    ),
+                    shaderCallback: (Rect bounds) {
+                      const Rect rect = Rect.fromLTRB(0, 0, 30, 30);
+                      return LinearGradient(
+                        colors: <Color>[
+                          Get.find<ColorController>().colorSet.lightMainColor,
+                          Get.find<ColorController>().colorSet.deepMainColor,
+                        ],
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                      ).createShader(rect);
+                    },
+                  ),
                   icon: SvgPicture.asset(
                     'assets/icons/book.svg',
                     width: 30,
                     height: 30,
-                    color: _.pageIndex == 3
-                        ? Get.find<ColorController>().colorSet.deepMainColor
-                        : Colors.grey,
+                    color: Colors.grey,
                   ),
                   label: "명언"),
-              const BottomNavigationBarItem(
-                  icon: Icon(
+              BottomNavigationBarItem(
+                activeIcon: getBottomNavigationActiveIcon(Icons.more_horiz),
+                  icon: const Icon(
                     Icons.more_horiz,
                   ),
                   label: "더보기"),

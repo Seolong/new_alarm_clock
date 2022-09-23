@@ -24,51 +24,59 @@ class YearRepeatContainer extends RepeatContainer {
     bottomColumn = Column(
       children: [
         Padding(
-          padding: const EdgeInsets.only(top: 20),
-          child: GetBuilder<YearRepeatDayController>(builder: (_) {
-            return Text(
-              _.getYearRepeatDay_monthDay(),
-              style: TextStyle(
-                  fontSize: SizeValue.yearRepeatDayText,
-                  color: Get.find<ColorController>().colorSet.mainTextColor),
-            );
-          }),
-        ),
-        Container(
-          height: 50,
-        ),
-        GetBuilder<YearRepeatDayController>(builder: (_) {
-          return InkWell(
-              borderRadius: const BorderRadius.all(Radius.circular(20)),
-              onTap: () async {
-                var dateTime = await Get.dialog(AlertDialog(
-                    contentPadding: EdgeInsets.zero,
-                    content: CalendarContainer(_.yearRepeatDay)));
-                _.yearRepeatDay = dateTime;
-              },
-              child: Padding(
-                  padding: const EdgeInsets.all(2.0),
-                  child: Icon(
-                    Icons.today,
-                    size: ButtonSize.large,
-                    color: Get.find<ColorController>().colorSet.deepMainColor,
-                  )));
-        }),
-        Container(
-          padding: const EdgeInsets.fromLTRB(0, 0, 0, 7.5),
-          height: ButtonSize.medium * 2 - 15,
-          child: FittedBox(
-            fit: BoxFit.scaleDown,
-            child: ConstrainedBox(
-              constraints: const BoxConstraints(minWidth: 1, minHeight: 1),
-              child: Text(
-                '${LocaleKeys.chooseRepeatDay.tr()}\n${LocaleKeys.monthAndDay.tr()}',
-                style: const TextStyle(color: Colors.grey, fontSize: 1000),
-                textAlign: TextAlign.center,
+          padding: const EdgeInsets.all(20.0),
+          child: Material(
+            elevation: 1.5,
+            color: Get.find<ColorController>().colorSet.backgroundColor,
+            borderRadius: const BorderRadius.all(Radius.circular(20)),
+            child: Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Expanded(
+                    child: GetBuilder<YearRepeatDayController>(builder: (_) {
+                      return Text(
+                        _.getYearRepeatDay_monthDay(),
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            fontSize: 24,
+                            color: Get.find<ColorController>().colorSet.mainTextColor),
+                      );
+                    }),
+                  ),
+                  Column(
+                    children: [
+                      GetBuilder<YearRepeatDayController>(builder: (_) {
+                        return InkWell(
+                            borderRadius: const BorderRadius.all(Radius.circular(20)),
+                            onTap: () async {
+                              var dateTime = await Get.dialog(AlertDialog(
+                                  contentPadding: EdgeInsets.zero,
+                                  content: CalendarContainer(_.yearRepeatDay)));
+                              _.yearRepeatDay = dateTime;
+                            },
+                            child: Padding(
+                                padding: const EdgeInsets.all(2.0),
+                                child: Icon(
+                                  Icons.today,
+                                  size: ButtonSize.large,
+                                  color: Get.find<ColorController>().colorSet.deepMainColor,
+                                )));
+                      }),
+                      Text(
+                        '${LocaleKeys.chooseRepeatDay.tr()}\n${LocaleKeys.monthAndDay.tr()}',
+                        style: const TextStyle(color: Colors.grey, fontSize: 15),
+                        textAlign: TextAlign.center,
+                      ),
+                    ],
+                  ),
+                ],
               ),
             ),
           ),
         ),
+
       ],
     );
   }

@@ -32,4 +32,29 @@ class IntervalTextFieldController extends GetxController {
   void initTextFieldInEditRepeat(int intervalValue) {
     textEditingController.text = intervalValue != 0 ? '$intervalValue' : '';
   }
+
+  void plusOne(){
+    if(textEditingController.text == ''){
+      textEditingController.text = '1';
+      return;
+    }
+    int currentValue = int.parse(textEditingController.text);
+    currentValue++;
+    textEditingController.text = '$currentValue';
+    update();
+  }
+
+  void minusOne(){
+    int currentValue = int.parse(textEditingController.text);
+    if(textEditingController.text == '' || currentValue <= 0){
+      return;
+    }
+    currentValue--;
+    if(currentValue == 0){
+      textEditingController.text = '';
+      return;
+    }
+    textEditingController.text = '$currentValue';
+    update();
+  }
 }
