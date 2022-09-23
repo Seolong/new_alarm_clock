@@ -368,7 +368,10 @@ class AddAlarmPage extends StatelessWidget {
                               ],
                             ),
                           ),
-                          TitleTextField(mode, alarmId),
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(0, 7.5, 0, 7.5),
+                            child: TitleTextField(mode, alarmId),
+                          ),
                           getInitializedWidget(_alarmDetailListTileFactory
                               .getDetailListTile(DetailTileName.ring)),
                           getInitializedWidget(_alarmDetailListTileFactory

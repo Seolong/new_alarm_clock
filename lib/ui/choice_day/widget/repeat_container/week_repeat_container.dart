@@ -25,62 +25,58 @@ class WeekRepeatContainer extends RepeatContainer {
     bottomColumn = Column(
       children: [
         Padding(
-          padding: const EdgeInsets.fromLTRB(20,5,20,0),
-          child: Material(
-            elevation: 1.5,
-            color: Get.find<ColorController>().colorSet.backgroundColor,
-            borderRadius: const BorderRadius.all(Radius.circular(20)),
-            child: Container(
-              height: 100,
-              padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-              //슬라이드해서 week컨테이너로 가면 일~월이 회색이길래..
-              child: GetBuilder<RepeatModeController>(builder: (context) {
-                return GetBuilder<DayOfWeekController>(
-                  builder: (_) => LayoutBuilder(
-                    builder: (BuildContext context, BoxConstraints constraints) =>
-                        Row(
-                      children: [
-                        Expanded(
-                            child: Padding(
-                          padding: const EdgeInsets.all(3.0),
-                          child: DayButton(constraints, DayWeek.Sun, _),
-                        )),
-                        Expanded(
-                            child: Padding(
-                          padding: const EdgeInsets.all(3.0),
-                          child: DayButton(constraints, DayWeek.Mon, _),
-                        )),
-                        Expanded(
-                            child: Padding(
-                          padding: const EdgeInsets.all(3.0),
-                          child: DayButton(constraints, DayWeek.Tue, _),
-                        )),
-                        Expanded(
-                            child: Padding(
-                          padding: const EdgeInsets.all(3.0),
-                          child: DayButton(constraints, DayWeek.Wed, _),
-                        )),
-                        Expanded(
-                            child: Padding(
-                          padding: const EdgeInsets.all(3.0),
-                          child: DayButton(constraints, DayWeek.Thu, _),
-                        )),
-                        Expanded(
-                            child: Padding(
-                          padding: const EdgeInsets.all(3.0),
-                          child: DayButton(constraints, DayWeek.Fri, _),
-                        )),
-                        Expanded(
-                            child: Padding(
-                          padding: const EdgeInsets.all(3.0),
-                          child: DayButton(constraints, DayWeek.Sat, _),
-                        )),
-                      ],
-                    ),
+          padding: const EdgeInsets.fromLTRB(20, 5, 20, 0),
+          child: Container(
+            height: 100,
+            decoration: boxDecoration,
+            padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+            //슬라이드해서 week컨테이너로 가면 일~월이 회색이길래..
+            child: GetBuilder<RepeatModeController>(builder: (context) {
+              return GetBuilder<DayOfWeekController>(
+                builder: (_) => LayoutBuilder(
+                  builder: (BuildContext context, BoxConstraints constraints) =>
+                      Row(
+                    children: [
+                      Expanded(
+                          child: Padding(
+                        padding: const EdgeInsets.all(3.0),
+                        child: DayButton(constraints, DayWeek.Sun, _),
+                      )),
+                      Expanded(
+                          child: Padding(
+                        padding: const EdgeInsets.all(3.0),
+                        child: DayButton(constraints, DayWeek.Mon, _),
+                      )),
+                      Expanded(
+                          child: Padding(
+                        padding: const EdgeInsets.all(3.0),
+                        child: DayButton(constraints, DayWeek.Tue, _),
+                      )),
+                      Expanded(
+                          child: Padding(
+                        padding: const EdgeInsets.all(3.0),
+                        child: DayButton(constraints, DayWeek.Wed, _),
+                      )),
+                      Expanded(
+                          child: Padding(
+                        padding: const EdgeInsets.all(3.0),
+                        child: DayButton(constraints, DayWeek.Thu, _),
+                      )),
+                      Expanded(
+                          child: Padding(
+                        padding: const EdgeInsets.all(3.0),
+                        child: DayButton(constraints, DayWeek.Fri, _),
+                      )),
+                      Expanded(
+                          child: Padding(
+                        padding: const EdgeInsets.all(3.0),
+                        child: DayButton(constraints, DayWeek.Sat, _),
+                      )),
+                    ],
                   ),
-                );
-              }),
-            ),
+                ),
+              );
+            }),
           ),
         ),
       ],

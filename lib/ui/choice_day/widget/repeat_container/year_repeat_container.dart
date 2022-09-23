@@ -24,11 +24,9 @@ class YearRepeatContainer extends RepeatContainer {
     bottomColumn = Column(
       children: [
         Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Material(
-            elevation: 1.5,
-            color: Get.find<ColorController>().colorSet.backgroundColor,
-            borderRadius: const BorderRadius.all(Radius.circular(20)),
+          padding: const EdgeInsets.fromLTRB(20, 5, 20, 0),
+          child: Container(
+            decoration: boxDecoration,
             child: Padding(
               padding: const EdgeInsets.all(10.0),
               child: Row(
@@ -40,8 +38,10 @@ class YearRepeatContainer extends RepeatContainer {
                         _.getYearRepeatDay_monthDay(),
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                            fontSize: 24,
-                            color: Get.find<ColorController>().colorSet.mainTextColor),
+                            fontSize: 20,
+                            color: Get.find<ColorController>()
+                                .colorSet
+                                .mainTextColor),
                       );
                     }),
                   ),
@@ -49,7 +49,8 @@ class YearRepeatContainer extends RepeatContainer {
                     children: [
                       GetBuilder<YearRepeatDayController>(builder: (_) {
                         return InkWell(
-                            borderRadius: const BorderRadius.all(Radius.circular(20)),
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(20)),
                             onTap: () async {
                               var dateTime = await Get.dialog(AlertDialog(
                                   contentPadding: EdgeInsets.zero,
@@ -61,12 +62,15 @@ class YearRepeatContainer extends RepeatContainer {
                                 child: Icon(
                                   Icons.today,
                                   size: ButtonSize.large,
-                                  color: Get.find<ColorController>().colorSet.deepMainColor,
+                                  color: Get.find<ColorController>()
+                                      .colorSet
+                                      .deepMainColor,
                                 )));
                       }),
                       Text(
                         '${LocaleKeys.chooseRepeatDay.tr()}\n${LocaleKeys.monthAndDay.tr()}',
-                        style: const TextStyle(color: Colors.grey, fontSize: 15),
+                        style:
+                            const TextStyle(color: Colors.grey, fontSize: 15),
                         textAlign: TextAlign.center,
                       ),
                     ],
@@ -76,7 +80,6 @@ class YearRepeatContainer extends RepeatContainer {
             ),
           ),
         ),
-
       ],
     );
   }

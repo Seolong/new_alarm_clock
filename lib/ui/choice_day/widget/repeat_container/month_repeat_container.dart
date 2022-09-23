@@ -23,11 +23,9 @@ class MonthRepeatContainer extends RepeatContainer {
     bottomColumn = Column(
       children: [
         Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Material(
-            elevation: 1.5,
-            color: Get.find<ColorController>().colorSet.backgroundColor,
-            borderRadius: const BorderRadius.all(Radius.circular(20)),
+          padding: const EdgeInsets.fromLTRB(20, 5, 20, 0),
+          child: Container(
+            decoration: boxDecoration,
             child: Padding(
               padding: const EdgeInsets.all(10.0),
               child: Row(
@@ -42,7 +40,7 @@ class MonthRepeatContainer extends RepeatContainer {
                             color: Get.find<ColorController>()
                                 .colorSet
                                 .mainTextColor,
-                            fontSize: 24),
+                            fontSize: 20),
                       );
                     }),
                   ),

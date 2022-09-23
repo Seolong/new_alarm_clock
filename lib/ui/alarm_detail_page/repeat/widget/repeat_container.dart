@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:new_alarm_clock/ui/global/custom_radio_list_tile.dart';
 import 'package:new_alarm_clock/utils/values/my_font_family.dart';
+import 'package:new_alarm_clock/utils/values/size_value.dart';
 
 import '../../../../utils/enum.dart';
 import '../../../global/auto_size_text.dart';
 import '../../../global/color_controller.dart';
+import '../../../global/gradient_icon.dart';
 import '../controller/repeat_radio_list_controller.dart';
 
 class RepeatContainer extends StatelessWidget {
@@ -83,26 +85,22 @@ class RepeatContainer extends StatelessWidget {
             padding: const EdgeInsets.fromLTRB(15, 5, 0, 15),
             child: Row(
               children: [
-                SizedBox(
-                  height: 30,
-                  child: FittedBox(
-                    fit: BoxFit.scaleDown,
-                    child: ConstrainedBox(
-                      constraints:
-                          const BoxConstraints(minWidth: 1, minHeight: 1),
-                      child:
-                          GetBuilder<RepeatRadioListController>(builder: (_) {
-                        return Icon(
-                          Icons.alarm_rounded,
-                          size: 1150,
-                          color: _.power == true
-                              ? Get.find<ColorController>().colorSet.mainColor
-                              : Colors.grey,
-                        );
-                      }),
+                GetBuilder<RepeatRadioListController>(builder: (_) {
+                  return _.power == true ? GradientIcon(
+                    icon: Icons.alarm_rounded,
+                    size: ButtonSize.small+2,
+                    gradient: LinearGradient(
+                      colors: [
+                        Get.find<ColorController>().colorSet.lightMainColor,
+                        Get.find<ColorController>().colorSet.deepMainColor
+                      ]
                     ),
-                  ),
-                ),
+                  ):const Icon(
+                    Icons.alarm_rounded,
+                    size: ButtonSize.small+2,
+                    color: Colors.grey,
+                  );
+                }),
                 const SizedBox(
                   width: 5,
                 ),
