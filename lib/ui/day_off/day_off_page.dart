@@ -51,7 +51,7 @@ class DayOffPage extends StatelessWidget {
               );
             },
             separatorBuilder: (BuildContext context, int index) {
-              return const Divider();
+              return const Divider(endIndent: 10,);
             },
           );
         }),

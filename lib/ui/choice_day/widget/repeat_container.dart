@@ -18,7 +18,7 @@ class RepeatContainer extends StatelessWidget {
   late Column bottomColumn;
   late final BoxDecoration boxDecoration;
 
-  RepeatContainer({Key? key}) : super(key: key){
+  RepeatContainer({Key? key}) : super(key: key) {
     boxDecoration = BoxDecoration(
         color: Get.find<ColorController>().colorSet.backgroundColor,
         borderRadius: const BorderRadius.all(Radius.circular(20)),
@@ -54,11 +54,23 @@ class RepeatContainer extends StatelessWidget {
                             borderRadius:
                                 const BorderRadius.all(Radius.circular(20)),
                             onTap: () async {
-                              var dateTime = await Get.dialog(AlertDialog(
-                                  contentPadding: EdgeInsets.zero,
-                                  content: CalendarContainer(
-                                      Get.find<StartEndDayController>()
-                                          .start['dateTime'])));
+                              // var dateTime = await Get.dialog(AlertDialog(
+                              //     contentPadding: EdgeInsets.zero,
+                              //     content: CalendarContainer(
+                              //         Get.find<StartEndDayController>()
+                              //             .start['dateTime'])));
+                              DateTime? dateTime = await Get.bottomSheet(
+                                CalendarContainer(
+                                    Get.find<StartEndDayController>().start['dateTime']),
+                                backgroundColor: Get.find<ColorController>()
+                                    .colorSet
+                                    .backgroundColor,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(15),
+                                ),
+                                elevation: 1,
+                                isScrollControlled: true,
+                              );
                               if (dateTime != null) {
                                 _.setStart(dateTime);
                               }
@@ -111,19 +123,31 @@ class RepeatContainer extends StatelessWidget {
                             borderRadius:
                                 const BorderRadius.all(Radius.circular(20)),
                             onTap: () async {
-                              DateTime? dateTime = await Get.dialog(
-                                  AlertDialog(
-                                      contentPadding: EdgeInsets.zero,
-                                      content: CalendarContainer(
-                                          _.end['dateTime'] ??
-                                              _.start['dateTime'])));
+                              // DateTime? dateTime = await Get.dialog(
+                              //     AlertDialog(
+                              //         contentPadding: EdgeInsets.zero,
+                              //         content: CalendarContainer(
+                              //             _.end['dateTime'] ??
+                              //                 _.start['dateTime'])));
+                              DateTime? dateTime = await Get.bottomSheet(
+                                CalendarContainer(
+                                    _.end['dateTime'] ?? _.start['dateTime']),
+                                backgroundColor: Get.find<ColorController>()
+                                    .colorSet
+                                    .backgroundColor,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(15),
+                                ),
+                                elevation: 1,
+                                isScrollControlled: true,
+                              );
                               if (dateTime == null) {
                                 return;
                               }
                               if (dateTime.isBefore(_.start['dateTime'])) {
-                                ConvenienceMethod.showSimpleSnackBar(
-                                    LocaleKeys.endDateCannotBeforeStartDate
-                                        .tr());
+                                ConvenienceMethod.showSimpleSnackBar(LocaleKeys
+                                    .endDateCannotBeforeStartDate
+                                    .tr());
                               } else {
                                 _.setEnd(dateTime);
                               }

@@ -131,9 +131,9 @@ class OneAlarmContainer extends StatelessWidget {
                             Get.find<ColorController>().colorSet.lightMainColor
                           ]),
                     ),
-                    height: 30,
-                    width: 30,
-                    child: Icon(
+                    height: ButtonSize.small,
+                    width: ButtonSize.small,
+                    child: const Icon(
                       Icons.keyboard_arrow_left,
                       color: Colors.white,
                       size: ButtonSize.small,
@@ -155,9 +155,9 @@ class OneAlarmContainer extends StatelessWidget {
                                   .colorSet
                                   .deepMainColor,
                             ])),
-                    height: 30,
-                    width: 30,
-                    child: Icon(
+                    height: ButtonSize.small,
+                    width: ButtonSize.small,
+                    child: const Icon(
                       Icons.keyboard_arrow_right,
                       color: Colors.white,
                       size: ButtonSize.small,
@@ -191,7 +191,6 @@ class OneAlarmContainer extends StatelessWidget {
                     todayDecoration: BoxDecoration(
                       color: Get.find<ColorController>().colorSet.mainColor,
                       shape: BoxShape.circle,
-                      //borderRadius: BorderRadius.circular(100)
                     )),
                 locale: context.locale.toString(),
                 onDaySelected: (selectedDay, focusedDay) {

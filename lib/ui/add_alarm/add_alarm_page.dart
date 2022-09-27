@@ -346,24 +346,27 @@ class AddAlarmPage extends StatelessWidget {
                                 ),
 
                                 //ChoiceDayButton
-                                GestureDetector(
-                                  child: GradientIcon(
-                                    icon: Icons.today,
-                                    size: ButtonSize.large,
-                                    gradient: LinearGradient(colors: [
-                                      Get.find<ColorController>()
-                                          .colorSet
-                                          .lightMainColor,
-                                      Get.find<ColorController>()
-                                          .colorSet
-                                          .deepMainColor,
-                                    ]),
+                                Tooltip(
+                                  message: LocaleKeys.dateDetailSettings.tr(),
+                                  child: GestureDetector(
+                                    child: GradientIcon(
+                                      icon: Icons.today,
+                                      size: ButtonSize.large,
+                                      gradient: LinearGradient(colors: [
+                                        Get.find<ColorController>()
+                                            .colorSet
+                                            .lightMainColor,
+                                        Get.find<ColorController>()
+                                            .colorSet
+                                            .deepMainColor,
+                                      ]),
+                                    ),
+                                    onTap: () {
+                                      repeatModeController.previousRepeatMode =
+                                          repeatModeController.repeatMode;
+                                      Get.toNamed(AppRoutes.choiceDayPage);
+                                    },
                                   ),
-                                  onTap: () {
-                                    repeatModeController.previousRepeatMode =
-                                        repeatModeController.repeatMode;
-                                    Get.toNamed(AppRoutes.choiceDayPage);
-                                  },
                                 ),
                               ],
                             ),

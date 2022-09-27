@@ -49,12 +49,26 @@ class YearRepeatContainer extends RepeatContainer {
                     children: [
                       GetBuilder<YearRepeatDayController>(builder: (_) {
                         return InkWell(
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(20)),
+                            // borderRadius:
+                            //     const BorderRadius.all(Radius.circular(20)),
                             onTap: () async {
-                              var dateTime = await Get.dialog(AlertDialog(
-                                  contentPadding: EdgeInsets.zero,
-                                  content: CalendarContainer(_.yearRepeatDay)));
+                              // var dateTime = await Get.dialog(AlertDialog(
+                              //     contentPadding: EdgeInsets.zero,
+                              //     content: CalendarContainer(_.yearRepeatDay)));
+                              DateTime? dateTime = await Get.bottomSheet(
+                                CalendarContainer(_.yearRepeatDay),
+                                backgroundColor: Get.find<ColorController>()
+                                    .colorSet
+                                    .backgroundColor,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(15),
+                                ),
+                                elevation: 1,
+                                isScrollControlled: true,
+                              );
+                              if(dateTime == null){
+                                return;
+                              }
                               _.yearRepeatDay = dateTime;
                             },
                             child: Padding(
@@ -68,7 +82,7 @@ class YearRepeatContainer extends RepeatContainer {
                                 )));
                       }),
                       Text(
-                        '${LocaleKeys.chooseRepeatDay.tr()}\n${LocaleKeys.monthAndDay.tr()}',
+                        LocaleKeys.chooseRepeatDay.tr(),
                         style:
                             const TextStyle(color: Colors.grey, fontSize: 15),
                         textAlign: TextAlign.center,

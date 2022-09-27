@@ -131,5 +131,7 @@
   "resolved": "해결됨",
 
   "edit": "수정",
-  "delete": "삭제"
+  "delete": "삭제",
+
+  "dateDetailSettings": "날짜 세부설정"
 }

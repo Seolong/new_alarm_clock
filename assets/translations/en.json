@@ -159,5 +159,7 @@
   "resolved": "Resolved",
 
   "edit": "Edit",
-  "delete": "Delete"
+  "delete": "Delete",
+
+  "dateDetailSettings": "Date Detail Settings"
 }

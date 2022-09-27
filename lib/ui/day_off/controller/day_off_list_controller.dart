@@ -5,6 +5,8 @@ import 'package:new_alarm_clock/data/database/alarm_provider.dart';
 import 'package:new_alarm_clock/data/model/day_off_data.dart';
 import 'package:new_alarm_clock/ui/choice_day/widget/repeat_container/widget_all/calendar_container.dart';
 
+import '../../global/color_controller.dart';
+
 class DayOffListController extends GetxController {
   final AlarmProvider _alarmProvider = AlarmProvider();
   List<DayOffData> dayOffDataList = [];
@@ -29,8 +31,19 @@ class DayOffListController extends GetxController {
 
   void insertDayOff() async {
     DateTime now = DateTime.now();
-    DateTime? dateTime = await Get.dialog(AlertDialog(
-        contentPadding: EdgeInsets.zero, content: CalendarContainer(now)));
+    // DateTime? dateTime = await Get.dialog(AlertDialog(
+    //     contentPadding: EdgeInsets.zero, content: CalendarContainer(now)));
+    DateTime? dateTime = await Get.bottomSheet(
+      CalendarContainer(now),
+      backgroundColor: Get.find<ColorController>()
+          .colorSet
+          .backgroundColor,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(15),
+      ),
+      elevation: 1,
+      isScrollControlled: true,
+    );
     if (dateTime != null) {
       if (dateTime.year == now.year &&
           dateTime.month == now.month &&

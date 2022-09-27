@@ -75,7 +75,6 @@ class RepeatRadioListController extends GetxController {
 
   @override
   void onClose() {
-    // TODO: implement onClose
     Vibration.cancel();
     super.onClose();
   }
