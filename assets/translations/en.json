@@ -127,7 +127,7 @@
   "prefixOn": "on ",
   "suffixOn": "",
   "chooseRepeatDay": "Select a repeat day",
-  "lastDay": "last",
+  "lastDay": "Last",
   "monthAndDay": "(month, day)",
   "youMustChooseRepeatDay": "In monthly repeat mode,\nyou must select a repeat day.",
   "theIntervalMustBeAtLeastOne": "The interval must be at least 1",
@@ -161,5 +161,7 @@
   "edit": "Edit",
   "delete": "Delete",
 
-  "dateDetailSettings": "Date Detail Settings"
+  "dateDetailSettings": "Date Detail Settings",
+
+  "stopAlarm": "Stop"
 }

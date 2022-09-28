@@ -1,5 +1,7 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:get/get.dart' hide Trans;
+import 'package:new_alarm_clock/generated/locale_keys.g.dart';
 import 'package:new_alarm_clock/service/alarm_scheduler.dart';
 import 'package:new_alarm_clock/ui/global/color_controller.dart';
 import 'package:new_alarm_clock/utils/values/my_font_family.dart';
@@ -43,12 +45,13 @@ class DismissButton extends StatelessWidget {
           ],
         ),
         child: Text(
-          '알람 끄기',
+          LocaleKeys.stopAlarm.tr(),
           textScaleFactor: 1.0,
           style: TextStyle(
             fontSize: 18,
             color: Get.find<ColorController>().colorSet.appBarContentColor,
-            fontFamily: MyFontFamily.mainFontFamily
+            fontFamily: MyFontFamily.mainFontFamily,
+            fontWeight: FontWeight.bold
           ),
         ),
       ),

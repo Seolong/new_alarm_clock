@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:jiffy/jiffy.dart';
 import 'package:new_alarm_clock/data/database/alarm_provider.dart';
 import 'package:new_alarm_clock/data/model/alarm_data.dart';
 import 'package:new_alarm_clock/data/shared_preferences/id_shared_preferences.dart';
@@ -11,7 +12,6 @@ import 'package:new_alarm_clock/ui/alarm_alarm/controller/alarm_alarm_controller
 import 'package:new_alarm_clock/ui/alarm_alarm/widget/dismiss_button.dart';
 import 'package:new_alarm_clock/ui/alarm_alarm/widget/ripple_animation.dart';
 import 'package:new_alarm_clock/ui/global/color_controller.dart';
-import 'package:new_alarm_clock/utils/enum.dart';
 import 'package:new_alarm_clock/utils/values/my_font_family.dart';
 import 'package:intl/intl.dart';
 import 'package:new_alarm_clock/utils/values/vibration_pack.dart';
@@ -35,26 +35,26 @@ class AlarmAlarmPage extends StatelessWidget {
     if (kDebugMode) {
       print('alarming alarm id = $alarmId');
     }
-    return AlarmData(
-      id: 10000,
-      title: 'Hi!',
-      alarmType: RepeatMode.day,
-      alarmDateTime: DateTime.now(),
-      endDay: null,
-      alarmState: true,
-      alarmOrder: 10000,
-      folderId: 10000,
-      alarmInterval: 1,
-      monthRepeatDay: 1,
-      musicBool: false,
-      musicPath: '',
-      musicVolume: 0,
-      vibrationBool: true,
-      vibrationName: VibrationName.heartBeat,
-      repeatBool: false,
-      repeatInterval: 5,
-      repeatNum: 3,
-    );
+    // return AlarmData(
+    //   id: 10000,
+    //   title: 'Hi!',
+    //   alarmType: RepeatMode.day,
+    //   alarmDateTime: DateTime.now(),
+    //   endDay: null,
+    //   alarmState: true,
+    //   alarmOrder: 10000,
+    //   folderId: 10000,
+    //   alarmInterval: 1,
+    //   monthRepeatDay: 1,
+    //   musicBool: false,
+    //   musicPath: '',
+    //   musicVolume: 0,
+    //   vibrationBool: true,
+    //   vibrationName: VibrationName.heartBeat,
+    //   repeatBool: false,
+    //   repeatInterval: 5,
+    //   repeatNum: 3,
+    // );
     return _alarmProvider.getAlarmById(alarmId);
   }
 
@@ -69,10 +69,10 @@ class AlarmAlarmPage extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           const SizedBox(
-            height: 100,
+            height: 200,
           ),
           SizedBox(
-            height: 400,
+            height: 200,
             child: UnconstrainedBox(
               child: RipplesAnimation(
                 size: 200,
@@ -96,8 +96,7 @@ class AlarmAlarmPage extends StatelessWidget {
                           children: [
                             Text(
                               DateFormat('HH:mm')
-                                  .format((snapshot.data)!.alarmDateTime)
-                                  .toLowerCase(),
+                                  .format((snapshot.data)!.alarmDateTime),
                               style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   color: Get.find<ColorController>()
@@ -106,15 +105,6 @@ class AlarmAlarmPage extends StatelessWidget {
                                   fontSize: 70,
                                   fontFamily: MyFontFamily.mainFontFamily),
                             ),
-                            Text(
-                              snapshot.data!.title ?? '',
-                              style: TextStyle(
-                                  color: Get.find<ColorController>()
-                                      .colorSet
-                                      .appBarContentColor,
-                                  fontSize: 50,
-                                  fontFamily: MyFontFamily.mainFontFamily),
-                            )
                           ],
                         );
                       }
@@ -123,9 +113,10 @@ class AlarmAlarmPage extends StatelessWidget {
               ),
             ),
           ),
+          const SizedBox(height: 50,),
           Container(
               width: 300,
-              height: 200,
+              padding: const EdgeInsets.symmetric(vertical: 30),
               decoration: BoxDecoration(
                 color: Get.find<ColorController>().colorSet.backgroundColor,
                 border: Border.all(
@@ -151,25 +142,32 @@ class AlarmAlarmPage extends StatelessWidget {
                             mainAxisSize: MainAxisSize.min,
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
+                              const SizedBox(height: 5,),
                               Text(
-                                'Today',
+                                Jiffy(snapshot.data!.alarmDateTime).MMMEd,
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     color: Get.find<ColorController>()
                                         .colorSet
                                         .mainColor,
-                                    fontSize: 30,
+                                    fontSize: 24,
                                     fontFamily: MyFontFamily.mainFontFamily),
                               ),
-                              Text(
-                                snapshot.data!.title ?? '',
-                                style: TextStyle(
-                                    color: Get.find<ColorController>()
-                                        .colorSet
-                                        .mainTextColor,
-                                    fontSize: 50,
-                                    fontFamily: MyFontFamily.mainFontFamily),
-                              )
+                              const SizedBox(height: 20,),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                                child: Text(
+                                  snapshot.data!.title ?? '',
+                                  style: TextStyle(
+                                      color: Get.find<ColorController>()
+                                          .colorSet
+                                          .mainTextColor,
+                                      fontSize: 24,
+                                      fontFamily: MyFontFamily.mainFontFamily),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                              const SizedBox(height: 20,),
                             ],
                           );
                         }

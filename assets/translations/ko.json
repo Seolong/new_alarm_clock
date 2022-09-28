@@ -133,5 +133,7 @@
   "edit": "수정",
   "delete": "삭제",
 
-  "dateDetailSettings": "날짜 세부설정"
+  "dateDetailSettings": "날짜 세부설정",
+
+  "stopAlarm": "알람 끄기"
 }

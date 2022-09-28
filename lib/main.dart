@@ -119,7 +119,7 @@ class MyApp extends StatelessWidget {
       localizationsDelegates: context.localizationDelegates,
       supportedLocales: context.supportedLocales,
       locale: context.locale,
-      home: AlarmAlarmPage(),
+      home: appState == 'alarm' ? AlarmAlarmPage() : const Home(),
     );
   }
 }
