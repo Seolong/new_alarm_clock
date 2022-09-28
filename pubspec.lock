@@ -191,6 +191,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.6.5"
+  im_animations:
+    dependency: "direct main"
+    description:
+      name: im_animations
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.1.2"
   intl:
     dependency: transitive
     description:

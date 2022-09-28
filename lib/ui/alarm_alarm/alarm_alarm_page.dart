@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -5,10 +7,12 @@ import 'package:new_alarm_clock/data/database/alarm_provider.dart';
 import 'package:new_alarm_clock/data/model/alarm_data.dart';
 import 'package:new_alarm_clock/data/shared_preferences/id_shared_preferences.dart';
 import 'package:new_alarm_clock/service/music_handler.dart';
-import 'package:new_alarm_clock/ui/alarm_alarm/widget/draggable_dismiss_button.dart';
+import 'package:new_alarm_clock/ui/alarm_alarm/controller/alarm_alarm_controller.dart';
+import 'package:new_alarm_clock/ui/alarm_alarm/widget/dismiss_button.dart';
+import 'package:new_alarm_clock/ui/alarm_alarm/widget/ripple_animation.dart';
 import 'package:new_alarm_clock/ui/global/color_controller.dart';
+import 'package:new_alarm_clock/utils/enum.dart';
 import 'package:new_alarm_clock/utils/values/my_font_family.dart';
-import 'package:new_alarm_clock/utils/values/size_value.dart';
 import 'package:intl/intl.dart';
 import 'package:new_alarm_clock/utils/values/vibration_pack.dart';
 import 'package:wakelock/wakelock.dart';
@@ -20,12 +24,37 @@ class AlarmAlarmPage extends StatelessWidget {
   final IdSharedPreferences _idSharedPreferences = IdSharedPreferences();
   final VibrationPack _vibrationPack = VibrationPack();
   final MusicHandler _musicHandler = MusicHandler();
+  final AlarmAlarmController _alarmAlarmController = AlarmAlarmController();
+
+  AlarmAlarmPage({Key? key}) : super(key: key) {
+    Timer(const Duration(minutes: 1), _alarmAlarmController.offAlarmWithTimer);
+  }
 
   Future<AlarmData> getAlarmData() async {
     alarmId = await _idSharedPreferences.getAlarmedId();
     if (kDebugMode) {
       print('alarming alarm id = $alarmId');
     }
+    return AlarmData(
+      id: 10000,
+      title: 'Hi!',
+      alarmType: RepeatMode.day,
+      alarmDateTime: DateTime.now(),
+      endDay: null,
+      alarmState: true,
+      alarmOrder: 10000,
+      folderId: 10000,
+      alarmInterval: 1,
+      monthRepeatDay: 1,
+      musicBool: false,
+      musicPath: '',
+      musicVolume: 0,
+      vibrationBool: true,
+      vibrationName: VibrationName.heartBeat,
+      repeatBool: false,
+      repeatInterval: 5,
+      repeatNum: 3,
+    );
     return _alarmProvider.getAlarmById(alarmId);
   }
 
@@ -37,69 +66,118 @@ class AlarmAlarmPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: Get.find<ColorController>().colorSet.backgroundColor,
       body: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
-          Expanded(
-            child: FutureBuilder<AlarmData>(
-                future: alarmData,
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    if (snapshot.data!.musicBool == true) {
-                      _musicHandler.initOriginalVolume();
-                      _musicHandler.playMusic(
-                          snapshot.data!.musicVolume, snapshot.data!.musicPath);
-                    }
-                    if (snapshot.data!.vibrationBool == true) {
-                      _vibrationPack
-                          .vibrateByVibrationName(snapshot.data!.vibrationName);
-                    }
-                    return Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Container(
-                          height: 100,
-                        ),
-                        Text(
-                          DateFormat('HH:mm')
-                              .format((snapshot.data)!.alarmDateTime)
-                              .toLowerCase(),
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: Get.find<ColorController>()
-                                  .colorSet
-                                  .mainTextColor,
-                              fontSize: 70,
-                              fontFamily: MyFontFamily.mainFontFamily),
-                        ),
-                        Text(
-                          snapshot.data!.title ?? '',
-                          style: TextStyle(
-                              color: Get.find<ColorController>()
-                                  .colorSet
-                                  .mainTextColor,
-                              fontSize: 50,
-                              fontFamily: MyFontFamily.mainFontFamily),
-                        )
-                      ],
-                    );
-                  }
-                  return const Center(
-                    child: SizedBox(
-                      height: 50,
-                      width: 50,
-                      child: CircularProgressIndicator(),
-                    ),
-                  );
-                }),
+          const SizedBox(
+            height: 100,
           ),
-          Flexible(
-            child: DraggableDismissButton(
-              child: Icon(
-                Icons.alarm_off_rounded,
-                size: ButtonSize.doubleXlarge,
-                color: Colors.white,
+          SizedBox(
+            height: 400,
+            child: UnconstrainedBox(
+              child: RipplesAnimation(
+                size: 200,
+                color: Get.find<ColorController>().colorSet.mainColor,
+                child: FutureBuilder<AlarmData>(
+                    future: alarmData,
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        if (snapshot.data!.musicBool == true) {
+                          _musicHandler.initOriginalVolume();
+                          _musicHandler.playMusic(snapshot.data!.musicVolume,
+                              snapshot.data!.musicPath);
+                        }
+                        if (snapshot.data!.vibrationBool == true) {
+                          _vibrationPack.vibrateByVibrationName(
+                              snapshot.data!.vibrationName);
+                        }
+                        return Column(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              DateFormat('HH:mm')
+                                  .format((snapshot.data)!.alarmDateTime)
+                                  .toLowerCase(),
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Get.find<ColorController>()
+                                      .colorSet
+                                      .appBarContentColor,
+                                  fontSize: 70,
+                                  fontFamily: MyFontFamily.mainFontFamily),
+                            ),
+                            Text(
+                              snapshot.data!.title ?? '',
+                              style: TextStyle(
+                                  color: Get.find<ColorController>()
+                                      .colorSet
+                                      .appBarContentColor,
+                                  fontSize: 50,
+                                  fontFamily: MyFontFamily.mainFontFamily),
+                            )
+                          ],
+                        );
+                      }
+                      return const SizedBox.shrink();
+                    }),
               ),
             ),
           ),
+          Container(
+              width: 300,
+              height: 200,
+              decoration: BoxDecoration(
+                color: Get.find<ColorController>().colorSet.backgroundColor,
+                border: Border.all(
+                  color: Get.find<ColorController>().colorSet.mainColor,
+                ),
+                borderRadius: BorderRadius.circular(10),
+                boxShadow: const [
+                  BoxShadow(
+                    color: Colors.grey,
+                    blurRadius: 20.5,
+                  ),
+                ],
+              ),
+              alignment: Alignment.center,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  FutureBuilder<AlarmData>(
+                      future: alarmData,
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          return Column(
+                            mainAxisSize: MainAxisSize.min,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                'Today',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: Get.find<ColorController>()
+                                        .colorSet
+                                        .mainColor,
+                                    fontSize: 30,
+                                    fontFamily: MyFontFamily.mainFontFamily),
+                              ),
+                              Text(
+                                snapshot.data!.title ?? '',
+                                style: TextStyle(
+                                    color: Get.find<ColorController>()
+                                        .colorSet
+                                        .mainTextColor,
+                                    fontSize: 50,
+                                    fontFamily: MyFontFamily.mainFontFamily),
+                              )
+                            ],
+                          );
+                        }
+                        return const SizedBox.shrink();
+                      }),
+                  DismissButton(),
+                ],
+              )),
         ],
       ),
     );

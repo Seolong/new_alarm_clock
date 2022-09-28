@@ -53,6 +53,7 @@ dependencies:
   tab_indicator_styler: ^2.0.0
   flutter_dnd: ^0.1.4+1
   notification_permissions: ^0.6.1
+  im_animations: ^0.1.2
 
 dev_dependencies:
   flutter_test:

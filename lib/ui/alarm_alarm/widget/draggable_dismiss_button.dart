@@ -37,7 +37,7 @@ class _DraggableDismissButtonState extends State<DraggableDismissButton>
       RepeatCountSharedPreferences();
   Color buttonColor = Get.find<ColorController>().colorSet.mainColor;
   Color buttonOutsideColor =
-      Get.find<ColorController>().colorSet.backgroundColor;
+      Colors.transparent;
   int alarmId = -1;
   final AlarmProvider _alarmProvider = AlarmProvider();
   final MusicHandler _musicHandler = MusicHandler();
@@ -213,7 +213,7 @@ class _DraggableDismissButtonState extends State<DraggableDismissButton>
         ),
       ),
       Positioned(
-          bottom: 50,
+          bottom: 25,
           child: Text(
             '버튼을 꾹 누르거나 드래그 해서 알람 끄기',
             style: TextStyle(

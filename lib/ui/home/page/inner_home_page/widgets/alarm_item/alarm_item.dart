@@ -325,7 +325,7 @@ class AlarmItem extends StatelessWidget {
                                           ),
                                         ),
                                       ),
-                                      VerticalDivider(
+                                      const VerticalDivider(
                                         thickness: 1,
                                         color: ColorValue.alarmItemDivider,
                                       ),
