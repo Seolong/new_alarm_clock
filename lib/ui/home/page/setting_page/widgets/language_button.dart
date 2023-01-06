@@ -73,7 +73,7 @@ class LanguageButton extends StatelessWidget {
         );
       },
       child: ListTile(
-        leading: Icon(
+        leading: const Icon(
           Icons.language,
           size: ButtonSize.medium,
           color: Colors.lightBlueAccent,

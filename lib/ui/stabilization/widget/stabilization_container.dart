@@ -6,20 +6,23 @@ import '../../../generated/locale_keys.g.dart';
 import '../../global/color_controller.dart';
 
 class StabilizationContainer extends StatelessWidget {
-  StabilizationContainer(
-      {Key? key,
-      required this.code,
-      required this.title,
-      required this.content})
-      : super(key: key);
+  StabilizationContainer({
+    Key? key,
+    required this.code,
+    required this.title,
+    required this.content,
+    this.nameColor,
+  }) : super(key: key);
 
   String code;
   String title;
   String content;
+  Color? nameColor;
 
   @override
   Widget build(BuildContext context) {
     var colorController = Get.find<ColorController>();
+    nameColor ??= colorController.colorSet.mainTextColor;
     return Padding(
       padding: const EdgeInsets.all(32.0),
       child: Column(
@@ -28,8 +31,7 @@ class StabilizationContainer extends StatelessWidget {
         children: [
           Text(
             title,
-            style: TextStyle(
-                fontSize: 20, color: colorController.colorSet.mainTextColor),
+            style: TextStyle(fontSize: 20, color: nameColor),
           ),
           const SizedBox(
             height: 16,
@@ -59,8 +61,7 @@ class StabilizationContainer extends StatelessWidget {
                     _.getBoolByName(code) == false
                         ? LocaleKeys.set.tr()
                         : LocaleKeys.resolved.tr(),
-                    style: const TextStyle(
-                        color: Colors.black),
+                    style: const TextStyle(color: Colors.black),
                   ),
                 );
               }),

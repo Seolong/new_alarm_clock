@@ -62,7 +62,7 @@ class ThemeButton extends StatelessWidget {
         );
       },
       child: ListTile(
-        leading: Icon(
+        leading: const Icon(
           Icons.palette_rounded,
           size: ButtonSize.medium,
           color: Colors.brown,

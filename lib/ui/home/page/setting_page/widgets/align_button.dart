@@ -5,8 +5,11 @@ import 'package:new_alarm_clock/generated/locale_keys.g.dart';
 import 'package:new_alarm_clock/data/shared_preferences/settings_shared_preferences.dart';
 import 'package:new_alarm_clock/ui/home/controller/alarm_list_controller.dart';
 import 'package:new_alarm_clock/utils/values/size_value.dart';
-import '../../../../global/auto_size_text.dart';
+import '../../../../../utils/values/my_font_family.dart';
 import '../../../../global/color_controller.dart';
+import '../../../../global/custom_radio_list_tile.dart';
+
+enum AlignEnum { bySet, byDate }
 
 class AlignButton extends StatelessWidget {
   final _settingsSharedPreferences = SettingsSharedPreferences();
@@ -16,6 +19,7 @@ class AlignButton extends StatelessWidget {
   late final double borderRadius = radioRadius + 7.5;
   final double borderWidth = 2;
   final Color activeColor = Get.find<ColorController>().colorSet.mainColor;
+  AlignEnum initialAlignEnum = AlignEnum.byDate;
 
   AlignButton({Key? key}) : super(key: key);
 
@@ -25,121 +29,61 @@ class AlignButton extends StatelessWidget {
       borderRadius: const BorderRadius.all(Radius.circular(10)),
       onTap: () async {
         String currentAlign = await _settingsSharedPreferences.getAlignValue();
-        Color settingColor =
-            Get.find<ColorController>().colorSet.topBackgroundColor;
-        Color settingBorderColor = Colors.grey;
-        Color dateColor =
-            Get.find<ColorController>().colorSet.topBackgroundColor;
-        Color dateBorderColor = Colors.grey;
-        if (currentAlign == _settingsSharedPreferences.alignBySetting) {
-          settingColor = activeColor;
-          settingBorderColor = activeColor;
-        } else {
-          dateColor = activeColor;
-          dateBorderColor = activeColor;
-        }
+        AlignEnum initialAlignEnum =
+            currentAlign == _settingsSharedPreferences.alignByDate
+                ? AlignEnum.byDate
+                : AlignEnum.bySet;
         Get.dialog(
           Dialog(
             backgroundColor:
                 Get.find<ColorController>().colorSet.topBackgroundColor,
             shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(Radius.circular(10))),
-            insetPadding: const EdgeInsets.fromLTRB(10, 20, 10, 25),
+            insetPadding: const EdgeInsets.fromLTRB(20, 20, 20, 25),
             child: Container(
-              height: 100,
-              width: 80,
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              width: 100,
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
                 children: [
-                  InkWell(
-                    borderRadius: BorderRadius.circular(100),
-                    splashColor: Colors.grey,
-                    onTap: () {
-                      _settingsSharedPreferences.setAlignValue(
-                          _settingsSharedPreferences.alignBySetting);
-                      Get.find<AlarmListController>().sortAlarm();
-                      Get.back();
-                    },
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Container(
-                            height: buttonHeight,
-                            padding: EdgeInsets.all(buttonPadding),
-                            child: AutoSizeText(
-                              LocaleKeys.custom.tr(),
-                              color: Get.find<ColorController>()
-                                  .colorSet
-                                  .mainTextColor,
-                            )),
-                        Container(
-                          height: 10,
-                        ),
-                        Stack(alignment: Alignment.center, children: [
-                          Container(
-                            height: borderRadius,
-                            width: borderRadius,
-                            decoration: BoxDecoration(
-                                border: Border.all(
-                                    width: borderWidth,
-                                    color: settingBorderColor),
-                                shape: BoxShape.circle),
-                          ),
-                          Container(
-                            height: radioRadius,
-                            width: radioRadius,
-                            decoration: BoxDecoration(
-                                color: settingColor, shape: BoxShape.circle),
-                          ),
-                        ])
-                      ],
-                    ),
-                  ),
-                  const VerticalDivider(),
-                  InkWell(
-                    borderRadius: BorderRadius.circular(10),
-                    splashColor: Colors.grey,
-                    onTap: () {
-                      _settingsSharedPreferences.setAlignValue(
-                          _settingsSharedPreferences.alignByDate);
-                      Get.find<AlarmListController>().sortAlarm();
-                      Get.back();
-                    },
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Container(
-                            height: buttonHeight,
-                            padding: EdgeInsets.all(buttonPadding),
-                            child: AutoSizeText(
-                              LocaleKeys.byDate.tr(),
-                              color: Get.find<ColorController>()
-                                  .colorSet
-                                  .mainTextColor,
-                            )),
-                        Container(
-                          height: 10,
-                        ),
-                        Stack(alignment: Alignment.center, children: [
-                          Container(
-                            height: borderRadius,
-                            width: borderRadius,
-                            decoration: BoxDecoration(
-                                border: Border.all(
-                                    width: borderWidth, color: dateBorderColor),
-                                shape: BoxShape.circle),
-                          ),
-                          Container(
-                            height: radioRadius,
-                            width: radioRadius,
-                            decoration: BoxDecoration(
-                                color: dateColor, shape: BoxShape.circle),
-                          ),
-                        ])
-                      ],
-                    ),
-                  ),
+                  CustomRadioListTile<AlignEnum>(
+                      title: LocaleKeys.custom.tr(),
+                      value: AlignEnum.values[0],
+                      groupValue: initialAlignEnum,
+                      activeColor:
+                          Get.find<ColorController>().colorSet.mainColor,
+                      titleTextStyle: TextStyle(
+                          color: Get.find<ColorController>()
+                              .colorSet
+                              .mainTextColor,
+                          fontSize: 16,
+                          fontFamily: MyFontFamily.mainFontFamily),
+                      titleFontSize: 20,
+                      onChanged: (_) {
+                        _settingsSharedPreferences.setAlignValue(
+                            _settingsSharedPreferences.alignBySetting);
+                        Get.find<AlarmListController>().sortAlarm();
+                        Get.back();
+                      }),
+                  CustomRadioListTile<AlignEnum>(
+                      title: LocaleKeys.byDate.tr(),
+                      value: AlignEnum.values[1],
+                      groupValue: initialAlignEnum,
+                      activeColor:
+                      Get.find<ColorController>().colorSet.mainColor,
+                      titleTextStyle: TextStyle(
+                          color: Get.find<ColorController>()
+                              .colorSet
+                              .mainTextColor,
+                          fontSize: 16,
+                          fontFamily: MyFontFamily.mainFontFamily),
+                      titleFontSize: 20,
+                      onChanged: (_) {
+                        _settingsSharedPreferences.setAlignValue(
+                            _settingsSharedPreferences.alignByDate);
+                        Get.find<AlarmListController>().sortAlarm();
+                        Get.back();
+                      }),
                 ],
               ),
             ),

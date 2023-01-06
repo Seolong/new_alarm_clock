@@ -42,7 +42,7 @@ class DayOffPage extends StatelessWidget {
               return ListTile(
                 title: Text(Jiffy(_.dayOffDataList[index].dayOffDate).yMMMMd),
                 trailing: IconButton(
-                  icon: const Icon(Icons.clear_rounded),
+                  icon: Icon(Icons.clear_rounded, color: Get.find<ColorController>().colorSet.lightGrey,),
                   onPressed: () {
                     _.deleteDayOff(
                         _.id, _.dayOffDataList[index].dayOffDate, index);

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:get/get.dart' hide Trans;
+import 'package:easy_localization/easy_localization.dart';
+import 'package:new_alarm_clock/generated/locale_keys.g.dart';
 import '../../../global/color_controller.dart';
 
 class BookPage extends StatelessWidget {
@@ -14,7 +16,7 @@ class BookPage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                '다만 이뿐 아니라 우리가 환난 중에도 즐거워하나니 환난은 인내를, 인내는 연단을, 연단은 소망을 이루는 줄 앎이로다.',
+                LocaleKeys.bibleContent.tr(),
                 style: TextStyle(
                     height: 1.4,
                     fontSize: 16,
@@ -25,7 +27,7 @@ class BookPage extends StatelessWidget {
               ),
               Center(
                 child: Text(
-                  '로마서 5:3-4',
+                  LocaleKeys.bibleIndex.tr(),
                   style: Theme.of(context)
                       .textTheme
                       .bodyLarge!

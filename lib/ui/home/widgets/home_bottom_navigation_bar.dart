@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:new_alarm_clock/ui/global/color_controller.dart';
 import 'package:new_alarm_clock/ui/global/gradient_icon.dart';
@@ -71,30 +70,9 @@ class HomeBottomNavigationBar extends StatelessWidget {
                   icon: Icon(null),
                   label: "홈"),
               BottomNavigationBarItem(
-                  activeIcon: ShaderMask(
-                    child: SvgPicture.asset(
-                      'assets/icons/book.svg',
-                      width: 30,
-                      height: 30,
-                      color: Colors.white
-                    ),
-                    shaderCallback: (Rect bounds) {
-                      const Rect rect = Rect.fromLTRB(0, 0, 30, 30);
-                      return LinearGradient(
-                        colors: <Color>[
-                          Get.find<ColorController>().colorSet.lightMainColor,
-                          Get.find<ColorController>().colorSet.deepMainColor,
-                        ],
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                      ).createShader(rect);
-                    },
-                  ),
-                  icon: SvgPicture.asset(
-                    'assets/icons/book.svg',
-                    width: 30,
-                    height: 30,
-                    color: Colors.grey,
+                  activeIcon: getBottomNavigationActiveIcon(Icons.book_outlined),
+                  icon: const Icon(
+                    Icons.book_outlined,
                   ),
                   label: "명언"),
               BottomNavigationBarItem(

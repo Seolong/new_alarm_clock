@@ -77,7 +77,6 @@ flutter:
     - assets/audio/alarm_clock.mp3
     - assets/translations/ko.json
     - assets/translations/en.json
-    - assets/icons/book.svg
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in

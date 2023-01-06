@@ -330,7 +330,7 @@ class AddAlarmPage extends StatelessWidget {
                                 //spreadRadius: 5,
                                 color: Color.fromARGB(255, 200, 200, 200))
                           ]),
-                      padding: const EdgeInsets.fromLTRB(20, 30, 20, 10),
+                      padding: const EdgeInsets.fromLTRB(30, 30, 30, 10),
                       child: Column(
                         children: [
                           SizedBox(

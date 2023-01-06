@@ -117,10 +117,12 @@ class FolderPage extends StatelessWidget {
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            const Icon(
+                            Icon(
                               Icons.create_new_folder_rounded,
                               size: 65,
-                              color: Colors.lime,
+                              color: Get.find<ColorController>()
+                                  .colorSet
+                                  .lightMainColor,
                             ),
                             SizedBox(
                                 height: 20,

@@ -82,6 +82,7 @@ class MyApp extends StatelessWidget {
           scaffoldBackgroundColor:
               Get.find<ColorController>().colorSet.backgroundColor,
           appBarTheme: AppBarTheme(
+            toolbarHeight: 72,
               systemOverlayStyle: SystemUiOverlayStyle.light,
               backgroundColor: Get.find<ColorController>().colorSet.mainColor,
               foregroundColor:

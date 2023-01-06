@@ -27,7 +27,15 @@ class NextAlarmContainer extends StatelessWidget {
         decoration: BoxDecoration(
             color: Get.find<ColorController>().colorSet.mainColor,
             border: Border.all(
-                color: Get.find<ColorController>().colorSet.mainColor)),
+              color: Get.find<ColorController>().colorSet.mainColor,
+            ),
+            //trick that fill a 1-pixel gap between slivers.
+            boxShadow: [
+              BoxShadow(
+                  color: Get.find<ColorController>().colorSet.mainColor,
+                  offset: const Offset(0, -10),
+                  spreadRadius: 10)
+            ]),
       ),
       Positioned(
         top: nextAlarmContainerHeight / 2.0 - 20,
@@ -59,8 +67,7 @@ class NextAlarmContainer extends StatelessWidget {
                       child: Row(
                         children: [
                           const Padding(
-                            padding:
-                                EdgeInsets.fromLTRB(6.0, 0.0, 12.0, 0.0),
+                            padding: EdgeInsets.fromLTRB(6.0, 0.0, 12.0, 0.0),
                             child: Icon(
                               Icons.event_note_rounded,
                               color: Colors.grey,
@@ -130,11 +137,16 @@ class NextAlarmContainer extends StatelessWidget {
                                     child: Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.center,
-                                      children: const [
+                                      children: [
                                         SizedBox(
                                             width: 25,
                                             height: 25,
-                                            child: CircularProgressIndicator()),
+                                            child: CircularProgressIndicator(
+                                              strokeWidth: 3,
+                                              color: Get.find<ColorController>()
+                                                  .colorSet
+                                                  .mainColor,
+                                            )),
                                       ],
                                     ),
                                   );

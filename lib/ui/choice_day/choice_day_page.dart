@@ -104,6 +104,7 @@ class ChoiceDayPage extends StatelessWidget {
               title: Text(LocaleKeys.alarmType.tr()),
             ),
             body: SafeArea(
+              minimum: EdgeInsets.symmetric(horizontal: 10),
               child: Column(
                 children: [
                   Padding(

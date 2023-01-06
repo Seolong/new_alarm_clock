@@ -14,14 +14,16 @@ import 'package:new_alarm_clock/ui/choice_day/controller/interval_text_field_con
 import 'package:new_alarm_clock/ui/choice_day/controller/month_repeat_day_controller.dart';
 import 'package:new_alarm_clock/ui/choice_day/controller/repeat_mode_controller.dart';
 import 'package:new_alarm_clock/ui/choice_day/controller/start_end_day_controller.dart';
-import 'package:new_alarm_clock/ui/global/auto_size_text.dart';
 import 'package:new_alarm_clock/ui/global/color_controller.dart';
 import 'package:new_alarm_clock/ui/home/controller/alarm_list_controller.dart';
 import 'package:new_alarm_clock/utils/enum.dart';
+import 'package:new_alarm_clock/utils/values/my_font_family.dart';
 import 'package:new_alarm_clock/utils/values/string_value.dart';
 import 'package:get/get.dart' hide Trans;
 import 'package:easy_localization/easy_localization.dart';
 import 'package:new_alarm_clock/generated/locale_keys.g.dart';
+
+import '../../global/recent_alarm_date_stream_controller.dart';
 
 class SaveButton extends StatelessWidget {
   final AlarmProvider _alarmProvider = AlarmProvider();
@@ -181,12 +183,21 @@ class SaveButton extends StatelessWidget {
               print('error in 저장 button in AddAlarmPage');
             }
           }
+          Get.find<RecentAlarmDateStreamController>()
+              .dateStreamSubscription
+              .resume();
           Get.back();
         },
-        child: AutoSizeText(
+        child: Text(
           LocaleKeys.save.tr(),
-          bold: true,
-          color: Get.find<ColorController>().colorSet.appBarContentColor,
+          textScaleFactor: 1.0,
+          style: TextStyle(
+            fontSize: 24,
+            color: Get.find<ColorController>().colorSet.appBarContentColor,
+            fontWeight: FontWeight.bold,
+            fontFamily: MyFontFamily.mainFontFamily,
+          ),
+
         ));
   }
 

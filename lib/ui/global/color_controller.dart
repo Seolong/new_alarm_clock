@@ -1,4 +1,5 @@
 import 'dart:ui';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:new_alarm_clock/data/shared_preferences/settings_shared_preferences.dart';
 import 'package:new_alarm_clock/utils/values/color_value.dart';
@@ -19,7 +20,8 @@ class ColorController extends GetxController {
       ColorValue.skyBlue,
       ColorValue.magicMint,
       ColorValue.white,
-      ColorValue.cloudyWhite);
+      ColorValue.cloudyWhite,
+  Colors.grey);
   final ColorSet _greenSet = ColorSet(
       ColorValue.yellowGreen,
       ColorValue.green,
@@ -32,7 +34,8 @@ class ColorController extends GetxController {
       ColorValue.skyBlue,
       ColorValue.magicMint,
       ColorValue.white,
-      ColorValue.cloudyWhite);
+      ColorValue.cloudyWhite,
+      Colors.grey);
   final ColorSet _darkSet = ColorSet(
       ColorValue.lightBlue,
       ColorValue.blue,
@@ -45,7 +48,8 @@ class ColorController extends GetxController {
       ColorValue.skyBlue,
       ColorValue.lightBlue,
       ColorValue.black,
-      ColorValue.black87);
+      ColorValue.black87,
+      Colors.grey[50]!);
 
   @override
   void onInit() async {
@@ -81,6 +85,7 @@ class ColorSet {
   Color switchTrackColor;
   Color backgroundColor;
   Color topBackgroundColor;
+  Color lightGrey;
 
   ColorSet(
       this.lightMainColor,
@@ -94,5 +99,6 @@ class ColorSet {
       this.calendarTitleColor,
       this.switchTrackColor,
       this.backgroundColor,
-      this.topBackgroundColor);
+      this.topBackgroundColor,
+      this.lightGrey);
 }

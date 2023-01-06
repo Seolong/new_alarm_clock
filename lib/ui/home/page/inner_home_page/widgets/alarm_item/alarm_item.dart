@@ -254,7 +254,7 @@ class AlarmItem extends StatelessWidget {
                                                 ),
                                               ),
                                               const Divider(
-                                                height: 6.0,
+                                                height: 11.0,
                                                 thickness: 1.0,
                                               ),
 
@@ -282,9 +282,7 @@ class AlarmItem extends StatelessWidget {
                                                               FontWeight.bold),
                                                 ),
                                               ),
-                                              const SizedBox(
-                                                height: 5,
-                                              ),
+                                              const SizedBox(height: 2),
                                               //alarmPoint 텍스트
                                               Padding(
                                                 padding: const EdgeInsets.only(

@@ -142,7 +142,7 @@
   "nextAlarmWillGoOff": "the next alarm will go off.",
 
   "warning": "Warning",
-  "batteryOptimization": "Battery optimization",
+  "batteryOptimization": "Battery optimization(Important)",
   "batteryOptimizationIsTurnedOff": "Battery optimization is turned off.",
   "batteryOptimizationIsOn": "Battery optimization is on. This feature sometimes prevents alarms from ringing. For normal operation, press the 'Set' button to turn off the optimization.",
   "followTheStepsBelow": "Follow the steps below.",
@@ -163,5 +163,8 @@
 
   "dateDetailSettings": "Date Detail Settings",
 
-  "stopAlarm": "Stop"
+  "stopAlarm": "Stop",
+
+  "bibleContent": " And not only so, but we glory in tribulations also: knowing that tribulation worketh patience; And patience, experience; and experience, hope.",
+  "bibleIndex": "Romans 5:3-4"
 }

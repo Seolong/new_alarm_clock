@@ -85,128 +85,131 @@ class CalendarContainer extends StatelessWidget {
         return Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 12.0),
-                  child: Container(
-                    height: 5,
-                    width: 75,
-                    decoration: BoxDecoration(
-                        color: Colors.grey,
-                        borderRadius: BorderRadius.circular(5)
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(top: 12.0),
+                    child: Container(
+                      height: 5,
+                      width: 50,
+                      decoration: BoxDecoration(
+                          color: Colors.grey,
+                          borderRadius: BorderRadius.circular(5)
+                      ),
                     ),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(15, 5, 15, 0),
-                  child: TableCalendar(
-                    focusedDay: _.selectedDay.isAfter(DateTime.now())
-                        ? _.selectedDay
-                        : DateTime.now().add(const Duration(minutes: 15)),
-                    currentDay: _.selectedDay.isAfter(DateTime.now())
-                        ? _.selectedDay
-                        : DateTime.now().add(const Duration(minutes: 15)),
-                    firstDay: DateTime.now(),
-                    lastDay: DateTime(lastYear, 12, 31),
-                    //onHeaderTapped: _onHeaderTapped,
-                    headerStyle: HeaderStyle(
-                      headerMargin: const EdgeInsets.only(top: 5, bottom: 5),
-                      titleCentered: true,
-                      formatButtonVisible: false,
-                      leftChevronIcon: Container(
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          gradient: LinearGradient(
-                              begin: Alignment.topCenter,
-                              end: Alignment.bottomCenter,
-                              //stops: [0.1, 0.4, 1.0],
-                              colors: [
-                                Get.find<ColorController>().colorSet.deepMainColor,
-                                Get.find<ColorController>().colorSet.mainColor,
-                                Get.find<ColorController>().colorSet.lightMainColor
-                              ]),
-                        ),
-                        height: arrowIconSize,
-                        width: arrowIconSize,
-                        child: const Icon(
-                          Icons.keyboard_arrow_left,
-                          color: Colors.white,
-                          size: arrowIconSize,
-                        ),
-                      ),
-                      rightChevronIcon: Container(
-                        decoration: BoxDecoration(
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(15, 5, 15, 0),
+                    child: TableCalendar(
+                      focusedDay: _.selectedDay.isAfter(DateTime.now())
+                          ? _.selectedDay
+                          : DateTime.now().add(const Duration(minutes: 15)),
+                      currentDay: _.selectedDay.isAfter(DateTime.now())
+                          ? _.selectedDay
+                          : DateTime.now().add(const Duration(minutes: 15)),
+                      firstDay: DateTime.now(),
+                      lastDay: DateTime(lastYear, 12, 31),
+                      //onHeaderTapped: _onHeaderTapped,
+                      headerStyle: HeaderStyle(
+                        headerMargin: const EdgeInsets.only(top: 5, bottom: 5),
+                        titleCentered: true,
+                        formatButtonVisible: false,
+                        leftChevronIcon: Container(
+                          decoration: BoxDecoration(
                             shape: BoxShape.circle,
                             gradient: LinearGradient(
                                 begin: Alignment.topCenter,
                                 end: Alignment.bottomCenter,
+                                //stops: [0.1, 0.4, 1.0],
                                 colors: [
-                                  Get.find<ColorController>()
-                                      .colorSet
-                                      .lightMainColor,
+                                  Get.find<ColorController>().colorSet.deepMainColor,
                                   Get.find<ColorController>().colorSet.mainColor,
-                                  Get.find<ColorController>()
-                                      .colorSet
-                                      .deepMainColor,
-                                ])),
-                        height: arrowIconSize,
-                        width: arrowIconSize,
-                        child: const Icon(
-                          Icons.keyboard_arrow_right,
-                          color: Colors.white,
-                          size: arrowIconSize,
+                                  Get.find<ColorController>().colorSet.lightMainColor
+                                ]),
+                          ),
+                          height: arrowIconSize,
+                          width: arrowIconSize,
+                          child: const Icon(
+                            Icons.keyboard_arrow_left,
+                            color: Colors.white,
+                            size: arrowIconSize,
+                          ),
                         ),
-                      ),
-                      titleTextStyle: TextStyle(
-                          fontSize: 20.0,
-                          fontWeight: FontWeight.bold,
-                          color: Get.find<ColorController>()
-                              .colorSet
-                              .calendarTitleColor),
-                    ),
-                    onHeaderTapped: (DateTime focusedDay) {
-                      showDatePicker(context);
-                    },
-                    daysOfWeekStyle: DaysOfWeekStyle(
-                        weekdayStyle: TextStyle(
-                            color: Get.find<ColorController>().colorSet.mainColor,
+                        rightChevronIcon: Container(
+                          decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              gradient: LinearGradient(
+                                  begin: Alignment.topCenter,
+                                  end: Alignment.bottomCenter,
+                                  colors: [
+                                    Get.find<ColorController>()
+                                        .colorSet
+                                        .lightMainColor,
+                                    Get.find<ColorController>().colorSet.mainColor,
+                                    Get.find<ColorController>()
+                                        .colorSet
+                                        .deepMainColor,
+                                  ])),
+                          height: arrowIconSize,
+                          width: arrowIconSize,
+                          child: const Icon(
+                            Icons.keyboard_arrow_right,
+                            color: Colors.white,
+                            size: arrowIconSize,
+                          ),
+                        ),
+                        titleTextStyle: TextStyle(
+                            fontSize: 20.0,
                             fontWeight: FontWeight.bold,
-                            fontSize: cellFontSize),
-                        weekendStyle: TextStyle(
-                            color: Get.find<ColorController>().colorSet.mainColor,
-                            fontWeight: FontWeight.bold,
-                            fontSize: cellFontSize)),
-                    daysOfWeekHeight: 40,
-                    calendarStyle: CalendarStyle(
-                        disabledTextStyle:
-                            TextStyle(fontSize: cellFontSize, color: Colors.grey),
-                        outsideTextStyle:
-                            TextStyle(fontSize: cellFontSize, color: Colors.grey),
-                        todayTextStyle: TextStyle(
-                            fontSize: cellFontSize,
                             color: Get.find<ColorController>()
                                 .colorSet
-                                .appBarContentColor),
-                        weekendTextStyle: TextStyle(
-                            fontSize: cellFontSize,
-                            color:
-                                Get.find<ColorController>().colorSet.mainTextColor),
-                        defaultTextStyle: TextStyle(
-                            fontSize: cellFontSize,
-                            color:
-                                Get.find<ColorController>().colorSet.mainTextColor),
-                        todayDecoration: BoxDecoration(
-                          color: Get.find<ColorController>().colorSet.mainColor,
-                          shape: BoxShape.circle,
-                        )),
-                    locale: context.locale.toString(),
-                    onDaySelected: (selectedDay, focusedDay) {
-                      _.selectedDay = selectedDay;
-                    },
+                                .calendarTitleColor),
+                      ),
+                      onHeaderTapped: (DateTime focusedDay) {
+                        showDatePicker(context);
+                      },
+                      daysOfWeekStyle: DaysOfWeekStyle(
+                          weekdayStyle: TextStyle(
+                              color: Get.find<ColorController>().colorSet.mainColor,
+                              fontWeight: FontWeight.bold,
+                              fontSize: cellFontSize),
+                          weekendStyle: TextStyle(
+                              color: Get.find<ColorController>().colorSet.mainColor,
+                              fontWeight: FontWeight.bold,
+                              fontSize: cellFontSize)),
+                      daysOfWeekHeight: 40,
+                      calendarStyle: CalendarStyle(
+                          disabledTextStyle:
+                              TextStyle(fontSize: cellFontSize, color: Colors.grey),
+                          outsideTextStyle:
+                              TextStyle(fontSize: cellFontSize, color: Colors.grey),
+                          todayTextStyle: TextStyle(
+                              fontSize: cellFontSize,
+                              color: Get.find<ColorController>()
+                                  .colorSet
+                                  .appBarContentColor),
+                          weekendTextStyle: TextStyle(
+                              fontSize: cellFontSize,
+                              color:
+                                  Get.find<ColorController>().colorSet.mainTextColor),
+                          defaultTextStyle: TextStyle(
+                              fontSize: cellFontSize,
+                              color:
+                                  Get.find<ColorController>().colorSet.mainTextColor),
+                          todayDecoration: BoxDecoration(
+                            color: Get.find<ColorController>().colorSet.mainColor,
+                            shape: BoxShape.circle,
+                          )),
+                      locale: context.locale.toString(),
+                      onDaySelected: (selectedDay, focusedDay) {
+                        _.selectedDay = selectedDay;
+                      },
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 8.0),

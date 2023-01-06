@@ -114,7 +114,7 @@
   "nextAlarmWillGoOff": "",
 
   "warning": "주의",
-  "batteryOptimization": "배터리 최적화",
+  "batteryOptimization": "배터리 최적화(중요)",
   "batteryOptimizationIsTurnedOff": "배터리 최적화가 꺼져 있습니다.",
   "batteryOptimizationIsOn": "배터리 최적화 기능이 켜져 있습니다. 이 기능은 종종 알람이 울리지 못하게 합니다. 정상적인 작동을 위해 '설정하기' 버튼을 눌러 최적화를 꺼주세요.",
   "followTheStepsBelow": "다음을 따라해주세요.",
@@ -135,5 +135,8 @@
 
   "dateDetailSettings": "날짜 세부설정",
 
-  "stopAlarm": "알람 끄기"
+  "stopAlarm": "알람 끄기",
+
+  "bibleContent": "다만 이뿐 아니라 우리가 환난 중에도 즐거워하나니 이는 환난은 인내를, 인내는 연단을, 연단은 소망을 이루는 줄 앎이로다.",
+  "bibleIndex": "로마서 5:3-4"
 }
