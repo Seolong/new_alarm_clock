@@ -77,6 +77,7 @@ class MyApp extends StatelessWidget {
     }
 
     return GetMaterialApp(
+      debugShowCheckedModeBanner: false,
       navigatorKey: MyApp.navigatorKey,
       theme: ThemeData(
           scaffoldBackgroundColor:

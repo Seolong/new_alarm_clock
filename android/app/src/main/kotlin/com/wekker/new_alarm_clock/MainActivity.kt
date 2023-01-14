@@ -1,4 +1,4 @@
-package com.example.new_alarm_clock
+package com.wekker.new_alarm_clock
 
 import android.annotation.SuppressLint
 import android.content.ActivityNotFoundException

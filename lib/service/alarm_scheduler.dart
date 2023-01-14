@@ -19,6 +19,7 @@ import '../main.dart';
 import 'date_time_calculator.dart';
 
 class AlarmScheduler {
+  @pragma('vm:entry-point')
   String getTimeWithTwoLetter(int time) {
     if (time < 10) {
       return '0$time';
@@ -27,6 +28,7 @@ class AlarmScheduler {
     }
   }
 
+  @pragma('vm:entry-point')
   void notifyBeforeAlarm(int alarmId) async {
     AlarmProvider alarmProvider = AlarmProvider();
     AlarmData alarmData = await alarmProvider.getAlarmById(alarmId);
@@ -65,6 +67,7 @@ class AlarmScheduler {
     }
   }
 
+  @pragma('vm:entry-point')
   void pushNotifyToEnd(int alarmId) async {
     AlarmProvider alarmProvider = AlarmProvider();
     AlarmData alarmData = await alarmProvider.getAlarmById(alarmId);
@@ -99,11 +102,13 @@ class AlarmScheduler {
     }
   }
 
+  @pragma('vm:entry-point')
   void cancelAlarm(int id) async {
     await AwesomeNotifications().cancel(id);
     await AndroidAlarmManager.cancel(id);
   }
 
+  @pragma('vm:entry-point')
   static void removeAlarm(int alarmId) {
     AlarmProvider alarmProvider = AlarmProvider();
     if (kDebugMode) {
@@ -114,6 +119,7 @@ class AlarmScheduler {
     AndroidAlarmManager.cancel(alarmId);
   }
 
+  @pragma('vm:entry-point')
   static Future<void> removeAllAlarm() async {
     AlarmProvider alarmProvider = AlarmProvider();
     List<AlarmData> alarmList = await alarmProvider.getAllAlarms();
@@ -130,6 +136,7 @@ class AlarmScheduler {
     https://github.com/flutter/flutter/issues/30555#issuecomment-501597824
   */
 
+  @pragma('vm:entry-point')
   static void callback(int alarmId) async {
     if (kDebugMode) {
       print('Creating a new alarm flag for ID $alarmId');
@@ -139,6 +146,7 @@ class AlarmScheduler {
 
   /// Creates a flag file that the main isolate can find on life cycle change
   /// For now just abusing the FileProxy class for testing
+  @pragma('vm:entry-point')
   static void createAlarmFlag(int id) async {
     //print('Creating a new alarm flag for ID $id');
     AlarmProvider alarmProvider = AlarmProvider();
@@ -161,6 +169,7 @@ class AlarmScheduler {
     }
   }
 
+  @pragma('vm:entry-point')
   Future<void> newShot(DateTime targetDateTime, int id) async {
     if (kDebugMode) {
       print('insert Alarm with Scheduler');
@@ -174,6 +183,7 @@ class AlarmScheduler {
         wakeup: true);
   }
 
+  @pragma('vm:entry-point')
   Future<AlarmData> updateAlarmWhenAlarmed(AlarmData alarmData) async {
     AlarmProvider alarmProvider = AlarmProvider();
     //알람 타입이 반복일 때
@@ -222,6 +232,7 @@ class AlarmScheduler {
     return alarmData;
   }
 
+  @pragma('vm:entry-point')
   Future<AlarmData> skipDayOff(AlarmData alarmData) async {
     AlarmProvider alarmProvider = AlarmProvider();
     var dayOffList = await alarmProvider.getDayOffsById(alarmData.id);
@@ -264,6 +275,7 @@ class AlarmScheduler {
     return alarmData;
   }
 
+  @pragma('vm:entry-point')
   Future<void> updateToNextAlarm(AlarmData alarmData) async {
     AlarmProvider alarmProvider = AlarmProvider();
 
