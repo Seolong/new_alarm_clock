@@ -5,8 +5,10 @@ But I hope it would be helpful to create an flutter alarm app.
 
 You can use my code in any way.  
 But you cannot use images in the history.  
-Because I don't made them.  
-My uncle made them.
+Because I didn't make them.  
+My uncle made them.  
+
+
 
 
 God bless you!
