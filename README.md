@@ -35,7 +35,7 @@
 - 음악 목록을 초기 상태로 초기화할 수 있는 기능
 
 ---
-<img src="https://velog.velcdn.com/images/new/post/da5ff914-dffd-4b07-8d51-b448bc8db135/image.jpg" width="300px">
+<img src="https://velog.velcdn.com/images/new/post/45bb424b-22d5-4e59-9d1e-13adf61dfe32/image.jpg" width="300px">
 
 ### 반복 설정 화면
 
