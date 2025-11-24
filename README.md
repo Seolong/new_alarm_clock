@@ -1,3 +1,10 @@
+## Wekker
+- 다기능 알람 앱
+- 어지럽게 놓여진 알람을 정리할 수 있는 폴더 기능
+- 이틀에 한 번, 매달 23일, 매년 12월 29일 등 원하는대로 반복을 설정할 수 있음
+
+---
+
 <img src="https://velog.velcdn.com/images/new/post/22e3767f-8044-4296-ac6e-b016d3536717/image.jpg" width="300px">
 
 ### 홈화면
