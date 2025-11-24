@@ -17,6 +17,25 @@
 - 반복 알람일 경우 다음 알람 날짜로 시작일을 설정할 수 있는 기능 (예시: 시작일 11월 3일에 매주 토요일에 반복하는 알람일 경우 > 버튼을 누르면 시작일이 11월 10일이 되는 기능)
 - 간편하게 반복 요일을 설정할 수 있는 요일 버튼
 - 알람음, 진동, 반복 주기를 출력하고 on/off 할 수 있음
+
+---
+<img src="https://velog.velcdn.com/images/new/post/873c4f48-be27-4db2-a6a5-bbba9071c198/image.jpg" width="300px">
+
+### 알람음 설정 화면
+
+- 볼륨 조절 기능
+- 원하는 음악 파일을 음악 목록에 추가할 수 있는 기능
+- 음악 목록을 초기 상태로 초기화할 수 있는 기능
+
+---
+<img src="https://velog.velcdn.com/images/new/post/da5ff914-dffd-4b07-8d51-b448bc8db135/image.jpg" width="300px">
+
+### 반복 설정 화면
+
+- 알람이 울리고 알람을 끄지 않았을 경우 반복을 어떻게 할 것인지 설정하는 화면(예: 9시에 알람을 못 껐으면 5분 뒤에 다시 울림)
+- 반복 주기, 반복 횟수를 설정할 수 있음
+
+
 ---
 <img src="https://velog.velcdn.com/images/new/post/9fd49521-289c-454f-9612-c5244fb94347/image.jpg" width="300px">
 
